@@ -7,3 +7,13 @@
 //
 
 #include "Tile.hpp"
+
+Tile::Tile() : xcoord(0), ycoord(0)
+{
+    
+}
+
+Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
+{
+    
+}

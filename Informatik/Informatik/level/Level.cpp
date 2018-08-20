@@ -7,3 +7,16 @@
 //
 
 #include "Level.hpp"
+
+Level::Level(int w, int h) : tiles(new Tile[w * h]), player(new Player()) // Number of tiles
+{
+    for(int i = 0; i < w * h; i++)
+    {
+        tiles[i] = Tile(i % w, i / w);
+    }
+}
+
+void Level::render(SDL_Renderer *renderer)
+{
+    player->render(renderer);
+}

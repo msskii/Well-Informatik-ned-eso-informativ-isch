@@ -1,13 +1,13 @@
 //
-//  Tile.hpp
+//  Player.hpp
 //  Informatik
 //
 //  Created by Aaron Hodel on 20.08.18.
 //  Copyright © 2018 Aaron Hodel. All rights reserved.
 //
 
-#ifndef Tile_hpp
-#define Tile_hpp
+#ifndef Player_hpp
+#define Player_hpp
 
 #ifdef __APPLE__
 #  include <SDL2/SDL.h> // Other path than on windows
@@ -15,15 +15,17 @@
 #  include <SDL2.h>
 #endif
 
-class Tile
+class Player
 {
 private:
-    int xcoord, ycoord;
-    int tileNumber = 0xFFFF00FF; // Number of tile --> look on tilemap
+    float _x = 0, _y = 0;
     
 public:
-    Tile();
-    Tile(int x, int y);
+    void updateMovement(float dx, float dy);
+    Player();
+    
+    void render(SDL_Renderer *renderer);
+    
 };
 
-#endif /* Tile_hpp */
+#endif /* Player_hpp */

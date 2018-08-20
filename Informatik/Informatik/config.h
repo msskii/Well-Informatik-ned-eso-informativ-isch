@@ -9,8 +9,10 @@
 #ifndef config_h
 #define config_h
 
-#define GAME_TITLE "GAMETITLE"
+#define GAME_TITLE "..."
 #define GAME_WIDTH 960
 #define GAME_HEIGHT 540
+
+#define SPEED 5
 
 #endif /* config_h */

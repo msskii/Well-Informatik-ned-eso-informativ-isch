@@ -13,6 +13,8 @@
 		932D321E212AB81200DA45BD /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932D3216212AB70700DA45BD /* SDL2.framework */; };
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
 		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
+		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
+		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +43,10 @@
 		932D3225212ABB4A00DA45BD /* Tile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
 		932D3229212ABBBC00DA45BD /* FileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileReader.hpp; sourceTree = "<group>"; };
 		932D322E212ABC6700DA45BD /* Logger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
+		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
+		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
+		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		93D1C7D0212ADCCE004AACD1 /* Player.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +82,7 @@
 		932D320E212AB6E500DA45BD /* Informatik */ = {
 			isa = PBXGroup;
 			children = (
+				93D1C7CD212ADCBE004AACD1 /* entity */,
 				932D3227212ABBAC00DA45BD /* util */,
 				932D3220212ABAE200DA45BD /* level */,
 				932D3219212AB78F00DA45BD /* graphics */,
@@ -108,6 +115,8 @@
 				932D3222212ABAF600DA45BD /* Level.hpp */,
 				932D3224212ABB4A00DA45BD /* Tile.cpp */,
 				932D3225212ABB4A00DA45BD /* Tile.hpp */,
+				93D1C7CA212AD12B004AACD1 /* Event.cpp */,
+				93D1C7CB212AD12B004AACD1 /* Event.hpp */,
 			);
 			path = level;
 			sourceTree = "<group>";
@@ -119,6 +128,15 @@
 				932D322E212ABC6700DA45BD /* Logger.hpp */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		93D1C7CD212ADCBE004AACD1 /* entity */ = {
+			isa = PBXGroup;
+			children = (
+				93D1C7CF212ADCCE004AACD1 /* Player.cpp */,
+				93D1C7D0212ADCCE004AACD1 /* Player.hpp */,
+			);
+			path = entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +197,8 @@
 			files = (
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
+				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
+				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 			);

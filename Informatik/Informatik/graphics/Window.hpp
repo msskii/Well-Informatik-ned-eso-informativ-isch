@@ -10,6 +10,8 @@
 #define Window_hpp
 
 #include "../config.h"
+#include "../level/Level.hpp"
+#include "../entity/Player.hpp"
 
 #ifdef __APPLE__
 #  include <SDL2/SDL.h> // Other path than on windows
@@ -22,6 +24,8 @@ class Window
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
+    
+    Level *level;
     
     bool running = false;
     
