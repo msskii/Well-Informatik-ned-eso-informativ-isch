@@ -7,9 +7,11 @@
 //
 
 #include <iostream>
+#include "graphics/Window.hpp"
 
 int main(int argc, char **args)
 {
-    
+    Window w;
+    w.runGameLoop();
     return 0;
 }

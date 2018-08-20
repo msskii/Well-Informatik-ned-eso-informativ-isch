@@ -9,10 +9,27 @@
 #ifndef Window_hpp
 #define Window_hpp
 
+#include "../config.h"
+
 #ifdef __APPLE__
 #  include <SDL2/SDL.h> // Other path than on windows
 #else
 #  include <SDL2.h>
 #endif
+
+class Window
+{
+private:
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+    
+    bool running = false;
+    
+public:
+    
+    Window();
+    void runGameLoop();
+    inline void stopGameLoop() { running = false; }
+};
 
 #endif /* Window_hpp */

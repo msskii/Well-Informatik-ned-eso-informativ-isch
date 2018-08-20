@@ -32,6 +32,7 @@
 		932D3216212AB70700DA45BD /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../SDL2.framework; sourceTree = "<group>"; };
 		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		932D321B212AB79C00DA45BD /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
+		932D321F212AB8CA00DA45BD /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +70,7 @@
 			children = (
 				932D3219212AB78F00DA45BD /* graphics */,
 				932D320F212AB6E500DA45BD /* main.cpp */,
+				932D321F212AB8CA00DA45BD /* config.h */,
 			);
 			path = Informatik;
 			sourceTree = "<group>";
