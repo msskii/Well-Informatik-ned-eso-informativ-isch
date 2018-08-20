@@ -16,12 +16,12 @@ Player::Player()
 void Player::updateMovement(float dx, float dy)
 {
     _x += dx;
-    _y += dy;
+    _y += dy;    
 }
 
-void Player::render(SDL_Renderer *renderer)
+void Player::render(SDL_Renderer *renderer, int x, int y)
 {
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
-    SDL_Rect rect = {(int) _x, (int) _y, 50, 50};
-    SDL_RenderDrawRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+    SDL_Rect rect = {PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_WIDTH, PLAYER_HEIGHT};
+    SDL_RenderFillRect(renderer, &rect);
 }

@@ -34,7 +34,7 @@ void Window::runGameLoop()
             }
         }
         
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0xFF, 0xFF); // Black
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
         SDL_RenderClear(renderer); // Everything black
         
         // Put update stuff here

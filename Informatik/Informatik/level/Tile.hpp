@@ -9,6 +9,8 @@
 #ifndef Tile_hpp
 #define Tile_hpp
 
+#define TILE_SIZE 50
+
 #ifdef __APPLE__
 #  include <SDL2/SDL.h> // Other path than on windows
 #else
@@ -24,6 +26,8 @@ private:
 public:
     Tile();
     Tile(int x, int y);
+    
+    void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 
 #endif /* Tile_hpp */
