@@ -31,8 +31,13 @@ static uint8_t* readFile(const char *filePath)
         return nullptr; // File not found
     }
     
-    fseek(f, 0, std::END);
+    fseek(f, 0, SEEK_END);
     size_t fileSize = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    uint8_t *data = (uint8_t *) malloc(fileSize);
+    fread(data, 1, fileSize, f);
+    
+    return data;
     
 }
 
