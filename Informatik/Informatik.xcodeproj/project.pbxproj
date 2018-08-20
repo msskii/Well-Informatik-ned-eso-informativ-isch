@@ -8,23 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		932D3210212AB6E500DA45BD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D320F212AB6E500DA45BD /* main.cpp */; };
+		932D3218212AB71500DA45BD /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 932D3216212AB70700DA45BD /* SDL2.framework */; };
+		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
+		932D321E212AB81200DA45BD /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932D3216212AB70700DA45BD /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		932D320A212AB6E500DA45BD /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				932D3218212AB71500DA45BD /* SDL2.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		932D320C212AB6E500DA45BD /* Informatik */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Informatik; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D320F212AB6E500DA45BD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		932D3216212AB70700DA45BD /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../SDL2.framework; sourceTree = "<group>"; };
+		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		932D321B212AB79C00DA45BD /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				932D321E212AB81200DA45BD /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +49,10 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				932D3216212AB70700DA45BD /* SDL2.framework */,
 				932D320E212AB6E500DA45BD /* Informatik */,
 				932D320D212AB6E500DA45BD /* Products */,
+				932D321D212AB81200DA45BD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +67,26 @@
 		932D320E212AB6E500DA45BD /* Informatik */ = {
 			isa = PBXGroup;
 			children = (
+				932D3219212AB78F00DA45BD /* graphics */,
 				932D320F212AB6E500DA45BD /* main.cpp */,
 			);
 			path = Informatik;
+			sourceTree = "<group>";
+		};
+		932D3219212AB78F00DA45BD /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				932D321A212AB79C00DA45BD /* Window.cpp */,
+				932D321B212AB79C00DA45BD /* Window.hpp */,
+			);
+			path = graphics;
+			sourceTree = "<group>";
+		};
+		932D321D212AB81200DA45BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
+				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +267,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9TPDPL7CQS;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/..";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -248,6 +277,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9TPDPL7CQS;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/..";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
