@@ -11,6 +11,8 @@
 		932D3218212AB71500DA45BD /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 932D3216212AB70700DA45BD /* SDL2.framework */; };
 		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
 		932D321E212AB81200DA45BD /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932D3216212AB70700DA45BD /* SDL2.framework */; };
+		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
+		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +35,12 @@
 		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		932D321B212AB79C00DA45BD /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		932D321F212AB8CA00DA45BD /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		932D3221212ABAF600DA45BD /* Level.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Level.cpp; sourceTree = "<group>"; };
+		932D3222212ABAF600DA45BD /* Level.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Level.hpp; sourceTree = "<group>"; };
+		932D3224212ABB4A00DA45BD /* Tile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tile.cpp; sourceTree = "<group>"; };
+		932D3225212ABB4A00DA45BD /* Tile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
+		932D3229212ABBBC00DA45BD /* FileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileReader.hpp; sourceTree = "<group>"; };
+		932D322E212ABC6700DA45BD /* Logger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +76,8 @@
 		932D320E212AB6E500DA45BD /* Informatik */ = {
 			isa = PBXGroup;
 			children = (
+				932D3227212ABBAC00DA45BD /* util */,
+				932D3220212ABAE200DA45BD /* level */,
 				932D3219212AB78F00DA45BD /* graphics */,
 				932D320F212AB6E500DA45BD /* main.cpp */,
 				932D321F212AB8CA00DA45BD /* config.h */,
@@ -89,6 +99,26 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		932D3220212ABAE200DA45BD /* level */ = {
+			isa = PBXGroup;
+			children = (
+				932D3221212ABAF600DA45BD /* Level.cpp */,
+				932D3222212ABAF600DA45BD /* Level.hpp */,
+				932D3224212ABB4A00DA45BD /* Tile.cpp */,
+				932D3225212ABB4A00DA45BD /* Tile.hpp */,
+			);
+			path = level;
+			sourceTree = "<group>";
+		};
+		932D3227212ABBAC00DA45BD /* util */ = {
+			isa = PBXGroup;
+			children = (
+				932D3229212ABBBC00DA45BD /* FileReader.hpp */,
+				932D322E212ABC6700DA45BD /* Logger.hpp */,
+			);
+			path = util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,8 +177,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
+				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

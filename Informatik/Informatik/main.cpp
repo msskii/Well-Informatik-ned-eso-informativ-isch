@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "graphics/Window.hpp"
+#include "util/FileReader.hpp"
 
 int main(int argc, char **args)
 {
