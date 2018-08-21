@@ -36,7 +36,7 @@ void Level::render(SDL_Renderer *renderer) // and update
     {
         if(events[i].filter == ALL_EVENTS || events[i].filter == GAME_LOOP) events[i].onTrigger(events[i], GAME_LOOP, this, events[i].arguments);
         
-        if(events[i].x + TILE_SIZE >= player->_x && events[i].x <= player->_x + PLAYER_WIDTH && events[i].y + TILE_SIZE >= player->_y && events[i].y <= player->_y + PLAYER_HEIGHT)
+        if(events[i].x + TILE_SIZE > player->_x && events[i].x < player->_x + PLAYER_WIDTH && events[i].y + TILE_SIZE > player->_y && events[i].y <= player->_y + PLAYER_HEIGHT)
         {
             // Player inside event
             if(events[i].filter == ALL_EVENTS || events[i].filter == STEP_ON) events[i].onTrigger(events[i], STEP_ON, this, events[i].arguments);
