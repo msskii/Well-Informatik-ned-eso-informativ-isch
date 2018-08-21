@@ -3,4 +3,5 @@ Tasks:
 
 Level file: - How to store level data with its events
 Level handler: loads level data, and checks for events
+Event handler: handle events and update npcs
 Level Render: Renders the level with its Textures
