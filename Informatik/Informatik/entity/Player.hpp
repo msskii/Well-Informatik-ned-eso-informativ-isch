@@ -30,9 +30,11 @@ class Player
 private:
     
 public:
-    float _x = 0, _y = 0;
-    float lx, ly;
-    int _z = 0;
+    float _x = 0, _y = 0; // Coordinates
+    int _z = 0;// Height level
+    bool inControl = true; // Player can control himself by default
+    
+    
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);
     bool isInside(float dx, float dy);

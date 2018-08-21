@@ -7,3 +7,15 @@
 //
 
 #include "Event.hpp"
+
+int event_id_counter = 0;
+
+Event::Event(EVENT_TYPE type, eventFunc func) : event_id(event_id_counter++), filter(type), onTrigger(func)
+{
+    
+}
+
+Event::Event(int id, EVENT_TYPE type, eventFunc func) : event_id(id), filter(type), onTrigger(func)
+{
+    
+}

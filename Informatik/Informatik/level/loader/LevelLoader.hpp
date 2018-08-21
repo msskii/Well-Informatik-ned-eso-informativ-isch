@@ -11,6 +11,7 @@
 
 #include "../../util/FileReader.hpp"
 #include "../Level.hpp"
+#include "EventLoader.hpp"
 
 class LevelLoader
 {

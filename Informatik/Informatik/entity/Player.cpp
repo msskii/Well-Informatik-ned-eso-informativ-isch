@@ -54,8 +54,8 @@ void Player::correctMovement(float &dx, float &dy)
 
 void Player::updateMovement(float dx, float dy)
 {
-    lx = dx > 0 ? 1 : dx == 0 ? 0 : -1;
-    ly = dy > 0 ? 1 : dy == 0 ? 0 : -1;
+    if(!inControl) return;
+    
     correctMovement(dx, dy);
     
     _x += dx;

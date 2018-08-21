@@ -32,10 +32,10 @@ public:
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 
-struct SerializedTile
+typedef struct SerializedTile
 {
     int tileNumber;
     int tileZ;
-};
+} SerializedTile;
 
 #endif /* Tile_hpp */

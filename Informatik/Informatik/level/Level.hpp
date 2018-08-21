@@ -10,26 +10,24 @@
 #define Level_hpp
 
 #include "Tile.hpp"
+#include "Event.hpp"
 #include "../entity/Player.hpp"
 #include <stdint.h>
+#include <vector>
 
 class Player;
 
 class Level
 {
 private:
-    Tile *tiles;
-    
-    
-    void loadFromData(uint8_t *bytes);
-    uint8_t *serialize();
 public:
-    Player *player;
-    int width, height;
-    
-    inline Tile &operator[](int index) { return tiles[index]; }
-    
-    Tile getTile(int screenX, int screenY);
+    Player *player; // The player in this level
+    uint32_t width, height; // 4 byte integers --> normal ints on most platforms
+    std::vector<Event> events; // The events in this level
+    Tile *tiles; // The tiles
+
+public:
+    Tile getTile(int xcoord, int ycoord);
     
     Level(int w, int h);
     

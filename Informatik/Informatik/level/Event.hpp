@@ -11,19 +11,32 @@
 
 enum EVENT_TYPE
 {
-    STEP_IN, // Player steppen on it
+    ALL_EVENTS = 0, // Doesn't matter what event happened
+    STEP_ON, // Player steppen on it
     GAME_LOOP, // Player is in the same room
     PLAYER_INTERACT // Player interacted with it
 };
 
 typedef void (*eventFunc)(int x, int y, EVENT_TYPE type);
+extern int event_id_counter;
 
 class Event
 {
-private:
-    
+public:
+    eventFunc onTrigger = nullptr;
+    EVENT_TYPE filter = ALL_EVENTS;
     
 public:
+    int event_id;
+    
+    Event(EVENT_TYPE type, eventFunc func);
+    Event(int event_id, EVENT_TYPE type, eventFunc func);
 };
+
+typedef struct SerializedEvent
+{
+    int event_id;
+    int event_type_filter; // The filter which is EVENT_TYPE
+} SerializedEvent;
 
 #endif /* Event_hpp */
