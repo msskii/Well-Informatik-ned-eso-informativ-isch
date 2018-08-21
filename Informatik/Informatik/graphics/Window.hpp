@@ -11,6 +11,7 @@
 
 #include "../config.h"
 #include "../level/Level.hpp"
+#include "../level/loader/LevelLoader.hpp"
 #include "../entity/Player.hpp"
 
 #ifdef __APPLE__

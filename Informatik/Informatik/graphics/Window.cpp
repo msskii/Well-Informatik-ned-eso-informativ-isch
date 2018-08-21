@@ -8,7 +8,7 @@
 
 #include "Window.hpp"
 
-Window::Window() : level(new Level(50, 50))
+Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
     window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
@@ -64,4 +64,11 @@ void Window::runGameLoop()
         
         SDL_RenderPresent(renderer); // Draw & limit FPS
     }
+    
+    LevelLoader loader(level);
+    loader.saveFile("testlevel.level");
+    
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
