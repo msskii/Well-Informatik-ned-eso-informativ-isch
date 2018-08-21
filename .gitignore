@@ -1,2 +1,6 @@
 
 .DS_Store
+SDL2.framework/**
+*.xcuserstate
+begin_code.h
+close_code.h
