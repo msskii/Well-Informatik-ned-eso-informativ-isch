@@ -8,7 +8,32 @@
 
 #include "EventActions.hpp"
 
-void no_action(int x, int y, EVENT_TYPE type)
+eventFunc resolveFunction(int action)
+{
+    eventFunc f = nullptr;
+    
+    switch(action)
+    {
+        case NO_ACTION:
+            f = no_action;
+            break;
+        case MOVE_PLAYER:
+            f = move_player;
+            break;
+        default:
+            f = no_action;
+            break;
+    }
+    
+    return f;
+}
+
+void no_action(int x, int y, EVENT_TYPE type, uint8_t *args)
+{
+    
+}
+
+void move_player(int x, int y, EVENT_TYPE type, uint8_t *args)
 {
     
 }

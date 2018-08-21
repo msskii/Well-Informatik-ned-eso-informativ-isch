@@ -39,6 +39,9 @@ LevelLoader::LevelLoader(const char *path)
         level->tiles[i].tileNumber = ((SerializedTile*) levelFile)[i].tileNumber;
         level->tiles[i].tileZ = ((SerializedTile*) levelFile)[i].tileZ;
     }
+    levelFile += width * height * sizeof(SerializedTile);
+    
+    level->events = loadEventData(levelFile);
 }
 
 Level *LevelLoader::buildLevel()
@@ -51,8 +54,7 @@ void LevelLoader::saveFile(const char *path)
     // 4: width
     // 4: height
     // width * height * sizeof(SerializedTile)
-    int size = 4 + 4 + sizeof(SerializedTile) * level->width * level->height; // level tiles
-    size += 4 + sizeof(SerializedEvent) * level->events.size(); // level events
+    int size = level->getLevelSize() + level->getEventSize(); // level tiles
     
     uint8_t *levelFile = (uint8_t *) malloc(size);
     
@@ -65,10 +67,12 @@ void LevelLoader::saveFile(const char *path)
         SerializedTile tile = { level->tiles[i].tileNumber, level->tiles[i].tileZ };
         ((SerializedTile*) levelFile)[i] = tile;
     }
+    levelFile -= 8; // Move pointer 8 to the back --> start of file
     
-    levelFile += sizeof(SerializedTile) * level->width * level->height; // End of current data
+    
+    levelFile += level->getLevelSize(); // End of current data
     saveEventData(levelFile, level->events); // Save events
-    levelFile += 4 + sizeof(SerializedEvent) * level->events.size(); // End of current data
+    levelFile += level->getEventSize(); // End of current data
 
     levelFile -= size; // Back to start
     writeFile(path, levelFile, size);

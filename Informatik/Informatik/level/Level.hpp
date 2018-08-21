@@ -31,6 +31,14 @@ public:
     
     Level(int w, int h);
     
+    inline int getLevelSize() { return 8 + width * height * sizeof(SerializedTile); }
+    inline int getEventSize()
+    {
+        int es = 4 + (int) events.size() * sizeof(SerializedEvent);
+        for(int i = 0; i < events.size(); i++) es += NUM_ARGS[events[i].event_action];
+        return es;
+    }
+    
     void render(SDL_Renderer *renderer);
 };
 

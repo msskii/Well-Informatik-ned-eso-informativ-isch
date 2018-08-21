@@ -9,6 +9,7 @@
 #ifndef Player_hpp
 #define Player_hpp
 
+#include "Entity.hpp"
 #include "../config.h"
 #include "../level/Level.hpp"
 
@@ -46,5 +47,6 @@ public:
     void render(SDL_Renderer *renderer, int xoff, int yoff);
     
 };
+
 
 #endif /* Player_hpp */
