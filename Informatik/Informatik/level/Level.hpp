@@ -32,7 +32,6 @@ public:
     Tile getTile(int screenX, int screenY);
     
     Level(int w, int h);
-    Level(const char *filePath); // Load from file?
     
     void render(SDL_Renderer *renderer);
 };

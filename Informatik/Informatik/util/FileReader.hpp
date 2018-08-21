@@ -41,4 +41,23 @@ static uint8_t* readFile(const char *filePath)
     
 }
 
+static void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
+{
+    FILE *f;
+    
+#ifdef __APPLE__
+    f = fopen(filePath, "wb"); // Apple has the insecure version here
+#else
+    fopen_s(f, filePath, "wb"); // Windows has secure
+#endif
+    
+    if(f == nullptr)
+    {
+        ERROR("File not found");
+        return; // File not found
+    }
+    
+    fwrite(dataToWrite, 1, size, f);
+}
+
 #endif /* FileReader_hpp */

@@ -21,15 +21,21 @@ class Tile
 {
 private:
     int xcoord, ycoord;
-    int tileNumber = 0xFFFF00FF; // Number of tile --> look on tilemap
     
 public:
     Tile();
     Tile(int x, int y);
-
+    
+    int tileNumber = 0xFFFF00FF; // Number of tile --> look on tilemap
     int tileZ = 0; // The height of this tile
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
+};
+
+struct SerializedTile
+{
+    int tileNumber;
+    int tileZ;
 };
 
 #endif /* Tile_hpp */
