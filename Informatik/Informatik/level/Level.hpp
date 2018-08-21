@@ -13,10 +13,11 @@
 #include "../entity/Player.hpp"
 #include <stdint.h>
 
+class Player;
+
 class Level
 {
 private:
-    int width, height;
     Tile *tiles;
     
     
@@ -24,7 +25,12 @@ private:
     uint8_t *serialize();
 public:
     Player *player;
-
+    int width, height;
+    
+    inline Tile &operator[](int index) { return tiles[index]; }
+    
+    Tile getTile(int screenX, int screenY);
+    
     Level(int w, int h);
     Level(const char *filePath); // Load from file?
     

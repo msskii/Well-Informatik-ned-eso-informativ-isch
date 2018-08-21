@@ -10,6 +10,7 @@
 #define Player_hpp
 
 #include "../config.h"
+#include "../level/Level.hpp"
 
 #define PLAYER_WIDTH 50
 #define PLAYER_HEIGHT 50
@@ -22,14 +23,23 @@
 #  include <SDL2.h>
 #endif
 
+class Level;
+
 class Player
 {
 private:
     
 public:
     float _x = 0, _y = 0;
+    float lx, ly;
+    int _z = 0;
     void updateMovement(float dx, float dy);
-    Player();
+    void correctMovement(float &dx, float &dy);
+    bool isInside(float dx, float dy);
+    
+    Level *level;
+    
+    Player(Level *level);
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
     

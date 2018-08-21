@@ -26,6 +26,8 @@ private:
 public:
     Tile();
     Tile(int x, int y);
+
+    int tileZ = 0; // The height of this tile
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };

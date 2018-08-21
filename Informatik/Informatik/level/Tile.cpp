@@ -21,7 +21,7 @@ Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
     SDL_Rect r = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF - tileZ * 0xFF, 0xFF);
     SDL_RenderFillRect(renderer, &r);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
     SDL_RenderDrawRect(renderer, &r);
