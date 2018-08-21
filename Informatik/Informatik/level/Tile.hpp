@@ -26,16 +26,18 @@ public:
     Tile();
     Tile(int x, int y);
     
-    int tileNumber = 0xFFFF00FF; // Number of tile --> look on tilemap
-    int tileZ = 0; // The height of this tile
+    uint16_t tileNumber = 0x00FF; // Number of tile --> look on tilemap
+    uint8_t tileZ = 0; // The height of this tile
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 
+#pragma pack(push, 1)
 typedef struct SerializedTile
 {
-    int tileNumber;
-    int tileZ;
+    uint16_t tileNumber;
+    uint8_t tileZ;
 } SerializedTile;
+#pragma pack(pop)
 
 #endif /* Tile_hpp */

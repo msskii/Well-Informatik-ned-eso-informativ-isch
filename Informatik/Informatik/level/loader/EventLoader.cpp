@@ -18,8 +18,8 @@ void saveEventData(uint8_t *destination, std::vector<Event> events)
     {
         ((SerializedEvent*) destination)[0].event_x = events[i].x;
         ((SerializedEvent*) destination)[0].event_y = events[i].y;
-        ((SerializedEvent*) destination)[0].event_type_filter = events[i].filter;
         ((SerializedEvent*) destination)[0].event_action = events[i].event_action;
+        ((SerializedEvent*) destination)[0].event_type_filter = events[i].filter;
         ((SerializedEvent*) destination)[0].event_id = events[i].event_id;
 
         // Copy parameters
