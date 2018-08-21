@@ -7,6 +7,7 @@
 //
 
 #include "EventActions.hpp"
+#include "Level.hpp"
 
 eventFunc resolveFunction(int action)
 {
@@ -28,12 +29,27 @@ eventFunc resolveFunction(int action)
     return f;
 }
 
-void no_action(int x, int y, EVENT_TYPE type, uint8_t *args)
+void no_action(Event event, EVENT_TYPE type, Level* level, uint8_t *args)
 {
     
 }
 
-void move_player(int x, int y, EVENT_TYPE type, uint8_t *args)
+void move_player(Event event, EVENT_TYPE type, Level* level, uint8_t *args)
 {
+    switch(args[0])
+    {
+        case UP:
+            level->player->_y -= args[1];
+            break;
+        case DOWN:
+            level->player->_y += args[1];
+            break;
+        case LEFT:
+            level->player->_x -= args[1];
+            break;
+        case RIGHT:
+            level->player->_x += args[1];
+            break;
+    }
     
 }

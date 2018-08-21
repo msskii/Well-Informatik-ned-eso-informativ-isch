@@ -10,7 +10,7 @@
 
 Level *loadLevel(const char *path, int w, int h)
 {
-    uint8_t* file = readFile(path);
+    uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here
     if(file == nullptr)
     {
         return new Level(w, h);

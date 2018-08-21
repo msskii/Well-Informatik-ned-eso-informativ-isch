@@ -19,10 +19,10 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     tiles[105].tileZ = 1;
     tiles[106].tileZ = 1;
     
-    events.push_back(Event(STEP_ON, MOVE_PLAYER, 6, 1, new uint8_t[2] { RIGHT, 2 })); // Move player 2 down
+    events.push_back(Event(STEP_ON, MOVE_PLAYER, 6 * TILE_SIZE, 1 * TILE_SIZE, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
 }
 
-void Level::render(SDL_Renderer *renderer)
+void Level::render(SDL_Renderer *renderer) // and update
 {
     int xoffset = -player->_x;
     int yoffset = -player->_y;
@@ -34,8 +34,16 @@ void Level::render(SDL_Renderer *renderer)
     
     for(int i = 0; i < events.size(); i++)
     {
+        if(events[i].filter == ALL_EVENTS || events[i].filter == GAME_LOOP) events[i].onTrigger(events[i], GAME_LOOP, this, events[i].arguments);
+        
+        if(events[i].x + TILE_SIZE >= player->_x && events[i].x <= player->_x + PLAYER_WIDTH && events[i].y + TILE_SIZE >= player->_y && events[i].y <= player->_y + PLAYER_HEIGHT)
+        {
+            // Player inside event
+            if(events[i].filter == ALL_EVENTS || events[i].filter == STEP_ON) events[i].onTrigger(events[i], STEP_ON, this, events[i].arguments);
+        }
+        
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-        SDL_Rect r = {events[i].x * TILE_SIZE + xoffset + PLAYER_OFFSET_X, events[i].y * TILE_SIZE + yoffset + PLAYER_OFFSET_Y, TILE_SIZE / 2, TILE_SIZE / 2};
+        SDL_Rect r = {events[i].x + xoffset + PLAYER_OFFSET_X, events[i].y + yoffset + PLAYER_OFFSET_Y, TILE_SIZE / 2, TILE_SIZE / 2};
         SDL_RenderFillRect(renderer, &r);
     }
     

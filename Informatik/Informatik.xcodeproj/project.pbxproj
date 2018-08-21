@@ -61,6 +61,7 @@
 		93D47B9F212C433C007853BC /* EventActions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EventActions.hpp; sourceTree = "<group>"; };
 		93D47BA1212C4C85007853BC /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		93D47BA2212C4C85007853BC /* Entity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
+		93D47BA4212C55A2007853BC /* EventData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EventData.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +167,7 @@
 				93D47B9C212C41A6007853BC /* EventLoader.hpp */,
 				93D47B9E212C433C007853BC /* EventActions.cpp */,
 				93D47B9F212C433C007853BC /* EventActions.hpp */,
+				93D47BA4212C55A2007853BC /* EventData.hpp */,
 			);
 			path = loader;
 			sourceTree = "<group>";
