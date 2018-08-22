@@ -15,6 +15,8 @@ class Button : public Element
 {
 protected:
     int x, y, w, h;
+    bool hoverOver = false;
+    bool clicked = false;
     
 public:
     Button(int x, int y, int w, int h);

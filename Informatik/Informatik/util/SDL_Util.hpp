@@ -11,10 +11,11 @@
 
 #ifdef __APPLE__
 #  include <SDL2/SDL.h> // Other path than on windows
+#  include <SDL2_ttf/SDL_ttf.h> // Don't know this one on windows...
 #else
 #  include <SDL2.h>
 #endif
 
-#define COLOR(r, col) SDL_SetRenderDrawColor(r, (col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 24) & 0xFF)
+#define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
 
 #endif /* SDL_Util_h */
