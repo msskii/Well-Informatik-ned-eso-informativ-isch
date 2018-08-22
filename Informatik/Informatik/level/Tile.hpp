@@ -11,11 +11,7 @@
 
 #define TILE_SIZE 50
 
-#ifdef __APPLE__
-#  include <SDL2/SDL.h> // Other path than on windows
-#else
-#  include <SDL2.h>
-#endif
+#include "../util/SDL_Util.hpp"
 
 #pragma pack(push, 1)
 typedef struct SerializedTile
@@ -34,7 +30,7 @@ public:
     Tile();
     Tile(int x, int y);
 
-    SerializedTile data;
+    SerializedTile data = {0x00FF, 0}; // defaults
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };

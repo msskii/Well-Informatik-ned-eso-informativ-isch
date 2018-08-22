@@ -15,6 +15,8 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
         // Render menus
         renderMenu(renderer);
         updateMenu(keys);
+        
+        for(int i = 0; i < elements.size(); i++) elements[i]->render(renderer);
     }
     else if(under != nullptr)
     {
@@ -25,6 +27,17 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
         ERROR("Menu is not active and has no parent! Making this menu active again");
         active = true;
     }
+}
+
+void Menu::updateElements(SDL_Event e)
+{
+    if(under == nullptr) for(int i = 0; i < elements.size(); i++) elements[i]->processEvent(e);
+    else under->updateElements(e);
+}
+
+void Menu::addElement(Element *e)
+{
+    elements.push_back(e);
 }
 
 void Menu::open()

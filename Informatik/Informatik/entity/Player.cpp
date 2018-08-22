@@ -27,7 +27,7 @@ bool Player::isInside(float dx, float dy)
 void Player::correctMovement(float &dx, float &dy)
 {
     if(isInside(dx, dy))
-    {
+    {        
         float xmax = 0;
         for(xmax = 0; xmax < STEP_ACCURACY; xmax++) // Walk in 1/n of one step
         {

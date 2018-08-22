@@ -17,11 +17,7 @@
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
 
-#ifdef __APPLE__
-#  include <SDL2/SDL.h> // Other path than on windows
-#else
-#  include <SDL2.h>
-#endif
+#include "../util/SDL_Util.hpp"
 
 class Window
 {

@@ -1,0 +1,20 @@
+//
+//  SDL_Util.hpp
+//  Informatik
+//
+//  Created by Aaron Hodel on 22.08.18.
+//  Copyright © 2018 Aaron Hodel. All rights reserved.
+//
+
+#ifndef SDL_Util_h
+#define SDL_Util_h
+
+#ifdef __APPLE__
+#  include <SDL2/SDL.h> // Other path than on windows
+#else
+#  include <SDL2.h>
+#endif
+
+#define COLOR(r, col) SDL_SetRenderDrawColor(r, (col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 24) & 0xFF)
+
+#endif /* SDL_Util_h */

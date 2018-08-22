@@ -51,6 +51,7 @@ void Window::openMenu(Menu *m)
 void Window::render(SDL_Renderer *renderer)
 {
     level->render(renderer); // Render level, but don't update
+    
     if(menu != nullptr)
     {
         if(menu->shouldWindowClose() || menu->menuShouldBeClosed)
@@ -71,6 +72,8 @@ void Window::runGameLoop()
     {
         while(SDL_PollEvent(&e))
         {
+            if(menu != nullptr) menu->updateElements(e);
+            
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)
             {

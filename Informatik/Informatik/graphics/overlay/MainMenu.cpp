@@ -10,7 +10,7 @@
 
 MainMenu::MainMenu()
 {
-    
+    addElement(new Button(0, 0, 100, 25));
 }
 
 bool MainMenu::shouldWindowClose()

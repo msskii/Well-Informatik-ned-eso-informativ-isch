@@ -34,7 +34,7 @@ void Level::render(SDL_Renderer *renderer) // and update
 {
     int xoffset = -player->_x;
     int yoffset = -player->_y;
-    
+        
     for(int i = 0; i < width * height; i++)
     {
         tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);

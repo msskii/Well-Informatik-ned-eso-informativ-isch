@@ -1,4 +1,5 @@
 SDL2.framework/**
+SDL2_ttf.framework/**
 *.xcuserstate
 .DS_Store
 begin_code.h
