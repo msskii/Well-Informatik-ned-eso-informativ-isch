@@ -13,9 +13,9 @@
 #define INFO(msg) printf("[INFO] %s\n", msg)
 #define INFO_VAR(msg) printf("[INFO] %s", msg)
 
-#define PRINT_INT(i) printf("%d\n", i);
-#define PRINT_HEX(i) printf("%X\n", i);
-#define PRINT_STRING(i) printf("%s\n", i);
+#define PRINT_INT(i) printf("%d", i);
+#define PRINT_HEX(i) printf("%X", i);
+#define PRINT_STRING(i) printf("%s", i);
 
 #define NEW_LINE() printf("\n");
 
