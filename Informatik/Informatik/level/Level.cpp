@@ -16,8 +16,8 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
         tiles[i] = Tile(i % w, i / w);
     }
     
-    tiles[105].tileZ = 1;
-    tiles[106].tileZ = 1;
+    tiles[105].data.tileZ = 1;
+    tiles[106].data.tileZ = 1;
     
     SerializedEvent eventData;
     eventData.event_x = TILE_SIZE * 6;

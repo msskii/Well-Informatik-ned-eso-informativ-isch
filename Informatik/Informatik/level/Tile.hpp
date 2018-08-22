@@ -17,6 +17,14 @@
 #  include <SDL2.h>
 #endif
 
+#pragma pack(push, 1)
+typedef struct SerializedTile
+{
+    uint16_t tileNumber;
+    uint8_t tileZ;
+} SerializedTile;
+#pragma pack(pop)
+
 class Tile
 {
 private:
@@ -25,19 +33,10 @@ private:
 public:
     Tile();
     Tile(int x, int y);
-    
-    uint16_t tileNumber = 0x00FF; // Number of tile --> look on tilemap
-    uint8_t tileZ = 0; // The height of this tile
+
+    SerializedTile data;
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
-
-#pragma pack(push, 1)
-typedef struct SerializedTile
-{
-    uint16_t tileNumber;
-    uint8_t tileZ;
-} SerializedTile;
-#pragma pack(pop)
 
 #endif /* Tile_hpp */
