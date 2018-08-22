@@ -12,12 +12,14 @@
 
 int event_id_counter = 0;
 
-Event::Event(EVENT_TYPE type, int action, int xc, int yc, uint8_t *args) : event_id(event_id_counter++), x(xc), y(yc), filter(type), event_action(action), onTrigger(resolveFunction(action))
+Event::Event(SerializedEvent eventData, uint8_t *args) : event_id(event_id_counter++), arguments(args)
 {
     arguments = args;
+    toStore = eventData;
+    onTrigger = resolveFunction(toStore.event_action);
 }
 
-Event::Event(int id, EVENT_TYPE type, int action) : event_id(id), filter(type), event_action(action), onTrigger(resolveFunction(action))
+Event::Event(int id, SerializedEvent stored, uint8_t *args) : event_id(id), toStore(stored), arguments(args)
 {
-    arguments = (uint8_t*) malloc(NUM_ARGS[action]);
+    onTrigger = resolveFunction(toStore.event_action);
 }

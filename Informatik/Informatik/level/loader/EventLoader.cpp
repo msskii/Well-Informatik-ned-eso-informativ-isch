@@ -20,16 +20,12 @@ void saveEventData(uint8_t *destination, std::vector<Event> events)
     destination += 4; // uint32_t = 4 bytes
     for(int i = 0; i < events.size(); i++)
     {
-        ((SerializedEvent*) destination)[0].event_x = events[i].x;
-        ((SerializedEvent*) destination)[0].event_y = events[i].y;
-        ((SerializedEvent*) destination)[0].event_action = events[i].event_action;
-        ((SerializedEvent*) destination)[0].event_type_filter = events[i].filter;
-        ((SerializedEvent*) destination)[0].event_id = events[i].event_id;
+        ((SerializedEvent*) destination)[0] = events[i].toStore;
 
         // Copy parameters
-        memcpy(destination + sizeof(SerializedEvent), events[i].arguments, NUM_ARGS[events[i].event_action]);
+        memcpy(destination + sizeof(SerializedEvent), events[i].arguments, NUM_ARGS[events[i].toStore.event_action]);
         
-        destination += sizeof(SerializedEvent) + NUM_ARGS[events[i].event_action];
+        destination += sizeof(SerializedEvent) + NUM_ARGS[events[i].toStore.event_action];
     }
 }
 
@@ -52,12 +48,10 @@ std::vector<Event> loadEventData(uint8_t *destination)
 
         printf("[INFO] Loading Event: %d, with action: %d & argslength: %d\n", evt.event_id, evt.event_action, NUM_ARGS[evt.event_action]);
         
-        Event e(evt.event_id, (EVENT_TYPE) evt.event_type_filter, evt.event_action);
-        e.x = evt.event_x;
-        e.y = evt.event_y;
-        e.arguments = (uint8_t*) malloc(num_args);
-        memcpy(e.arguments, destination + sizeof(SerializedEvent), num_args);
-        
+        uint8_t *arguments = (uint8_t*) malloc(num_args);
+        memcpy(arguments, destination + sizeof(SerializedEvent), num_args);
+        Event e(evt.event_id, evt, arguments);
+
         events.push_back(e);
         destination += sizeof(SerializedEvent) + num_args;
     }
