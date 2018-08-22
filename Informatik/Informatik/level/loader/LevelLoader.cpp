@@ -28,6 +28,8 @@ LevelLoader::LevelLoader(Level *l) : level(l)
 
 LevelLoader::LevelLoader(const char *path)
 {
+    INFO("Loading Level");
+
     uint8_t *levelFile = readFile(path);
     uint32_t width = ((uint32_t*)levelFile)[0];
     uint32_t height = ((uint32_t*)levelFile)[1];
@@ -58,7 +60,7 @@ void LevelLoader::saveFile(const char *path)
     
     uint8_t *levelFile = (uint8_t *) malloc(size);
     
-    printf("Size of one Tile: %d\n", (int) sizeof(SerializedTile));
+    INFO("Saving Level");
     
     ((uint32_t*) levelFile)[0] = level->width;
     ((uint32_t*) levelFile)[1] = level->height;

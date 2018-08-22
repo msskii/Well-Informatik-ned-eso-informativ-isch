@@ -12,6 +12,8 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
 {
     window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    
+    keyStates = SDL_GetKeyboardState(NULL);
 }
 
 void Window::runGameLoop()
@@ -38,22 +40,20 @@ void Window::runGameLoop()
         SDL_RenderClear(renderer); // Everything black
         
         // Put update stuff here
-        const uint8_t *keys = SDL_GetKeyboardState(NULL);
-        
         float x = 0, y = 0;
-        if(keys[SDL_SCANCODE_UP])
+        if(keyStates[SDL_SCANCODE_UP])
         {
             y -= SPEED;
         }
-        if(keys[SDL_SCANCODE_DOWN])
+        if(keyStates[SDL_SCANCODE_DOWN])
         {
             y += SPEED;
         }
-        if(keys[SDL_SCANCODE_RIGHT])
+        if(keyStates[SDL_SCANCODE_RIGHT])
         {
             x += SPEED;
         }
-        if(keys[SDL_SCANCODE_LEFT])
+        if(keyStates[SDL_SCANCODE_LEFT])
         {
             x -= SPEED;
         }
