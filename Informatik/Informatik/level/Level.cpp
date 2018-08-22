@@ -42,20 +42,28 @@ void Level::render(SDL_Renderer *renderer) // and update
     
     for(int i = 0; i < events.size(); i++)
     {
-        if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == GAME_LOOP) events[i].onTrigger(events[i], GAME_LOOP, this, events[i].arguments);
-        
-        if(events[i].toStore.event_x + TILE_SIZE > player->_x && events[i].toStore.event_x < player->_x + PLAYER_WIDTH && events[i].toStore.event_y + TILE_SIZE > player->_y && events[i].toStore.event_y <= player->_y + PLAYER_HEIGHT)
-        {
-            // Player inside event
-            if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == STEP_ON) events[i].onTrigger(events[i], STEP_ON, this, events[i].arguments);
-        }
-        
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
         SDL_Rect r = {events[i].toStore.event_x + xoffset + PLAYER_OFFSET_X, events[i].toStore.event_y + yoffset + PLAYER_OFFSET_Y, events[i].toStore.event_w, events[i].toStore.event_h};
         SDL_RenderFillRect(renderer, &r);
     }
     
     player->render(renderer, xoffset, yoffset);
+}
+
+void Level::update()
+{
+    // Update events & (soon) entities
+    
+    for(int i = 0; i < events.size(); i++)
+    {
+        if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == GAME_LOOP) events[i].onTrigger(events[i], GAME_LOOP, this, events[i].arguments);
+
+        if(events[i].toStore.event_x + TILE_SIZE > player->_x && events[i].toStore.event_x < player->_x + PLAYER_WIDTH && events[i].toStore.event_y + TILE_SIZE > player->_y && events[i].toStore.event_y <= player->_y + PLAYER_HEIGHT)
+        {
+            // Player inside event
+            if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == STEP_ON) events[i].onTrigger(events[i], STEP_ON, this, events[i].arguments);
+        }
+    }
 }
 
 Tile Level::getTile(int screenX, int screenY)

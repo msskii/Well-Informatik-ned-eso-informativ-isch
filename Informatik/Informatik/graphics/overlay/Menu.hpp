@@ -15,18 +15,27 @@
 #  include <SDL2.h>
 #endif
 
+#include "../../util/Logger.hpp"
+
 class Menu // Basic menu class to extend from
 {
-protected:
+public:
     bool active = false; // Currently active?
+    Menu *under = nullptr; // The menu that is under this one, so we can close one menu and go back to the last
+    bool menuShouldBeClosed = false; // Used to close menus apart from the shouldwindowclose method
     
 public:
-    void render();
+    void render(SDL_Renderer *renderer, const uint8_t *keys);
+    void openSubMenu(Menu *menu);
+    void open();
+    void close();
     
     // Functions to override
     virtual bool shouldWindowClose() = 0;
-    virtual void renderMenu() = 0;
-    virtual void updateMenu(uint8_t *keys) = 0;
+    virtual void renderMenu(SDL_Renderer *renderer) = 0;
+    virtual void updateMenu(const uint8_t *keys) = 0;
+    virtual void onOpen() = 0;
+    virtual void onClose() = 0;
 };
 
 #endif /* Menu_hpp */

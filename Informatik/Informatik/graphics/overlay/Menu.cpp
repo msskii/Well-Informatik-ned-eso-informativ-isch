@@ -7,3 +7,37 @@
 //
 
 #include "Menu.hpp"
+
+void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
+{
+    if(active)
+    {
+        // Render menus
+        renderMenu(renderer);
+        updateMenu(keys);
+    }
+    else if(under != nullptr)
+    {
+        under->render(renderer, keys); // Forward rendering process to submenu
+    }
+    else
+    {
+        ERROR("Menu is not active and has no parent! Making this menu active again");
+        active = true;
+    }
+}
+
+void Menu::open()
+{
+    active = true;
+    menuShouldBeClosed = false; // Just to make sure, if same menu is reopened
+    onOpen();
+}
+
+void Menu::close()
+{
+    active = false;
+    under = nullptr;
+    menuShouldBeClosed = true;
+    // On close will be called from the window
+}

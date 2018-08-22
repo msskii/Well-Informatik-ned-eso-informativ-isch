@@ -39,6 +39,7 @@ public:
         return es;
     }
     
+    void update();
     void render(SDL_Renderer *renderer);
 };
 

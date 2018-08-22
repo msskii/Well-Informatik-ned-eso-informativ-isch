@@ -16,6 +16,52 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     keyStates = SDL_GetKeyboardState(NULL);
 }
 
+void Window::update()
+{
+    // Put update stuff here
+    float x = 0, y = 0;
+    if(keyStates[SDL_SCANCODE_UP])
+    {
+        y -= SPEED;
+    }
+    if(keyStates[SDL_SCANCODE_DOWN])
+    {
+        y += SPEED;
+    }
+    if(keyStates[SDL_SCANCODE_RIGHT])
+    {
+        x += SPEED;
+    }
+    if(keyStates[SDL_SCANCODE_LEFT])
+    {
+        x -= SPEED;
+    }
+    
+    level->player->updateMovement(x, y); // Update player movement
+    level->update(); // Update rest of level according to player
+}
+
+void Window::openMenu(Menu *m)
+{
+    menu = m;
+    m->active = true;
+    m->open();
+}
+
+void Window::render(SDL_Renderer *renderer)
+{
+    level->render(renderer); // Render level, but don't update
+    if(menu != nullptr)
+    {
+        if(menu->shouldWindowClose() || menu->menuShouldBeClosed)
+        {
+            menu->onClose();
+            menu = nullptr;
+            INFO("Closing Menu...");
+        } else menu->render(renderer, keyStates);
+    }
+}
+
 void Window::runGameLoop()
 {
     running = true;
@@ -39,28 +85,9 @@ void Window::runGameLoop()
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
         SDL_RenderClear(renderer); // Everything black
         
-        // Put update stuff here
-        float x = 0, y = 0;
-        if(keyStates[SDL_SCANCODE_UP])
-        {
-            y -= SPEED;
-        }
-        if(keyStates[SDL_SCANCODE_DOWN])
-        {
-            y += SPEED;
-        }
-        if(keyStates[SDL_SCANCODE_RIGHT])
-        {
-            x += SPEED;
-        }
-        if(keyStates[SDL_SCANCODE_LEFT])
-        {
-            x -= SPEED;
-        }
-        level->player->updateMovement(x, y);
-        
-        // Put rendering here
-        level->render(renderer);
+        // Update & render
+        if(menu == nullptr) update();
+        render(renderer);
         
         SDL_RenderPresent(renderer); // Draw & limit FPS
     }

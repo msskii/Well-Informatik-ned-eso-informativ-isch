@@ -21,6 +21,7 @@
 		93D47BA0212C433C007853BC /* EventActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47B9E212C433C007853BC /* EventActions.cpp */; };
 		93D47BA3212C4C85007853BC /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BA1212C4C85007853BC /* Entity.cpp */; };
 		93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BA6212D4EF5007853BC /* Menu.cpp */; };
+		93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BA9212D8A8F007853BC /* MainMenu.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +66,8 @@
 		93D47BA4212C55A2007853BC /* EventData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EventData.hpp; sourceTree = "<group>"; };
 		93D47BA6212D4EF5007853BC /* Menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
 		93D47BA7212D4EF5007853BC /* Menu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Menu.hpp; sourceTree = "<group>"; };
+		93D47BA9212D8A8F007853BC /* MainMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
+		93D47BAA212D8A8F007853BC /* MainMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MainMenu.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,10 +182,20 @@
 		93D47BA5212D4EE7007853BC /* overlay */ = {
 			isa = PBXGroup;
 			children = (
+				93D47BAC212D8A92007853BC /* elements */,
 				93D47BA6212D4EF5007853BC /* Menu.cpp */,
 				93D47BA7212D4EF5007853BC /* Menu.hpp */,
+				93D47BA9212D8A8F007853BC /* MainMenu.cpp */,
+				93D47BAA212D8A8F007853BC /* MainMenu.hpp */,
 			);
 			path = overlay;
+			sourceTree = "<group>";
+		};
+		93D47BAC212D8A92007853BC /* elements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = elements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +263,7 @@
 				93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */,
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
 				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,
+				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,
