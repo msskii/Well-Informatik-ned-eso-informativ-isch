@@ -11,14 +11,18 @@
 
 #include "../../../util/SDL_Util.hpp"
 
-class Element
+class Menu;
+
+class Element // Full definition of the element class, as used by the menus
 {
 protected:
     // Helper functions like draw circles or draw text?
     
 public:
     virtual void render(SDL_Renderer *renderer) = 0;
-    virtual void processEvent(SDL_Event e) = 0; // Like update, but with all events like mouse
+    virtual void processEvent(Menu *menu, SDL_Event e) = 0; // Like update, but with all events like mouse
 };
+
+#include "../Menu.hpp" // Full definition of the Menu class, as used by the other elements
 
 #endif /* Element_hpp */

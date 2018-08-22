@@ -11,17 +11,23 @@
 
 #include "Element.hpp"
 
+typedef void (*onClick)(int bID);
+static int buttonIDCounter = 0;
+
 class Button : public Element
 {
 protected:
     int x, y, w, h;
     bool hoverOver = false;
     bool clicked = false;
+    int id = buttonIDCounter++;
     
 public:
     Button(int x, int y, int w, int h);
+    Button(int x, int y, int w, int h, int id);
+
     void render(SDL_Renderer *renderer) override;
-    void processEvent(SDL_Event e) override;
+    void processEvent(Menu *menu, SDL_Event e) override;
 };
 
 #endif /* Button_hpp */

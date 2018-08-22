@@ -14,8 +14,17 @@
 #  include <SDL2_ttf/SDL_ttf.h> // Don't know this one on windows...
 #else
 #  include <SDL2.h>
+#  include <SDL_ttf.h>
 #endif
 
+#include "Logger.hpp"
+
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
+
+extern TTF_Font *font;
+
+extern void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y);
+
+
 
 #endif /* SDL_Util_h */

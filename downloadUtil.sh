@@ -1,3 +1,5 @@
+cd "$(dirname $0)"
+
 # Download & Install SDL2
 curl "https://www.libsdl.org/release/SDL2-2.0.8.dmg" -o "SDL2.dmg"
 hdiutil mount SDL2.dmg
@@ -14,6 +16,6 @@ rm SDL2_ttf.dmg
 
 # Download & unzip font
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"
-unzip font.zip
+echo -n "A" | unzip font.zip
 rm -rf __MACOSX
 rm -f font.zip

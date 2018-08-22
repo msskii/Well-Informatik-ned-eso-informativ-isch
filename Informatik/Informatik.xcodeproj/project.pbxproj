@@ -27,6 +27,8 @@
 		93D47BB5212D91D7007853BC /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
 		93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
 		93D47BB9212D91F1007853BC /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB7212D91F1007853BC /* Text.cpp */; };
+		93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */; };
+		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +40,7 @@
 			files = (
 				93D1C7DB212C3915004AACD1 /* SDL2.framework in CopyFiles */,
 				93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */,
+				93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +86,8 @@
 		93D47BB7212D91F1007853BC /* Text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Text.cpp; sourceTree = "<group>"; };
 		93D47BB8212D91F1007853BC /* Text.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Text.hpp; sourceTree = "<group>"; };
 		93D47BBA212D9338007853BC /* SDL_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDL_Util.hpp; sourceTree = "<group>"; };
+		93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ormont_Light.ttf; path = ../Ormont_Light.ttf; sourceTree = "<group>"; };
+		93D47BBD212DE69C007853BC /* SDL_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_Util.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +106,7 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */,
 				93D47BB4212D91D7007853BC /* SDL2_ttf.framework */,
 				93D1C7D9212C390F004AACD1 /* SDL2.framework */,
 				932D320E212AB6E500DA45BD /* Informatik */,
@@ -168,6 +174,7 @@
 				93D47B99212C414B007853BC /* FileReader.cpp */,
 				932D322E212ABC6700DA45BD /* Logger.hpp */,
 				93D47BBA212D9338007853BC /* SDL_Util.hpp */,
+				93D47BBD212DE69C007853BC /* SDL_Util.cpp */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -281,6 +288,7 @@
 			files = (
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
+				93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */,
 				93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */,
 				93D47BAF212D902A007853BC /* Button.cpp in Sources */,
 				93D47BA3212C4C85007853BC /* Entity.cpp in Sources */,
@@ -413,6 +421,7 @@
 		932D3214212AB6E500DA45BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9TPDPL7CQS;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -426,6 +435,7 @@
 		932D3215212AB6E500DA45BD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9TPDPL7CQS;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -10,9 +10,26 @@
 
 Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
+    SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
+    
+    if(TTF_Init() == -1) {
+        printf("TTF_Init error: %s\n", TTF_GetError());
+        exit(2);
+    }
+
+    font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
+    if(!font)
+    {
+        ERROR("Couldn't open font file...");
+        printf("%s\n", TTF_GetError());
+        exit(0);
+    }
+    
+    TTF_SetFontOutline(font, 1);
+
     window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-    
+        
     keyStates = SDL_GetKeyboardState(NULL);
 }
 
@@ -91,7 +108,7 @@ void Window::runGameLoop()
         // Update & render
         if(menu == nullptr) update();
         render(renderer);
-        
+                
         SDL_RenderPresent(renderer); // Draw & limit FPS
     }
     
