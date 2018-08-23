@@ -8,7 +8,7 @@
 
 #include "Button.hpp"
 
-Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t)
+Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t), id(buttonIDCounter++)
 {
     
 }
