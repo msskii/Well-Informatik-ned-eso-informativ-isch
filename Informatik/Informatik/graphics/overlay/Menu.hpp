@@ -24,7 +24,7 @@ public:
     Menu *under = nullptr; // The menu that is under this one, so we can close one menu and go back to the last
     bool menuShouldBeClosed = false; // Used to close menus apart from the shouldwindowclose method
     
-    void addElement(Element *e);
+    Element *addElement(Element *e);
     
 public:
     void render(SDL_Renderer *renderer, const uint8_t *keys);

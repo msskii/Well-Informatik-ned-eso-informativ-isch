@@ -35,9 +35,10 @@ void Menu::updateElements(SDL_Event e)
     else under->updateElements(e);
 }
 
-void Menu::addElement(Element *e)
+Element *Menu::addElement(Element *e)
 {
     elements.push_back(e);
+    return e;
 }
 
 void Menu::open()

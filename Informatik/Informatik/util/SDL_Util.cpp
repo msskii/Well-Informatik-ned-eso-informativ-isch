@@ -10,15 +10,15 @@
 
 TTF_Font *font = nullptr;
 
-void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y)
+void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y)
 {    
     if(font == nullptr)
     {
         INFO("Font not yet initialized");
         return;
     }
-    
-    SDL_Surface *srfc = TTF_RenderText_Solid(font, text, color); // rgba
+        
+    SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color)); // rgba
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
     if(text)
     {
@@ -29,7 +29,7 @@ void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, 
     }
 }
 
-void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y, int w, int h) // With max width & height
+void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h) // With max width & height
 {
     if(font == nullptr)
     {
@@ -37,7 +37,7 @@ void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, 
         return;
     }
     
-    SDL_Surface *srfc = TTF_RenderText_Solid(font, text, color); // rgba
+    SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color)); // rgba
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
     if(text)
     {

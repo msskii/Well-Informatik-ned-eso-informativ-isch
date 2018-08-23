@@ -24,7 +24,7 @@ void Button::render(SDL_Renderer *renderer)
     COLOR(renderer, (hoverOver ? 0xFF777777 : 0xFFFFFFFF)); // Full white or grayish... TODO: Textures
     SDL_RenderFillRect(renderer, &r);
     
-    drawText(renderer, text, {0xFF, 0x00, 0xFF, 0xFF}, x, y, w, h);
+    drawText(renderer, text, 0xFFFF00FF, x, y, w, h);
 }
 
 void Button::processEvent(Menu* menu, SDL_Event e)

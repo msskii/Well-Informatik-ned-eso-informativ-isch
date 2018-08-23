@@ -21,10 +21,12 @@
 
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
 
+#define TO_COLOR(col) SDL_Color({ (uint8_t) ((col) >> 16), (uint8_t) ((col) >> 8), (uint8_t) (col), (uint8_t) ((col) >> 24) })
+
 extern TTF_Font *font;
 
-extern void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y);
-extern void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y, int w, int h);
+extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y);
+extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h);
 
 
 

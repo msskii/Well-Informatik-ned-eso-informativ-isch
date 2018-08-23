@@ -13,5 +13,6 @@
 
 // Add elements here
 #include "Button.hpp"
+#include "Text.hpp"
 
 #endif /* Elements_h */

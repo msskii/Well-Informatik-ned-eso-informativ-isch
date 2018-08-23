@@ -17,6 +17,7 @@ static void onButtonPress(Menu *menu, int buttonID)
 MainMenu::MainMenu()
 {
     addElement(new Button(onButtonPress, "Start Game", 0, 0, 100, 25));
+    addElement(new Text("Test", 0, 25, 100, 25));
 }
 
 bool MainMenu::shouldWindowClose()
@@ -26,7 +27,8 @@ bool MainMenu::shouldWindowClose()
 
 void MainMenu::renderMenu(SDL_Renderer *renderer)
 {
-    
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderClear(renderer);
 }
 
 void MainMenu::updateMenu(const uint8_t *keys)
