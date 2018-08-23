@@ -15,6 +15,8 @@ Player::Player(Level *l) : level(l)
 
 bool Player::isInside(float dx, float dy)
 {
+    if(_x + dx < 0 || _x + dx >= TILE_SIZE * level->width || _y + dy < 0 || _y + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
+    
     if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
     if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
     if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
@@ -23,7 +25,6 @@ bool Player::isInside(float dx, float dy)
     return false;
 }
 
-#define STEP_ACCURACY 100.0
 void Player::correctMovement(float &dx, float &dy)
 {
     if(isInside(dx, dy))
@@ -55,7 +56,7 @@ void Player::correctMovement(float &dx, float &dy)
 void Player::updateMovement(float dx, float dy)
 {
     if(!inControl) return;
-    
+
     correctMovement(dx, dy);
     
     _x += dx;

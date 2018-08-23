@@ -26,9 +26,20 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     }
     
     TTF_SetFontOutline(font, 1);
-
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, 0);
+    
+#ifdef FULLSCREEN_ENABLED
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
+#else
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+#endif
+    
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    SCALE_X = (float) w / (float) GAME_WIDTH;
+    SCALE_Y = (float) h / (float) GAME_HEIGHT;
+    SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
         
     keyStates = SDL_GetKeyboardState(NULL);
 }

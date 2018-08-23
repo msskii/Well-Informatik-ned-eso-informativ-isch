@@ -31,11 +31,11 @@ void Button::processEvent(Menu* menu, SDL_Event e)
 {
     if(e.type == SDL_MOUSEMOTION)
     {
-        hoverOver = e.button.x >= x && e.button.x <= x + w && e.button.y >= y && e.button.y <= y + h;
+        hoverOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
     }
     else if(e.type == SDL_MOUSEBUTTONDOWN)
     {
-        hoverOver = e.button.x >= x && e.button.x <= x + w && e.button.y >= y && e.button.y <= y + h;
+        hoverOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
         if(e.button.button == SDL_BUTTON_LEFT && hoverOver)
         {
             clicked = true;
