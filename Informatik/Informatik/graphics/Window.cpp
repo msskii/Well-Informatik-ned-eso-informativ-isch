@@ -10,8 +10,76 @@
 
 Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
+    SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
+    
+    if(TTF_Init() == -1) {
+        printf("TTF_Init error: %s\n", TTF_GetError());
+        exit(2);
+    }
+
+    font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
+    if(!font)
+    {
+        ERROR("Couldn't open font file...");
+        printf("%s\n", TTF_GetError());
+        exit(0);
+    }
+    
+    TTF_SetFontOutline(font, 1);
+
     window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+        
+    keyStates = SDL_GetKeyboardState(NULL);
+}
+
+void Window::update()
+{
+    // Put update stuff here
+    float x = 0, y = 0;
+    if(keyStates[SDL_SCANCODE_UP])
+    {
+        y -= SPEED;
+    }
+    if(keyStates[SDL_SCANCODE_DOWN])
+    {
+        y += SPEED;
+    }
+    if(keyStates[SDL_SCANCODE_RIGHT])
+    {
+        x += SPEED;
+    }
+    if(keyStates[SDL_SCANCODE_LEFT])
+    {
+        x -= SPEED;
+    }
+    
+    level->player->updateMovement(x, y); // Update player movement
+    level->player->actionPressed = keyStates[SDL_SCANCODE_RETURN];
+    
+    level->update(); // Update rest of level according to player
+}
+
+void Window::openMenu(Menu *m)
+{
+    menu = m;
+    m->active = true;
+    m->open();
+}
+
+void Window::render(SDL_Renderer *renderer)
+{
+    level->render(renderer); // Render level, but don't update
+    
+    if(menu != nullptr)
+    {
+        if(menu->shouldWindowClose() || menu->menuShouldBeClosed)
+        {
+            menu->onClose();
+            menu = nullptr;
+            INFO("Closing Menu...");
+        } else menu->render(renderer, keyStates);
+    }
 }
 
 void Window::runGameLoop()
@@ -23,6 +91,8 @@ void Window::runGameLoop()
     {
         while(SDL_PollEvent(&e))
         {
+            if(menu != nullptr) menu->updateElements(e);
+            
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)
             {
@@ -37,31 +107,10 @@ void Window::runGameLoop()
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
         SDL_RenderClear(renderer); // Everything black
         
-        // Put update stuff here
-        const uint8_t *keys = SDL_GetKeyboardState(NULL);
-        
-        float x = 0, y = 0;
-        if(keys[SDL_SCANCODE_UP])
-        {
-            y -= SPEED;
-        }
-        if(keys[SDL_SCANCODE_DOWN])
-        {
-            y += SPEED;
-        }
-        if(keys[SDL_SCANCODE_RIGHT])
-        {
-            x += SPEED;
-        }
-        if(keys[SDL_SCANCODE_LEFT])
-        {
-            x -= SPEED;
-        }
-        level->player->updateMovement(x, y);
-        
-        // Put rendering here
-        level->render(renderer);
-        
+        // Update & render
+        if(menu == nullptr) update();
+        render(renderer);
+                
         SDL_RenderPresent(renderer); // Draw & limit FPS
     }
     

@@ -15,10 +15,10 @@ Player::Player(Level *l) : level(l)
 
 bool Player::isInside(float dx, float dy)
 {
-    if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).tileZ != _z) return true;
-    if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).tileZ != _z) return true;
-    if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).tileZ != _z) return true;
-    if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).tileZ != _z) return true;
+    if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
     
     return false;
 }
@@ -27,7 +27,7 @@ bool Player::isInside(float dx, float dy)
 void Player::correctMovement(float &dx, float &dy)
 {
     if(isInside(dx, dy))
-    {
+    {        
         float xmax = 0;
         for(xmax = 0; xmax < STEP_ACCURACY; xmax++) // Walk in 1/n of one step
         {

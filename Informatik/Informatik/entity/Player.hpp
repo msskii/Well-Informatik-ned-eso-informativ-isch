@@ -18,11 +18,7 @@
 #define PLAYER_OFFSET_X ((GAME_WIDTH + PLAYER_WIDTH) / 2)
 #define PLAYER_OFFSET_Y ((GAME_HEIGHT + PLAYER_HEIGHT) / 2)
 
-#ifdef __APPLE__
-#  include <SDL2/SDL.h> // Other path than on windows
-#else
-#  include <SDL2.h>
-#endif
+#include "../util/SDL_Util.hpp"
 
 class Level;
 
@@ -32,9 +28,9 @@ private:
     
 public:
     float _x = 0, _y = 0; // Coordinates
-    uint8_t _z = 0;// Height level
+    uint8_t _z = 0; // Height level
     bool inControl = true; // Player can control himself by default
-    
+    bool actionPressed = false; // If the action key was pressed
     
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);

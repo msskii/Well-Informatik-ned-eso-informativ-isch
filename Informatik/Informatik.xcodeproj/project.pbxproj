@@ -20,6 +20,15 @@
 		93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47B9B212C41A6007853BC /* EventLoader.cpp */; };
 		93D47BA0212C433C007853BC /* EventActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47B9E212C433C007853BC /* EventActions.cpp */; };
 		93D47BA3212C4C85007853BC /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BA1212C4C85007853BC /* Entity.cpp */; };
+		93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BA6212D4EF5007853BC /* Menu.cpp */; };
+		93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BA9212D8A8F007853BC /* MainMenu.cpp */; };
+		93D47BAF212D902A007853BC /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BAD212D902A007853BC /* Button.cpp */; };
+		93D47BB3212D9086007853BC /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB1212D9086007853BC /* Element.cpp */; };
+		93D47BB5212D91D7007853BC /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
+		93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
+		93D47BB9212D91F1007853BC /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB7212D91F1007853BC /* Text.cpp */; };
+		93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */; };
+		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +39,8 @@
 			dstSubfolderSpec = 16;
 			files = (
 				93D1C7DB212C3915004AACD1 /* SDL2.framework in CopyFiles */,
+				93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */,
+				93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +73,21 @@
 		93D47BA1212C4C85007853BC /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		93D47BA2212C4C85007853BC /* Entity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		93D47BA4212C55A2007853BC /* EventData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EventData.hpp; sourceTree = "<group>"; };
+		93D47BA6212D4EF5007853BC /* Menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
+		93D47BA7212D4EF5007853BC /* Menu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Menu.hpp; sourceTree = "<group>"; };
+		93D47BA9212D8A8F007853BC /* MainMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
+		93D47BAA212D8A8F007853BC /* MainMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MainMenu.hpp; sourceTree = "<group>"; };
+		93D47BAD212D902A007853BC /* Button.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		93D47BAE212D902A007853BC /* Button.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Button.hpp; sourceTree = "<group>"; };
+		93D47BB0212D9044007853BC /* Elements.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Elements.hpp; sourceTree = "<group>"; };
+		93D47BB1212D9086007853BC /* Element.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Element.cpp; sourceTree = "<group>"; };
+		93D47BB2212D9086007853BC /* Element.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Element.hpp; sourceTree = "<group>"; };
+		93D47BB4212D91D7007853BC /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../SDL2_ttf.framework; sourceTree = "<group>"; };
+		93D47BB7212D91F1007853BC /* Text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Text.cpp; sourceTree = "<group>"; };
+		93D47BB8212D91F1007853BC /* Text.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Text.hpp; sourceTree = "<group>"; };
+		93D47BBA212D9338007853BC /* SDL_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDL_Util.hpp; sourceTree = "<group>"; };
+		93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ormont_Light.ttf; path = ../Ormont_Light.ttf; sourceTree = "<group>"; };
+		93D47BBD212DE69C007853BC /* SDL_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_Util.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93D47BB5212D91D7007853BC /* SDL2_ttf.framework in Frameworks */,
 				93D1C7DA212C390F004AACD1 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +106,8 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */,
+				93D47BB4212D91D7007853BC /* SDL2_ttf.framework */,
 				93D1C7D9212C390F004AACD1 /* SDL2.framework */,
 				932D320E212AB6E500DA45BD /* Informatik */,
 				932D320D212AB6E500DA45BD /* Products */,
@@ -110,6 +139,7 @@
 		932D3219212AB78F00DA45BD /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				93D47BA5212D4EE7007853BC /* overlay */,
 				932D321A212AB79C00DA45BD /* Window.cpp */,
 				932D321B212AB79C00DA45BD /* Window.hpp */,
 			);
@@ -143,6 +173,8 @@
 				932D3229212ABBBC00DA45BD /* FileReader.hpp */,
 				93D47B99212C414B007853BC /* FileReader.cpp */,
 				932D322E212ABC6700DA45BD /* Logger.hpp */,
+				93D47BBA212D9338007853BC /* SDL_Util.hpp */,
+				93D47BBD212DE69C007853BC /* SDL_Util.cpp */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -170,6 +202,32 @@
 				93D47BA4212C55A2007853BC /* EventData.hpp */,
 			);
 			path = loader;
+			sourceTree = "<group>";
+		};
+		93D47BA5212D4EE7007853BC /* overlay */ = {
+			isa = PBXGroup;
+			children = (
+				93D47BAC212D8A92007853BC /* elements */,
+				93D47BA6212D4EF5007853BC /* Menu.cpp */,
+				93D47BA7212D4EF5007853BC /* Menu.hpp */,
+				93D47BA9212D8A8F007853BC /* MainMenu.cpp */,
+				93D47BAA212D8A8F007853BC /* MainMenu.hpp */,
+			);
+			path = overlay;
+			sourceTree = "<group>";
+		};
+		93D47BAC212D8A92007853BC /* elements */ = {
+			isa = PBXGroup;
+			children = (
+				93D47BAD212D902A007853BC /* Button.cpp */,
+				93D47BAE212D902A007853BC /* Button.hpp */,
+				93D47BB0212D9044007853BC /* Elements.hpp */,
+				93D47BB1212D9086007853BC /* Element.cpp */,
+				93D47BB2212D9086007853BC /* Element.hpp */,
+				93D47BB7212D91F1007853BC /* Text.cpp */,
+				93D47BB8212D91F1007853BC /* Text.hpp */,
+			);
+			path = elements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,14 +288,20 @@
 			files = (
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
+				93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */,
 				93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */,
+				93D47BAF212D902A007853BC /* Button.cpp in Sources */,
 				93D47BA3212C4C85007853BC /* Entity.cpp in Sources */,
 				93D47B9A212C414B007853BC /* FileReader.cpp in Sources */,
 				93D47BA0212C433C007853BC /* EventActions.cpp in Sources */,
+				93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */,
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
 				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,
+				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
+				93D47BB3212D9086007853BC /* Element.cpp in Sources */,
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
+				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +421,7 @@
 		932D3214212AB6E500DA45BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8DMX39VBGM;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -370,6 +435,7 @@
 		932D3215212AB6E500DA45BD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8DMX39VBGM;
 				FRAMEWORK_SEARCH_PATHS = (

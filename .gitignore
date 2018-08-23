@@ -1,5 +1,9 @@
 SDL2.framework/**
+SDL2_ttf.framework/**
+*.ttf
+License.txt
 *.xcuserstate
+xcuserdata/
 .DS_Store
 begin_code.h
 close_code.h

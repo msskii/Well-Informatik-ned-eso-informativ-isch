@@ -12,24 +12,28 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "loader/EventData.hpp"
+#include <map>
 
-extern int event_id_counter;
+#include "../util/SDL_Util.hpp"
+#include "loader/EventData.hpp"
 
 class Event
 {
 public:
-    int x, y;
     eventFunc onTrigger = nullptr; // What does this event do
-    EVENT_TYPE filter = ALL_EVENTS; // When is this event triggered
-    int event_action = 0; // The action of this event
+    
+public:
+    
     uint8_t *arguments; // The arguments for this event
+    SerializedEvent toStore; // The actual event
     
 public:
     int event_id;
     
-    Event(EVENT_TYPE type, int action, int x, int y, uint8_t *args);
-    Event(int id, EVENT_TYPE type, int action);
+    Event(SerializedEvent eventData, uint8_t *args);
+    
+    void trigger(Event event, EVENT_TYPE type, Level *level, uint8_t *arguments);
+    void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 
 

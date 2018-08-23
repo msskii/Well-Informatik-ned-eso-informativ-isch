@@ -14,18 +14,19 @@
 #include "../level/loader/LevelLoader.hpp"
 #include "../entity/Player.hpp"
 
-#ifdef __APPLE__
-#  include <SDL2/SDL.h> // Other path than on windows
-#else
-#  include <SDL2.h>
-#endif
+#include "overlay/Menu.hpp"
+#include "overlay/MainMenu.hpp"
+
+#include "../util/SDL_Util.hpp"
 
 class Window
 {
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
+    const uint8_t *keyStates;
     
+    Menu *menu = new MainMenu();
     Level *level;
     
     bool running = false;
@@ -34,6 +35,12 @@ public:
     
     Window();
     void runGameLoop();
+    
+    void openMenu(Menu *menu);
+    
+    void update();
+    void render(SDL_Renderer *renderer);
+    
     inline void stopGameLoop() { running = false; }
 };
 

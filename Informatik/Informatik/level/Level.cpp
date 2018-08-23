@@ -16,20 +16,42 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
         tiles[i] = Tile(i % w, i / w);
     }
     
+<<<<<<< HEAD
     tiles[105].tileZ = 1;
     tiles[155].tileZ = 1;
     tiles[205].tileZ = 1;
     tiles[204].tileZ = 1;
     tiles[206].tileZ = 1;
+=======
+    tiles[105].data.tileZ = 1;
+    tiles[106].data.tileZ = 1;
+>>>>>>> d65e1f456800a4f33740332f9f19a0064c9ccfed
     
-    events.push_back(Event(STEP_ON, MOVE_PLAYER, 6 * TILE_SIZE, 1 * TILE_SIZE, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
+    SerializedEvent eventData;
+    eventData.event_x = TILE_SIZE * 6;
+    eventData.event_y = TILE_SIZE * 1;
+    eventData.event_w = TILE_SIZE / 2;
+    eventData.event_h = TILE_SIZE;
+    eventData.event_action = MOVE_PLAYER;
+    eventData.event_type_filter = STEP_ON;
+    eventData.triggerAmount = 0; // As many times triggered as you want
+    eventData.event_id_dependency = 0; // No Event needs to be triggered first
+    eventData.event_id = 0; // Auto increment & start from one
+
+    events.push_back(Event(eventData, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
+    
+    eventData.event_x += TILE_SIZE * 2;
+    eventData.triggerAmount = 1; // Triggered once
+    eventData.event_id_dependency = 1;
+    eventData.event_type_filter = PLAYER_INTERACT;
+    events.push_back(Event(eventData, new uint8_t[2] { LEFT, 2 * TILE_SIZE })); // Move player 2 down
 }
 
 void Level::render(SDL_Renderer *renderer) // and update
 {
     int xoffset = -player->_x;
     int yoffset = -player->_y;
-    
+        
     for(int i = 0; i < width * height; i++)
     {
         tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
@@ -37,20 +59,31 @@ void Level::render(SDL_Renderer *renderer) // and update
     
     for(int i = 0; i < events.size(); i++)
     {
-        if(events[i].filter == ALL_EVENTS || events[i].filter == GAME_LOOP) events[i].onTrigger(events[i], GAME_LOOP, this, events[i].arguments);
-        
-        if(events[i].x + TILE_SIZE > player->_x && events[i].x < player->_x + PLAYER_WIDTH && events[i].y + TILE_SIZE > player->_y && events[i].y <= player->_y + PLAYER_HEIGHT)
-        {
-            // Player inside event
-            if(events[i].filter == ALL_EVENTS || events[i].filter == STEP_ON) events[i].onTrigger(events[i], STEP_ON, this, events[i].arguments);
-        }
-        
-        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-        SDL_Rect r = {events[i].x + xoffset + PLAYER_OFFSET_X, events[i].y + yoffset + PLAYER_OFFSET_Y, TILE_SIZE / 2, TILE_SIZE / 2};
-        SDL_RenderFillRect(renderer, &r);
+        events[i].render(renderer, xoffset, yoffset);
     }
     
     player->render(renderer, xoffset, yoffset);
+}
+
+void Level::update()
+{
+    // Update events & (soon) entities
+    
+    for(int i = 0; i < events.size(); i++)
+    {
+        if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == GAME_LOOP) events[i].trigger(events[i], GAME_LOOP, this, events[i].arguments);
+
+        if(events[i].toStore.event_x + events[i].toStore.event_w > player->_x && events[i].toStore.event_x < player->_x + PLAYER_WIDTH && events[i].toStore.event_y + events[i].toStore.event_h > player->_y && events[i].toStore.event_y < player->_y + PLAYER_HEIGHT)
+        {
+            // Player inside event
+            if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == STEP_ON) events[i].trigger(events[i], STEP_ON, this, events[i].arguments);
+            
+            if(player->actionPressed)
+            {
+                if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == PLAYER_INTERACT) events[i].trigger(events[i], PLAYER_INTERACT, this, events[i].arguments);
+            }
+        }
+    }
 }
 
 Tile Level::getTile(int screenX, int screenY)
