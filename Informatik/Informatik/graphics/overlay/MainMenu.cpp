@@ -8,14 +8,15 @@
 
 #include "MainMenu.hpp"
 
-static void onButtonPress(int)
+static void onButtonPress(Menu *menu, int buttonID)
 {
-    
+    printf("Button pressed\n");
+    menu->close(); // Close the menu that is currently open (Main Menu)
 }
 
 MainMenu::MainMenu()
 {
-    addElement(new Button(0, 0, 100, 25));
+    addElement(new Button(onButtonPress, 0, 0, 100, 25));
 }
 
 bool MainMenu::shouldWindowClose()

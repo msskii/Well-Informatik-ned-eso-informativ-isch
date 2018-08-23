@@ -58,7 +58,7 @@ void Level::update()
     {
         if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == GAME_LOOP) events[i].onTrigger(events[i], GAME_LOOP, this, events[i].arguments);
 
-        if(events[i].toStore.event_x + TILE_SIZE > player->_x && events[i].toStore.event_x < player->_x + PLAYER_WIDTH && events[i].toStore.event_y + TILE_SIZE > player->_y && events[i].toStore.event_y <= player->_y + PLAYER_HEIGHT)
+        if(events[i].toStore.event_x + events[i].toStore.event_w > player->_x && events[i].toStore.event_x < player->_x + PLAYER_WIDTH && events[i].toStore.event_y + events[i].toStore.event_h > player->_y && events[i].toStore.event_y < player->_y + PLAYER_HEIGHT)
         {
             // Player inside event
             if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == STEP_ON) events[i].onTrigger(events[i], STEP_ON, this, events[i].arguments);

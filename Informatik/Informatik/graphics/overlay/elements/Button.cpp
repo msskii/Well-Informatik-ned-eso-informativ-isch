@@ -8,12 +8,12 @@
 
 #include "Button.hpp"
 
-Button::Button(int _x, int _y, int _w, int _h) : x(_x), y(_y), w(_w), h(_h)
+Button::Button(buttonClickHandler bhandler, int _x, int _y, int _w, int _h) : handler(bhandler), x(_x), y(_y), w(_w), h(_h)
 {
     
 }
 
-Button::Button(int _x, int _y, int _w, int _h, int bid) : x(_x), y(_y), w(_w), h(_h), id(bid)
+Button::Button(buttonClickHandler bhandler, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), id(bid)
 {
     
 }
@@ -32,5 +32,14 @@ void Button::processEvent(Menu* menu, SDL_Event e)
     if(e.type == SDL_MOUSEMOTION)
     {
         hoverOver = e.button.x >= x && e.button.x <= x + w && e.button.y >= y && e.button.y <= y + h;
+    }
+    else if(e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        hoverOver = e.button.x >= x && e.button.x <= x + w && e.button.y >= y && e.button.y <= y + h;
+        if(e.button.button == SDL_BUTTON_LEFT && hoverOver)
+        {
+            clicked = true;
+            if(handler != nullptr) handler(menu, id);
+        }
     }
 }
