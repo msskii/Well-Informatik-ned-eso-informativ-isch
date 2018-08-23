@@ -13,6 +13,6 @@
 #define GAME_WIDTH 1080
 #define GAME_HEIGHT 720
 
-#define SPEED 200
+#define SPEED 10
 
 #endif /* config_h */
