@@ -28,12 +28,13 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     eventData.event_type_filter = STEP_ON;
     eventData.triggerAmount = 0; // As many times triggered as you want
     eventData.event_id_dependency = 0; // No Event needs to be triggered first
-
+    eventData.event_id = 0; // Auto increment & start from one
 
     events.push_back(Event(eventData, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
     
     eventData.event_x += TILE_SIZE * 2;
     eventData.triggerAmount = 1; // Triggered once
+    eventData.event_id_dependency = 1;
     eventData.event_type_filter = PLAYER_INTERACT;
     events.push_back(Event(eventData, new uint8_t[2] { LEFT, 2 * TILE_SIZE })); // Move player 2 down
 }

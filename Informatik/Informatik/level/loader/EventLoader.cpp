@@ -50,7 +50,7 @@ std::vector<Event> loadEventData(uint8_t *destination)
         
         uint8_t *arguments = (uint8_t*) malloc(num_args);
         memcpy(arguments, destination + sizeof(SerializedEvent), num_args);
-        Event e(evt.event_id, evt, arguments);
+        Event e(evt, arguments);
 
         events.push_back(e);
         destination += sizeof(SerializedEvent) + num_args;
