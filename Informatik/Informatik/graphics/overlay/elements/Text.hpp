@@ -13,7 +13,16 @@
 
 class Text : public Element
 {
+protected:
+    int x, y, w, h;
+    const char *text;
+
+public:
     
+    Text(const char *text, int x, int y, int w, int h);
+    
+    void render(SDL_Renderer *renderer) override;
+    void processEvent(Menu *menu, SDL_Event e) override;
 };
 
 #endif /* Text_hpp */

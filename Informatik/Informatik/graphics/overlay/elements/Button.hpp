@@ -18,6 +18,7 @@ class Button : public Element
 {
 protected:
     int x, y, w, h;
+    const char *text;
     bool hoverOver = false;
     bool clicked = false;
     int id = buttonIDCounter++;
@@ -25,8 +26,8 @@ protected:
     buttonClickHandler handler;
     
 public:
-    Button(buttonClickHandler bhandler, int x, int y, int w, int h);
-    Button(buttonClickHandler bhandler, int x, int y, int w, int h, int id);
+    Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h);
+    Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h, int id);
 
     void render(SDL_Renderer *renderer) override;
     void processEvent(Menu *menu, SDL_Event e) override;

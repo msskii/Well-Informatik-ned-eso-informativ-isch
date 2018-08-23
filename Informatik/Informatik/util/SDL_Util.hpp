@@ -24,6 +24,7 @@
 extern TTF_Font *font;
 
 extern void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y);
+extern void drawText(SDL_Renderer *renderer, const char *text, SDL_Color color, int x, int y, int w, int h);
 
 
 

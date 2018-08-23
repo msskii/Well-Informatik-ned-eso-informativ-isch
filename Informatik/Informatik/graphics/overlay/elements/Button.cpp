@@ -8,12 +8,12 @@
 
 #include "Button.hpp"
 
-Button::Button(buttonClickHandler bhandler, int _x, int _y, int _w, int _h) : handler(bhandler), x(_x), y(_y), w(_w), h(_h)
+Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t)
 {
     
 }
 
-Button::Button(buttonClickHandler bhandler, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), id(bid)
+Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t), id(bid)
 {
     
 }
@@ -24,7 +24,7 @@ void Button::render(SDL_Renderer *renderer)
     COLOR(renderer, (hoverOver ? 0xFF777777 : 0xFFFFFFFF)); // Full white or grayish... TODO: Textures
     SDL_RenderFillRect(renderer, &r);
     
-    drawText(renderer, "Button Test Text", {0xFF, 0x00, 0xFF, 0xFF}, x, y);
+    drawText(renderer, text, {0xFF, 0x00, 0xFF, 0xFF}, x, y, w, h);
 }
 
 void Button::processEvent(Menu* menu, SDL_Event e)
