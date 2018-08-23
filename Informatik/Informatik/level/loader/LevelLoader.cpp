@@ -8,6 +8,12 @@
 
 #include "LevelLoader.hpp"
 
+int readInt(uint8_t *&levelFile)
+{
+    levelFile += 4;
+    return ((uint32_t*)(levelFile - 4))[0];
+}
+
 Level *loadLevel(const char *path, int w, int h)
 {
     uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here

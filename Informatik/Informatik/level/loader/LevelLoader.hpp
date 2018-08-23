@@ -13,11 +13,7 @@
 #include "../Level.hpp"
 #include "EventLoader.hpp"
 
-static int readInt(uint8_t *&levelFile)
-{
-    levelFile += 4;
-    return ((uint32_t*)(levelFile - 4))[0];
-}
+extern int readInt(uint8_t *&levelFile);
 
 class LevelLoader
 {
