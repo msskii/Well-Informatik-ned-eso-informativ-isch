@@ -41,7 +41,7 @@ void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y,
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
     if(text)
     {
-        SDL_Rect dst = {x, y, srfc->w, srfc->h};
+        SDL_Rect dst = {x * srfc->w / w, y * srfc->h / h, srfc->w, srfc->h};
         SDL_RenderSetScale(renderer, (float) w / (float) srfc->w, (float) h / (float) srfc->h);
         SDL_RenderCopy(renderer, texture, NULL, &dst);
         SDL_RenderSetScale(renderer, 1, 1);
