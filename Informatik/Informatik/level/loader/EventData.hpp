@@ -44,6 +44,9 @@ typedef struct SerializedEvent // The core information of an event
     int event_w;
     int event_h;
     
+    int triggerAmount; // How many times the event can be triggered
+    int event_id_dependency; // Which event needs to be executed that this one becomes active
+    
     int event_id;
     int event_type_filter; // The filter which is EVENT_TYPE
     int event_action; // The action for this event. Number of arguments is in NUM_ARGS

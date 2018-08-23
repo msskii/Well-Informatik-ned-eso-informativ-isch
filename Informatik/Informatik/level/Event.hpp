@@ -12,14 +12,28 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include <map>
+
+#include "../util/SDL_Util.hpp"
 #include "loader/EventData.hpp"
 
 extern int event_id_counter;
+extern std::map<int, Event*> eventList;
+
+#pragma pack(push, 1)
+typedef struct EventState
+{
+    int timesTriggered = 0;
+} EventState;
+#pragma pack(pop)
 
 class Event
 {
-public:
+protected:
     eventFunc onTrigger = nullptr; // What does this event do
+    EventState state;
+    
+public:
     
     uint8_t *arguments; // The arguments for this event
     SerializedEvent toStore; // The actual event
@@ -29,6 +43,9 @@ public:
     
     Event(SerializedEvent eventData, uint8_t *args);
     Event(int id, SerializedEvent stored, uint8_t *args);
+    
+    void trigger(Event event, EVENT_TYPE type, Level *level, uint8_t *arguments);
+    void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 
 

@@ -55,6 +55,8 @@ void Window::update()
     }
     
     level->player->updateMovement(x, y); // Update player movement
+    level->player->actionPressed = keyStates[SDL_SCANCODE_RETURN];
+    
     level->update(); // Update rest of level according to player
 }
 
