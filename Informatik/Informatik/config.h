@@ -10,9 +10,9 @@
 #define config_h
 
 #define GAME_TITLE "..."
-#define GAME_WIDTH 960
-#define GAME_HEIGHT 540
+#define GAME_WIDTH 1080
+#define GAME_HEIGHT 720
 
-#define SPEED 5
+#define SPEED 200
 
 #endif /* config_h */

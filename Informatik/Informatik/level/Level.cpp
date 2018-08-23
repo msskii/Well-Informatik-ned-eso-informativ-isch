@@ -17,7 +17,10 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     }
     
     tiles[105].tileZ = 1;
-    tiles[106].tileZ = 1;
+    tiles[155].tileZ = 1;
+    tiles[205].tileZ = 1;
+    tiles[204].tileZ = 1;
+    tiles[206].tileZ = 1;
     
     events.push_back(Event(STEP_ON, MOVE_PLAYER, 6 * TILE_SIZE, 1 * TILE_SIZE, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
 }

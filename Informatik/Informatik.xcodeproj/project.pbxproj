@@ -358,7 +358,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9TPDPL7CQS;
+				DEVELOPMENT_TEAM = 8DMX39VBGM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/..",
 					"$(PROJECT_DIR)",
@@ -371,7 +371,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9TPDPL7CQS;
+				DEVELOPMENT_TEAM = 8DMX39VBGM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/..",
 					"$(PROJECT_DIR)",
