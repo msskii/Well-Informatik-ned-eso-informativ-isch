@@ -12,6 +12,8 @@
 
 int main(int argc, char **args)
 {
+    // LevelLoader("testlevel.level"); // Test loading level
+    
     Window w;
     w.runGameLoop();
     return 0;
