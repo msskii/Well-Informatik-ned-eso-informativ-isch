@@ -13,6 +13,8 @@
 		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
 		937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
+		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
+		937B0D6221301D1000C2051B /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D6021301D1000C2051B /* TextBox.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
@@ -64,6 +66,10 @@
 		937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
+		937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EventCreateMenu.cpp; sourceTree = "<group>"; };
+		937B0D5E21301BC600C2051B /* EventCreateMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EventCreateMenu.hpp; sourceTree = "<group>"; };
+		937B0D6021301D1000C2051B /* TextBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
+		937B0D6121301D1000C2051B /* TextBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextBox.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
 		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -186,6 +192,15 @@
 			path = util;
 			sourceTree = "<group>";
 		};
+		937B0D5C21301BAD00C2051B /* editor */ = {
+			isa = PBXGroup;
+			children = (
+				937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */,
+				937B0D5E21301BC600C2051B /* EventCreateMenu.hpp */,
+			);
+			path = editor;
+			sourceTree = "<group>";
+		};
 		93D1C7CD212ADCBE004AACD1 /* entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +229,7 @@
 		93D47BA5212D4EE7007853BC /* overlay */ = {
 			isa = PBXGroup;
 			children = (
+				937B0D5C21301BAD00C2051B /* editor */,
 				93D47BAC212D8A92007853BC /* elements */,
 				93D47BA6212D4EF5007853BC /* Menu.cpp */,
 				93D47BA7212D4EF5007853BC /* Menu.hpp */,
@@ -235,6 +251,8 @@
 				93D47BB2212D9086007853BC /* Element.hpp */,
 				93D47BB7212D91F1007853BC /* Text.cpp */,
 				93D47BB8212D91F1007853BC /* Text.hpp */,
+				937B0D6021301D1000C2051B /* TextBox.cpp */,
+				937B0D6121301D1000C2051B /* TextBox.hpp */,
 			);
 			path = elements;
 			sourceTree = "<group>";
@@ -297,8 +315,10 @@
 			files = (
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
+				937B0D6221301D1000C2051B /* TextBox.cpp in Sources */,
 				93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */,
 				93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */,
+				937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */,
 				93D47BAF212D902A007853BC /* Button.cpp in Sources */,
 				93D47BA3212C4C85007853BC /* Entity.cpp in Sources */,
 				93D47B9A212C414B007853BC /* FileReader.cpp in Sources */,

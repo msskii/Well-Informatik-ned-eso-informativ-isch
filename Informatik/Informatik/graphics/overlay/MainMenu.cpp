@@ -12,9 +12,9 @@
 #define UNDEF_1 2
 #define UNDEF_2 3
 
-static void onButtonPress(Menu *menu, int buttonID)
+static void onButtonPress(Menu *menu, Button *button)
 {
-    switch (buttonID) {
+    switch (button->id) {
         case START_GAME:
             menu->close(); // Close the menu that is currently open (Main Menu)
             break;

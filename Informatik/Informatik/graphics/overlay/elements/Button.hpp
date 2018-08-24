@@ -11,12 +11,13 @@
 
 #include "Element.hpp"
 
-typedef void (*buttonClickHandler)(Menu *menu, int bID);
+class Button;
+typedef void (*buttonClickHandler)(Menu *menu, Button *button);
 static int buttonIDCounter = 0;
 
 class Button : public Element
 {
-protected:
+public:
     int x, y, w, h;
     const char *text;
     bool hoverOver = false;

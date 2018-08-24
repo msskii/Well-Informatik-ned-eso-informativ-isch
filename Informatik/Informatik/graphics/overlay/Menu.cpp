@@ -10,13 +10,12 @@
 
 void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 {
+    renderMenu(renderer);
+    for(int i = 0; i < elements.size(); i++) elements[i]->render(renderer);
+
     if(active)
     {
-        // Render menus
-        renderMenu(renderer);
-        updateMenu(keys);
-        
-        for(int i = 0; i < elements.size(); i++) elements[i]->render(renderer);
+        updateMenu(keys); // Update only if active
     }
     else if(under != nullptr)
     {
@@ -48,6 +47,13 @@ void Menu::open(Window *window)
     this->window = window;
     menuShouldBeClosed = false; // Just to make sure, if same menu is reopened
     onOpen();
+}
+
+void Menu::openSubMenu(Menu *menu)
+{
+    active = false;
+    under = menu;
+    menu->open(window);
 }
 
 void Menu::close()

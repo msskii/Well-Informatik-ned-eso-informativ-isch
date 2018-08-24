@@ -8,11 +8,20 @@
 
 #include "DebugOverlay.hpp"
 
+static void buttonClick(Menu *menu, Button *button)
+{
+    menu->openSubMenu(new EventCreateMenu());
+}
+
 static const char* updateDebugText(Menu *menu, DebugText *text)
 {
+    DebugOverlay *m = (DebugOverlay*) menu;
+    
     if(text->y == 000) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_x);
-    if(text->y == 100) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_y);
-    if(text->y == 200) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_z);
+    else if(text->y == 100) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_y);
+    else if(text->y == 200) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_z);
+    else if(text->y == 300) snprintf(text->buffer, text->maxLength + 1, text->format, m->eventIdCounter);
+    else if(text->y == 400) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->events[m->eventIdCounter].toStore.event_action);
 
     return text->buffer;
 }
@@ -24,6 +33,11 @@ DebugOverlay::DebugOverlay(Level *l) : level(l)
     addElement(new DebugText("Player X = %.0f", 40, updateDebugText, GAME_WIDTH - 500, 0, 500, 100));
     addElement(new DebugText("Player Y = %.0f", 40, updateDebugText, GAME_WIDTH - 500, 100, 500, 100));
     addElement(new DebugText("Player Z = %d", 40, updateDebugText, GAME_WIDTH - 500, 200, 500, 100));
+    
+    addElement(new DebugText("Event ID = %d", 40, updateDebugText, GAME_WIDTH - 500, 300, 500, 100));
+    addElement(new DebugText("Event Action = %d", 40, updateDebugText, GAME_WIDTH - 500, 400, 500, 100));
+    
+    addElement(new Button(buttonClick, "Add Event", GAME_WIDTH - 500, 500, 500, 100));
 }
 
 bool DebugOverlay::shouldWindowClose() {return false;}
@@ -37,7 +51,20 @@ void DebugOverlay::renderMenu(SDL_Renderer *renderer)
 
 void DebugOverlay::updateMenu(const uint8_t *keys)
 {
+    if(keys[SDL_SCANCODE_K])
+    {
+        if(!inc) ++eventIdCounter;
+        inc = true;
+    } else inc = false;
     
+    if(keys[SDL_SCANCODE_J])
+    {
+        if(!dec) --eventIdCounter;
+        dec = true;
+    } else dec = false;
+    
+    if(eventIdCounter < 0) eventIdCounter = 0;
+    if(eventIdCounter >= level->events.size()) eventIdCounter = (int) level->events.size() - 1;
 }
 
 void DebugOverlay::onOpen(){}
