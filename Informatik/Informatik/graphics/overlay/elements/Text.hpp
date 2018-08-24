@@ -18,8 +18,27 @@ protected:
     const char *text;
 
 public:
-    
     Text(const char *text, int x, int y, int w, int h);
+    
+    void render(SDL_Renderer *renderer) override;
+    void processEvent(Menu *menu, SDL_Event e) override;
+};
+
+
+class DebugText;
+typedef const char* (*textUpdate)(Menu *menu, DebugText *text);
+
+class DebugText : public Element
+{
+public:
+    textUpdate updater;
+    int x, y, w, h;
+    const char *format;
+    int maxLength;
+    char *buffer;
+    
+public:
+    DebugText(const char* format, int ml, textUpdate updater, int x, int y, int w, int h);
     
     void render(SDL_Renderer *renderer) override;
     void processEvent(Menu *menu, SDL_Event e) override;

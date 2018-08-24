@@ -38,12 +38,14 @@ void Menu::updateElements(SDL_Event e)
 Element *Menu::addElement(Element *e)
 {
     elements.push_back(e);
+    e->addToMenu(this);
     return e;
 }
 
-void Menu::open()
+void Menu::open(Window *window)
 {
     active = true;
+    this->window = window;
     menuShouldBeClosed = false; // Just to make sure, if same menu is reopened
     onOpen();
 }

@@ -7,3 +7,8 @@
 //
 
 #include "Element.hpp"
+
+void Element::addToMenu(Menu *menu)
+{
+    this->menu = menu;
+}

@@ -19,3 +19,8 @@ curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"
 echo -n "A" | unzip font.zip
 rm -rf __MACOSX
 rm -f font.zip
+
+curl "https://www.1001freefonts.com/d/5742/raleway.zip" -o "font.zip"
+echo -n "A" | unzip font.zip
+rm -rf __MACOSX
+rm -f font.zip

@@ -17,8 +17,11 @@ class Element // Full definition of the element class, as used by the menus
 {
 protected:
     // Helper functions like draw circles or draw text?
+    Menu *menu;
     
 public:
+    void addToMenu(Menu *menu);
+    
     virtual void render(SDL_Renderer *renderer) = 0;
     virtual void processEvent(Menu *menu, SDL_Event e) = 0; // Like update, but with all events like mouse
 };

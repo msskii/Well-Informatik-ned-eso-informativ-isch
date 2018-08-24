@@ -1,6 +1,7 @@
 SDL2.framework/**
 SDL2_ttf.framework/**
 *.ttf
+OFL.txt
 License.txt
 *.xcuserstate
 xcuserdata/

@@ -17,6 +17,8 @@
 #define GAME_WIDTH 1920
 #define GAME_HEIGHT 1080
 
+#define DEBUG_OVERLAY
+
 // 16 to 9 ratio?
 #ifdef HIGH_RESOLUTION
 #  define WINDOW_WIDTH GAME_WIDTH

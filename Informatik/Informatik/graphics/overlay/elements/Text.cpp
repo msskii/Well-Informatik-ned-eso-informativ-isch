@@ -22,3 +22,18 @@ void Text::processEvent(Menu *menu, SDL_Event e)
 {
     
 }
+
+DebugText::DebugText(const char *frmt, int ml, textUpdate u, int _x, int _y, int _w, int _h) : format(frmt), maxLength(ml), updater(u), x(_x), y(_y), w(_w), h(_h)
+{
+    buffer = (char*) malloc(ml + 1); // Max length + null terminator
+}
+
+void DebugText::render(SDL_Renderer *renderer)
+{
+    drawText(renderer, updater(menu, this), 0xFF000000, x, y, w, h);
+}
+
+void DebugText::processEvent(Menu *menu, SDL_Event e)
+{
+    
+}
