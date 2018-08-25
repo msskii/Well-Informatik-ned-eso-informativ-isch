@@ -43,7 +43,7 @@ LevelLoader::LevelLoader(const char *path)
     uint32_t height = readInt(levelFile);
     
     level = new Level(width, height);
-    for(int i = 0; i < width * height; i++)
+    for(int i = 0; i < (int)(width * height); i++)
     {
         level->tiles[i].data = ((SerializedTile*) levelFile)[0];
         levelFile += sizeof(SerializedTile);
@@ -89,7 +89,7 @@ void LevelLoader::saveFile(const char *path)
     ((uint32_t*) levelFile)[1] = level->height;
     
     levelFile += 8; // Move pointer 8 to the front --> start of tiles
-    for(int i = 0; i < level->width * level->height; i++)
+    for(int i = 0; i < (int)(level->width * level->height); i++)
     {
         ((SerializedTile*) levelFile)[0] = level->tiles[i].data;
         levelFile += sizeof(SerializedTile);

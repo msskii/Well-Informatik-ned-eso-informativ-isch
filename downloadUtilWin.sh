@@ -21,6 +21,15 @@ cp SDL2_ttf/lib/x86/SDL2_ttf.dll Informatik/Debug/
 cp SDL2_ttf/lib/x86/zlib1.dll Informatik/Debug/
 cp SDL2_ttf/lib/x86/libfreetype-6.dll Informatik/Debug/
 
+# Delete old & Download & Install SDL2_net
+rm -rf SDL2_net/
+curl "https://www.libsdl.org/projects/SDL_net/release/SDL2_net-devel-2.0.1-VC.zip" -o "SDL2_net.zip"
+echo -n "A" | unzip SDL2_net.zip
+rm SDL2_net.zip
+mv SDL2_net-2.0.1/ SDL2_net
+
+cp SDL2_net/lib/x86/SDL2_net.dll Informatik/Debug/
+
 
 # Download & unzip fonts
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"

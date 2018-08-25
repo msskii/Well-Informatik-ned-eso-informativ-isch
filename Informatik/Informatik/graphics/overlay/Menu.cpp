@@ -27,7 +27,8 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
         under->render(renderer, keys); // Forward rendering process to submenu
         if(under->shouldWindowClose() || under->menuShouldBeClosed)
         {
-            under->onClose();
+			active = true;
+			under->onClose();
             under = nullptr;
             // delete under;
         }

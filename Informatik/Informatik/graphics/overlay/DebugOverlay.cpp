@@ -10,7 +10,8 @@
 
 static void buttonClick(Menu *menu, Button *button)
 {
-    menu->openSubMenu(new EventCreateMenu());
+	if (button->elementID == 0) menu->openSubMenu(new EventCreateMenu());
+	if (button->elementID == 1) menu->openSubMenu(new EventCreateMenu(&menu->window->level->events[((DebugOverlay*)menu)->eventIdCounter]));
 }
 
 static const char* updateDebugText(Menu *menu, DebugText *text)
@@ -38,6 +39,7 @@ DebugOverlay::DebugOverlay(Level *l) : level(l)
     addElement(new DebugText("Event Action = %d", 40, updateDebugText, GAME_WIDTH - 500, 400, 500, 100, 4));
     
     addElement(new Button(buttonClick, "Add Event", GAME_WIDTH - 500, 500, 500, 100, 0));
+	addElement(new Button(buttonClick, "Edit Event", GAME_WIDTH - 500, 600, 500, 100, 1));
 }
 
 bool DebugOverlay::shouldWindowClose() {return false;}

@@ -17,7 +17,8 @@ class EventCreateMenu : public Menu
 {
 public:
     EventCreateMenu();
-    
+	EventCreateMenu(Event *defaults);
+
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;
     void updateMenu(const uint8_t *keys) override;
