@@ -11,6 +11,9 @@
 		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
 		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
+		9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
+		9368D3142131A0BE005D6756 /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
+		9368D3192131A17B005D6756 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9368D3182131A17B005D6756 /* Tests.cpp */; };
 		937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
 		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
@@ -47,6 +50,7 @@
 				93D1C7DB212C3915004AACD1 /* SDL2.framework in CopyFiles */,
 				93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */,
 				937B0D6521317D4000C2051B /* SDL2_net.framework in CopyFiles */,
+				9368D3142131A0BE005D6756 /* SDL2_mixer.framework in CopyFiles */,
 				93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */,
 				937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */,
 			);
@@ -66,6 +70,9 @@
 		932D3225212ABB4A00DA45BD /* Tile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
 		932D3229212ABBBC00DA45BD /* FileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileReader.hpp; sourceTree = "<group>"; };
 		932D322E212ABC6700DA45BD /* Logger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
+		9368D3122131A0B5005D6756 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../SDL2_mixer.framework; sourceTree = "<group>"; };
+		9368D3172131A17B005D6756 /* Tests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tests.hpp; sourceTree = "<group>"; };
+		9368D3182131A17B005D6756 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
 		937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
@@ -112,6 +119,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93D47BB5212D91D7007853BC /* SDL2_ttf.framework in Frameworks */,
+				9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */,
 				93D1C7DA212C390F004AACD1 /* SDL2.framework in Frameworks */,
 				937B0D6421317D3100C2051B /* SDL2_net.framework in Frameworks */,
 			);
@@ -125,6 +133,7 @@
 			children = (
 				93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */,
 				937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */,
+				9368D3122131A0B5005D6756 /* SDL2_mixer.framework */,
 				937B0D6321317D3100C2051B /* SDL2_net.framework */,
 				93D47BB4212D91D7007853BC /* SDL2_ttf.framework */,
 				93D1C7D9212C390F004AACD1 /* SDL2.framework */,
@@ -145,6 +154,7 @@
 		932D320E212AB6E500DA45BD /* Informatik */ = {
 			isa = PBXGroup;
 			children = (
+				9368D3162131A161005D6756 /* tests */,
 				93D1C7CD212ADCBE004AACD1 /* entity */,
 				932D3227212ABBAC00DA45BD /* util */,
 				932D3220212ABAE200DA45BD /* level */,
@@ -196,6 +206,15 @@
 				93D47BBD212DE69C007853BC /* SDL_Util.cpp */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		9368D3162131A161005D6756 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				9368D3182131A17B005D6756 /* Tests.cpp */,
+				9368D3172131A17B005D6756 /* Tests.hpp */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 		937B0D5C21301BAD00C2051B /* editor */ = {
@@ -322,6 +341,7 @@
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
 				937B0D6221301D1000C2051B /* TextBox.cpp in Sources */,
+				9368D3192131A17B005D6756 /* Tests.cpp in Sources */,
 				93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */,
 				93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */,
 				937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */,
