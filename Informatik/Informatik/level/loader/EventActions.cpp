@@ -7,7 +7,7 @@
 //
 
 #include "EventActions.hpp"
-#include "Level.hpp"
+#include "../Level.hpp"
 
 eventFunc resolveFunction(int action)
 {

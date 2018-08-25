@@ -38,7 +38,7 @@ public:
     inline Element *getElement(int i)
     {
         int num = 0;
-        for(int i = 0; i < elements.size(); i++)
+        for(int i = 0; i < (int)elements.size(); i++)
         {
             if(typeid(elements[i]) == typeid(T)) ++num;
             if(num == i) return elements[i];

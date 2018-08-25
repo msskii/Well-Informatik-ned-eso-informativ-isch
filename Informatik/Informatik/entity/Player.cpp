@@ -17,10 +17,10 @@ bool Player::isInside(float dx, float dy)
 {
     if(_x + dx < 0 || _x + dx >= TILE_SIZE * level->width || _y + dy < 0 || _y + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
     
-    if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile(((_x + dx) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile(((_x + dx + PLAYER_WIDTH) / TILE_SIZE), ((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((_x + dx) / TILE_SIZE), (int)((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((_x + dx) / TILE_SIZE), (int)((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((_x + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((_x + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
     
     return false;
 }
@@ -64,8 +64,8 @@ void Player::updateMovement(float dx, float dy)
     
     if(_x < 0) _x = 0;
     if(_y < 0) _y = 0;
-    if(_x >= (level->width - 1) * TILE_SIZE) _x = (level->width - 1) * TILE_SIZE;
-    if(_y >= (level->height - 1) * TILE_SIZE) _y = (level->height - 1) * TILE_SIZE;
+    if(_x >= (level->width - 1) * TILE_SIZE) _x = (float)((level->width - 1) * TILE_SIZE);
+    if(_y >= (level->height - 1) * TILE_SIZE) _y = (float)((level->height - 1) * TILE_SIZE);
 }
 
 void Player::render(SDL_Renderer *renderer, int x, int y)

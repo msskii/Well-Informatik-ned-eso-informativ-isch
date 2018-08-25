@@ -84,7 +84,7 @@ void Window::update()
 void Window::openMenu(Menu *m)
 {
     menus.push_back(m);
-    for(int i = 0; i < menus.size(); i++) menus[i]->active = false; // Set the menus to not be active, that are beneath
+    for(int i = 0; i < (int) menus.size(); i++) menus[i]->active = false; // Set the menus to not be active, that are beneath
     m->active = true;
     m->open(this);
 }
@@ -93,7 +93,7 @@ void Window::render(SDL_Renderer *renderer)
 {
     level->render(renderer); // Render level, but don't update
     
-    for(int i = 0; i < menus.size(); i++)
+    for(int i = 0; i < (int) menus.size(); i++)
     {
         if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
         {
@@ -114,7 +114,7 @@ void Window::runGameLoop()
     {
         while(SDL_PollEvent(&e))
         {
-            for(int i = 0; i < menus.size(); i++) menus[i]->updateElements(e);
+            for(int i = 0; i < (int) menus.size(); i++) menus[i]->updateElements(e);
             
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)
@@ -132,7 +132,7 @@ void Window::runGameLoop()
         
         // Update & render
         bool toUpdate = true;
-        for(int i = 0; i < menus.size(); i++)
+        for(int i = 0; i < (int) menus.size(); i++)
         {
             menus[i]->updateElements(e);
             if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;

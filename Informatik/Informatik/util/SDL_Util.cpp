@@ -71,7 +71,7 @@ void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, 
     {
         float scaleX = SCALE_X * (float) w / (float) srfc->w;
         float scaleY = SCALE_Y * (float) h / (float) srfc->h;
-        float scale = fmin(scaleX, scaleY); // Smaller scale value
+        float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
         
         SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
         SDL_RenderSetScale(renderer, scale, scale); // Set scaling

@@ -64,7 +64,7 @@ void DebugOverlay::updateMenu(const uint8_t *keys)
     } else dec = false;
     
     if(eventIdCounter < 0) eventIdCounter = 0;
-    if(eventIdCounter >= level->events.size()) eventIdCounter = (int) level->events.size() - 1;
+    if(eventIdCounter >= (int)level->events.size()) eventIdCounter = (int) level->events.size() - 1;
 }
 
 void DebugOverlay::onOpen(){}

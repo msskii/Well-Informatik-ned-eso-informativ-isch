@@ -9,6 +9,9 @@
 #ifndef Logger_hpp
 #define Logger_hpp
 
+#include <stdlib.h>
+#include <cstdio>
+
 #define ERROR(msg) printf("[ERROR] %s\n", msg)
 #define INFO(msg) printf("[INFO] %s\n", msg)
 #define INFO_VAR(msg) printf("[INFO] %s", msg)

@@ -7,12 +7,20 @@ echo -n "A" | unzip SDL2.zip
 rm SDL2.zip
 mv SDL2-2.0.8/ SDL2
 
+mkdir Informatik/Debug/
+cp SDL2/lib/x86/SDL2.dll Informatik/Debug/
+
 # Delete old & Download & Install SDL2_ttf
 rm -rf SDL2_ttf/
 curl "https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.14-VC.zip" -o "SDL2_ttf.zip"
 echo -n "A" | unzip SDL2_ttf.zip
 rm SDL2_ttf.zip
 mv SDL2_ttf-2.0.14/ SDL2_ttf
+
+cp SDL2_ttf/lib/x86/SDL2_ttf.dll Informatik/Debug/
+cp SDL2_ttf/lib/x86/zlib1.dll Informatik/Debug/
+cp SDL2_ttf/lib/x86/libfreetype-6.dll Informatik/Debug/
+
 
 # Download & unzip fonts
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"

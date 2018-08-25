@@ -38,7 +38,7 @@ public:
     inline int getEventSize()
     {
         int es = 4 + (int) events.size() * sizeof(SerializedEvent);
-        for(int i = 0; i < events.size(); i++) es += NUM_ARGS[events[i].toStore.event_action];
+        for(int i = 0; i < (int) events.size(); i++) es += NUM_ARGS[events[i].toStore.event_action];
         return es;
     }
     

@@ -16,7 +16,7 @@ Menu::~Menu()
 void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 {
     renderMenu(renderer);
-    for(int i = 0; i < elements.size(); i++) elements[i]->render(renderer);
+    for(int i = 0; i < (int)elements.size(); i++) elements[i]->render(renderer);
 
     if(active)
     {
@@ -41,7 +41,7 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 
 void Menu::updateElements(SDL_Event e)
 {
-    if(under == nullptr) for(int i = 0; i < elements.size(); i++) elements[i]->processEvent(this, e);
+    if(under == nullptr) for(int i = 0; i < (int) elements.size(); i++) elements[i]->processEvent(this, e);
     else under->updateElements(e);
 }
 

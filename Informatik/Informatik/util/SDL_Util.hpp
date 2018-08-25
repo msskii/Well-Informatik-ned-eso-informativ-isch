@@ -13,7 +13,7 @@
 #  include <SDL2/SDL.h> // Other path than on windows
 #  include <SDL2_ttf/SDL_ttf.h> // Don't know this one on windows...
 #else
-#  include <SDL2.h>
+#  include <SDL.h>
 #  include <SDL_ttf.h>
 #endif
 
