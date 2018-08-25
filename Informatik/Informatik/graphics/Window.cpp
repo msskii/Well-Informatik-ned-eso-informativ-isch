@@ -18,7 +18,7 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     }
 
     //font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
-    font = TTF_OpenFont("Raleway-Regular.ttf", 16); // Window opened = font initialized
+    font = TTF_OpenFont("Raleway-Regular.ttf", 50); // Window opened = font initialized
 
     if(!font)
     {
