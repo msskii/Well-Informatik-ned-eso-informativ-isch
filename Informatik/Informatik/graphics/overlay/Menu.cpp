@@ -8,6 +8,11 @@
 
 #include "Menu.hpp"
 
+Menu::~Menu()
+{
+    
+}
+
 void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 {
     renderMenu(renderer);
@@ -20,6 +25,12 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
     else if(under != nullptr)
     {
         under->render(renderer, keys); // Forward rendering process to submenu
+        if(under->shouldWindowClose() || under->menuShouldBeClosed)
+        {
+            under->onClose();
+            under = nullptr;
+            // delete under;
+        }
     }
     else
     {

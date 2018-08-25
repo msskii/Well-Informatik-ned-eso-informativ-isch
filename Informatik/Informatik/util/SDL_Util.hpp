@@ -27,7 +27,8 @@ extern TTF_Font *font;
 extern float SCALE_X, SCALE_Y;
 
 extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y);
-extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h);
+extern void drawTextFit(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h); // Scale to fit
+extern void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h); // Keep aspect ratio
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
 
 

@@ -16,7 +16,6 @@ class TextBox : public Element
 {
 protected:
     int x, y, w, h;
-    std::string currentText;
     
     bool defaultText = true;
     bool focus = false; // No default focus
@@ -24,7 +23,8 @@ protected:
     
 public:
     TextBox(const char *defaultText, int x, int y, int w, int h);
-    
+    std::string currentText;
+
     void render(SDL_Renderer *renderer) override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };

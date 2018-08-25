@@ -30,7 +30,7 @@ void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y)
     SDL_DestroyTexture(texture);
 }
 
-void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h) // With max width & height
+void drawTextFit(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h) // With max width & height
 {
     if(font == nullptr)
     {
@@ -46,6 +46,35 @@ void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y,
     {
         SDL_Rect dst = {x * srfc->w / w, y * srfc->h / h, srfc->w, srfc->h}; // Desination rect
         SDL_RenderSetScale(renderer, SCALE_X * (float) w / (float) srfc->w, SCALE_Y * (float) h / (float) srfc->h); // Set scaling
+        SDL_RenderCopy(renderer, texture, NULL, &dst); // Render stuff
+        SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y); // Reset scale
+    }
+    
+    // Clean up
+    SDL_FreeSurface(srfc);
+    SDL_DestroyTexture(texture);
+}
+
+void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h)
+{
+    if(font == nullptr)
+    {
+        INFO("Font not yet initialized");
+        return;
+    }
+    
+    SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color));
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
+    if(texture == nullptr) return;
+    
+    if(text)
+    {
+        float scaleX = SCALE_X * (float) w / (float) srfc->w;
+        float scaleY = SCALE_Y * (float) h / (float) srfc->h;
+        float scale = fmin(scaleX, scaleY); // Smaller scale value
+        
+        SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
+        SDL_RenderSetScale(renderer, scale, scale); // Set scaling
         SDL_RenderCopy(renderer, texture, NULL, &dst); // Render stuff
         SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y); // Reset scale
     }
@@ -132,6 +161,8 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
             return shift ? '(' : '8';
         case SDL_SCANCODE_9:
             return shift ? ')' : '9';
+        case SDL_SCANCODE_BACKSPACE:
+            return '\x08';
         case SDL_SCANCODE_SPACE:
             return ' ';
         case SDL_SCANCODE_LSHIFT: // No characters for this key

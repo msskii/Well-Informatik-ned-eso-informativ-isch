@@ -8,9 +8,29 @@
 
 #include "EventCreateMenu.hpp"
 
+static void buttonClick(Menu *menu, Button *button)
+{
+    if(button->id == 0)
+    {
+        menu->close();
+    }
+    else if(button->id == 1)
+    {
+        SerializedEvent evt;
+        uint8_t *args = nullptr;
+        menu->window->level->events[atoi(((TextBox*)menu->getElement<TextBox>(0))->currentText.c_str())] = Event(evt, args);
+        menu->close();
+    }
+}
+
 EventCreateMenu::EventCreateMenu()
 {
-    addElement(new TextBox("TestBox", 0, 0, 500, 125));
+    addElement(new TextBox("ID", 0, 0, 500, 100));
+    addElement(new TextBox("X", 0, 100, 500, 100));
+    addElement(new TextBox("Y", 0, 200, 500, 100));
+
+    addElement(new Button(buttonClick, "Ok", 325, 400, 100, 100, 0));
+    addElement(new Button(buttonClick, "Cancel", 0, 400, 250, 100, 1));
 }
 
 bool EventCreateMenu::shouldWindowClose() { return false; }

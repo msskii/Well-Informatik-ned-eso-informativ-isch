@@ -13,7 +13,6 @@
 
 class Button;
 typedef void (*buttonClickHandler)(Menu *menu, Button *button);
-static int buttonIDCounter = 0;
 
 class Button : public Element
 {
@@ -22,12 +21,11 @@ public:
     const char *text;
     bool hoverOver = false;
     bool clicked = false;
-    int id = buttonIDCounter++;
+    int id = 0;
     
     buttonClickHandler handler;
     
 public:
-    Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h);
     Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h, int id);
 
     void render(SDL_Renderer *renderer) override;

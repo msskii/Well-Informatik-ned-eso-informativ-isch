@@ -10,6 +10,8 @@
 #define EventCreateMenu_hpp
 
 #include "../Menu.hpp"
+#include <string>
+#include <stdint.h>
 
 class EventCreateMenu : public Menu
 {

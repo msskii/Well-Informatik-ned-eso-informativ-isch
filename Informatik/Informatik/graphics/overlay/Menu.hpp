@@ -32,6 +32,20 @@ public:
     Element *addElement(Element *e);
     
 public:
+    ~Menu();
+    
+    template <class T>
+    inline Element *getElement(int i)
+    {
+        int num = 0;
+        for(int i = 0; i < elements.size(); i++)
+        {
+            if(typeid(elements[i]) == typeid(T)) ++num;
+            if(num == i) return elements[i];
+        }
+        return nullptr;
+    }
+    
     void render(SDL_Renderer *renderer, const uint8_t *keys);
     void openSubMenu(Menu *menu);
     void open(Window *window);

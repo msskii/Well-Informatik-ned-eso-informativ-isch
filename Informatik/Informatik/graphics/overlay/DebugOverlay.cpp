@@ -37,7 +37,7 @@ DebugOverlay::DebugOverlay(Level *l) : level(l)
     addElement(new DebugText("Event ID = %d", 40, updateDebugText, GAME_WIDTH - 500, 300, 500, 100));
     addElement(new DebugText("Event Action = %d", 40, updateDebugText, GAME_WIDTH - 500, 400, 500, 100));
     
-    addElement(new Button(buttonClick, "Add Event", GAME_WIDTH - 500, 500, 500, 100));
+    addElement(new Button(buttonClick, "Add Event", GAME_WIDTH - 500, 500, 500, 100, 0));
 }
 
 bool DebugOverlay::shouldWindowClose() {return false;}

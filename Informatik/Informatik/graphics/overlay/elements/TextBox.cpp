@@ -15,7 +15,7 @@ TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h) : curr
 
 void TextBox::render(SDL_Renderer *renderer)
 {
-    drawText(renderer, currentText.c_str(), 0xFF000000, x, y, w, h);
+    drawTextAspect(renderer, currentText.c_str(), 0xFF000000, x, y, w, h);
 }
 
 void TextBox::processEvent(Menu *menu, SDL_Event e)
@@ -40,6 +40,7 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
             defaultText = false;
         }
         char c = scancodeToChar(e.key.keysym.scancode, (SDL_Keymod) e.key.keysym.mod);
-        if(c) currentText += c;
+        if(c && c != '\x08') currentText += c;
+        else if(c == '\x08') currentText.pop_back(); // Backspace
     }
 }
