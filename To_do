@@ -38,9 +38,9 @@ Tilemap-file: (planned, Not yet implemented)
 
 
 4						bytes: pathlength (For the textures, will be prefixed with "textures/")
-pathlenth				bytes: Path
+pathlength				bytes: Path
 
-As long as there is data:
+As long as there is data: Read Serialized data (because a tile is not just a texture)
 4						bytes: tilenumber (Coordinates can be retrieved from this)
 
 4						bits : Can walk through from direction x (Direction is defined in entity/Entity.hpp) --> (Bit x = 1 --> yes)

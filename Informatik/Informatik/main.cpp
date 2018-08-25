@@ -10,10 +10,14 @@
 #include "graphics/Window.hpp"
 #include "util/FileReader.hpp"
 
+#include "tests/Tests.hpp"
+
 int main(int argc, char **args)
 {
-    // LevelLoader("testlevel.level"); // Test loading level
+    // Tests::testLevelLoader();
+	// Tests::testSockets();
     
+
     Window w;
     w.runGameLoop();
     return 0;

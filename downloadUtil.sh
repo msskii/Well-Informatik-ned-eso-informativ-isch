@@ -24,6 +24,14 @@ cp -r /Volumes/SDL2_net/SDL2_net.framework .
 hdiutil eject /Volumes/SDL2_net
 rm SDL2_net.dmg
 
+# Download & Install SDL2_mixer
+rm -rf SDL2_mixer.framework/
+curl "https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.2.dmg" -o "SDL2_mixer.dmg"
+hdiutil mount SDL2_mixer.dmg
+cp -r /Volumes/SDL2_mixer/SDL2_mixer.framework .
+hdiutil eject /Volumes/SDL2_mixer
+rm SDL2_mixer.dmg
+
 # Download & unzip font
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"
 echo -n "A" | unzip font.zip

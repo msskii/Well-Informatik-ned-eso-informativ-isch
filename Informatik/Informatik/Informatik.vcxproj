@@ -70,20 +70,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SolutionDir)..\SDL2\lib\x86;$(SolutionDir)..\SDL2_ttf\lib\x86;$(SolutionDir)..\SDL2_net\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\SDL2\lib\x86;$(SolutionDir)..\SDL2_ttf\lib\x86;$(SolutionDir)..\SDL2_net\lib\x86;$(SolutionDir)..\SDL2_mixer\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SolutionDir)..\SDL2\lib\x86;$(SolutionDir)..\SDL2_ttf\lib\x86;$(SolutionDir)..\SDL2_net\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\SDL2\lib\x86;$(SolutionDir)..\SDL2_ttf\lib\x86;$(SolutionDir)..\SDL2_net\lib\x86;$(SolutionDir)..\SDL2_mixer\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)..\SDL2\lib\x64;$(SolutionDir)..\SDL2_ttf\lib\x64;$(SolutionDir)..\SDL2_net\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\SDL2\lib\x64;$(SolutionDir)..\SDL2_ttf\lib\x64;$(SolutionDir)..\SDL2_net\lib\x64;$(SolutionDir)..\SDL2_mixer\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(SolutionDir)..\SDL2\lib\x64;$(SolutionDir)..\SDL2_ttf\lib\x64;$(SolutionDir)..\SDL2_net\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\SDL2\lib\x64;$(SolutionDir)..\SDL2_ttf\lib\x64;$(SolutionDir)..\SDL2_net\lib\x64;$(SolutionDir)..\SDL2_mixer\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,7 +93,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -105,7 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,7 +120,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -136,7 +136,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -158,6 +158,7 @@
     <ClCompile Include="level\loader\LevelLoader.cpp" />
     <ClCompile Include="level\Tile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
     <ClCompile Include="util\SDL_Util.cpp" />
   </ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="level\loader\EventLoader.hpp" />
     <ClInclude Include="level\loader\LevelLoader.hpp" />
     <ClInclude Include="level\Tile.hpp" />
+    <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
     <ClInclude Include="util\Logger.hpp" />
     <ClInclude Include="util\SDL_Util.hpp" />

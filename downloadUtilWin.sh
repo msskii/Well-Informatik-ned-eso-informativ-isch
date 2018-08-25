@@ -30,6 +30,18 @@ mv SDL2_net-2.0.1/ SDL2_net
 
 cp SDL2_net/lib/x86/SDL2_net.dll Informatik/Debug/
 
+# Download & Install SDL2_mixer
+rm -rf SDL2_mixer/
+curl "https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.2-VC.zip" -o "SDL2_mixer.zip"
+echo -n "A" | unzip SDL2_mixer.zip
+rm SDL2_mixer.zip
+mv SDL2_mixer-2.0.2/ SDL2_mixer
+
+cp SDL2_mixer/lib/x86/SDL2_mixer.dll Informatik/Debug/
+cp SDL2_mixer/lib/x86/libogg-0.dll Informatik/Debug/
+cp SDL2_mixer/lib/x86/libvorbis-0.dll Informatik/Debug/
+cp SDL2_mixer/lib/x86/libvorbisfile-3.dll Informatik/Debug/
+cp SDL2_mixer/lib/x86/libmpg123-0.dll Informatik/Debug/
 
 # Download & unzip fonts
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"

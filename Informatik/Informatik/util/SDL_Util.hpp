@@ -13,10 +13,12 @@
 #  include <SDL2/SDL.h> // Other path than on windows
 #  include <SDL2_ttf/SDL_ttf.h>
 #  include <SDL2_net/SDL_net.h>
+#  include <SDL2_mixer/SDL_mixer.h>
 #else
 #  include <SDL.h>
 #  include <SDL_ttf.h>
 #  include <SDL_net.h>
+#  include <SDL_mixer.h>
 #endif
 
 #include "Logger.hpp"
