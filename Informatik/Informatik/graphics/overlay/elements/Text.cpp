@@ -10,7 +10,7 @@
 
 Text::Text(const char* t, int _x, int _y, int _w, int _h) : text(t), x(_x), y(_y), w(_w), h(_h)
 {
-    
+	
 }
 
 void Text::render(SDL_Renderer *renderer)
@@ -23,9 +23,10 @@ void Text::processEvent(Menu *menu, SDL_Event e)
     
 }
 
-DebugText::DebugText(const char *frmt, int ml, textUpdate u, int _x, int _y, int _w, int _h) : format(frmt), maxLength(ml), updater(u), x(_x), y(_y), w(_w), h(_h)
+DebugText::DebugText(const char *frmt, int ml, textUpdate u, int _x, int _y, int _w, int _h, int id) : format(frmt), maxLength(ml), updater(u), x(_x), y(_y), w(_w), h(_h)
 {
     buffer = (char*) malloc(ml + 1); // Max length + null terminator
+	elementID = id;
 }
 
 void DebugText::render(SDL_Renderer *renderer)

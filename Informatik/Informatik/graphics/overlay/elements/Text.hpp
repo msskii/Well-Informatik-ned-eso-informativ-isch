@@ -38,7 +38,7 @@ public:
     char *buffer;
     
 public:
-    DebugText(const char* format, int ml, textUpdate updater, int x, int y, int w, int h);
+    DebugText(const char* format, int ml, textUpdate updater, int x, int y, int w, int h, int id);
     
     void render(SDL_Renderer *renderer) override;
     void processEvent(Menu *menu, SDL_Event e) override;

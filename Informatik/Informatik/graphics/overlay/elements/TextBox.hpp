@@ -22,7 +22,7 @@ protected:
     bool hoverOver = false;
     
 public:
-    TextBox(const char *defaultText, int x, int y, int w, int h);
+    TextBox(const char *defaultText, int x, int y, int w, int h, int id);
     std::string currentText;
 
     void render(SDL_Renderer *renderer) override;

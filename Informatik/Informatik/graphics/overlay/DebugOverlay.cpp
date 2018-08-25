@@ -30,12 +30,12 @@ DebugOverlay::DebugOverlay(Level *l) : level(l)
 {
     shouldLevelBeUpdated = true;
     
-    addElement(new DebugText("Player X = %.0f", 40, updateDebugText, GAME_WIDTH - 500, 0, 500, 100));
-    addElement(new DebugText("Player Y = %.0f", 40, updateDebugText, GAME_WIDTH - 500, 100, 500, 100));
-    addElement(new DebugText("Player Z = %d", 40, updateDebugText, GAME_WIDTH - 500, 200, 500, 100));
+    addElement(new DebugText("Player X = %.0f", 40, updateDebugText, GAME_WIDTH - 500, 0, 500, 100, 0));
+    addElement(new DebugText("Player Y = %.0f", 40, updateDebugText, GAME_WIDTH - 500, 100, 500, 100, 1));
+    addElement(new DebugText("Player Z = %d", 40, updateDebugText, GAME_WIDTH - 500, 200, 500, 100, 2));
     
-    addElement(new DebugText("Event ID = %d", 40, updateDebugText, GAME_WIDTH - 500, 300, 500, 100));
-    addElement(new DebugText("Event Action = %d", 40, updateDebugText, GAME_WIDTH - 500, 400, 500, 100));
+    addElement(new DebugText("Event ID = %d", 40, updateDebugText, GAME_WIDTH - 500, 300, 500, 100, 3));
+    addElement(new DebugText("Event Action = %d", 40, updateDebugText, GAME_WIDTH - 500, 400, 500, 100, 4));
     
     addElement(new Button(buttonClick, "Add Event", GAME_WIDTH - 500, 500, 500, 100, 0));
 }

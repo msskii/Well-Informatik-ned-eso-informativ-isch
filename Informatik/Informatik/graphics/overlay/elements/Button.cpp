@@ -8,9 +8,9 @@
 
 #include "Button.hpp"
 
-Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t), id(bid)
+Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t)
 {
-    
+	elementID = bid;
 }
 
 void Button::render(SDL_Renderer *renderer)

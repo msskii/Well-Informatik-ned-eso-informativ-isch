@@ -14,7 +14,7 @@
 
 static void onButtonPress(Menu *menu, Button *button)
 {
-    switch (button->id) {
+    switch (button->elementID) {
         case START_GAME:
             menu->close(); // Close the menu that is currently open (Main Menu)
             break;

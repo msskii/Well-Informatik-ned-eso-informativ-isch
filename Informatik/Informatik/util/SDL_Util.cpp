@@ -161,6 +161,26 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
             return shift ? '(' : '8';
         case SDL_SCANCODE_9:
             return shift ? ')' : '9';
+		case SDL_SCANCODE_KP_0:
+			return shift ? '\0' : '0';
+		case SDL_SCANCODE_KP_1:
+			return shift ? '\0' : '1';
+		case SDL_SCANCODE_KP_2:
+			return shift ? '\0' : '2';
+		case SDL_SCANCODE_KP_3:
+			return shift ? '\0' : '3';
+		case SDL_SCANCODE_KP_4:
+			return shift ? '\0' : '4';
+		case SDL_SCANCODE_KP_5:
+			return shift ? '\0' : '5';
+		case SDL_SCANCODE_KP_6:
+			return shift ? '\0' : '6';
+		case SDL_SCANCODE_KP_7:
+			return shift ? '\0' : '7';
+		case SDL_SCANCODE_KP_8:
+			return shift ? '\0' : '8';
+		case SDL_SCANCODE_KP_9:
+			return shift ? '\0' : '9';
         case SDL_SCANCODE_BACKSPACE:
             return '\x08';
         case SDL_SCANCODE_SPACE:

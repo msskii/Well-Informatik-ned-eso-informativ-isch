@@ -35,14 +35,13 @@ public:
     ~Menu();
     
     template <class T>
-    inline Element *getElement(int i)
+    inline Element *getElement(int a)
     {
-        int num = 0;
         for(int i = 0; i < (int)elements.size(); i++)
         {
-            if(typeid(elements[i]) == typeid(T)) ++num;
-            if(num == i) return elements[i];
+            if(typeid(*elements[i]) == typeid(T) && elements[i]->elementID == a) return elements[i];
         }
+		printf("No element found with id: %d & typeid: %s\n", a, typeid(T).raw_name());
         return nullptr;
     }
     

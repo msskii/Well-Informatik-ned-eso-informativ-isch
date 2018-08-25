@@ -8,9 +8,9 @@
 
 #include "TextBox.hpp"
 
-TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h) : currentText(std::string(defaultText)), x(_x), y(_y), w(_w), h(_h)
+TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h, int id) : currentText(std::string(defaultText)), x(_x), y(_y), w(_w), h(_h)
 {
-    
+	elementID = id;
 }
 
 void TextBox::render(SDL_Renderer *renderer)

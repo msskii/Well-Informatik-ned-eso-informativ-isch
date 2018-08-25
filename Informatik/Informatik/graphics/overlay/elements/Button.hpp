@@ -21,7 +21,6 @@ public:
     const char *text;
     bool hoverOver = false;
     bool clicked = false;
-    int id = 0;
     
     buttonClickHandler handler;
     
