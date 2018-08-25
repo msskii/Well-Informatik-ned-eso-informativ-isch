@@ -1,6 +1,7 @@
 # No frameworks
 SDL2.framework/**
 SDL2_ttf.framework/**
+SDL2_net.framework/**
 
 # No libs & includes
 SDL2/**

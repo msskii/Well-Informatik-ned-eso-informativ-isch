@@ -39,9 +39,9 @@ public:
     {
         for(int i = 0; i < (int)elements.size(); i++)
         {
-            if(typeid(*elements[i]) == typeid(T) && elements[i]->elementID == a) return elements[i];
+            auto &element = *elements[i];
+            if(typeid(element) == typeid(T) && elements[i]->elementID == a) return elements[i];
         }
-		printf("No element found with id: %d & typeid: %s\n", a, typeid(T).raw_name());
         return nullptr;
     }
     
