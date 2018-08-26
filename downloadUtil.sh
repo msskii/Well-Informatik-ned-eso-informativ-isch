@@ -33,7 +33,7 @@ hdiutil eject /Volumes/SDL2_mixer
 rm SDL2_mixer.dmg
 
 # Download & Install SDL2_image
-rm -rf SDL2_mixer.framework/
+rm -rf SDL2_image.framework/
 curl "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.3.dmg" -o "SDL2_image.dmg"
 hdiutil mount SDL2_image.dmg
 cp -r /Volumes/SDL2_image/SDL2_image.framework .

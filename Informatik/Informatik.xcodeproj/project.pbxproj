@@ -14,6 +14,8 @@
 		9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3142131A0BE005D6756 /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3192131A17B005D6756 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9368D3182131A17B005D6756 /* Tests.cpp */; };
+		9368D31B2132A7A8005D6756 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
+		9368D31C2132A801005D6756 /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
 		937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
 		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
@@ -51,6 +53,7 @@
 				93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */,
 				937B0D6521317D4000C2051B /* SDL2_net.framework in CopyFiles */,
 				9368D3142131A0BE005D6756 /* SDL2_mixer.framework in CopyFiles */,
+				9368D31C2132A801005D6756 /* SDL2_image.framework in CopyFiles */,
 				93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */,
 				937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */,
 			);
@@ -73,6 +76,7 @@
 		9368D3122131A0B5005D6756 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../SDL2_mixer.framework; sourceTree = "<group>"; };
 		9368D3172131A17B005D6756 /* Tests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tests.hpp; sourceTree = "<group>"; };
 		9368D3182131A17B005D6756 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
+		9368D31A2132A7A8005D6756 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../SDL2_image.framework; sourceTree = "<group>"; };
 		937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 				9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */,
 				93D1C7DA212C390F004AACD1 /* SDL2.framework in Frameworks */,
 				937B0D6421317D3100C2051B /* SDL2_net.framework in Frameworks */,
+				9368D31B2132A7A8005D6756 /* SDL2_image.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +138,7 @@
 			children = (
 				93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */,
 				937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */,
+				9368D31A2132A7A8005D6756 /* SDL2_image.framework */,
 				9368D3122131A0B5005D6756 /* SDL2_mixer.framework */,
 				937B0D6321317D3100C2051B /* SDL2_net.framework */,
 				93D47BB4212D91D7007853BC /* SDL2_ttf.framework */,
