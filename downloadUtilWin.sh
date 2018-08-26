@@ -18,7 +18,7 @@ rm SDL2_ttf.zip
 mv SDL2_ttf-2.0.14/ SDL2_ttf
 
 cp SDL2_ttf/lib/x86/SDL2_ttf.dll Informatik/Debug/
-cp SDL2_ttf/lib/x86/zlib1.dll Informatik/Debug/
+# cp SDL2_ttf/lib/x86/zlib1.dll Informatik/Debug/ # Image has a more advanced zlib version
 cp SDL2_ttf/lib/x86/libfreetype-6.dll Informatik/Debug/
 
 # Delete old & Download & Install SDL2_net
@@ -42,6 +42,18 @@ cp SDL2_mixer/lib/x86/libogg-0.dll Informatik/Debug/
 cp SDL2_mixer/lib/x86/libvorbis-0.dll Informatik/Debug/
 cp SDL2_mixer/lib/x86/libvorbisfile-3.dll Informatik/Debug/
 cp SDL2_mixer/lib/x86/libmpg123-0.dll Informatik/Debug/
+
+# Download & Install SLD2_image
+rm -rf SDL2_image/
+curl "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.3-VC.zip" -o "SDL2_image.zip"
+echo -n "A" | unzip SDL2_image.zip
+rm SDL2_image.zip
+mv SDL2_image-2.0.3/ SDL2_image
+
+cp SDL2_image/lib/x86/SDL2_image.dll Informatik/Debug/
+cp SDL2_image/lib/x86/libjpeg-9.dll Informatik/Debug/
+cp SDL2_image/lib/x86/libpng16-16.dll Informatik/Debug/
+cp SDL2_image/lib/x86/zlib1.dll Informatik/Debug/
 
 # Download & unzip fonts
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"
