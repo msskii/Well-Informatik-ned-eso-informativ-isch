@@ -17,6 +17,7 @@
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
 #include "overlay/DebugOverlay.hpp"
+#include "overlay/DialogOverlay.hpp"
 
 #include "../util/SDL_Util.hpp"
 

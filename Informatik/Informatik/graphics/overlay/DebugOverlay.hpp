@@ -25,11 +25,11 @@ public:
     
     int eventIdCounter = 0;
     
-    bool shouldWindowClose();
-    void renderMenu(SDL_Renderer *renderer);
-    void updateMenu(const uint8_t *keys);
-    void onOpen();
-    void onClose();
+    bool shouldWindowClose() override;
+    void renderMenu(SDL_Renderer *renderer) override;
+    void updateMenu(const uint8_t *keys) override;
+    void onOpen() override;
+    void onClose() override;
 };
 
 #endif /* DebugOverlay_hpp */

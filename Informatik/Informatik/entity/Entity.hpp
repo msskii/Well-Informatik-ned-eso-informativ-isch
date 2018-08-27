@@ -18,4 +18,19 @@ enum DIRECTION
     RIGHT
 };
 
+typedef struct SerializedEntity
+{
+    int x_pos = 0;
+    int y_pos = 0;
+    
+} SerializedEntity;
+
+class Entity
+{
+protected:
+    
+public:
+    SerializedEntity data;
+};
+
 #endif /* Entity_hpp */

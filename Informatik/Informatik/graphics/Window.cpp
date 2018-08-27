@@ -52,7 +52,8 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     openMenu(new DebugOverlay(level));
 #endif
     
-    openMenu(new MainMenu());
+    // openMenu(new MainMenu()); // Skip main menu
+    openMenu(new DialogOverlay("Hello World!\nThis is a test..."));
     
     keyStates = SDL_GetKeyboardState(NULL);
 }

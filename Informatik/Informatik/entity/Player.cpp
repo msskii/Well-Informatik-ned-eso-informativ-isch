@@ -77,12 +77,12 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
-    if(walking && timer++ >= 60) // one second
+    if(walking && timer++ >= 10) // one second
     {
         timer = 0;
-        anim++;
+        anim = (anim + 1) % 4;
     }
-    else
+    else if(!walking)
     {
         timer = 0;
         anim = 0;
