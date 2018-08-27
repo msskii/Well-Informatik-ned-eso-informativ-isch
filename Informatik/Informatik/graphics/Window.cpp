@@ -11,15 +11,13 @@
 Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
     SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
-    
     if(TTF_Init() == -1) {
         printf("TTF_Init error: %s\n", TTF_GetError());
         exit(2);
     }
-
-    // Init image loading (JPG & PNG for now)
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
+    
     //font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
     font = TTF_OpenFont("Raleway-Regular.ttf", 50); // Window opened = font initialized
 
@@ -30,8 +28,6 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
         exit(0);
     }
     
-    TTF_SetFontOutline(font, 0);
-    
 #ifdef FULLSCREEN_ENABLED
     window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
 #else
@@ -39,14 +35,20 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
 #endif
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
     
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    
+    // Set up scaling
     int w, h;
     SDL_GetWindowSize(window, &w, &h);
     SCALE_X = (float) w / (float) GAME_WIDTH;
     SCALE_Y = (float) h / (float) GAME_HEIGHT;
     SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+    
+    // Set up keystates & level
+    keyStates = SDL_GetKeyboardState(NULL);
+    level->window = this;
+    
+    // Set up random stuff ( Debug & initial stuff on screen)
     
 #ifdef DEBUG_OVERLAY
     openMenu(new DebugOverlay(level));
@@ -55,29 +57,17 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     openMenu(new MainMenu()); // Skip main menu
     // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
     
-    keyStates = SDL_GetKeyboardState(NULL);
+    level->addEntity(new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0));
 }
 
 void Window::update()
 {
     // Put update stuff here
     float x = 0, y = 0;
-    if(keyStates[SDL_SCANCODE_UP])
-    {
-        y -= SPEED;
-    }
-    if(keyStates[SDL_SCANCODE_DOWN])
-    {
-        y += SPEED;
-    }
-    if(keyStates[SDL_SCANCODE_RIGHT])
-    {
-        x += SPEED;
-    }
-    if(keyStates[SDL_SCANCODE_LEFT])
-    {
-        x -= SPEED;
-    }
+    if(keyStates[SDL_SCANCODE_UP]) y -= SPEED;
+    if(keyStates[SDL_SCANCODE_DOWN]) y += SPEED;
+    if(keyStates[SDL_SCANCODE_RIGHT]) x += SPEED;
+    if(keyStates[SDL_SCANCODE_LEFT]) x -= SPEED;
     
     level->player->updateMovement(x, y); // Update player movement
     level->player->actionPressed = keyStates[SDL_SCANCODE_RETURN];
@@ -104,7 +94,6 @@ void Window::render(SDL_Renderer *renderer)
             if(i != 0) menus[menus.size() - 1]->active = true;
             menus[i]->onClose();
             menus.erase(menus.begin() + i);
-            INFO("Closing Menu...");
         } else menus[i]->render(renderer, keyStates);
     }
 }

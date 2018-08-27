@@ -17,6 +17,7 @@
 #include "loader/TextLoader.hpp"
 
 class Player;
+class Window;
 
 class Level
 {
@@ -24,7 +25,8 @@ private:
 public:
     Player *player; // The player in this level
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
-    std::vector<Event> events; // The events in this level
+    std::vector<Event*> events; // The events in this level
+    std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
     
     const char* audioFile = "default.wav";
@@ -32,24 +34,22 @@ public:
     const char* textFile = "test.text";
     
     TextLoader text = TextLoader(textFile);
-
+    Window *window = nullptr;
 public:
     Tile getTile(int xcoord, int ycoord);
     
     Level(int w, int h);
     
     void reloadFiles();
+    void addEntity(Entity *e); // To add an entity
     
-    inline int getLevelSize() { return 8 + width * height * sizeof(SerializedTile) + 12 + (int) strlen(audioFile) + (int) strlen(tileMapFile) + (int) strlen(textFile); }
-    inline int getEventSize()
-    {
-        int es = 4 + (int) events.size() * sizeof(SerializedEvent);
-        for(int i = 0; i < (int) events.size(); i++) es += NUM_ARGS[events[i].toStore.event_action];
-        return es;
-    }
+    int getLevelSize();
+    int getEventSize();
     
     void update();
     void render(SDL_Renderer *renderer);
 };
+
+#include "../graphics/Window.hpp"
 
 #endif /* Level_hpp */

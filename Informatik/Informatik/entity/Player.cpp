@@ -10,17 +10,32 @@
 
 Player::Player(Level *l) : level(l)
 {
-    surface = IMG_Load((TEXTURE_PATH + "player_boy.png").c_str());
+    player_surface = IMG_Load((TEXTURE_PATH + "player_boy.png").c_str());
+}
+
+// Helper function for intersections with other things (xpos & ypos are the players position while the rest are the parameters of the thing trying to compare to)
+bool intersectWith(int xpos1, int ypos1, int x, int y, int w, int h)
+{
+    if((xpos1) >= x && (xpos1) <= x + w && (ypos1) >= y && (ypos1) <= y + h) return true;
+    if((xpos1 + PLAYER_WIDTH) > x && (xpos1 + PLAYER_WIDTH) < x + w && (ypos1) > y && (ypos1) <= y + h) return true;
+    if((xpos1) >= x && (xpos1) <= x + w && (ypos1 + PLAYER_HEIGHT) > y && (ypos1 + PLAYER_HEIGHT) < y + h) return true;
+    if((xpos1 + PLAYER_WIDTH) > x && (xpos1 + PLAYER_WIDTH) < x + w && (ypos1 + PLAYER_HEIGHT) > y && (ypos1 + PLAYER_HEIGHT) < y + h) return true;
+    return false;
 }
 
 bool Player::isInside(float dx, float dy)
 {
-    if(realPosX + dx < 0 || realPosX + dx >= TILE_SIZE * level->width || realPosY + dy < 0 || realPosY + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
+    if(x_pos + dx < 0 || x_pos + dx >= TILE_SIZE * level->width || y_pos + dy < 0 || y_pos + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
     
-    if(level->getTile((int)((realPosX + dx) / TILE_SIZE), (int)((realPosY + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((realPosX + dx) / TILE_SIZE), (int)((realPosY + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((realPosX + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((realPosY + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((realPosX + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((realPosY + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx) / TILE_SIZE), (int)((y_pos + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((y_pos + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    
+    for(int i = 0; i < level->entities.size(); i++)
+    {
+        if(intersectWith(x_pos + dx, y_pos + dy, level->entities[i]->data.x_pos, level->entities[i]->data.y_pos, level->entities[i]->data.width, level->entities[i]->data.height)) return true;
+    }
     
     return false;
 }
@@ -57,6 +72,12 @@ void Player::updateMovement(float dx, float dy)
 {
     if(!inControl) return;
 
+    // Walking into stuff
+    if(dx > 0) direction = RIGHT;
+    else if(dx < 0) direction = LEFT;
+    else if(dy > 0) direction = DOWN;
+    else if(dy < 0) direction = UP;
+    
     correctMovement(dx, dy);
     
     walking = dx != 0 || dy != 0;
@@ -66,37 +87,37 @@ void Player::updateMovement(float dx, float dy)
     else if(dy > 0) direction = DOWN;
     else if(dy < 0) direction = UP;
     
-    realPosX += dx;
-    realPosY += dy;
+    x_pos += dx;
+    y_pos += dy;
     
-    if(realPosX < 0) realPosX = 0;
-    if(realPosY < 0) realPosY = 0;
-    if(realPosX >= (level->width - 1) * TILE_SIZE) realPosX = (float)((level->width - 1) * TILE_SIZE);
-    if(realPosY >= (level->height - 1) * TILE_SIZE) realPosY = (float)((level->height - 1) * TILE_SIZE);
+    if(x_pos < 0) x_pos = 0;
+    if(y_pos < 0) y_pos = 0;
+    if(x_pos >= (level->width - 1) * TILE_SIZE) x_pos = (float)((level->width - 1) * TILE_SIZE);
+    if(y_pos >= (level->height - 1) * TILE_SIZE) y_pos = (float)((level->height - 1) * TILE_SIZE);
     
-    _x = realPosX;
-    _y = realPosY;
+    _x = x_pos;
+    _y = y_pos;
     
     if(_x <= ((GAME_WIDTH + PLAYER_WIDTH) / 2))
     {
         _x = ((GAME_WIDTH + PLAYER_WIDTH) / 2);
-        xoff = ((GAME_WIDTH + PLAYER_WIDTH) / 2) - realPosX;
+        xoff = ((GAME_WIDTH + PLAYER_WIDTH) / 2) - x_pos;
     }
     else if(_x >= level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2))
     {
         _x = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2);
-        xoff = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - realPosX;
+        xoff = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - x_pos;
     }
     
     if(_y < ((GAME_HEIGHT + PLAYER_HEIGHT) / 2))
     {
         _y = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2);
-        yoff = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - realPosY;
+        yoff = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - y_pos;
     }
     else if(_y >= level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2))
     {
         _y = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2);
-        yoff = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - realPosY;
+        yoff = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - y_pos;
     }
 }
 
@@ -116,7 +137,7 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
     
     if(texture == nullptr)
     {
-        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        texture = SDL_CreateTextureFromSurface(renderer, player_surface);
         return;
     }
     

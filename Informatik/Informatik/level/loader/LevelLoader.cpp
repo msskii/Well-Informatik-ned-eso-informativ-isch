@@ -47,8 +47,8 @@ LevelLoader::LevelLoader(const char *path)
     level = new Level(width, height);
     for(int i = 0; i < (int)(width * height); i++)
     {
-        level->tiles[i].data = ((SerializedTile*) levelFile)[0];
-        levelFile += sizeof(SerializedTile);
+        level->tiles[i].data = ((TileData*) levelFile)[0];
+        levelFile += sizeof(TileData);
     }
     
     // Load background music
@@ -103,8 +103,8 @@ void LevelLoader::saveFile(const char *path)
     levelFile += 8; // Move pointer 8 to the front --> start of tiles
     for(int i = 0; i < (int)(level->width * level->height); i++)
     {
-        ((SerializedTile*) levelFile)[0] = level->tiles[i].data;
-        levelFile += sizeof(SerializedTile);
+        ((TileData*) levelFile)[0] = level->tiles[i].data;
+        levelFile += sizeof(TileData);
     }
     
     // Paths

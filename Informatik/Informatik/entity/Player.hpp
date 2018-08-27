@@ -13,8 +13,8 @@
 #include "../config.h"
 #include "../level/Level.hpp"
 
-#define PLAYER_WIDTH 100
-#define PLAYER_HEIGHT 100
+#define PLAYER_WIDTH 50
+#define PLAYER_HEIGHT 50
 #define PLAYER_OFFSET_X ((GAME_WIDTH + PLAYER_WIDTH) / 2)
 #define PLAYER_OFFSET_Y ((GAME_HEIGHT + PLAYER_HEIGHT) / 2)
 
@@ -25,21 +25,29 @@ class Level;
 class Player
 {
 private:
-    SDL_Surface *surface = nullptr;
+    SDL_Surface *player_surface = nullptr;
     SDL_Texture *texture = nullptr;
-    DIRECTION direction = DOWN;
-    
-public:
-    float realPosX = 0, realPosY = 0;
+
     float _x = 0, _y = 0; // Coordinates
     int xoff = 0, yoff = 0;
+
+public:
+    // Position
+    float x_pos = 0, y_pos = 0;
     uint8_t _z = 0; // Height level
+    
+    // Movement & control
     bool inControl = true; // Player can control himself by default
     bool actionPressed = false; // If the action key was pressed
+    DIRECTION direction = DOWN;
     
+    // Animation stuff
     bool walking = false;
     int anim = 0, timer = 0;
     
+    inline int getOffsetX() { return -_x; }
+    inline int getOffsetY() { return -_y; }
+
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);
     bool isInside(float dx, float dy);

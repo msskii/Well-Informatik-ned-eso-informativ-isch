@@ -9,6 +9,10 @@
 #ifndef Entity_hpp
 #define Entity_hpp
 
+#include "../util/SDL_Util.hpp"
+#include "../level/Tile.hpp"
+
+class Level;
 
 enum DIRECTION
 {
@@ -18,20 +22,32 @@ enum DIRECTION
     RIGHT
 };
 
-typedef struct SerializedEntity
+typedef struct EntityData
 {
-    int x_pos = 0;
-    int y_pos = 0;
+    float x_pos = 0;
+    float y_pos = 0;
+    
+    float width = TILE_SIZE;
+    float height = TILE_SIZE;
+    
     int maxhealth = 0;
-} SerializedEntity;
+} EntityData;
 
 class Entity
 {
 protected:
     
 public:
+    Level *level;
+    
     float health;
-    SerializedEntity data;
+    EntityData data;
+    void addedToLevel(Level *level);
+    
+    virtual void onAddToLevel(Level *level) = 0;
+    
+    virtual void render(SDL_Renderer *renderer, int xoff, int yoff) = 0;
+    virtual void update(const uint8_t *keys) = 0;
 };
 
 #endif /* Entity_hpp */

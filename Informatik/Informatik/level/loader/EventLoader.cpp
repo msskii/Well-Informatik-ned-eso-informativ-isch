@@ -10,28 +10,36 @@
 
 #include "EventActions.hpp"
 
-void saveEventData(uint8_t *destination, std::vector<Event> events)
+void saveEventData(uint8_t *destination, std::vector<Event*> events)
 {
     INFO_VAR("Saving Event data for ");
     PRINT_INT((int) events.size());
     PRINT_STRING(" events\n");
 
-    ((uint32_t*)destination)[0] = (uint32_t) events.size(); // Maximum of 2^32 events... I think that's enough
-    destination += 4; // uint32_t = 4 bytes
+    int numEvents = 0;
     for(int i = 0; i < (int) events.size(); i++)
     {
-        ((SerializedEvent*) destination)[0] = events[i].toStore;
+        if(events[i]->isStored) ++numEvents;
+    }
+    
+    ((uint32_t*)destination)[0] = numEvents; // Maximum of 2^32 events... I think that's enough
+    destination += 4; // uint32_t = 4 bytes
+    for(int i = 0; i < numEvents; i++)
+    {
+        if(!events[i]->isStored) continue;
+        
+        ((EventData*) destination)[0] = events[i]->event_data;
 
         // Copy parameters
-        memcpy(destination + sizeof(SerializedEvent), events[i].arguments, NUM_ARGS[events[i].toStore.event_action]);
+        memcpy(destination + sizeof(EventData), events[i]->arguments, NUM_ARGS[events[i]->event_data.event_action]);
         
-        destination += sizeof(SerializedEvent) + NUM_ARGS[events[i].toStore.event_action];
+        destination += sizeof(EventData) + NUM_ARGS[events[i]->event_data.event_action];
     }
 }
 
-std::vector<Event> loadEventData(uint8_t *destination)
+std::vector<Event*> loadEventData(uint8_t *destination)
 {
-    std::vector<Event> events;
+    std::vector<Event*> events;
     
     uint32_t size = ((uint32_t*)destination)[0];
     
@@ -43,17 +51,17 @@ std::vector<Event> loadEventData(uint8_t *destination)
     for(int i = 0; i < (int)size; i++)
     {
         
-        SerializedEvent evt = ((SerializedEvent*) destination)[0];
+        EventData evt = ((EventData*) destination)[0];
         uint8_t num_args = NUM_ARGS[evt.event_action];
 
         printf("[INFO] Loading Event: %d, with action: %d & argslength: %d\n", evt.event_id, evt.event_action, NUM_ARGS[evt.event_action]);
         
         uint8_t *arguments = (uint8_t*) malloc(num_args);
-        memcpy(arguments, destination + sizeof(SerializedEvent), num_args);
-        Event e(evt, arguments);
+        memcpy(arguments, destination + sizeof(EventData), num_args);
+        Event *e = new Event(evt, arguments);
 
         events.push_back(e);
-        destination += sizeof(SerializedEvent) + num_args;
+        destination += sizeof(EventData) + num_args;
     }
     
     return events;
