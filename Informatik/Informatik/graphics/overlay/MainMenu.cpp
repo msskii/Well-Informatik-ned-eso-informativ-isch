@@ -23,6 +23,7 @@ static void onButtonPress(Menu *menu, Button *button)
         case START_LEVEREDITOR:
             break;
         case QUIT_GAME:
+            exit(0);
             break;
         default:
             break;
@@ -35,7 +36,7 @@ static void onButtonPress(Menu *menu, Button *button)
 MainMenu::MainMenu()
 {
     addElement(new Button(onButtonPress, "Start Game", 100, 200, 400, 100, START_GAME));
-    addElement(new Button(onButtonPress, "Undef 1", 100, 300, 400, 100, START_LEVEREDITOR));
+    addElement(new Button(onButtonPress, "Level Editor", 100, 300, 400, 100, START_LEVEREDITOR));
     addElement(new Button(onButtonPress, "Quit", 100, 400, 400, 100, QUIT_GAME));
 }
 
