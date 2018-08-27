@@ -16,6 +16,7 @@
 		9368D3192131A17B005D6756 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9368D3182131A17B005D6756 /* Tests.cpp */; };
 		9368D31B2132A7A8005D6756 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
 		9368D31C2132A801005D6756 /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
+		936C12D32133B7EA00404679 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12D12133B7D800404679 /* textures */; };
 		937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
 		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
@@ -59,6 +60,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		936C12D22133B7DD00404679 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				936C12D32133B7EA00404679 /* textures in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +88,7 @@
 		9368D3172131A17B005D6756 /* Tests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tests.hpp; sourceTree = "<group>"; };
 		9368D3182131A17B005D6756 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
 		9368D31A2132A7A8005D6756 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../SDL2_image.framework; sourceTree = "<group>"; };
+		936C12D12133B7D800404679 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
@@ -136,6 +148,7 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				936C12D12133B7D800404679 /* textures */,
 				93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */,
 				937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */,
 				9368D31A2132A7A8005D6756 /* SDL2_image.framework */,
@@ -298,6 +311,7 @@
 				932D3208212AB6E500DA45BD /* Sources */,
 				932D3209212AB6E500DA45BD /* Frameworks */,
 				932D320A212AB6E500DA45BD /* CopyFiles */,
+				936C12D22133B7DD00404679 /* CopyFiles */,
 			);
 			buildRules = (
 			);

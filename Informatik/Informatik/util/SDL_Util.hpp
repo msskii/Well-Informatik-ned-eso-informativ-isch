@@ -23,7 +23,14 @@
 #  include <SDL_image.h>
 #endif
 
+#include <string>
 #include "Logger.hpp"
+
+#ifdef __APPLE__
+#  define TEXTURE_PATH std::string("textures/")
+#else
+#  define TEXTURE_PATH std::string("Informatik/textures/")
+#endif
 
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
 

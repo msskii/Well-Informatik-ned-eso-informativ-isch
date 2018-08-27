@@ -12,8 +12,8 @@
 
 enum DIRECTION
 {
-    UP = 0,
-    DOWN,
+    DOWN = 0,
+    UP,
     LEFT,
     RIGHT
 };

@@ -10,7 +10,7 @@
 
 Player::Player(Level *l) : level(l)
 {
-    
+    surface = IMG_Load((TEXTURE_PATH + "player_boy.png").c_str());
 }
 
 bool Player::isInside(float dx, float dy)
@@ -59,6 +59,13 @@ void Player::updateMovement(float dx, float dy)
 
     correctMovement(dx, dy);
     
+    walking = dx != 0 || dy != 0;
+    
+    if(dx > 0) direction = RIGHT;
+    else if(dx < 0) direction = LEFT;
+    else if(dy > 0) direction = DOWN;
+    else if(dy < 0) direction = UP;
+    
     _x += dx;
     _y += dy;
     
@@ -70,7 +77,24 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
-    SDL_Rect rect = {PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_WIDTH, PLAYER_HEIGHT};
-    SDL_RenderFillRect(renderer, &rect);
+    if(walking && timer++ >= 60) // one second
+    {
+        timer = 0;
+        anim++;
+    }
+    else
+    {
+        timer = 0;
+        anim = 0;
+    }
+    
+    if(texture == nullptr)
+    {
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        return;
+    }
+    
+    SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
+    SDL_Rect dst = {PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_WIDTH, PLAYER_HEIGHT};
+    SDL_RenderCopy(renderer, texture, &src, &dst);
 }

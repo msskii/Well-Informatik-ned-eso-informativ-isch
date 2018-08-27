@@ -3,7 +3,7 @@
 //  Informatik
 //
 //  Created by Aaron Hodel on 25.08.18.
-//  Copyright © 2018 Aaron Hodel. All rights reserved.
+//  Copyright ï¿½ 2018 Aaron Hodel. All rights reserved.
 //
 
 #ifndef Tests_hpp
@@ -17,6 +17,7 @@ namespace Tests
 	extern void testAudio();
 	extern void testSockets();
 	extern void testLevelLoader();
+    extern void testPNG();
 }
 
 

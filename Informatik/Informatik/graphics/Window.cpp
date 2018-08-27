@@ -17,6 +17,7 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
         exit(2);
     }
 
+    // Init image loading (JPG & PNG for now)
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     //font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
