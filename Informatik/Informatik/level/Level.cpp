@@ -10,7 +10,7 @@
 #include "loader/EventActions.hpp"
 
 Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player(new Player(this)) // Number of tiles
-{
+{    
     for(int i = 0; i < w * h; i++)
     {
         tiles[i] = Tile(i % w, i / w);
@@ -65,7 +65,7 @@ void Level::update()
     {
         if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == GAME_LOOP) events[i].trigger(events[i], GAME_LOOP, this, events[i].arguments);
 
-        if(events[i].toStore.event_x + events[i].toStore.event_w > player->_x && events[i].toStore.event_x < player->_x + PLAYER_WIDTH && events[i].toStore.event_y + events[i].toStore.event_h > player->_y && events[i].toStore.event_y < player->_y + PLAYER_HEIGHT)
+        if(events[i].toStore.event_x + events[i].toStore.event_w > player->realPosX && events[i].toStore.event_x < player->realPosX + PLAYER_WIDTH && events[i].toStore.event_y + events[i].toStore.event_h > player->realPosY && events[i].toStore.event_y < player->realPosY + PLAYER_HEIGHT)
         {
             // Player inside event
             if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == STEP_ON) events[i].trigger(events[i], STEP_ON, this, events[i].arguments);
@@ -76,6 +76,11 @@ void Level::update()
             }
         }
     }
+}
+
+void Level::reloadFiles()
+{
+    text = TextLoader(textFile);
 }
 
 Tile Level::getTile(int screenX, int screenY)
