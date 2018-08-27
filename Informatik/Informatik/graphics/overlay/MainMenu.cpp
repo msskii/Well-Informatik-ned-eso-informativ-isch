@@ -13,12 +13,24 @@ static void onButtonPress(Menu *menu, int buttonID)
 {
     printf("Button pressed\n");
     menu->close(); // Close the menu that is currently open (Main Menu)
+    
+    switch (buttonID)
+    {
+        
+        
+        
+    }
+    
+    
 }
+
+
 
 MainMenu::MainMenu()
 {
-    addElement(new Button(onButtonPress, "Start Game", 0, 0, 100, 25));
-    addElement(new Text("Test", 0, 25, 100, 25));
+    addElement(new Button(onButtonPress, "Start Game", (GAME_WIDTH / 2 -100), (GAME_HEIGHT/2 + -100), 200, 50));
+    addElement(new Button(onButtonPress, "Level Editor", GAME_WIDTH / 2 -100 , GAME_HEIGHT/2 -25, 200,50));
+    addElement(new Button(onButtonPress, "Quit", (GAME_WIDTH / 2 -100), (GAME_HEIGHT/2 + 50), 200, 50));
 }
 
 bool MainMenu::shouldWindowClose()
