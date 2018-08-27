@@ -30,6 +30,7 @@ class Entity
 protected:
     
 public:
+    float health;
     SerializedEntity data;
 };
 

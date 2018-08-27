@@ -102,7 +102,8 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
-    if(walking && timer++ >= 10) // one second
+    //animation speed scales with player speed
+    if(walking && (timer++ * SPEED) >= 50)
     {
         timer = 0;
         anim = (anim + 1) % 4;
