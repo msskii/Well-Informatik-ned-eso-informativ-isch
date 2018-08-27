@@ -9,6 +9,13 @@
 #ifndef NPC_hpp
 #define NPC_hpp
 
+#include "Entity.hpp"
 
+class NPC
+{
+public:
+    float xPos = 0, yPos = 0;
+    NPC(float xPos, float yPos, int level);
+};
 
 #endif /* NPC_hpp */

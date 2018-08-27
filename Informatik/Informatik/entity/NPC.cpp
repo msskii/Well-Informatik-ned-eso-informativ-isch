@@ -7,3 +7,8 @@
 //
 
 #include "NPC.hpp"
+
+NPC::NPC()
+{
+    
+}
