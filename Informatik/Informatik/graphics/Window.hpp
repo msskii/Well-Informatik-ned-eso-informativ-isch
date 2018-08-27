@@ -16,17 +16,20 @@
 
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
+#include "overlay/DebugOverlay.hpp"
+#include "overlay/DialogOverlay.hpp"
 
 #include "../util/SDL_Util.hpp"
 
 class Window
 {
-private:
+public:
     SDL_Window *window;
     SDL_Renderer *renderer;
     const uint8_t *keyStates;
     
-    Menu *menu = new MainMenu();
+    // Menu *menu = new MainMenu();
+    std::vector<Menu*> menus; // All open menus
     Level *level;
     
     bool running = false;

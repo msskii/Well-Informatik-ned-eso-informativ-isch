@@ -41,15 +41,15 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
 
 void Level::render(SDL_Renderer *renderer) // and update
 {
-    int xoffset = -player->_x;
-    int yoffset = -player->_y;
+    int xoffset = (int) -player->_x;
+    int yoffset = (int) -player->_y;
         
-    for(int i = 0; i < width * height; i++)
+    for(int i = 0; i < (int) (width * height); i++)
     {
         tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
     
-    for(int i = 0; i < events.size(); i++)
+    for(int i = 0; i < (int) events.size(); i++)
     {
         events[i].render(renderer, xoffset, yoffset);
     }
@@ -61,7 +61,7 @@ void Level::update()
 {
     // Update events & (soon) entities
     
-    for(int i = 0; i < events.size(); i++)
+    for(int i = 0; i < (int) events.size(); i++)
     {
         if(events[i].toStore.event_type_filter == ALL_EVENTS || events[i].toStore.event_type_filter == GAME_LOOP) events[i].trigger(events[i], GAME_LOOP, this, events[i].arguments);
 

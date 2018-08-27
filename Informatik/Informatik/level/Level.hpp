@@ -25,17 +25,20 @@ public:
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
     std::vector<Event> events; // The events in this level
     Tile *tiles; // The tiles
+    
+    const char* audioFile = "default.wav";
+    const char* tileMapFile = "default.tilemap";
 
 public:
     Tile getTile(int xcoord, int ycoord);
     
     Level(int w, int h);
     
-    inline int getLevelSize() { return 8 + width * height * sizeof(SerializedTile); }
+    inline int getLevelSize() { return 8 + width * height * sizeof(SerializedTile) + 8 + (int) strlen(audioFile) + (int) strlen(tileMapFile); }
     inline int getEventSize()
     {
         int es = 4 + (int) events.size() * sizeof(SerializedEvent);
-        for(int i = 0; i < events.size(); i++) es += NUM_ARGS[events[i].toStore.event_action];
+        for(int i = 0; i < (int) events.size(); i++) es += NUM_ARGS[events[i].toStore.event_action];
         return es;
     }
     

@@ -1,9 +1,37 @@
-SDL2.framework/**
-SDL2_ttf.framework/**
+# No frameworks
+SDL2.framework
+SDL2_ttf.framework
+SDL2_net.framework
+SDL2_mixer.framework
+SDL2_image.framework
+
+# No libs & includes
+SDL2
+SDL2_ttf
+SDL2_net
+SDL2_mixer
+SDL2_image
+
+# No text files or their licenses
 *.ttf
+OFL.txt
 License.txt
+
+# No xcode stuff except for the project
 *.xcuserstate
 xcuserdata/
 .DS_Store
+
+# No Visual Studio stuff except for the project
+.vs
+*.filters
+*.user
+Debug
+Release
+
+# Nothing special from sdl
 begin_code.h
 close_code.h
+
+# No user-created files from the game
+*.level

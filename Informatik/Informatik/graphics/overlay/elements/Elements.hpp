@@ -14,5 +14,6 @@
 // Add elements here
 #include "Button.hpp"
 #include "Text.hpp"
+#include "TextBox.hpp"
 
 #endif /* Elements_h */

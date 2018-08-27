@@ -15,7 +15,7 @@ uint8_t* readFile(const char *filePath)
 #ifdef __APPLE__
     f = fopen(filePath, "rb"); // Apple has the insecure version here
 #else
-    fopen_s(f, filePath, "rb"); // Windows has secure
+    fopen_s(&f, filePath, "rb"); // Windows has secure
 #endif
 
     if(f == nullptr)
@@ -40,7 +40,7 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
 #ifdef __APPLE__
     f = fopen(filePath, "wb"); // Apple has the insecure version here, fuck linux
 #else
-    fopen_s(f, filePath, "wb"); // Windows has securea
+    fopen_s(&f, filePath, "wb"); // Windows has secure
 #endif
 
     if(f == nullptr)

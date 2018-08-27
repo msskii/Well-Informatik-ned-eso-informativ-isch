@@ -15,6 +15,8 @@
 #include "elements/Elements.hpp"
 #include <vector>
 
+class Window;
+
 class Menu // Basic menu class to extend from
 {
 protected:
@@ -23,13 +25,29 @@ public:
     bool active = false; // Currently active?
     Menu *under = nullptr; // The menu that is under this one, so we can close one menu and go back to the last
     bool menuShouldBeClosed = false; // Used to close menus apart from the shouldwindowclose method
+    Window *window;
+    
+    bool shouldLevelBeUpdated = false; // Set to true for overlays like shops or minimaps
     
     Element *addElement(Element *e);
     
 public:
+    ~Menu();
+    
+    template <class T>
+    inline Element *getElement(int a)
+    {
+        for(int i = 0; i < (int)elements.size(); i++)
+        {
+            auto &element = *elements[i];
+            if(typeid(element) == typeid(T) && elements[i]->elementID == a) return elements[i];
+        }
+        return nullptr;
+    }
+    
     void render(SDL_Renderer *renderer, const uint8_t *keys);
     void openSubMenu(Menu *menu);
-    void open();
+    void open(Window *window);
     void close();
     void updateElements(SDL_Event e);
     
@@ -40,5 +58,7 @@ public:
     virtual void onOpen() = 0;
     virtual void onClose() = 0;
 };
+
+#include "../Window.hpp"
 
 #endif /* Menu_hpp */

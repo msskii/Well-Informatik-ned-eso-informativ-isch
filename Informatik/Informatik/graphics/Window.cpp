@@ -17,7 +17,12 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
         exit(2);
     }
 
-    font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
+    // Init image loading (JPG & PNG for now)
+	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+
+    //font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
+    font = TTF_OpenFont("Raleway-Regular.ttf", 50); // Window opened = font initialized
+
     if(!font)
     {
         ERROR("Couldn't open font file...");
@@ -25,11 +30,31 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
         exit(0);
     }
     
-    TTF_SetFontOutline(font, 1);
-
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH, GAME_HEIGHT, 0);
+    TTF_SetFontOutline(font, 0);
+    
+#ifdef FULLSCREEN_ENABLED
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
+#else
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+#endif
+    
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-        
+    
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    SCALE_X = (float) w / (float) GAME_WIDTH;
+    SCALE_Y = (float) h / (float) GAME_HEIGHT;
+    SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+    
+#ifdef DEBUG_OVERLAY
+    openMenu(new DebugOverlay(level));
+#endif
+    
+    // openMenu(new MainMenu()); // Skip main menu
+    openMenu(new DialogOverlay("Hello World!\nThis is a test..."));
+    
     keyStates = SDL_GetKeyboardState(NULL);
 }
 
@@ -62,23 +87,25 @@ void Window::update()
 
 void Window::openMenu(Menu *m)
 {
-    menu = m;
+    menus.push_back(m);
+    for(int i = 0; i < (int) menus.size(); i++) menus[i]->active = false; // Set the menus to not be active, that are beneath
     m->active = true;
-    m->open();
+    m->open(this);
 }
 
 void Window::render(SDL_Renderer *renderer)
 {
     level->render(renderer); // Render level, but don't update
     
-    if(menu != nullptr)
+    for(int i = 0; i < (int) menus.size(); i++)
     {
-        if(menu->shouldWindowClose() || menu->menuShouldBeClosed)
+        if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
         {
-            menu->onClose();
-            menu = nullptr;
+            if(i != 0) menus[menus.size() - 1]->active = true;
+            menus[i]->onClose();
+            menus.erase(menus.begin() + i);
             INFO("Closing Menu...");
-        } else menu->render(renderer, keyStates);
+        } else menus[i]->render(renderer, keyStates);
     }
 }
 
@@ -91,12 +118,20 @@ void Window::runGameLoop()
     {
         while(SDL_PollEvent(&e))
         {
-            if(menu != nullptr) menu->updateElements(e);
+            for(int i = 0; i < (int) menus.size(); i++) menus[i]->updateElements(e);
             
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)
             {
                 if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
+				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
+					int w, h;
+					SDL_GetWindowSize(window, &w, &h);
+					SCALE_X = (float)w / (float)GAME_WIDTH;
+					SCALE_Y = (float)h / (float)GAME_HEIGHT;
+					SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+				}
             }
             else if(e.type == SDL_KEYDOWN)
             {
@@ -108,7 +143,13 @@ void Window::runGameLoop()
         SDL_RenderClear(renderer); // Everything black
         
         // Update & render
-        if(menu == nullptr) update();
+        bool toUpdate = true;
+        for(int i = 0; i < (int) menus.size(); i++)
+        {
+            menus[i]->updateElements(e);
+            if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
+        }
+        if(toUpdate) update();
         render(renderer);
                 
         SDL_RenderPresent(renderer); // Draw & limit FPS

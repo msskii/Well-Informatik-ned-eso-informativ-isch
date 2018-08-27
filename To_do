@@ -1,7 +1,49 @@
-----------
+----------------------------------------------------------------
 Tasks:
 
 Level file: - How to store level data with its events
 Level handler: loads level data, and checks for events
 Event handler: handle events and update npcs
 Level Render: Renders the level with its Textures
+----------------------------------------------------------------
+
+Files:
+
+- Level (+ Events)
+- Tiles (Tilemap)
+
+
+----------------------------------------------------------------
+
+Level-file:
+
+4						bytes: Level width
+4						bytes: Level height
+width * height * size	bytes: Level Tiles (size is size of one SerializedTile thing)
+4						bytes: Music file path length
+length					bytes: Music file path
+4						bytes: Tilemap file path length
+length					bytes: Tilemap file path
+4						bytes: Number of events
+amount * size			bytes: Events (size is size of one SerializedEvent)
+
+For a total of 5 * 4 + (width * height * size) + musicPathLength + tileMapLength + (eventAmount * size) bytes in one level file
+
+For SerializedTile, look in level/Tile.hpp
+For SerializedEvent, look in level/loader/EventData.hpp
+
+----------------------------------------------------------------
+
+Tilemap-file: (planned, Not yet implemented)
+
+
+4						bytes: pathlength (For the textures, will be prefixed with "textures/")
+pathlength				bytes: Path
+
+As long as there is data: Read Serialized data (because a tile is not just a texture)
+4						bytes: tilenumber (Coordinates can be retrieved from this)
+
+4						bits : Can walk through from direction x (Direction is defined in entity/Entity.hpp) --> (Bit x = 1 --> yes)
+2						bits : Can walk through from Up / Down --> Stairs (And maybe only in one direction like a ledge)
+1						bit  : Transparency enabled (1 = Yes, 0 = No)
+1						bit  : animated (1 = Yes, 0 = No)

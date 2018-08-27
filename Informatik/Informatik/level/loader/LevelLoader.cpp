@@ -8,6 +8,12 @@
 
 #include "LevelLoader.hpp"
 
+int readInt(uint8_t *&levelFile)
+{
+    levelFile += 4;
+    return ((uint32_t*)(levelFile - 4))[0];
+}
+
 Level *loadLevel(const char *path, int w, int h)
 {
     uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here
@@ -31,17 +37,35 @@ LevelLoader::LevelLoader(const char *path)
     INFO("Loading Level");
 
     uint8_t *levelFile = readFile(path);
-    uint32_t width = ((uint32_t*)levelFile)[0];
-    uint32_t height = ((uint32_t*)levelFile)[1];
+    if(levelFile == nullptr) return;
+    
+    uint32_t width = readInt(levelFile);
+    uint32_t height = readInt(levelFile);
     
     level = new Level(width, height);
-    levelFile += 8; // two uint32_t
-    for(int i = 0; i < width * height; i++)
+    for(int i = 0; i < (int)(width * height); i++)
     {
-        level->tiles[i].data = ((SerializedTile*) levelFile)[i];
+        level->tiles[i].data = ((SerializedTile*) levelFile)[0];
+        levelFile += sizeof(SerializedTile);
     }
-    levelFile += width * height * sizeof(SerializedTile);
     
+    // Load background music
+    uint32_t musicLength = readInt(levelFile);
+    char *musicPath = (char*) malloc(musicLength + 1); // With null terminator
+    memcpy(musicPath, levelFile, musicLength);
+    musicPath[musicLength] = 0;
+    level->audioFile = musicPath;
+    levelFile += musicLength;
+    
+    // Load TileMapFile
+    uint32_t tileMapLength = readInt(levelFile);
+    char *tileMapPath = (char*) malloc(tileMapLength + 1); // With null terminator
+    memcpy(tileMapPath, levelFile, tileMapLength);
+    tileMapPath[tileMapLength] = 0;
+    level->tileMapFile = tileMapPath;
+    levelFile += tileMapLength;
+
+    // Load events
     level->events = loadEventData(levelFile);
 }
 
@@ -65,17 +89,31 @@ void LevelLoader::saveFile(const char *path)
     ((uint32_t*) levelFile)[1] = level->height;
     
     levelFile += 8; // Move pointer 8 to the front --> start of tiles
-    for(int i = 0; i < level->width * level->height; i++)
+    for(int i = 0; i < (int)(level->width * level->height); i++)
     {
-        ((SerializedTile*) levelFile)[i] = level->tiles[i].data;
+        ((SerializedTile*) levelFile)[0] = level->tiles[i].data;
+        levelFile += sizeof(SerializedTile);
     }
-    levelFile -= 8; // Move pointer 8 to the back --> start of file
     
+    // Paths
+
+    int musicLength = (int) strlen(level->audioFile);
+
+    ((uint32_t*) levelFile)[0] = musicLength;
+    levelFile += 4;
+    memcpy(levelFile, level->audioFile, musicLength);
+    levelFile += musicLength;
     
-    levelFile += level->getLevelSize(); // End of current data
+    int tileMapLength = (int) strlen(level->tileMapFile);
+    ((uint32_t*) levelFile)[0] = tileMapLength;
+    levelFile += 4;
+    memcpy(levelFile, level->tileMapFile, tileMapLength);
+    levelFile += tileMapLength;
+
+    // Events
     saveEventData(levelFile, level->events); // Save events
     levelFile += level->getEventSize(); // End of current data
-
+    
     levelFile -= size; // Back to start
     writeFile(path, levelFile, size);
 }

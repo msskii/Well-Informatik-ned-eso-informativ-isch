@@ -11,22 +11,20 @@
 
 #include "Element.hpp"
 
-typedef void (*buttonClickHandler)(Menu *menu, int bID);
-static int buttonIDCounter = 0;
+class Button;
+typedef void (*buttonClickHandler)(Menu *menu, Button *button);
 
 class Button : public Element
 {
-protected:
+public:
     int x, y, w, h;
     const char *text;
     bool hoverOver = false;
     bool clicked = false;
-    int id = buttonIDCounter++;
     
     buttonClickHandler handler;
     
 public:
-    Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h);
     Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h, int id);
 
     void render(SDL_Renderer *renderer) override;

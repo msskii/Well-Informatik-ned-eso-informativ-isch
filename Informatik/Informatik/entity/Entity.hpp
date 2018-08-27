@@ -12,10 +12,25 @@
 
 enum DIRECTION
 {
-    UP = 0,
-    DOWN,
+    DOWN = 0,
+    UP,
     LEFT,
     RIGHT
+};
+
+typedef struct SerializedEntity
+{
+    int x_pos = 0;
+    int y_pos = 0;
+    
+} SerializedEntity;
+
+class Entity
+{
+protected:
+    
+public:
+    SerializedEntity data;
 };
 
 #endif /* Entity_hpp */

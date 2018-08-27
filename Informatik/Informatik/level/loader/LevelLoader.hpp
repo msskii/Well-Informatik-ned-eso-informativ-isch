@@ -13,6 +13,8 @@
 #include "../Level.hpp"
 #include "EventLoader.hpp"
 
+extern int readInt(uint8_t *&levelFile);
+
 class LevelLoader
 {
 private:

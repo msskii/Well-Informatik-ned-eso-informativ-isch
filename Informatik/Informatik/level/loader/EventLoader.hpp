@@ -9,7 +9,7 @@
 #ifndef EventLoader_hpp
 #define EventLoader_hpp
 
-#include "Level.hpp"
+#include "../Level.hpp"
 #include "../../util/Logger.hpp"
 
 extern void saveEventData(uint8_t *destination, std::vector<Event> events);

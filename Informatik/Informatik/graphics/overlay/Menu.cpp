@@ -8,19 +8,30 @@
 
 #include "Menu.hpp"
 
+Menu::~Menu()
+{
+    
+}
+
 void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 {
+    renderMenu(renderer);
+    for(int i = 0; i < (int)elements.size(); i++) elements[i]->render(renderer);
+
     if(active)
     {
-        // Render menus
-        renderMenu(renderer);
-        updateMenu(keys);
-        
-        for(int i = 0; i < elements.size(); i++) elements[i]->render(renderer);
+        updateMenu(keys); // Update only if active
     }
     else if(under != nullptr)
     {
         under->render(renderer, keys); // Forward rendering process to submenu
+        if(under->shouldWindowClose() || under->menuShouldBeClosed)
+        {
+			active = true;
+			under->onClose();
+            under = nullptr;
+            // delete under;
+        }
     }
     else
     {
@@ -31,21 +42,30 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 
 void Menu::updateElements(SDL_Event e)
 {
-    if(under == nullptr) for(int i = 0; i < elements.size(); i++) elements[i]->processEvent(this, e);
+    if(under == nullptr) for(int i = 0; i < (int) elements.size(); i++) elements[i]->processEvent(this, e);
     else under->updateElements(e);
 }
 
 Element *Menu::addElement(Element *e)
 {
     elements.push_back(e);
+    e->addToMenu(this);
     return e;
 }
 
-void Menu::open()
+void Menu::open(Window *window)
 {
     active = true;
+    this->window = window;
     menuShouldBeClosed = false; // Just to make sure, if same menu is reopened
     onOpen();
+}
+
+void Menu::openSubMenu(Menu *menu)
+{
+    active = false;
+    under = menu;
+    menu->open(window);
 }
 
 void Menu::close()

@@ -18,7 +18,7 @@ void saveEventData(uint8_t *destination, std::vector<Event> events)
 
     ((uint32_t*)destination)[0] = (uint32_t) events.size(); // Maximum of 2^32 events... I think that's enough
     destination += 4; // uint32_t = 4 bytes
-    for(int i = 0; i < events.size(); i++)
+    for(int i = 0; i < (int) events.size(); i++)
     {
         ((SerializedEvent*) destination)[0] = events[i].toStore;
 
@@ -40,7 +40,7 @@ std::vector<Event> loadEventData(uint8_t *destination)
     PRINT_STRING(" events\n");
     
     destination += 4; // uint32_t = 4 bytes
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < (int)size; i++)
     {
         
         SerializedEvent evt = ((SerializedEvent*) destination)[0];
