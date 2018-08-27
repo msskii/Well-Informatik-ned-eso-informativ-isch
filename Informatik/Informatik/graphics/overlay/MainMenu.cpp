@@ -7,32 +7,37 @@
 //
 
 #include "MainMenu.hpp"
+#include "config.h"
 
 #define START_GAME 1
-#define UNDEF_1 2
-#define UNDEF_2 3
+#define START_LEVEREDITOR 2
+#define QUIT_GAME 3
 
 static void onButtonPress(Menu *menu, Button *button)
 {
+
     switch (button->elementID) {
         case START_GAME:
             menu->close(); // Close the menu that is currently open (Main Menu)
             break;
-        case UNDEF_1:
+        case START_LEVEREDITOR:
             break;
-        case UNDEF_2:
+        case QUIT_GAME:
+            exit(0);
             break;
         default:
             break;
     }
-    
+
 }
+
+
 
 MainMenu::MainMenu()
 {
     addElement(new Button(onButtonPress, "Start Game", 100, 200, 400, 100, START_GAME));
-    addElement(new Button(onButtonPress, "Undef 1", 100, 300, 400, 100, UNDEF_1));
-    addElement(new Button(onButtonPress, "Undef 2", 100, 400, 400, 100, UNDEF_2));
+    addElement(new Button(onButtonPress, "Level Editor", 100, 300, 400, 100, START_LEVEREDITOR));
+    addElement(new Button(onButtonPress, "Quit", 100, 400, 400, 100, QUIT_GAME));
 }
 
 bool MainMenu::shouldWindowClose()
