@@ -7,6 +7,7 @@
 //
 
 #include "MainMenu.hpp"
+#include "config.h"
 
 static void onButtonPress(Menu *menu, int buttonID)
 {
