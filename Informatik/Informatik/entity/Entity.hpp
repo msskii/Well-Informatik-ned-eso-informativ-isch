@@ -22,7 +22,7 @@ typedef struct SerializedEntity
 {
     int x_pos = 0;
     int y_pos = 0;
-    
+    int maxhealth = 0;
 } SerializedEntity;
 
 class Entity
