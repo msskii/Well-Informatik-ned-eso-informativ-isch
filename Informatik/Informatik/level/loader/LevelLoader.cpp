@@ -19,7 +19,9 @@ Level *loadLevel(const char *path, int w, int h)
     uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here
     if(file == nullptr)
     {
-        return new Level(w, h);
+        Level *l = new Level(w, h);
+        l->reloadFiles();
+        return l;
     }
     else
     {
@@ -57,6 +59,14 @@ LevelLoader::LevelLoader(const char *path)
     level->audioFile = musicPath;
     levelFile += musicLength;
     
+    // Load text file
+    uint32_t textLength = readInt(levelFile);
+    char *textPath = (char*) malloc(textLength + 1); // With null terminator
+    memcpy(textPath, levelFile, textLength);
+    textPath[textLength] = 0;
+    level->textFile = textPath;
+    levelFile += textLength;
+    
     // Load TileMapFile
     uint32_t tileMapLength = readInt(levelFile);
     char *tileMapPath = (char*) malloc(tileMapLength + 1); // With null terminator
@@ -64,6 +74,8 @@ LevelLoader::LevelLoader(const char *path)
     tileMapPath[tileMapLength] = 0;
     level->tileMapFile = tileMapPath;
     levelFile += tileMapLength;
+    
+    level->reloadFiles();
 
     // Load events
     level->events = loadEventData(levelFile);
@@ -98,11 +110,16 @@ void LevelLoader::saveFile(const char *path)
     // Paths
 
     int musicLength = (int) strlen(level->audioFile);
-
     ((uint32_t*) levelFile)[0] = musicLength;
     levelFile += 4;
     memcpy(levelFile, level->audioFile, musicLength);
     levelFile += musicLength;
+    
+    int textLength = (int) strlen(level->textFile);
+    ((uint32_t*) levelFile)[0] = textLength;
+    levelFile += 4;
+    memcpy(levelFile, level->textFile, textLength);
+    levelFile += textLength;
     
     int tileMapLength = (int) strlen(level->tileMapFile);
     ((uint32_t*) levelFile)[0] = tileMapLength;

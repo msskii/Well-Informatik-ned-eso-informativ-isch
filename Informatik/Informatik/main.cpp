@@ -17,6 +17,7 @@ int main(int argc, char **args)
     // Tests::testLevelLoader();
 	// Tests::testSockets();
     // Tests::testPNG();
+    // Tests::testTextLoader();
 
     Window w;
     w.runGameLoop();

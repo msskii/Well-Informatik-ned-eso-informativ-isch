@@ -39,16 +39,16 @@ void move_player(Event event, EVENT_TYPE type, Level* level, uint8_t *args)
     switch(args[0])
     {
         case UP:
-            level->player->_y -= args[1];
+            level->player->realPosY -= args[1];
             break;
         case DOWN:
-            level->player->_y += args[1];
+            level->player->realPosY += args[1];
             break;
         case LEFT:
-            level->player->_x -= args[1];
+            level->player->realPosX -= args[1];
             break;
         case RIGHT:
-            level->player->_x += args[1];
+            level->player->realPosX += args[1];
             break;
     }
     

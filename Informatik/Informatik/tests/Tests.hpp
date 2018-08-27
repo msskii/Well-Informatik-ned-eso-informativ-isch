@@ -11,6 +11,7 @@
 
 #include "../util/SDL_Util.hpp"
 #include "../level/loader/LevelLoader.hpp"
+#include "../level/loader/TextLoader.hpp"
 
 namespace Tests
 {
@@ -18,6 +19,7 @@ namespace Tests
 	extern void testSockets();
 	extern void testLevelLoader();
     extern void testPNG();
+    extern void testTextLoader();
 }
 
 

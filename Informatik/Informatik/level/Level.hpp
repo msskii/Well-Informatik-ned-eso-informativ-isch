@@ -14,6 +14,7 @@
 #include "../entity/Player.hpp"
 #include <stdint.h>
 #include <vector>
+#include "loader/TextLoader.hpp"
 
 class Player;
 
@@ -28,13 +29,18 @@ public:
     
     const char* audioFile = "default.wav";
     const char* tileMapFile = "default.tilemap";
+    const char* textFile = "test.text";
+    
+    TextLoader text = TextLoader(textFile);
 
 public:
     Tile getTile(int xcoord, int ycoord);
     
     Level(int w, int h);
     
-    inline int getLevelSize() { return 8 + width * height * sizeof(SerializedTile) + 8 + (int) strlen(audioFile) + (int) strlen(tileMapFile); }
+    void reloadFiles();
+    
+    inline int getLevelSize() { return 8 + width * height * sizeof(SerializedTile) + 12 + (int) strlen(audioFile) + (int) strlen(tileMapFile) + (int) strlen(textFile); }
     inline int getEventSize()
     {
         int es = 4 + (int) events.size() * sizeof(SerializedEvent);

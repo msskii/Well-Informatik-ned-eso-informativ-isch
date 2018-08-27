@@ -18,8 +18,8 @@ static const char* updateDebugText(Menu *menu, DebugText *text)
 {
     DebugOverlay *m = (DebugOverlay*) menu;
     
-    if(text->y == 000) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_x);
-    else if(text->y == 100) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_y);
+    if(text->y == 000) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->realPosX);
+    else if(text->y == 100) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->realPosY);
     else if(text->y == 200) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_z);
     else if(text->y == 300) snprintf(text->buffer, text->maxLength + 1, text->format, m->eventIdCounter);
     else if(text->y == 400) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->events[m->eventIdCounter].toStore.event_action);

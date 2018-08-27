@@ -15,12 +15,12 @@ Player::Player(Level *l) : level(l)
 
 bool Player::isInside(float dx, float dy)
 {
-    if(_x + dx < 0 || _x + dx >= TILE_SIZE * level->width || _y + dy < 0 || _y + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
+    if(realPosX + dx < 0 || realPosX + dx >= TILE_SIZE * level->width || realPosY + dy < 0 || realPosY + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
     
-    if(level->getTile((int)((_x + dx) / TILE_SIZE), (int)((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((_x + dx) / TILE_SIZE), (int)((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((_x + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((_y + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((_x + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((_y + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((realPosX + dx) / TILE_SIZE), (int)((realPosY + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((realPosX + dx) / TILE_SIZE), (int)((realPosY + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((realPosX + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((realPosY + dy) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((realPosX + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((realPosY + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
     
     return false;
 }
@@ -66,13 +66,38 @@ void Player::updateMovement(float dx, float dy)
     else if(dy > 0) direction = DOWN;
     else if(dy < 0) direction = UP;
     
-    _x += dx;
-    _y += dy;
+    realPosX += dx;
+    realPosY += dy;
     
-    if(_x < 0) _x = 0;
-    if(_y < 0) _y = 0;
-    if(_x >= (level->width - 1) * TILE_SIZE) _x = (float)((level->width - 1) * TILE_SIZE);
-    if(_y >= (level->height - 1) * TILE_SIZE) _y = (float)((level->height - 1) * TILE_SIZE);
+    if(realPosX < 0) realPosX = 0;
+    if(realPosY < 0) realPosY = 0;
+    if(realPosX >= (level->width - 1) * TILE_SIZE) realPosX = (float)((level->width - 1) * TILE_SIZE);
+    if(realPosY >= (level->height - 1) * TILE_SIZE) realPosY = (float)((level->height - 1) * TILE_SIZE);
+    
+    _x = realPosX;
+    _y = realPosY;
+    
+    if(_x <= ((GAME_WIDTH + PLAYER_WIDTH) / 2))
+    {
+        _x = ((GAME_WIDTH + PLAYER_WIDTH) / 2);
+        xoff = ((GAME_WIDTH + PLAYER_WIDTH) / 2) - realPosX;
+    }
+    else if(_x >= level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2))
+    {
+        _x = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2);
+        xoff = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - realPosX;
+    }
+    
+    if(_y < ((GAME_HEIGHT + PLAYER_HEIGHT) / 2))
+    {
+        _y = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2);
+        yoff = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - realPosY;
+    }
+    else if(_y >= level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2))
+    {
+        _y = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2);
+        yoff = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - realPosY;
+    }
 }
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
@@ -95,6 +120,6 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
     }
     
     SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
-    SDL_Rect dst = {PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_WIDTH, PLAYER_HEIGHT};
+    SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, PLAYER_HEIGHT};
     SDL_RenderCopy(renderer, texture, &src, &dst);
 }
