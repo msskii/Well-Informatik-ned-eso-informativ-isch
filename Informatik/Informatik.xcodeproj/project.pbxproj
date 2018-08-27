@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D4276512133F636003F6411 /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D42764F2133F636003F6411 /* NPC.cpp */; };
 		932D3210212AB6E500DA45BD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D320F212AB6E500DA45BD /* main.cpp */; };
 		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
@@ -77,6 +78,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D42764F2133F636003F6411 /* NPC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
+		4D4276502133F636003F6411 /* NPC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPC.hpp; sourceTree = "<group>"; };
 		932D320C212AB6E500DA45BD /* Informatik */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Informatik; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D320F212AB6E500DA45BD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -262,6 +265,8 @@
 				93D1C7D0212ADCCE004AACD1 /* Player.hpp */,
 				93D47BA1212C4C85007853BC /* Entity.cpp */,
 				93D47BA2212C4C85007853BC /* Entity.hpp */,
+				4D42764F2133F636003F6411 /* NPC.cpp */,
+				4D4276502133F636003F6411 /* NPC.hpp */,
 			);
 			path = entity;
 			sourceTree = "<group>";
@@ -381,6 +386,7 @@
 				93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */,
 				936C12D62133D03A00404679 /* DialogOverlay.cpp in Sources */,
 				937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */,
+				4D4276512133F636003F6411 /* NPC.cpp in Sources */,
 				93D47BAF212D902A007853BC /* Button.cpp in Sources */,
 				93D47BA3212C4C85007853BC /* Entity.cpp in Sources */,
 				93D47B9A212C414B007853BC /* FileReader.cpp in Sources */,
