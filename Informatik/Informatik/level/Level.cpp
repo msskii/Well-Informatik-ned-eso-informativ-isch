@@ -37,6 +37,8 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     eventData.event_id_dependency = 1;
     eventData.event_type_filter = PLAYER_INTERACT;
     events.push_back(Event(eventData, new uint8_t[2] { LEFT, 2 * TILE_SIZE })); // Move player 2 down
+    
+    player->updateMovement(0, 0); // Update player before level loads
 }
 
 void Level::render(SDL_Renderer *renderer) // and update

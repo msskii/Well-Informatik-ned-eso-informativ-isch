@@ -52,8 +52,8 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     openMenu(new DebugOverlay(level));
 #endif
     
-    // openMenu(new MainMenu()); // Skip main menu
-    openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
+    openMenu(new MainMenu()); // Skip main menu
+    // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
     
     keyStates = SDL_GetKeyboardState(NULL);
 }
