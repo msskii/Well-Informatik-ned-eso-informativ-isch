@@ -34,16 +34,17 @@ void NPC::onInteractWith()
 {
     bool isFacingMe = false;
     
-    isFacingMe |= level->player->x_pos < data.x_pos + data.width && level->player->direction == RIGHT;
-    isFacingMe |= level->player->x_pos > data.x_pos && level->player->direction == LEFT;
-    isFacingMe |= level->player->y_pos < data.y_pos + data.height && level->player->direction == DOWN;
-    isFacingMe |= level->player->y_pos > data.y_pos && level->player->direction == UP;
+    isFacingMe |= level->player->x_pos + PLAYER_WIDTH / 2 < data.x_pos + data.width / 2 && level->player->direction == RIGHT;
+    isFacingMe |= level->player->x_pos + PLAYER_WIDTH / 2 > data.x_pos + data.width / 2  && level->player->direction == LEFT;
+    isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && level->player->direction == DOWN;
+    isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && level->player->direction == UP;
 
     if(isFacingMe)
     {
         if(numsTriggered < 3) level->window->openMenu(new DialogOverlay("Hello There\nPlayer\n"));
         else level->window->openMenu(new DialogOverlay("Could you stop\ntalking to me?\n"));
     }
+    
     ++numsTriggered;
 }
 
