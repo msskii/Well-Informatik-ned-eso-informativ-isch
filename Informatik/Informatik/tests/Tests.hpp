@@ -12,14 +12,17 @@
 #include "../util/SDL_Util.hpp"
 #include "../level/loader/LevelLoader.hpp"
 #include "../level/loader/TextLoader.hpp"
+#include "../entity/loader/NPCLoader.hpp"
 
 namespace Tests
 {
 	extern void testAudio();
 	extern void testSockets();
 	extern void testLevelLoader();
-    extern void testPNG();
     extern void testTextLoader();
+    extern void testNPCLoader();
+
+    extern void testPNG();
 }
 
 

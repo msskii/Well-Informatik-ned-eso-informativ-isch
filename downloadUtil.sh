@@ -40,6 +40,8 @@ cp -r /Volumes/SDL2_image/SDL2_image.framework .
 hdiutil eject /Volumes/SDL2_image
 rm SDL2_image.dmg
 
+
+cd assets/fonts
 # Download & unzip font
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"
 echo -n "A" | unzip font.zip

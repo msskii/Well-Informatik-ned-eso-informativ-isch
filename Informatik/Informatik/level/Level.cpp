@@ -30,13 +30,13 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     eventData.event_id_dependency = 0; // No Event needs to be triggered first
     eventData.event_id = 0; // Auto increment & start from one
 
-    events.push_back(new Event(eventData, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
+    events.push_back(new Event(eventData, new uint8_t[2] { DOWN, 3 * TILE_SIZE })); // Move player 2 down
     
     eventData.event_x += TILE_SIZE * 4;
     eventData.triggerAmount = 1; // Triggered once
     eventData.event_id_dependency = 1;
     eventData.event_type_filter = PLAYER_INTERACT;
-    events.push_back(new Event(eventData, new uint8_t[2] { LEFT, 2 * TILE_SIZE })); // Move player 2 down
+    events.push_back(new Event(eventData, new uint8_t[2] { UP, 3 * TILE_SIZE })); // Move player 2 down
     
     player->updateMovement(0, 0); // Update player before level loads
 }
@@ -94,16 +94,16 @@ void Level::update()
     
     for(int i = 0; i < (int) events.size(); i++)
     {
-        if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == GAME_LOOP) events[i]->trigger(events[i], GAME_LOOP, this, events[i]->arguments);
+        if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == GAME_LOOP) events[i]->trigger(GAME_LOOP, this);
 
         if(events[i]->event_data.event_x + events[i]->event_data.event_w > player->x_pos && events[i]->event_data.event_x < player->x_pos + PLAYER_WIDTH && events[i]->event_data.event_y + events[i]->event_data.event_h > player->y_pos && events[i]->event_data.event_y < player->y_pos + PLAYER_HEIGHT)
         {
             // Player inside event
-            if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == STEP_ON) events[i]->trigger(events[i], STEP_ON, this, events[i]->arguments);
+            if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == STEP_ON) events[i]->trigger(STEP_ON, this);
                         
             if(player->actionPressed)
             {
-                if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == PLAYER_INTERACT) events[i]->trigger(events[i], PLAYER_INTERACT, this, events[i]->arguments);
+                if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == PLAYER_INTERACT) events[i]->trigger(PLAYER_INTERACT, this);
             }
         }
     }

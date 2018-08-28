@@ -25,6 +25,7 @@ NPC::NPC(float xPos, float yPos, int level)
     
     evt.event_type_filter = PLAYER_INTERACT;
     evt.event_action = NPC_INTERACT;
+    evt.event_id = 0;
     
     event = new Event(evt, (uint8_t*) this);
     event->isStored = false; // Don't store it in the level file
@@ -39,13 +40,27 @@ void NPC::onInteractWith()
     isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && level->player->direction == DOWN;
     isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && level->player->direction == UP;
 
-    if(isFacingMe)
+    if(isFacingMe && currentText < (int) texts.size())
     {
-        if(numsTriggered < 3) level->window->openMenu(new DialogOverlay("Hello There\nPlayer\n"));
-        else level->window->openMenu(new DialogOverlay("Could you stop\ntalking to me?\n"));
+        NPCText text = texts[currentText];
+        level->window->openMenu(new DialogOverlay(text.text));
+        
+        // printf("Displaying text...\n");
+        
+        if(text.eventTriggered > 0)
+        {
+            for(int i = 0; i < (int) level->events.size(); i++)
+            {
+                if(text.eventTriggered == level->events[i]->event_data.event_id) level->events[i]->trigger(NPC_FINISHED_TALKING, level);
+            }
+        }
+        
+        if(++currentNumTriggered >= text.timesDisplayed && text.timesDisplayed > 0)
+        {
+            ++currentText;
+            currentNumTriggered = 0;
+        }
     }
-    
-    ++numsTriggered;
 }
 
 void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)
@@ -55,7 +70,7 @@ void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)
     //data.y_pos += (rand() % 3) - 1;
 
     COLOR(renderer, 0xFF000000);
-    SDL_Rect r = {(int) data.x_pos + xoff + PLAYER_OFFSET_X, (int) data.y_pos + yoff + PLAYER_OFFSET_Y, 50, 50};
+    SDL_Rect r = {(int) data.x_pos + xoff + PLAYER_OFFSET_X, (int) data.y_pos + yoff + PLAYER_OFFSET_Y, (int) data.width, (int) data.height};
     SDL_RenderFillRect(renderer, &r);
 }
 

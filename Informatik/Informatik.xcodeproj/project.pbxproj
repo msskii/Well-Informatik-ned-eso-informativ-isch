@@ -13,27 +13,26 @@
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
 		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
 		9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
-		9368D3142131A0BE005D6756 /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
+		9368D3142131A0BE005D6756 /* SDL2_mixer.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3192131A17B005D6756 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9368D3182131A17B005D6756 /* Tests.cpp */; };
 		9368D31B2132A7A8005D6756 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
-		9368D31C2132A801005D6756 /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
-		936C12D32133B7EA00404679 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12D12133B7D800404679 /* textures */; };
+		9368D31C2132A801005D6756 /* SDL2_image.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 9368D31A2132A7A8005D6756 /* SDL2_image.framework */; };
 		936C12D62133D03A00404679 /* DialogOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12D42133D03A00404679 /* DialogOverlay.cpp */; };
 		936C12D92133E3A900404679 /* TextLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12D72133E3A900404679 /* TextLoader.cpp */; };
-		936C12DB2133E61F00404679 /* test.text in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12DA2133E61B00404679 /* test.text */; };
-		936C12DD21353A1B00404679 /* test.npc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12DC21353A1200404679 /* test.npc */; };
 		936C12E221353A4000404679 /* NPCLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12E021353A4000404679 /* NPCLoader.cpp */; };
-		937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */; };
+		936C12EA213550FB00404679 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12E9213550F700404679 /* data */; };
+		936C12EB213550FE00404679 /* fonts in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12E8213550F700404679 /* fonts */; };
+		936C12EC2135510100404679 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12E7213550F600404679 /* textures */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
 		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
 		937B0D6221301D1000C2051B /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D6021301D1000C2051B /* TextBox.cpp */; };
 		937B0D6421317D3100C2051B /* SDL2_net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 937B0D6321317D3100C2051B /* SDL2_net.framework */; };
-		937B0D6521317D4000C2051B /* SDL2_net.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 937B0D6321317D3100C2051B /* SDL2_net.framework */; };
+		937B0D6521317D4000C2051B /* SDL2_net.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 937B0D6321317D3100C2051B /* SDL2_net.framework */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
 		93D1C7DA212C390F004AACD1 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D1C7D9212C390F004AACD1 /* SDL2.framework */; };
-		93D1C7DB212C3915004AACD1 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D1C7D9212C390F004AACD1 /* SDL2.framework */; };
+		93D1C7DB212C3915004AACD1 /* SDL2.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 93D1C7D9212C390F004AACD1 /* SDL2.framework */; };
 		93D47B9A212C414B007853BC /* FileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47B99212C414B007853BC /* FileReader.cpp */; };
 		93D47B9D212C41A6007853BC /* EventLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47B9B212C41A6007853BC /* EventLoader.cpp */; };
 		93D47BA0212C433C007853BC /* EventActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47B9E212C433C007853BC /* EventActions.cpp */; };
@@ -43,38 +42,36 @@
 		93D47BAF212D902A007853BC /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BAD212D902A007853BC /* Button.cpp */; };
 		93D47BB3212D9086007853BC /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB1212D9086007853BC /* Element.cpp */; };
 		93D47BB5212D91D7007853BC /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
-		93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
+		93D47BB6212D91DA007853BC /* SDL2_ttf.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
 		93D47BB9212D91F1007853BC /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB7212D91F1007853BC /* Text.cpp */; };
-		93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */; };
 		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		932D320A212AB6E500DA45BD /* CopyFiles */ = {
+		932D320A212AB6E500DA45BD /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				93D1C7DB212C3915004AACD1 /* SDL2.framework in CopyFiles */,
-				93D47BB6212D91DA007853BC /* SDL2_ttf.framework in CopyFiles */,
-				937B0D6521317D4000C2051B /* SDL2_net.framework in CopyFiles */,
-				9368D3142131A0BE005D6756 /* SDL2_mixer.framework in CopyFiles */,
-				9368D31C2132A801005D6756 /* SDL2_image.framework in CopyFiles */,
-				936C12DD21353A1B00404679 /* test.npc in CopyFiles */,
-				936C12DB2133E61F00404679 /* test.text in CopyFiles */,
-				93D47BBC212DE2D3007853BC /* Ormont_Light.ttf in CopyFiles */,
-				937B0D58212FCF8700C2051B /* Raleway-Regular.ttf in CopyFiles */,
+				93D1C7DB212C3915004AACD1 /* SDL2.framework in Copy Files */,
+				93D47BB6212D91DA007853BC /* SDL2_ttf.framework in Copy Files */,
+				937B0D6521317D4000C2051B /* SDL2_net.framework in Copy Files */,
+				9368D3142131A0BE005D6756 /* SDL2_mixer.framework in Copy Files */,
+				9368D31C2132A801005D6756 /* SDL2_image.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		936C12D22133B7DD00404679 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
+			dstPath = assets;
 			dstSubfolderSpec = 16;
 			files = (
-				936C12D32133B7EA00404679 /* textures in CopyFiles */,
+				936C12EA213550FB00404679 /* data in CopyFiles */,
+				936C12EB213550FE00404679 /* fonts in CopyFiles */,
+				936C12EC2135510100404679 /* textures in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,16 +95,15 @@
 		9368D3172131A17B005D6756 /* Tests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tests.hpp; sourceTree = "<group>"; };
 		9368D3182131A17B005D6756 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
 		9368D31A2132A7A8005D6756 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../SDL2_image.framework; sourceTree = "<group>"; };
-		936C12D12133B7D800404679 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		936C12D42133D03A00404679 /* DialogOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DialogOverlay.cpp; sourceTree = "<group>"; };
 		936C12D52133D03A00404679 /* DialogOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DialogOverlay.hpp; sourceTree = "<group>"; };
 		936C12D72133E3A900404679 /* TextLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextLoader.cpp; sourceTree = "<group>"; };
 		936C12D82133E3A900404679 /* TextLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextLoader.hpp; sourceTree = "<group>"; };
-		936C12DA2133E61B00404679 /* test.text */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = test.text; path = ../test.text; sourceTree = "<group>"; };
-		936C12DC21353A1200404679 /* test.npc */ = {isa = PBXFileReference; lastKnownFileType = file; name = test.npc; path = ../test.npc; sourceTree = "<group>"; };
 		936C12E021353A4000404679 /* NPCLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPCLoader.cpp; sourceTree = "<group>"; };
 		936C12E121353A4000404679 /* NPCLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPCLoader.hpp; sourceTree = "<group>"; };
-		937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		936C12E7213550F600404679 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = ../assets/textures; sourceTree = "<group>"; };
+		936C12E8213550F700404679 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../assets/fonts; sourceTree = "<group>"; };
+		936C12E9213550F700404679 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../assets/data; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
 		937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EventCreateMenu.cpp; sourceTree = "<group>"; };
@@ -143,7 +139,6 @@
 		93D47BB7212D91F1007853BC /* Text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Text.cpp; sourceTree = "<group>"; };
 		93D47BB8212D91F1007853BC /* Text.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Text.hpp; sourceTree = "<group>"; };
 		93D47BBA212D9338007853BC /* SDL_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDL_Util.hpp; sourceTree = "<group>"; };
-		93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ormont_Light.ttf; path = ../Ormont_Light.ttf; sourceTree = "<group>"; };
 		93D47BBD212DE69C007853BC /* SDL_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_Util.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,11 +161,9 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
-				936C12DA2133E61B00404679 /* test.text */,
-				936C12DC21353A1200404679 /* test.npc */,
-				936C12D12133B7D800404679 /* textures */,
-				93D47BBB212DE2CD007853BC /* Ormont_Light.ttf */,
-				937B0D57212FCF7B00C2051B /* Raleway-Regular.ttf */,
+				936C12E9213550F700404679 /* data */,
+				936C12E8213550F700404679 /* fonts */,
+				936C12E7213550F600404679 /* textures */,
 				9368D31A2132A7A8005D6756 /* SDL2_image.framework */,
 				9368D3122131A0B5005D6756 /* SDL2_mixer.framework */,
 				937B0D6321317D3100C2051B /* SDL2_net.framework */,
@@ -346,7 +339,7 @@
 			buildPhases = (
 				932D3208212AB6E500DA45BD /* Sources */,
 				932D3209212AB6E500DA45BD /* Frameworks */,
-				932D320A212AB6E500DA45BD /* CopyFiles */,
+				932D320A212AB6E500DA45BD /* Copy Files */,
 				936C12D22133B7DD00404679 /* CopyFiles */,
 			);
 			buildRules = (

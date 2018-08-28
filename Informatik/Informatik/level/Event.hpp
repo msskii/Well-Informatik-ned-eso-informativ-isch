@@ -32,8 +32,9 @@ public:
     int event_id;
     
     Event(EventData eventData, uint8_t *args);
+        
+    void trigger(EVENT_TYPE type, Level *level);
     
-    void trigger(Event *event, EVENT_TYPE type, Level *level, uint8_t *arguments);
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 

@@ -8,7 +8,7 @@
 
 #include "Window.hpp"
 
-Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file, or if not found w = 50 & h = 50
+Window::Window() : level(loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
     SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
     if(TTF_Init() == -1) {
@@ -18,8 +18,7 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     
-    //font = TTF_OpenFont("Ormont_Light.ttf", 16); // Window opened = font initialized
-    font = TTF_OpenFont("Raleway-Regular.ttf", 50); // Window opened = font initialized
+    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 50); // Window opened = font initialized
 
     if(!font)
     {
@@ -57,7 +56,10 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     openMenu(new MainMenu()); // Skip main menu
     // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
     
-    level->addEntity(new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0));
+    NPC *npc = new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0);
+    npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
+    npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
+    level->addEntity(npc);
 }
 
 void Window::update()
@@ -145,7 +147,7 @@ void Window::runGameLoop()
     }
     
     LevelLoader loader(level);
-    loader.saveFile("testlevel.level");
+    loader.saveFile("data/testlevel.level");
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

@@ -14,7 +14,9 @@ enum EVENT_TYPE
     ALL_EVENTS = 0, // Doesn't matter what event happened
     STEP_ON, // Player steppen on it
     GAME_LOOP, // Player is in the same room
-    PLAYER_INTERACT // Player interacted with it
+    PLAYER_INTERACT, // Player interacted with it
+    NPC_FINISHED_TALKING // When an npc finished talking
+
 };
 
 // Pseudo definitions of classes
@@ -27,7 +29,7 @@ enum EVENT_ACTION // The different actions (Add them here)
 {
     NO_ACTION = 0,
     MOVE_PLAYER,
-    NPC_INTERACT
+    NPC_INTERACT,
 };
 
 const static uint8_t *NUM_ARGS = new uint8_t[3] // how many arguments for the nth action

@@ -66,7 +66,7 @@ As long as there are more NPCs: Read serialized data (proposition)
 4						bytes: Pathlength (0 = fixed)
   8         bytes: Path coordinates (x/y)
 
-4						bytes: Number of length
+4						bytes: Number of texts
   4						bytes: Number of times this text is displayed
   4						bytes: Triggerevent (event to trigger if not 0)
   4						bytes: Textlength

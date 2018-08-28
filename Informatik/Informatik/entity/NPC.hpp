@@ -12,12 +12,27 @@
 #include "Entity.hpp"
 #include "../level/Event.hpp"
 #include "Player.hpp"
+#include <vector>
+
+typedef struct NPCText
+{
+    
+    uint32_t timesDisplayed;
+    uint32_t eventTriggered;
+    char *text;
+    
+} NPCText;
 
 class NPC : public Entity
 {
 public:
     Event *event = nullptr; // The event this npc carries around
-    int numsTriggered = 0;
+    
+    std::vector<NPCText> texts;
+    int currentNumTriggered = 0;
+    int currentText;
+    
+    float walking_speed = SPEED;
     
     void onInteractWith(); // Facing this npc & pressed a / space (or whatever)
 
