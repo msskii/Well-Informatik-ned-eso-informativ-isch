@@ -21,6 +21,7 @@ protected:
 
 public:
 	int elementID;
+    bool consumeEvent = false;
 
     void addToMenu(Menu *menu);
     
@@ -28,6 +29,6 @@ public:
     virtual void processEvent(Menu *menu, SDL_Event e) = 0; // Like update, but with all events like mouse
 };
 
-#include "../Menu.hpp" // Full definition of the Menu class, as used by the other elements
+// #include "../Menu.hpp" // Full definition of the Menu class, as used by the other elements
 
 #endif /* Element_hpp */

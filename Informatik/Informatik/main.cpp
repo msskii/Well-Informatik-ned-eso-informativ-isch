@@ -19,6 +19,8 @@ void startGame()
     srand(0);
     
     Window w;
+    // Time to inject stuff into the level
+    
     w.runGameLoop();
 }
 
@@ -30,8 +32,8 @@ int main(int argc, char **args)
     // Tests::testTextLoader();
     // Tests::testNPCLoader();
     
-    // startGame();
-    Multiplayer::Server s;
+    startGame();
+    //Multiplayer::Server s;
     
     return 0;
 }
