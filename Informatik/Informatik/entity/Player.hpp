@@ -13,8 +13,8 @@
 #include "../config.h"
 #include "../level/Level.hpp"
 
-#define PLAYER_WIDTH 50
-#define PLAYER_HEIGHT 50
+#define PLAYER_WIDTH 64
+#define PLAYER_HEIGHT 64
 #define PLAYER_OFFSET_X ((GAME_WIDTH + PLAYER_WIDTH) / 2)
 #define PLAYER_OFFSET_Y ((GAME_HEIGHT + PLAYER_HEIGHT) / 2)
 
