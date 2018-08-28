@@ -39,7 +39,7 @@ void Tests::testPNG()
     createWindow();
     
     IMG_Init(IMG_INIT_PNG);
-    SDL_Surface *s = IMG_Load((TEXTURE_PATH + "/test.png").c_str());
+    SDL_Surface *s = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/test.png"));
     SDL_Texture *t = SDL_CreateTextureFromSurface(renderer, s);
     
     running = true;
@@ -79,15 +79,15 @@ void Tests::testSockets()
 
 void Tests::testLevelLoader()
 {
-    printf("Textfile of level: %s\n", LevelLoader("testlevel.level").buildLevel()->textFile); // Test loading level
+    printf("Textfile of level: %s\n", LevelLoader(GET_FILE_PATH(LEVEL_PATH, "testlevel.level")).buildLevel()->textFile); // Test loading level
 }
 
 void Tests::testNPCLoader()
 {
-    loadNPCs("test.npc");
+    loadNPCs(GET_FILE_PATH(LEVEL_PATH, "test.npc"));
 }
 
 void Tests::testTextLoader()
 {
-    TextLoader("test.text");
+    TextLoader(GET_FILE_PATH(LEVEL_PATH, "test.text"));
 }

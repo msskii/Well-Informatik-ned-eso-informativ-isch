@@ -55,6 +55,8 @@ cp SDL2_image/lib/x86/libjpeg-9.dll Informatik/Debug/
 cp SDL2_image/lib/x86/libpng16-16.dll Informatik/Debug/
 cp SDL2_image/lib/x86/zlib1.dll Informatik/Debug/
 
+cd assets/fonts
+
 # Download & unzip fonts
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"
 echo -n "A" | unzip font.zip

@@ -10,12 +10,12 @@
 
 Tile::Tile() : xcoord(0), ycoord(0)
 {
-    Tile_surface = IMG_Load((TEXTURE_PATH + "sandy_ground.png").c_str());
+    Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/sandy_ground.png"));
 }
 
 Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
 {
-    Tile_surface = IMG_Load((TEXTURE_PATH + "Tile_Grass.png").c_str());
+    Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
 }
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)

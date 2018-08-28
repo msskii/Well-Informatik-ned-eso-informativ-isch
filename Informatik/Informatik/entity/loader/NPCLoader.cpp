@@ -65,6 +65,14 @@ Entity* loadNPC(uint8_t *&data)
     }
     
     NPC *npc = new NPC(x, y, z);
+    
+    if(flags)
+    {
+        
+    }
+    
+    npc->texts = texts;
+    npc->walking_speed = walking_speed;
     npc->data.width = w;
     npc->data.height = h;
     

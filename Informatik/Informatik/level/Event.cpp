@@ -26,13 +26,13 @@ Event::Event(EventData eventData, uint8_t *args) : arguments(args)
     eventTriggerCounter[event_id] = 0; // This event was executed 0 times
 }
 
-void Event::trigger(Event *event, EVENT_TYPE type, Level *level, uint8_t *arguments)
+void Event::trigger(EVENT_TYPE type, Level *level)
 {
     if(eventTriggerCounter[event_id] > event_data.triggerAmount && event_data.triggerAmount != 0) return; // Don't execute, already too much
     if(event_data.event_id_dependency != 0 && eventTriggerCounter[event_data.event_id_dependency] == 0) return;
     
     eventTriggerCounter[event_id]++;
-    onTrigger(event, type, level, arguments);
+    onTrigger(this, type, level, arguments);
 }
 
 void Event::render(SDL_Renderer *renderer, int xoffset, int yoffset)

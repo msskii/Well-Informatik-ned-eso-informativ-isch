@@ -31,8 +31,6 @@ static void onButtonPress(Menu *menu, Button *button)
 
 }
 
-
-
 MainMenu::MainMenu()
 {
     addElement(new Button(onButtonPress, "Start Game", 100, 200, 400, 100, START_GAME));

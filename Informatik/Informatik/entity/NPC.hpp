@@ -32,6 +32,8 @@ public:
     int currentNumTriggered = 0;
     int currentText;
     
+    float walking_speed = SPEED;
+    
     void onInteractWith(); // Facing this npc & pressed a / space (or whatever)
 
     // Overrides

@@ -26,14 +26,14 @@
 #include <string>
 #include "Logger.hpp"
 
-#ifdef __APPLE__
-#  define TEXTURE_PATH std::string("textures/")
-#else
-#  define TEXTURE_PATH std::string("Informatik/textures/")
-#endif
+
+#define TEXTURE_PATH std::string("assets/textures/")
+#define FONT_PATH std::string("assets/fonts/")
+#define LEVEL_PATH std::string("assets/data/")
+#define AUDIO_PATH std::string("assets/audio/")
+#define GET_FILE_PATH(initpath, filename) (initpath + filename).c_str()
 
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
-
 #define TO_COLOR(col) SDL_Color({ (uint8_t) ((col) >> 16), (uint8_t) ((col) >> 8), (uint8_t) (col), (uint8_t) ((col) >> 24) })
 
 extern TTF_Font *font;

@@ -44,6 +44,8 @@ void NPC::onInteractWith()
         NPCText text = texts[currentText];
         level->window->openMenu(new DialogOverlay(text.text));
         
+        level->events[text.eventTriggered]->trigger(NPC_FINISHED_TALKING, level);
+        
         if(++currentNumTriggered >= text.timesDisplayed && text.timesDisplayed > 0)
         {
             ++currentText;
@@ -59,7 +61,7 @@ void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)
     //data.y_pos += (rand() % 3) - 1;
 
     COLOR(renderer, 0xFF000000);
-    SDL_Rect r = {(int) data.x_pos + xoff + PLAYER_OFFSET_X, (int) data.y_pos + yoff + PLAYER_OFFSET_Y, 50, 50};
+    SDL_Rect r = {(int) data.x_pos + xoff + PLAYER_OFFSET_X, (int) data.y_pos + yoff + PLAYER_OFFSET_Y, (int) data.width, (int) data.height};
     SDL_RenderFillRect(renderer, &r);
 }
 
