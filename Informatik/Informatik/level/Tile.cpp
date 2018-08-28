@@ -20,19 +20,19 @@ Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    /*SDL_Rect r = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF - data.tileZ * 0xFF, 0xFF);
-    SDL_RenderFillRect(renderer, &r);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
-    SDL_RenderDrawRect(renderer, &r);*/
-    
     if(texture == nullptr)
     {
         texture = SDL_CreateTextureFromSurface(renderer, Tile_surface);
         return;
     }
     
-    SDL_Rect src = {0,0, 32, 32};
+    SDL_Rect src = {0, 0, 32, 32}; // For individual 32 by 32 tiles
     SDL_Rect dst = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
     SDL_RenderCopy(renderer, texture, &src, &dst);
+    
+    if(data.tileZ)
+    {
+        COLOR(renderer, 0x22FFFFFF);
+        SDL_RenderFillRect(renderer, &dst);
+    }
 }
