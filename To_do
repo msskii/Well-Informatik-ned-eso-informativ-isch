@@ -47,3 +47,27 @@ As long as there is data: Read Serialized data (because a tile is not just a tex
 2						bits : Can walk through from Up / Down --> Stairs (And maybe only in one direction like a ledge)
 1						bit  : Transparency enabled (1 = Yes, 0 = No)
 1						bit  : animated (1 = Yes, 0 = No)
+
+----------------------------------------------------------------
+
+NPC-Storage:
+
+4						bytes: Number of npcs
+
+As long as there are more NPCs: Read serialized data (proposition)
+4						bytes: Start x position
+4						bytes: Start y position
+4						bytes: width
+4						bytes: height
+
+1           byte : flags --> random walking, turn to player, ...
+
+4           bytes: walking speed (float)
+4						bytes: Pathlength (0 = fixed)
+  8         bytes: Path coordinates (x/y)
+
+4						bytes: Number of length
+  4						bytes: Number of times this text is displayed
+  4						bytes: Triggerevent (event to trigger if not 0)
+  4						bytes: Textlength
+      len       bytes: Text
