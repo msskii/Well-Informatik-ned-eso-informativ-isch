@@ -11,6 +11,8 @@
 
 NPC::NPC(float xPos, float yPos, int level)
 {
+    printf("[INFO] Created new NPC at %.8f %.8f\n", xPos, yPos);
+    
     data.x_pos = xPos;
     data.y_pos = yPos;
     
@@ -44,8 +46,6 @@ void NPC::onInteractWith()
     {
         NPCText text = texts[currentText];
         level->window->openMenu(new DialogOverlay(text.text));
-        
-        // printf("Displaying text...\n");
         
         if(text.eventTriggered > 0)
         {

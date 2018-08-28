@@ -10,7 +10,7 @@
 
 #include "EventActions.hpp"
 
-void saveEventData(uint8_t *destination, std::vector<Event*> events)
+void Loader::saveEventData(uint8_t *destination, std::vector<Event*> events)
 {
     INFO_VAR("Saving Event data for ");
     PRINT_INT((int) events.size());
@@ -37,7 +37,7 @@ void saveEventData(uint8_t *destination, std::vector<Event*> events)
     }
 }
 
-std::vector<Event*> loadEventData(uint8_t *destination)
+std::vector<Event*> Loader::loadEventData(uint8_t *destination)
 {
     std::vector<Event*> events;
     

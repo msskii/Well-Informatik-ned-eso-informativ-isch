@@ -8,7 +8,7 @@
 
 #include "Window.hpp"
 
-Window::Window() : level(loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50)) // Load from file, or if not found w = 50 & h = 50
+Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
     SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
     if(TTF_Init() == -1) {
@@ -79,9 +79,8 @@ void Window::update()
 
 void Window::openMenu(Menu *m)
 {
-    menus.push_back(m);
-    for(int i = 0; i < (int) menus.size(); i++) menus[i]->active = false; // Set the menus to not be active, that are beneath
     m->active = true;
+    menus.push_back(m);
     m->open(this);
 }
 
@@ -146,7 +145,7 @@ void Window::runGameLoop()
         SDL_RenderPresent(renderer); // Draw & limit FPS
     }
     
-    LevelLoader loader(level);
+    Loader::LevelLoader loader(level);
     loader.saveFile("data/testlevel.level");
     
     SDL_DestroyRenderer(renderer);

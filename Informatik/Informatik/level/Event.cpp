@@ -20,7 +20,7 @@ Event::Event(EventData eventData, uint8_t *args) : arguments(args)
     onTrigger = resolveFunction(event_data.event_action);
     
     if(eventData.event_id == 0) eventData.event_id = event_id_counter++; // Auto-increment
-    printf("New event id: %d\n", eventData.event_id);
+    printf("[INFO] Created event with id: %d\n", eventData.event_id);
     
     event_id = eventData.event_id;
 

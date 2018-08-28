@@ -33,7 +33,7 @@ public:
     const char* tileMapFile = GET_FILE_PATH(LEVEL_PATH, "default.tilemap");
     const char* textFile = GET_FILE_PATH(LEVEL_PATH, "test.text");
     
-    TextLoader text = TextLoader(textFile);
+    Loader::TextLoader text = Loader::TextLoader(textFile);
     Window *window = nullptr;
 public:
     Tile getTile(int xcoord, int ycoord);

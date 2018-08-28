@@ -12,13 +12,16 @@
 #include <vector>
 #include "../../util/FileReader.hpp"
 
-class TextLoader
+namespace Loader
 {
-private:
-    std::vector<std::string> loadedText;
-    
-public:
-    TextLoader(const char *path);
-};
+    class TextLoader
+    {
+    private:
+        std::vector<std::string> loadedText;
+        
+    public:
+        TextLoader(const char *path);
+    };
+}
 
 #endif /* TextLoader_hpp */

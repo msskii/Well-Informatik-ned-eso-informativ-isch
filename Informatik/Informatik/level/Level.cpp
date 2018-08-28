@@ -113,7 +113,7 @@ void Level::update()
 
 void Level::reloadFiles()
 {
-    text = TextLoader(textFile);
+    text = Loader::TextLoader(textFile);
 }
 
 Tile Level::getTile(int screenX, int screenY)

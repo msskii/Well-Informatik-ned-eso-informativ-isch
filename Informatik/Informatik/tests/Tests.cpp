@@ -67,7 +67,7 @@ void Tests::testSockets()
 	SDLNet_Init();
 
 	IPaddress address;
-	SDLNet_ResolveHost(&address, NULL, 5543); // Create listening socket on port 5543
+	SDLNet_ResolveHost(&address, NULL, SERVER_PORT); // Create listening socket on port 5543
 	TCPsocket server = SDLNet_TCP_Open(&address); // Open the server on said address
 	TCPsocket client = NULL;
 
@@ -79,15 +79,15 @@ void Tests::testSockets()
 
 void Tests::testLevelLoader()
 {
-    printf("Textfile of level: %s\n", LevelLoader(GET_FILE_PATH(LEVEL_PATH, "testlevel.level")).buildLevel()->textFile); // Test loading level
+    printf("Textfile of level: %s\n", Loader::LevelLoader(GET_FILE_PATH(LEVEL_PATH, "testlevel.level")).buildLevel()->textFile); // Test loading level
 }
 
 void Tests::testNPCLoader()
 {
-    loadNPCs(GET_FILE_PATH(LEVEL_PATH, "test.npc"));
+    Loader::loadNPCs(GET_FILE_PATH(LEVEL_PATH, "test.npc"));
 }
 
 void Tests::testTextLoader()
 {
-    TextLoader(GET_FILE_PATH(LEVEL_PATH, "test.text"));
+    Loader::TextLoader(GET_FILE_PATH(LEVEL_PATH, "test.text"));
 }

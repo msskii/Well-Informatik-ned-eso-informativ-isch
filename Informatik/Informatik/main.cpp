@@ -11,6 +11,16 @@
 #include "util/FileReader.hpp"
 
 #include "tests/Tests.hpp"
+#include "multiplayer/Server.hpp"
+
+void startGame()
+{
+    // srand((int) time(NULL)); // Enable to get differen shades each time
+    srand(0);
+    
+    Window w;
+    w.runGameLoop();
+}
 
 int main(int argc, char **args)
 {
@@ -20,10 +30,8 @@ int main(int argc, char **args)
     // Tests::testTextLoader();
     // Tests::testNPCLoader();
     
-    // srand((int) time(NULL));
-    srand(0);
-
-    Window w;
-    w.runGameLoop();
+    // startGame();
+    Multiplayer::Server s;
+    
     return 0;
 }
