@@ -30,13 +30,13 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     eventData.event_id_dependency = 0; // No Event needs to be triggered first
     eventData.event_id = 0; // Auto increment & start from one
 
-    events.push_back(new Event(eventData, new uint8_t[2] { RIGHT, 4 * TILE_SIZE })); // Move player 2 down
+    events.push_back(new Event(eventData, new uint8_t[2] { RIGHT, 2 * TILE_SIZE })); // Move player 2 down
     
     eventData.event_x += TILE_SIZE * 4;
     eventData.triggerAmount = 1; // Triggered once
     eventData.event_id_dependency = 1;
     eventData.event_type_filter = PLAYER_INTERACT;
-    events.push_back(new Event(eventData, new uint8_t[2] { LEFT, 4 * TILE_SIZE })); // Move player 2 down
+    events.push_back(new Event(eventData, new uint8_t[2] { LEFT, 2 * TILE_SIZE })); // Move player 2 down
     
     player->updateMovement(0, 0); // Update player before level loads
 }

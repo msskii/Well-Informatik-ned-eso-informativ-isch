@@ -10,7 +10,7 @@
 
 Tile::Tile() : xcoord(0), ycoord(0)
 {
-    
+    surface = IMG_Load((TEXTURE_PATH + "sandy_ground.png").c_str());
 }
 
 Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
@@ -20,9 +20,12 @@ Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    SDL_Rect r = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
+    /*SDL_Rect r = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF - data.tileZ * 0xFF, 0xFF);
     SDL_RenderFillRect(renderer, &r);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
-    SDL_RenderDrawRect(renderer, &r);
+    SDL_RenderDrawRect(renderer, &r);*/
+    SDL_Rect src = {0,0, 32, 32};
+    SDL_Rect dst = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
+    SDL_RenderCopy(renderer, texture, &src, &dst);
 }

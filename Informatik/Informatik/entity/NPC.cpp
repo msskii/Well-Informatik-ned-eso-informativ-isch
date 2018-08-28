@@ -8,6 +8,7 @@
 
 #include "NPC.hpp"
 
+
 NPC::NPC(float xPos, float yPos, int level)
 {
     data.x_pos = xPos;
