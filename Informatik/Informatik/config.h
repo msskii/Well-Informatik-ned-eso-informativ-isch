@@ -29,6 +29,7 @@
 #endif
 
 #define SPEED 10
+#define SPEED 7
 #define STEP_ACCURACY 100.0f
 
 #endif /* config_h */

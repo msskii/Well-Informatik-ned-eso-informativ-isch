@@ -13,6 +13,7 @@
 #include "../level/Level.hpp"
 #include "../level/loader/LevelLoader.hpp"
 #include "../entity/Player.hpp"
+#include "../entity/NPC.hpp"
 
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
@@ -46,5 +47,7 @@ public:
     
     inline void stopGameLoop() { running = false; }
 };
+
+extern void openMenu(Menu *menu);
 
 #endif /* Window_hpp */

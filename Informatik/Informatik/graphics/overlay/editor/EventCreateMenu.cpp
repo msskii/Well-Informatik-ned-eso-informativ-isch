@@ -16,7 +16,7 @@ static void buttonClick(Menu *menu, Button *button)
     }
     else if(button->elementID == 1)
     {
-		SerializedEvent eventData = {};
+		EventData eventData = {};
 		eventData.event_x = atoi(((TextBox*)menu->getElement<TextBox>(1))->currentText.c_str());
 		eventData.event_y = atoi(((TextBox*)menu->getElement<TextBox>(2))->currentText.c_str());
 		eventData.event_w = TILE_SIZE;
@@ -33,7 +33,7 @@ static void buttonClick(Menu *menu, Button *button)
 
 		memset(args, 3, NUM_ARGS[eventData.event_action]); // Set to 0
 
-        menu->window->level->events[evtID] = Event(eventData, args);
+        menu->window->level->events[evtID] = new Event(eventData, args);
         menu->close();
     }
 }
@@ -50,9 +50,9 @@ EventCreateMenu::EventCreateMenu()
 
 EventCreateMenu::EventCreateMenu(Event *evt)
 {
-	addElement(new TextBox(std::to_string(evt->toStore.event_id).c_str(), 0, 0, 500, 100, 0)); // Nr 0
-	addElement(new TextBox(std::to_string(evt->toStore.event_x).c_str(), 0, 100, 500, 100, 1)); // Nr 1
-	addElement(new TextBox(std::to_string(evt->toStore.event_y).c_str(), 0, 200, 500, 100, 2)); // Nr 2
+	addElement(new TextBox(std::to_string(evt->event_data.event_id).c_str(), 0, 0, 500, 100, 0)); // Nr 0
+	addElement(new TextBox(std::to_string(evt->event_data.event_x).c_str(), 0, 100, 500, 100, 1)); // Nr 1
+	addElement(new TextBox(std::to_string(evt->event_data.event_y).c_str(), 0, 200, 500, 100, 2)); // Nr 2
 
 	addElement(new Button(buttonClick, "Cancel", 0, 400, 250, 100, 0));
 	addElement(new Button(buttonClick, "Ok", 325, 400, 100, 100, 1));

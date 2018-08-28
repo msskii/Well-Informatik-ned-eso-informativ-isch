@@ -24,15 +24,16 @@ public:
     
 public:
     
+    bool isStored = true;
     uint8_t *arguments; // The arguments for this event
-    SerializedEvent toStore; // The actual event
+    EventData event_data; // The actual event
     
 public:
     int event_id;
     
-    Event(SerializedEvent eventData, uint8_t *args);
+    Event(EventData eventData, uint8_t *args);
     
-    void trigger(Event event, EVENT_TYPE type, Level *level, uint8_t *arguments);
+    void trigger(Event *event, EVENT_TYPE type, Level *level, uint8_t *arguments);
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 

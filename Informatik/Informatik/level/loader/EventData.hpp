@@ -21,22 +21,24 @@ enum EVENT_TYPE
 class Level;
 class Event;
 
-typedef void (*eventFunc)(Event event, EVENT_TYPE type, Level *level, uint8_t *arguments); // How a event handler function should look like
+typedef void (*eventFunc)(Event *event, EVENT_TYPE type, Level *level, uint8_t *arguments); // How a event handler function should look like
 
 enum EVENT_ACTION // The different actions (Add them here)
 {
     NO_ACTION = 0,
-    MOVE_PLAYER
+    MOVE_PLAYER,
+    NPC_INTERACT
 };
 
-const static uint8_t *NUM_ARGS = new uint8_t[2] // how many arguments for the nth action
+const static uint8_t *NUM_ARGS = new uint8_t[3] // how many arguments for the nth action
 {
     0, // No action = No arguments
-    2 // Direction & amount
+    2, // Direction & amount
+    0 // Not stored...
 };
 
 #pragma pack(push, 1)
-typedef struct SerializedEvent // The core information of an event
+typedef struct EventData // The core information of an event
 {
     int event_x;
     int event_y;
@@ -48,9 +50,9 @@ typedef struct SerializedEvent // The core information of an event
     int event_id_dependency; // Which event needs to be executed that this one becomes active
     
     int event_id;
-    int event_type_filter; // The filter which is EVENT_TYPE
-    int event_action; // The action for this event. Number of arguments is in NUM_ARGS
-} SerializedEvent;
+    EVENT_TYPE event_type_filter; // The filter which is EVENT_TYPE
+    EVENT_ACTION event_action; // The action for this event. Number of arguments is in NUM_ARGS
+} EventData;
 #pragma pack(pop)
 
 #endif /* EventData_h */
