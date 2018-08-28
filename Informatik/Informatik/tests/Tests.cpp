@@ -80,7 +80,11 @@ void Tests::testSockets()
 void Tests::testLevelLoader()
 {
     printf("Textfile of level: %s\n", LevelLoader("testlevel.level").buildLevel()->textFile); // Test loading level
-    
+}
+
+void Tests::testNPCLoader()
+{
+    loadNPCs("test.npc");
 }
 
 void Tests::testTextLoader()
