@@ -9,7 +9,7 @@
 #ifndef Tile_hpp
 #define Tile_hpp
 
-#define TILE_SIZE 50
+#define TILE_SIZE 64
 
 #include "../util/SDL_Util.hpp"
 
@@ -24,6 +24,8 @@ typedef struct SerializedTile
 class Tile
 {
 private:
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
     int xcoord, ycoord;
     
 public:

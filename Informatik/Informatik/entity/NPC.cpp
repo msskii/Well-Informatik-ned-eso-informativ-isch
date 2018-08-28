@@ -8,7 +8,7 @@
 
 #include "NPC.hpp"
 
-NPC::NPC()
+NPC::NPC(float xPos, float yPos, int y)
 {
     
 }

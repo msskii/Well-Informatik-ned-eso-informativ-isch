@@ -15,7 +15,8 @@ class NPC
 {
 public:
     float xPos = 0, yPos = 0;
-    NPC(float xPos, float yPos, int level);
+    int y=0;
+    NPC(float xPos, float yPos, int y);
 };
 
 #endif /* NPC_hpp */
