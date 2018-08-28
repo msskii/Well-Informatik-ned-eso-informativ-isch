@@ -28,6 +28,7 @@ private:
     SDL_Surface *Tile_surface = nullptr;
     SDL_Texture *texture = nullptr;
     int xcoord, ycoord;
+    char brightness_modifier = 0;
     
 public:
     Tile();
