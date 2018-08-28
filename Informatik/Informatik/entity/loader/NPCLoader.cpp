@@ -22,12 +22,11 @@ std::vector<Entity*> loadNPCs(const char *filepath)
 
 Entity* loadNPC(uint8_t *&data)
 {
-    NPC *npc = new NPC(0, 0, 0);
-    
     float x = ((float*) data)[0];
     float y = ((float*) data)[1];
-    float w = ((float*) data)[2];
-    float h = ((float*) data)[3];
+    uint32_t z = ((uint32_t*) data)[2];
+    float w = ((float*) data)[3];
+    float h = ((float*) data)[4];
     data += 16;
     
     printf("X: %f, Y: %f, W: %f, H: %f\n", x, y, w, h);
@@ -47,7 +46,7 @@ Entity* loadNPC(uint8_t *&data)
     data += 4;
     printf("Number of texts: %d\n", numTexts);
     
-    std::vector<char *> texts;
+    std::vector<NPCText> texts;
     for(int i = 0; i < numTexts; i++)
     {
         uint32_t timesDisplayed = ((uint32_t*)data)[0];
@@ -61,8 +60,13 @@ Entity* loadNPC(uint8_t *&data)
         text[text_length] = 0;
         data += text_length;
         printf("Text nr. %d with length %d: %s\n", i, text_length, text);
-        texts.push_back(text);
+        
+        texts.push_back({timesDisplayed, event_to_trigger, text});
     }
+    
+    NPC *npc = new NPC(x, y, z);
+    npc->data.width = w;
+    npc->data.height = h;
     
     return npc;
 }

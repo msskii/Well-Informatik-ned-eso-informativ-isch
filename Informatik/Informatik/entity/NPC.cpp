@@ -39,13 +39,17 @@ void NPC::onInteractWith()
     isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && level->player->direction == DOWN;
     isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && level->player->direction == UP;
 
-    if(isFacingMe)
+    if(isFacingMe && currentText < (int) texts.size())
     {
-        if(numsTriggered < 3) level->window->openMenu(new DialogOverlay("Hello There\nPlayer\n"));
-        else level->window->openMenu(new DialogOverlay("Could you stop\ntalking to me?\n"));
+        NPCText text = texts[currentText];
+        level->window->openMenu(new DialogOverlay(text.text));
+        
+        if(++currentNumTriggered >= text.timesDisplayed && text.timesDisplayed > 0)
+        {
+            ++currentText;
+            currentNumTriggered = 0;
+        }
     }
-    
-    ++numsTriggered;
 }
 
 void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)

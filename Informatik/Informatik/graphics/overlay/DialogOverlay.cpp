@@ -50,7 +50,6 @@ void DialogOverlay::updateMenu(const uint8_t *keys)
         int snl = (int) rest.find("\n");
         rest = rest.substr(snl + 1);
         int tnl = (int) rest.find("\n");
-        printf("Second new line: %d\n", snl);
         if(fnl > 0 && tnl > 0) text = text.substr(fnl + 1);
         else dialogOver = true;
     }

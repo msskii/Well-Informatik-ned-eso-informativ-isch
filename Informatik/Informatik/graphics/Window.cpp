@@ -57,7 +57,10 @@ Window::Window() : level(loadLevel("testlevel.level", 50, 50)) // Load from file
     openMenu(new MainMenu()); // Skip main menu
     // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
     
-    level->addEntity(new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0));
+    NPC *npc = new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0);
+    npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
+    npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
+    level->addEntity(npc);
 }
 
 void Window::update()
