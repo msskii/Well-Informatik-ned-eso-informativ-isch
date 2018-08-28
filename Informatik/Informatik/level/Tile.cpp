@@ -15,7 +15,7 @@ Tile::Tile() : xcoord(0), ycoord(0)
 
 Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
 {
-    Tile_surface = IMG_Load((TEXTURE_PATH + "Tile_Grass.png").c_str());
+    Tile_surface = IMG_Load((TEXTURE_PATH + "Tile_Stoneroadongrass.png").c_str());
 }
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
