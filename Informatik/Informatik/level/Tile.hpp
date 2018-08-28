@@ -12,6 +12,7 @@
 #define TILE_SIZE 64
 
 #include "../util/SDL_Util.hpp"
+#include "../config.h"
 
 #pragma pack(push, 1)
 typedef struct TileData
@@ -24,7 +25,7 @@ typedef struct TileData
 class Tile
 {
 private:
-    SDL_Surface *surface = nullptr;
+    SDL_Surface *Tile_surface = nullptr;
     SDL_Texture *texture = nullptr;
     int xcoord, ycoord;
     
