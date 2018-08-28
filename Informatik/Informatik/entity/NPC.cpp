@@ -25,6 +25,7 @@ NPC::NPC(float xPos, float yPos, int level)
     
     evt.event_type_filter = PLAYER_INTERACT;
     evt.event_action = NPC_INTERACT;
+    evt.event_id = 0;
     
     event = new Event(evt, (uint8_t*) this);
     event->isStored = false; // Don't store it in the level file
@@ -44,7 +45,15 @@ void NPC::onInteractWith()
         NPCText text = texts[currentText];
         level->window->openMenu(new DialogOverlay(text.text));
         
-        level->events[text.eventTriggered]->trigger(NPC_FINISHED_TALKING, level);
+        // printf("Displaying text...\n");
+        
+        if(text.eventTriggered > 0)
+        {
+            for(int i = 0; i < (int) level->events.size(); i++)
+            {
+                if(text.eventTriggered == level->events[i]->event_data.event_id) level->events[i]->trigger(NPC_FINISHED_TALKING, level);
+            }
+        }
         
         if(++currentNumTriggered >= text.timesDisplayed && text.timesDisplayed > 0)
         {

@@ -19,7 +19,8 @@ Event::Event(EventData eventData, uint8_t *args) : arguments(args)
     event_data = eventData;
     onTrigger = resolveFunction(event_data.event_action);
     
-    if(eventData.event_id == 0)eventData.event_id = event_id_counter++; // Auto-increment
+    if(eventData.event_id == 0) eventData.event_id = event_id_counter++; // Auto-increment
+    printf("New event id: %d\n", eventData.event_id);
     
     event_id = eventData.event_id;
 
@@ -37,10 +38,10 @@ void Event::trigger(EVENT_TYPE type, Level *level)
 
 void Event::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    if(eventTriggerCounter[event_id] > event_data.triggerAmount && event_data.triggerAmount != 0) return;
+    if(eventTriggerCounter[event_id] >= event_data.triggerAmount && event_data.triggerAmount != 0) return;
     if(event_data.event_id_dependency != 0 && eventTriggerCounter[event_data.event_id_dependency] == 0) return;
     
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x55);
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x55);
     SDL_Rect r = {event_data.event_x + xoffset + PLAYER_OFFSET_X, event_data.event_y + yoffset + PLAYER_OFFSET_Y, event_data.event_w, event_data.event_h};
     SDL_RenderFillRect(renderer, &r);
 }

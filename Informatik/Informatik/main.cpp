@@ -19,6 +19,9 @@ int main(int argc, char **args)
     // Tests::testPNG();
     // Tests::testTextLoader();
     // Tests::testNPCLoader();
+    
+    // srand((int) time(NULL));
+    srand(0);
 
     Window w;
     w.runGameLoop();
