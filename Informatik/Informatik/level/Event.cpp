@@ -19,26 +19,24 @@ Event::Event(EventData eventData, uint8_t *args) : arguments(args)
     event_data = eventData;
     onTrigger = resolveFunction(event_data.event_action);
     
-    if(eventData.event_id == 0) eventData.event_id = event_id_counter++; // Auto-increment
+    if(event_data.event_id == 0) event_data.event_id = event_id_counter++; // Auto-increment
     printf("[INFO] Created event with id: %d\n", eventData.event_id);
     
-    event_id = eventData.event_id;
-
-    eventTriggerCounter[event_id] = 0; // This event was executed 0 times
+    eventTriggerCounter[event_data.event_id] = 0; // This event was executed 0 times
 }
 
 void Event::trigger(EVENT_TYPE type, Level *level)
 {
-    if(eventTriggerCounter[event_id] > event_data.triggerAmount && event_data.triggerAmount != 0) return; // Don't execute, already too much
+    if(eventTriggerCounter[event_data.event_id] > event_data.triggerAmount && event_data.triggerAmount != 0) return; // Don't execute, already too much
     if(event_data.event_id_dependency != 0 && eventTriggerCounter[event_data.event_id_dependency] == 0) return;
     
-    eventTriggerCounter[event_id]++;
+    eventTriggerCounter[event_data.event_id]++;
     onTrigger(this, type, level, arguments);
 }
 
 void Event::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    if(eventTriggerCounter[event_id] >= event_data.triggerAmount && event_data.triggerAmount != 0) return;
+    if(eventTriggerCounter[event_data.event_id] >= event_data.triggerAmount && event_data.triggerAmount != 0) return;
     if(event_data.event_id_dependency != 0 && eventTriggerCounter[event_data.event_id_dependency] == 0) return;
     
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x55);

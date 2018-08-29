@@ -24,6 +24,15 @@ void DropDown::render(SDL_Renderer *renderer)
 {
     if(expanded)
     {
+        SDL_Rect background = {x, y, w, h * (int) elements.size() };
+        if(toTheRight)
+        {
+            background.x += w;
+            background.y -= ((int) elements.size() * h) / 2;
+        }
+        COLOR(renderer, 0xFFFFFFFF);
+        SDL_RenderFillRect(renderer, &background);
+        
         if(toTheRight)
         {
             drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h);
@@ -79,6 +88,7 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
             bool isOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
             if(isOver)
             {
+                consumeEvent = true;
                 expanded = true;
             }
         }

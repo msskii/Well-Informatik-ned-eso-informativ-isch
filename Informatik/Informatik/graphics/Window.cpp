@@ -117,7 +117,7 @@ void Window::runGameLoop()
             if(e.type == SDL_MOUSEBUTTONDOWN) mousePressed = true;
             if(e.type == SDL_MOUSEBUTTONUP) mousePressed = false;
 
-            for(int i = 0; i < (int) menus.size(); i++) menus[i]->updateElements(e);
+            for(int i = (int) menus.size() - 1; i >= 0; i--) menus[i]->updateElements(e);
             
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)

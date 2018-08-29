@@ -106,7 +106,7 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     amount_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.triggerAmount, 100, 500, 500, 100, 5));
     dependency_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.event_id_dependency, 100, 600, 500, 100, 6));
 
-    actions = new DropDown(0, 0, 700, 600, 100, 0);
+    actions = new DropDown(evt->event_data.event_action, 0, 700, 600, 100, 0);
     actions->toTheRight = true;
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
@@ -115,7 +115,7 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     
     arguments = evt->arguments;
     
-    type_filter = new DropDown(0, 0, 800, 600, 100, 0);
+    type_filter = new DropDown(evt->event_data.event_type_filter, 0, 800, 600, 100, 0);
     type_filter->toTheRight = true;
     type_filter->addOption(0, "All Events");
     type_filter->addOption(1, "Step on");

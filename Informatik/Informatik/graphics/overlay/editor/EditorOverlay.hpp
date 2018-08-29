@@ -18,6 +18,7 @@ class EditorClickHandler : public Element
 private:
     
 public:
+    int x, y;
     int selected = 0, selectedID = 0;
     bool pressed = false;
 

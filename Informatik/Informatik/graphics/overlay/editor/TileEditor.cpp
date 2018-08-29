@@ -13,16 +13,14 @@ TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
     Tile t = level->tiles[tid];
     this->level = level;
     
-    if(t.data.tileNumber) printf("Stonepath selected\n");
+    zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 100, 500, 100, 0);
+    addElement(zheight_slider);
     
     tilenumber_dropdown = new DropDown(t.data.tileNumber, 0, 0, 500, 100, 0);
     // tilenumber_dropdown->toTheRight = true;
     tilenumber_dropdown->addOption(0, "0: Grass");
     tilenumber_dropdown->addOption(1, "1: Stonepath");
     addElement(tilenumber_dropdown);
-    
-    zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 100, 500, 100, 0);
-    addElement(zheight_slider);
 }
 
 bool TileEditor::shouldWindowClose() { return false; }

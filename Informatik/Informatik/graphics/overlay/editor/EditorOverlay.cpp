@@ -18,10 +18,12 @@ void EditorClickHandler::render(SDL_Renderer *renderer)
 {
     if(!menu->active) return;
     
-    int x, y;
     SDL_GetMouseState(&x, &y);
-    selected = (int) ((x / SCALE_X - (menu->window->level->player->getOffsetX() % TILE_SIZE) - TILE_SIZE / 2) / TILE_SIZE) + (int) ((y / SCALE_Y - (menu->window->level->player->getOffsetY() % TILE_SIZE) - TILE_SIZE) / TILE_SIZE) * menu->window->level->width;
-    selectedID = (int) ((x / SCALE_X) / TILE_SIZE) + (int) ((y / SCALE_Y) / TILE_SIZE) * menu->window->level->width;
+    x /= SCALE_X;
+    y /= SCALE_Y;
+    
+    selected = (int) ((x - (menu->window->level->player->getOffsetX() % TILE_SIZE) - TILE_SIZE / 2) / TILE_SIZE) + (int) ((y - (menu->window->level->player->getOffsetY() % TILE_SIZE) - TILE_SIZE) / TILE_SIZE) * menu->window->level->width;
+    selectedID = (int) (x / TILE_SIZE) + (int) (y / TILE_SIZE) * menu->window->level->width;
 }
 
 
@@ -42,9 +44,35 @@ bool EditorOverlay::shouldWindowClose() { return false; }
 
 void EditorOverlay::renderMenu(SDL_Renderer *renderer)
 {
-    COLOR(renderer, 0xAFFFFFFF);
-    SDL_Rect dst = { (int)(clickhandler->selected % window->level->width) * TILE_SIZE + (window->level->player->getOffsetX() % TILE_SIZE) + TILE_SIZE / 2, (int)(clickhandler->selected / window->level->width) * TILE_SIZE + (window->level->player->getOffsetY() % TILE_SIZE) + TILE_SIZE, TILE_SIZE, TILE_SIZE };
-    SDL_RenderFillRect(renderer, &dst);
+    if(eventEditorEnabled)
+    {
+        Event *e = nullptr;
+        for(int i = 0; i < (int) window->level->events.size(); i++)
+        {
+            Event *evt = window->level->events[i];
+            int xpos = evt->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
+            int ypos = evt->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
+            // printf("%i: xd: (%d - %d), yd: %d\n", i, xpos, clickhandler->x, ypos - clickhandler->y);
+            if(xpos <= clickhandler->x && xpos + evt->event_data.event_w >= clickhandler->x && ypos <= clickhandler->y && ypos + evt->event_data.event_h >= clickhandler->y)
+            {
+                e = evt;
+                break;
+            }
+        }
+        if(e == nullptr) return;
+        
+        COLOR(renderer, 0xAFFFFFFF);
+        int xpos = e->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
+        int ypos = e->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
+        SDL_Rect dst = {xpos, ypos, e->event_data.event_w, e->event_data.event_h};
+        SDL_RenderFillRect(renderer, &dst);
+    }
+    else
+    {
+        COLOR(renderer, 0xAFFFFFFF);
+        SDL_Rect dst = { (int)(clickhandler->selected % window->level->width) * TILE_SIZE + (window->level->player->getOffsetX() % TILE_SIZE) + TILE_SIZE / 2, (int)(clickhandler->selected / window->level->width) * TILE_SIZE + (window->level->player->getOffsetY() % TILE_SIZE) + TILE_SIZE, TILE_SIZE, TILE_SIZE };
+        SDL_RenderFillRect(renderer, &dst);
+    }
 }
 
 void EditorOverlay::updateMenu(const uint8_t *keys)
@@ -62,11 +90,30 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
     
     if(clickhandler->pressed)
     {
-        int tileIndex = clickhandler->selectedID - ((PLAYER_OFFSET_X + window->level->player->getOffsetX()) / TILE_SIZE) - ((PLAYER_OFFSET_Y + window->level->player->getOffsetY()) / TILE_SIZE) * (window->level->width);
         clickhandler->pressed = false;
-        
-        openSubMenu(new TileEditor(window->level, tileIndex));
-        printf("Tileindex: %d\n", tileIndex);
+        if(eventEditorEnabled)
+        {
+            Event *e = nullptr;
+            for(int i = 0; i < (int) window->level->events.size(); i++)
+            {
+                Event *evt = window->level->events[i];
+                int xpos = evt->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
+                int ypos = evt->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
+                if(xpos <= clickhandler->x && xpos + evt->event_data.event_w >= clickhandler->x && ypos <= clickhandler->y && ypos + evt->event_data.event_h >= clickhandler->y)
+                {
+                    e = evt;
+                    break;
+                }
+            }
+            if(e == nullptr) return;
+            openSubMenu(new EventCreateMenu(e));
+        }
+        else
+        {
+            int tileIndex = clickhandler->selectedID - ((PLAYER_OFFSET_X + window->level->player->getOffsetX()) / TILE_SIZE) - ((PLAYER_OFFSET_Y + window->level->player->getOffsetY()) / TILE_SIZE) * (window->level->width);
+            
+            openSubMenu(new TileEditor(window->level, tileIndex));
+        }
     }
 }
 
