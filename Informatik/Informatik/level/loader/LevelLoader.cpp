@@ -8,13 +8,13 @@
 
 #include "LevelLoader.hpp"
 
-int readInt(uint8_t *&levelFile)
+int Loader::readInt(uint8_t *&levelFile)
 {
     levelFile += 4;
     return ((uint32_t*)(levelFile - 4))[0];
 }
 
-Level *loadLevel(const char *path, int w, int h)
+Level *Loader::loadLevel(const char *path, int w, int h)
 {
     uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here
     if(file == nullptr)
@@ -25,16 +25,16 @@ Level *loadLevel(const char *path, int w, int h)
     }
     else
     {
-        return LevelLoader(path).buildLevel();
+        return Loader::LevelLoader(path).buildLevel();
     }
 }
 
-LevelLoader::LevelLoader(Level *l) : level(l)
+Loader::LevelLoader::LevelLoader(Level *l) : level(l)
 {
     
 }
 
-LevelLoader::LevelLoader(const char *path)
+Loader::LevelLoader::LevelLoader(const char *path)
 {
     INFO("Loading Level");
 
@@ -81,12 +81,12 @@ LevelLoader::LevelLoader(const char *path)
     level->events = loadEventData(levelFile);
 }
 
-Level *LevelLoader::buildLevel()
+Level *Loader::LevelLoader::buildLevel()
 {
     return level;
 }
 
-void LevelLoader::saveFile(const char *path)
+void Loader::LevelLoader::saveFile(const char *path)
 {
     // 4: width
     // 4: height

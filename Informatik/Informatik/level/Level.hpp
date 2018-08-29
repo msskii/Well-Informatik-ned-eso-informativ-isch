@@ -29,11 +29,13 @@ public:
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
     
+    int xoffset, yoffset;
+    
     const char* audioFile = GET_FILE_PATH(AUDIO_PATH, "default.wav");
     const char* tileMapFile = GET_FILE_PATH(LEVEL_PATH, "default.tilemap");
     const char* textFile = GET_FILE_PATH(LEVEL_PATH, "test.text");
     
-    TextLoader text = TextLoader(textFile);
+    Loader::TextLoader text = Loader::TextLoader(textFile);
     Window *window = nullptr;
 public:
     Tile getTile(int xcoord, int ycoord);

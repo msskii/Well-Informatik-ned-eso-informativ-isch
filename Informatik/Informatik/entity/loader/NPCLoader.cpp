@@ -8,7 +8,7 @@
 
 #include "NPCLoader.hpp"
 
-std::vector<Entity*> loadNPCs(const char *filepath)
+std::vector<Entity*> Loader::loadNPCs(const char *filepath)
 {
     std::vector<Entity*> npcs;
     uint8_t *data = readFile(filepath);
@@ -20,7 +20,7 @@ std::vector<Entity*> loadNPCs(const char *filepath)
     return npcs;
 }
 
-Entity* loadNPC(uint8_t *&data)
+Entity* Loader::loadNPC(uint8_t *&data)
 {
     float x = ((float*) data)[0];
     float y = ((float*) data)[1];

@@ -9,6 +9,7 @@
 #ifndef Menu_hpp
 #define Menu_hpp
 
+#include "elements/Elements.hpp"
 #include "../../util/SDL_Util.hpp"
 #include "../../util/Logger.hpp"
 

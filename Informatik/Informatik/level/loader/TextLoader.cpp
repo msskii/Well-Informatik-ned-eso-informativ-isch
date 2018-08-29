@@ -8,7 +8,7 @@
 
 #include "TextLoader.hpp"
 
-TextLoader::TextLoader(const char *path)
+Loader::TextLoader::TextLoader(const char *path)
 {
     uint8_t *t = readFile(path);
     uint32_t numStrings = ((uint32_t*)t)[0];

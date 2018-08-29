@@ -16,54 +16,130 @@ static void buttonClick(Menu *menu, Button *button)
     }
     else if(button->elementID == 1)
     {
+        EventCreateMenu* m = (EventCreateMenu*) menu;
+        
 		EventData eventData = {};
-		eventData.event_x = atoi(((TextBox*)menu->getElement<TextBox>(1))->currentText.c_str());
-		eventData.event_y = atoi(((TextBox*)menu->getElement<TextBox>(2))->currentText.c_str());
-		eventData.event_w = TILE_SIZE;
-		eventData.event_h = TILE_SIZE;
-		eventData.event_action = MOVE_PLAYER;
-		eventData.event_type_filter = STEP_ON;
-		eventData.triggerAmount = 0; // As many times triggered as you want
-		eventData.event_id_dependency = 0; // No Event needs to be triggered first
+		eventData.event_x = m->x_slider->currentValue;
+		eventData.event_y = m->y_slider->currentValue;
+		eventData.event_w = m->w_slider->currentValue;
+		eventData.event_h = m->h_slider->currentValue;
+        
+		eventData.event_action = (EVENT_ACTION) m->actions->currentID;
+		eventData.event_type_filter = (EVENT_TYPE) m->type_filter->currentID;
+        
+		eventData.triggerAmount = m->amount_slider->currentValue; // As many times triggered as you want
+		eventData.event_id_dependency = m->dependency_slider->currentValue; // No Event needs to be triggered first
 
-		int evtID = atoi(((TextBox*)menu->getElement<TextBox>(0))->currentText.c_str());
+		int evtID = m->id_slider->currentValue;
 		eventData.event_id = evtID; // Auto increment & start from one
 
 		uint8_t *args = new uint8_t[NUM_ARGS[eventData.event_action]];
 
-		memset(args, 3, NUM_ARGS[eventData.event_action]); // Set to 0
+		memset(args, 0, NUM_ARGS[eventData.event_action]); // Set to 0
 
-        menu->window->level->events[evtID] = new Event(eventData, args);
         menu->close();
+        for(int i = 0; i < menu->window->level->events.size(); i++)
+        {
+            if(menu->window->level->events[i]->event_data.event_id == evtID)
+            {
+                // Replace & return
+                menu->window->level->events[i] = new Event(eventData, args);
+                return;
+            }
+        }
+        menu->window->level->events.push_back(new Event(eventData, args));
     }
 }
 
 EventCreateMenu::EventCreateMenu()
 {
-    addElement(new TextBox("ID", 0, 0, 500, 100, 0)); // Nr 0
-    addElement(new TextBox("X", 0, 100, 500, 100, 1)); // Nr 1
-    addElement(new TextBox("Y", 0, 200, 500, 100, 2)); // Nr 2
+    addElement(new Text("ID", 0, 0, 100, 100));
+    id_slider = (Slider*) addElement(new Slider(0, 0xFF, 100, 000, 500, 100, 0));
 
-    addElement(new Button(buttonClick, "Cancel", 0, 400, 250, 100, 0));
-    addElement(new Button(buttonClick, "Ok", 325, 400, 100, 100, 1));
+    addElement(new Text("X", 0, 100, 100, 100));
+    addElement(new Text("Y", 0, 200, 100, 100));
+    addElement(new Text("W", 0, 300, 100, 100));
+    addElement(new Text("H", 0, 400, 100, 100));
+
+    x_slider = (Slider*) addElement(new Slider(0, 0xFFF, 100, 100, 500, 100, 1));
+    y_slider = (Slider*) addElement(new Slider(0, 0xFFF, 100, 200, 500, 100, 2));
+    w_slider = (Slider*) addElement(new Slider(0, 0xFFF, 100, 300, 500, 100, 3));
+    h_slider = (Slider*) addElement(new Slider(0, 0xFFF, 100, 400, 500, 100, 4));
+    
+    addElement(new Text("#", 0, 500, 100, 100));
+    addElement(new Text("Dep", 0, 600, 100, 100));
+    amount_slider = (Slider*) addElement(new Slider(0, 0xFF, 100, 500, 500, 100, 5));
+    dependency_slider = (Slider*) addElement(new Slider(0, 0xFF, 100, 600, 500, 100, 6));
+
+    addElement(new Button(buttonClick, "Cancel", 0, 900, 250, 100, 0));
+    addElement(new Button(buttonClick, "Ok", 325, 900, 100, 100, 1));
+    
+    actions = new DropDown(0, 0, 700, 600, 100, 0);
+    actions->toTheRight = true;
+    actions->addOption(0, "No Action");
+    actions->addOption(1, "Move Player");
+    actions->addOption(2, "Interact with NPC");
+    addElement(actions);
+    
+    type_filter = new DropDown(0, 0, 800, 600, 100, 0);
+    type_filter->toTheRight = true;
+    type_filter->addOption(0, "All Events");
+    type_filter->addOption(1, "Step on");
+    type_filter->addOption(2, "Game loop");
+    type_filter->addOption(3, "Player interact");
+    type_filter->addOption(4, "NPC finished talking");
+    addElement(type_filter);
 }
 
 EventCreateMenu::EventCreateMenu(Event *evt)
 {
-	addElement(new TextBox(std::to_string(evt->event_data.event_id).c_str(), 0, 0, 500, 100, 0)); // Nr 0
-	addElement(new TextBox(std::to_string(evt->event_data.event_x).c_str(), 0, 100, 500, 100, 1)); // Nr 1
-	addElement(new TextBox(std::to_string(evt->event_data.event_y).c_str(), 0, 200, 500, 100, 2)); // Nr 2
+    id_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.event_id, 0, 000, 500, 100, 0));
+    
+    addElement(new Text("X", 0, 100, 100, 100));
+    addElement(new Text("Y", 0, 200, 100, 100));
+    addElement(new Text("W", 0, 300, 100, 100));
+    addElement(new Text("H", 0, 400, 100, 100));
+    
+    x_slider = (Slider*) addElement(new Slider(0, 0xFFF, evt->event_data.event_x, 100, 100, 500, 100, 1));
+    y_slider = (Slider*) addElement(new Slider(0, 0xFFF, evt->event_data.event_y, 100, 200, 500, 100, 2));
+    w_slider = (Slider*) addElement(new Slider(0, 0xFFF, evt->event_data.event_w, 100, 300, 500, 100, 3));
+    h_slider = (Slider*) addElement(new Slider(0, 0xFFF, evt->event_data.event_h, 100, 400, 500, 100, 4));
+    
+    addElement(new Text("#", 0, 500, 100, 100));
+    addElement(new Text("Dep", 0, 600, 100, 100));
+    amount_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.triggerAmount, 100, 500, 500, 100, 5));
+    dependency_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.event_id_dependency, 100, 600, 500, 100, 6));
 
-	addElement(new Button(buttonClick, "Cancel", 0, 400, 250, 100, 0));
-	addElement(new Button(buttonClick, "Ok", 325, 400, 100, 100, 1));
+    actions = new DropDown(0, 0, 700, 600, 100, 0);
+    actions->toTheRight = true;
+    actions->addOption(0, "No Action");
+    actions->addOption(1, "Move Player");
+    actions->addOption(2, "Interact with NPC");
+    addElement(actions);
+    
+    type_filter = new DropDown(0, 0, 800, 600, 100, 0);
+    type_filter->toTheRight = true;
+    type_filter->addOption(0, "All Events");
+    type_filter->addOption(1, "Step on");
+    type_filter->addOption(2, "Game loop");
+    type_filter->addOption(3, "Player interact");
+    type_filter->addOption(4, "NPC finished talking");
+    addElement(type_filter);
+    
+    addElement(new Button(buttonClick, "Cancel", 0, 900, 250, 100, 0));
+    addElement(new Button(buttonClick, "Ok", 325, 900, 100, 100, 1));
 }
 
 bool EventCreateMenu::shouldWindowClose() { return false; }
 
 void EventCreateMenu::renderMenu(SDL_Renderer *renderer)
 {
-    COLOR(renderer, 0xFFFFFFFF);
-    SDL_Rect r = {0, 0, 500, 500};
+    COLOR(renderer, 0xFFFF0000);
+    SDL_Rect event = { x_slider->currentValue + PLAYER_OFFSET_X + window->level->xoffset, y_slider->currentValue + PLAYER_OFFSET_Y + window->level->yoffset, w_slider->currentValue, h_slider->currentValue };
+    SDL_RenderFillRect(renderer, &event);
+    
+    COLOR(renderer, 0x55FFFFFF);
+    SDL_Rect r = {0, 0, 500, GAME_HEIGHT};
     SDL_RenderFillRect(renderer, &r);
 }
 

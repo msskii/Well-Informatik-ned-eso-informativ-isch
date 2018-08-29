@@ -12,7 +12,10 @@
 #include "../Level.hpp"
 #include "../../util/Logger.hpp"
 
-extern void saveEventData(uint8_t *destination, std::vector<Event*> events);
-extern std::vector<Event*> loadEventData(uint8_t *destination);
+namespace Loader
+{
+    extern void saveEventData(uint8_t *destination, std::vector<Event*> events);
+    extern std::vector<Event*> loadEventData(uint8_t *destination);
+}
 
 #endif /* EventLoader_hpp */

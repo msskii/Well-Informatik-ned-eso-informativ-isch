@@ -9,12 +9,19 @@
 #ifndef EventCreateMenu_hpp
 #define EventCreateMenu_hpp
 
+#include "../elements/Elements.hpp"
 #include "../Menu.hpp"
 #include <string>
 #include <stdint.h>
 
 class EventCreateMenu : public Menu
 {
+public:
+    Slider *x_slider, *y_slider, *w_slider, *h_slider;
+    Slider *amount_slider, *id_slider, *dependency_slider;
+    
+    DropDown *actions, *type_filter;
+    
 public:
     EventCreateMenu();
 	EventCreateMenu(Event *defaults);

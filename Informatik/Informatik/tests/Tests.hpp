@@ -13,6 +13,7 @@
 #include "../level/loader/LevelLoader.hpp"
 #include "../level/loader/TextLoader.hpp"
 #include "../entity/loader/NPCLoader.hpp"
+#include "../multiplayer/Server.hpp"
 
 namespace Tests
 {

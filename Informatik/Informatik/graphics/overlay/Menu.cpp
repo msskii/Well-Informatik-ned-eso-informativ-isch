@@ -42,7 +42,18 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 
 void Menu::updateElements(SDL_Event e)
 {
-    if(under == nullptr) for(int i = 0; i < (int) elements.size(); i++) elements[i]->processEvent(this, e);
+    if(under == nullptr)
+    {
+        for(int i = (int) elements.size() - 1; i >= 0; i--) // Go back...
+        {
+            elements[i]->processEvent(this, e);
+            if(elements[i]->consumeEvent)
+            {
+                elements[i]->consumeEvent = false;
+                return; // Event consumed....
+            }
+        }
+    }
     else under->updateElements(e);
 }
 

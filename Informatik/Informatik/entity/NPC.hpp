@@ -30,7 +30,7 @@ public:
     
     std::vector<NPCText> texts;
     int currentNumTriggered = 0;
-    int currentText;
+    int currentText = 0;
     
     float walking_speed = SPEED;
     

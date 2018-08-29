@@ -66,8 +66,8 @@ int Level::getLevelSize()
 
 void Level::render(SDL_Renderer *renderer) // and update
 {
-    int xoffset = player->getOffsetX();
-    int yoffset = player->getOffsetY();
+    xoffset = player->getOffsetX();
+    yoffset = player->getOffsetY();
         
     for(int i = 0; i < (int) (width * height); i++)
     {
@@ -113,7 +113,7 @@ void Level::update()
 
 void Level::reloadFiles()
 {
-    text = TextLoader(textFile);
+    text = Loader::TextLoader(textFile);
 }
 
 Tile Level::getTile(int screenX, int screenY)

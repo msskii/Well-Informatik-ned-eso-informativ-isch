@@ -12,7 +12,10 @@
 #include "../../util/FileReader.hpp"
 #include "../NPC.hpp"
 
-extern std::vector<Entity*> loadNPCs(const char *filepath);
-extern Entity* loadNPC(uint8_t *&data);
+namespace Loader
+{
+    extern std::vector<Entity*> loadNPCs(const char *filepath);
+    extern Entity* loadNPC(uint8_t *&data);
+}
 
 #endif /* NPCLoader_hpp */

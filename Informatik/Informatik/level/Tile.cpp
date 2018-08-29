@@ -34,6 +34,7 @@ void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
     SDL_Rect dst = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
     SDL_RenderCopy(renderer, texture, &src, &dst);
     
+    /**
     if(brightness_modifier > 0)
     {
         COLOR(renderer, (brightness_modifier << 24) | 0xFFFFFF); // brightness modifier = 0 -> nothing changed, = 0xFF -> full white
@@ -43,9 +44,10 @@ void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
         COLOR(renderer, (-brightness_modifier << 24) | 0x000000); // brightness modifier = 0 -> nothing changed, = 0xFF -> full black
     }
     SDL_RenderFillRect(renderer, &dst); // Render over the tile
-    
+    */
     if(data.tileZ)
     {
-        
+        COLOR(renderer, 0x22FFFFFF); // brightness modifier = 0 -> nothing changed, = 0xFF -> full white
+        SDL_RenderFillRect(renderer, &dst); // Render over the tile
     }
 }

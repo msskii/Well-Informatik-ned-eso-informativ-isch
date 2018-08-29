@@ -13,21 +13,24 @@
 #include "../Level.hpp"
 #include "EventLoader.hpp"
 
-extern int readInt(uint8_t *&levelFile);
-
-class LevelLoader
+namespace Loader
 {
-private:
-    Level *level;
+    extern int readInt(uint8_t *&levelFile);
     
-public:
-    LevelLoader(const char *path);
-    LevelLoader(Level *level);
+    class LevelLoader
+    {
+    private:
+        Level *level;
+        
+    public:
+        LevelLoader(const char *path);
+        LevelLoader(Level *level);
+        
+        Level *buildLevel();
+        void saveFile(const char *path);
+    };
     
-    Level *buildLevel();
-    void saveFile(const char *path);
-};
-
-extern Level *loadLevel(const char* path, int w, int h);
-
+    extern Level *loadLevel(const char* path, int w, int h);
+}
+    
 #endif /* LevelLoader_hpp */

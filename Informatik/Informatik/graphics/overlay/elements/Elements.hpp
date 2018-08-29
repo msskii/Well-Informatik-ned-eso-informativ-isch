@@ -15,5 +15,7 @@
 #include "Button.hpp"
 #include "Text.hpp"
 #include "TextBox.hpp"
+#include "Slider.hpp"
+#include "Dropdown.hpp"
 
 #endif /* Elements_h */
