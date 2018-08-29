@@ -12,12 +12,32 @@ Tile::Tile() : xcoord(0), ycoord(0)
 {
     Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/sandy_ground.png"));
     brightness_modifier = (rand() % 1 == 0 ? -1 : 1) * rand() % 0x2F;
+    switch (data.tileNumber) {
+        case 0:
+            Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
+            break;
+            
+        case 1:
+            Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
+            break;
+    }
+            
 }
 
-Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
+Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({tileNumber})
 {
-    Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
-    brightness_modifier = (rand() % 1 == 0 ? -1 : 1) * rand() % 0x2F;
+    switch (data.tileNumber) {
+        case 0:
+            Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
+            break;
+            
+        case 1:
+            Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
+            break;
+            
+    }
+   // brightness_modifier = (rand() % 1 == 0 ? -1 : 1) * rand() % 0x2F;
+
 }
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
