@@ -27,10 +27,10 @@ bool Player::isInside(float dx, float dy)
 {
     if(x_pos + dx < 0 || x_pos + dx >= TILE_SIZE * level->width || y_pos + dy < 0 || y_pos + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
     
-    if(level->getTile((int)((x_pos + dx) / TILE_SIZE), (int)((y_pos + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((x_pos + dx) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((y_pos + dy) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx + 1) / TILE_SIZE), (int)((y_pos + dy + 1) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx + 1) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - 1) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - 1) / TILE_SIZE), (int)((y_pos + dy + 1) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - 1) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - 1) / TILE_SIZE)).data.tileZ != _z) return true;
     
     for(int i = 0; i < level->entities.size(); i++)
     {

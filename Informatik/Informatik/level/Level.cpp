@@ -32,7 +32,8 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     
     for(int i = 0; i < 20; i++)
     {
-        tiles[20 + i * 50].data =  {1,1};
+        tiles[20 + i * 50].data =  {1, 1};
+        tiles[20 + i * 50].reloadTexture();
     }
     
     EventData eventData;

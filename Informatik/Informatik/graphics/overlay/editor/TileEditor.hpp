@@ -18,6 +18,7 @@ protected:
     Level *level;
     
     DropDown *tilenumber_dropdown;
+    Slider *zheight_slider;
     
 public:
     TileEditor(Level *level, int i);

@@ -20,7 +20,8 @@ void EditorClickHandler::render(SDL_Renderer *renderer)
     
     int x, y;
     SDL_GetMouseState(&x, &y);
-    selected = (int) ((x / SCALE_X) / TILE_SIZE) + (int) ((y / SCALE_Y) / TILE_SIZE) * menu->window->level->width;
+    selected = (int) ((x / SCALE_X - (menu->window->level->player->getOffsetX() % TILE_SIZE) - TILE_SIZE / 2) / TILE_SIZE) + (int) ((y / SCALE_Y - (menu->window->level->player->getOffsetY() % TILE_SIZE) - TILE_SIZE) / TILE_SIZE) * menu->window->level->width;
+    selectedID = (int) ((x / SCALE_X) / TILE_SIZE) + (int) ((y / SCALE_Y) / TILE_SIZE) * menu->window->level->width;
 }
 
 
@@ -61,7 +62,7 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
     
     if(clickhandler->pressed)
     {
-        int tileIndex = clickhandler->selected - ((PLAYER_OFFSET_X + window->level->player->getOffsetX()) / TILE_SIZE) - ((PLAYER_OFFSET_Y + window->level->player->getOffsetY()) / TILE_SIZE) * (window->level->width);
+        int tileIndex = clickhandler->selectedID - ((PLAYER_OFFSET_X + window->level->player->getOffsetX()) / TILE_SIZE) - ((PLAYER_OFFSET_Y + window->level->player->getOffsetY()) / TILE_SIZE) * (window->level->width);
         clickhandler->pressed = false;
         
         openSubMenu(new TileEditor(window->level, tileIndex));
