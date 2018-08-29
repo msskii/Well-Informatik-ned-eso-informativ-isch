@@ -21,6 +21,7 @@ public:
     Slider *amount_slider, *id_slider, *dependency_slider;
     
     DropDown *actions, *type_filter;
+    uint8_t *arguments;
     
 public:
     EventCreateMenu();

@@ -21,6 +21,8 @@ static void onButtonPress(Menu *menu, Button *button)
             menu->close(); // Close the menu that is currently open (Main Menu)
             break;
         case START_LEVEREDITOR:
+            menu->close();
+            menu->window->openMenu(new EditorOverlay());
             break;
         case QUIT_GAME:
             exit(0);

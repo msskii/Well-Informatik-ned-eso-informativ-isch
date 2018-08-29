@@ -10,6 +10,7 @@
 #define MainMenu_hpp
 
 #include "Menu.hpp"
+#include "editor/EditorOverlay.hpp"
 
 class MainMenu : public Menu
 {
