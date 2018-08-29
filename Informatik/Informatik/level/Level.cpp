@@ -17,7 +17,10 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     }
     
 
-    tiles[105].data.tileZ = 1;
+    tiles[120].data.tileZ = 1;
+    
+    // doesnt work .... ==================================
+    tiles[121].data.tileNumber = 1;
     
     EventData eventData;
     eventData.event_x = TILE_SIZE * 6;

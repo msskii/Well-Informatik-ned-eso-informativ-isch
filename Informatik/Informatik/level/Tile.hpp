@@ -34,7 +34,7 @@ public:
     Tile();
     Tile(int x, int y);
 
-    TileData data = {0x00FF, 0}; // defaults
+    TileData data = {0, 0}; // defaults
     
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
