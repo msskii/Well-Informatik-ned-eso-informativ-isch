@@ -24,7 +24,7 @@ Tile::Tile() : xcoord(0), ycoord(0)
             
 }
 
-Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
+Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({tileNumber})
 {
     switch (data.tileNumber) {
         case 0:
