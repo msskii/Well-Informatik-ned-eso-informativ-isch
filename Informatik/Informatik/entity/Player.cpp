@@ -78,9 +78,9 @@ void Player::updateMovement(float dx, float dy)
     else if(dy > 0) direction = DOWN;
     else if(dy < 0) direction = UP;
     
-    correctMovement(dx, dy);
-    
     walking = dx != 0 || dy != 0;
+    
+    correctMovement(dx, dy);
     
     if(dx > 0) direction = RIGHT;
     else if(dx < 0) direction = LEFT;
