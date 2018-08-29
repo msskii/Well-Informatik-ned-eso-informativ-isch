@@ -51,9 +51,9 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
             int bx = e.button.x / SCALE_X;
             int by = e.button.y / SCALE_Y;
             
+            bx += w;
             if(toTheRight)
             {
-                bx += w;
                 by += ((int) elements.size() * h / 2);
             }
             

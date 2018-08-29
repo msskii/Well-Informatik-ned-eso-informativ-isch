@@ -10,6 +10,7 @@
 #define EditorOverlay_hpp
 
 #include "../Menu.hpp"
+#include "TileEditor.hpp"
 
 // Custom element to handle mouse events
 class EditorClickHandler : public Element
@@ -17,6 +18,9 @@ class EditorClickHandler : public Element
 private:
     
 public:
+    int selected = 0;
+    bool pressed = false;
+
     EditorClickHandler();
     
     void render(SDL_Renderer *renderer) override;
@@ -25,6 +29,10 @@ public:
 
 class EditorOverlay : public Menu
 {
+protected:
+    EditorClickHandler *clickhandler;
+    bool eventEditorEnabled = false;
+    
 public:
     EditorOverlay();
     

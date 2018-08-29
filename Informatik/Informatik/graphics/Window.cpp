@@ -104,10 +104,23 @@ void Window::runGameLoop()
     running = true;
     SDL_Event e;
     
+    bool mousePressed = false;
+    
     while(running)
     {
         while(SDL_PollEvent(&e))
         {
+            if((e.type == SDL_MOUSEBUTTONDOWN && mousePressed) || (e.type == SDL_MOUSEBUTTONUP && !mousePressed))
+            {
+                continue;
+            }
+            if(e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                mousePressed = true;
+                printf("Pressed mouse!\n");
+            }
+            if(e.type == SDL_MOUSEBUTTONUP) mousePressed = false;
+
             for(int i = 0; i < (int) menus.size(); i++) menus[i]->updateElements(e);
             
             // Handle events of the window

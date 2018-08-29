@@ -13,11 +13,13 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
 {    
     for(int i = 0; i < w * h; i++)
     {
-        if(i%50==0)
+        if(i % 50 == 0)
         {
-            tiles[i] = Tile(i % w, i / w, 1);
-        }else{
-            tiles[i] = Tile(i % w, i / w, 0);
+            tiles[i] = Tile(i % w, i / w, 1); // tile 1
+        }
+        else
+        {
+            tiles[i] = Tile(i % w, i / w, 0); // tile 0
         }
         
     }
