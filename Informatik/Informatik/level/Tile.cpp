@@ -17,7 +17,7 @@ Tile::Tile() : xcoord(0), ycoord(0)
 Tile::Tile(int x, int y) : xcoord(x), ycoord(y)
 {
 
-    Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
+    Tile_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_newgrass.png"));
     brightness_modifier = (rand() % 1 == 0 ? -1 : 1) * rand() % 0x2F;
 
 }
