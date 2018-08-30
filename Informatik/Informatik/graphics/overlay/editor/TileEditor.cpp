@@ -13,10 +13,13 @@ TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
     Tile t = level->tiles[tid];
     this->level = level;
     
-    zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 100, 500, 100, 0);
+    zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 000, 500, 100, 0);
     addElement(zheight_slider);
     
-    tilenumber_dropdown = new DropDown(t.data.tileNumber, 0, 0, 500, 100, 0);
+    variant_slider = new Slider(0, 100, t.data.variant, 0, 100, 500, 100, 0);
+    addElement(variant_slider);
+    
+    tilenumber_dropdown = new DropDown(t.data.tileNumber, 0, 200, 500, 100, 0);
     // tilenumber_dropdown->toTheRight = true;
     tilenumber_dropdown->addOption(0, "0: Grass");
     tilenumber_dropdown->addOption(1, "1: Stonepath");
@@ -27,10 +30,6 @@ bool TileEditor::shouldWindowClose() { return false; }
 
 void TileEditor::renderMenu(SDL_Renderer *renderer)
 {
-    /**SDL_Rect dst = { (int)(tileID % window->level->width) * TILE_SIZE + (window->level->player->getOffsetX() % TILE_SIZE) + TILE_SIZE / 2, (int)(tileID / window->level->width) * TILE_SIZE + (window->level->player->getOffsetY() % TILE_SIZE) + TILE_SIZE, TILE_SIZE, TILE_SIZE };
-    COLOR(renderer, 0xAFFFFFFF);
-    SDL_RenderFillRect(renderer, &dst);*/
-    
     SDL_Rect background = {0, 0, 600, GAME_HEIGHT};
     COLOR(renderer, 0x55FFFFFF);
     SDL_RenderFillRect(renderer, &background);
@@ -49,6 +48,7 @@ void TileEditor::onClose()
 {
     level->tiles[tileID].data.tileNumber = tilenumber_dropdown->currentID;
     level->tiles[tileID].data.tileZ = zheight_slider->currentValue;
-    level->tiles[tileID].reloadTexture();
+    level->tiles[tileID].data.variant = variant_slider->currentValue;
+    level->tiles[tileID].reloadTexture(level->tiles[tileID].data.variant);
 }
 

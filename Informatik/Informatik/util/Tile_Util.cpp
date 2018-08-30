@@ -9,35 +9,32 @@
 #include "Tile_Util.hpp"
 #include <stdlib.h>
 
-SDL_Surface *loadTile(uint16_t tileNumber)
+SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 {
-    int i;
     switch (tileNumber)
     {
         case 0:
-            i = rand() % 100;
-            switch (i) {
+            switch (variant)
+            {
                 case 0:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_1.png"));
-                    break;
-                    
                 case 1:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
-                    break;
                 default:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
-                    break;
             }
-            break;
         case 1:
             return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
-            break;
-            
         case 2:
             return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
-            break;
             
+        default:
+            return NULL;
     }
-    
-    return NULL;
+}
+
+SDL_Surface *loadTile(uint16_t tileNumber, uint8_t &variant)
+{
+    variant = rand() % 100;
+    return loadTileVariant(tileNumber, variant); // Variant is
 }

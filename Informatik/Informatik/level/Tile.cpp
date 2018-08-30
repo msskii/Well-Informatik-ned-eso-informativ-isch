@@ -10,24 +10,30 @@
 
 Tile::Tile() : xcoord(0), ycoord(0)
 {
-    Tile_surface = loadTile(data.tileNumber);
+    Tile_surface = loadTile(data.tileNumber, data.variant);
 }
 
 Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({ tileNumber, 0})
 {
-    Tile_surface = loadTile(tileNumber);
+    Tile_surface = loadTile(tileNumber, data.variant);
 }
 
 Tile::Tile(int x, int y, uint16_t tileNumber, uint8_t zheight) : xcoord(x), ycoord(y), data({ tileNumber, zheight})
 {
 
-    Tile_surface = loadTile(tileNumber);
+    Tile_surface = loadTile(tileNumber, data.variant);
 }
 
 void Tile::reloadTexture()
 {
     texture = nullptr;
-    Tile_surface = loadTile(data.tileNumber);
+    Tile_surface = loadTile(data.tileNumber, data.variant);
+}
+
+void Tile::reloadTexture(int variant) // For the tileeditor
+{
+    texture = nullptr;
+    Tile_surface = loadTileVariant(data.tileNumber, variant);
 }
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)

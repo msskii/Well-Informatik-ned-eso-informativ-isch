@@ -18,6 +18,7 @@ typedef struct TileData
 {
     uint16_t tileNumber;
     uint8_t tileZ;
+    uint8_t variant;
 } TileData;
 #pragma pack(pop)
 
@@ -36,6 +37,7 @@ public:
     Tile(int x, int y, uint16_t tilenumber, uint8_t zheight);
 
     void reloadTexture();
+    void reloadTexture(int variant);
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 
