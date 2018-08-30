@@ -15,8 +15,11 @@
 
 void startGame()
 {
-    // srand((int) time(NULL)); // Enable to get differen shades each time
+#ifdef DEBUG_RANDOM
     srand(0);
+#else
+    srand((int) time(NULL)); // Enable to get differen shades each time
+#endif
     
     Window w;
     // Time to inject stuff into the level

@@ -16,6 +16,7 @@
 // ======================
 
 // #define DEBUG_OVERLAY
+#define DEBUG_RANDOM // Always same random values in the same order if enabled
 
 
 // ======================
