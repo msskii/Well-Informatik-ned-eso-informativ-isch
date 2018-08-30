@@ -26,6 +26,9 @@
 		936C12F02135941800404679 /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12EE2135941800404679 /* Server.cpp */; };
 		936C12F32135CE4D00404679 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12F12135CE4D00404679 /* Slider.cpp */; };
 		936C12F72135DBD800404679 /* Dropdown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12F52135DBD800404679 /* Dropdown.cpp */; };
+		936C12FA213665B300404679 /* EditorOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12F8213665B300404679 /* EditorOverlay.cpp */; };
+		936C12FD2136BDE400404679 /* TileEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12FB2136BDE400404679 /* TileEditor.cpp */; };
+		936C13002136BFF800404679 /* Tile_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12FE2136BFF800404679 /* Tile_Util.cpp */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
 		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
 		937B0D6221301D1000C2051B /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D6021301D1000C2051B /* TextBox.cpp */; };
@@ -113,6 +116,12 @@
 		936C12F22135CE4D00404679 /* Slider.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Slider.hpp; sourceTree = "<group>"; };
 		936C12F52135DBD800404679 /* Dropdown.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dropdown.cpp; sourceTree = "<group>"; };
 		936C12F62135DBD800404679 /* Dropdown.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Dropdown.hpp; sourceTree = "<group>"; };
+		936C12F8213665B300404679 /* EditorOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditorOverlay.cpp; sourceTree = "<group>"; };
+		936C12F9213665B300404679 /* EditorOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EditorOverlay.hpp; sourceTree = "<group>"; };
+		936C12FB2136BDE400404679 /* TileEditor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TileEditor.cpp; sourceTree = "<group>"; };
+		936C12FC2136BDE400404679 /* TileEditor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TileEditor.hpp; sourceTree = "<group>"; };
+		936C12FE2136BFF800404679 /* Tile_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tile_Util.cpp; sourceTree = "<group>"; };
+		936C12FF2136BFF800404679 /* Tile_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tile_Util.hpp; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
 		937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EventCreateMenu.cpp; sourceTree = "<group>"; };
@@ -246,6 +255,8 @@
 				932D322E212ABC6700DA45BD /* Logger.hpp */,
 				93D47BBA212D9338007853BC /* SDL_Util.hpp */,
 				93D47BBD212DE69C007853BC /* SDL_Util.cpp */,
+				936C12FE2136BFF800404679 /* Tile_Util.cpp */,
+				936C12FF2136BFF800404679 /* Tile_Util.hpp */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -282,6 +293,10 @@
 			children = (
 				937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */,
 				937B0D5E21301BC600C2051B /* EventCreateMenu.hpp */,
+				936C12F8213665B300404679 /* EditorOverlay.cpp */,
+				936C12F9213665B300404679 /* EditorOverlay.hpp */,
+				936C12FB2136BDE400404679 /* TileEditor.cpp */,
+				936C12FC2136BDE400404679 /* TileEditor.hpp */,
 			);
 			path = editor;
 			sourceTree = "<group>";
@@ -428,8 +443,11 @@
 				93D47B9A212C414B007853BC /* FileReader.cpp in Sources */,
 				93D47BA0212C433C007853BC /* EventActions.cpp in Sources */,
 				936C12F32135CE4D00404679 /* Slider.cpp in Sources */,
+				936C12FD2136BDE400404679 /* TileEditor.cpp in Sources */,
 				937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */,
 				93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */,
+				936C13002136BFF800404679 /* Tile_Util.cpp in Sources */,
+				936C12FA213665B300404679 /* EditorOverlay.cpp in Sources */,
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
 				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,
 				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,

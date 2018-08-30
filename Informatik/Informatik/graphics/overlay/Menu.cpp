@@ -41,7 +41,7 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 }
 
 void Menu::updateElements(SDL_Event e)
-{
+{    
     if(under == nullptr)
     {
         for(int i = (int) elements.size() - 1; i >= 0; i--) // Go back...

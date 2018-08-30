@@ -12,6 +12,7 @@
 #define TILE_SIZE 64
 
 #include "../util/SDL_Util.hpp"
+#include "../util/Tile_Util.hpp"
 #include "../config.h"
 
 #pragma pack(push, 1)
@@ -34,8 +35,9 @@ public:
     Tile();
     TileData data = {0, 0};
     Tile(int x, int y, uint16_t tilenumber);
+    Tile(int x, int y, uint16_t tilenumber, uint8_t zheight);
 
-    
+    void reloadTexture();
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 

@@ -32,6 +32,7 @@ public:
     int currentID = 0;
     
     bool toTheRight = false;
+    int currentlyOver = 0;
     
     DropDown(int defaultSelected, int x, int y, int w, int h, int id);
     

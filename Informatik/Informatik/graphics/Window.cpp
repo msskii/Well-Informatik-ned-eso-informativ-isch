@@ -104,11 +104,26 @@ void Window::runGameLoop()
     running = true;
     SDL_Event e;
     
+    bool mousePressed = false;
+    
     while(running)
     {
         while(SDL_PollEvent(&e))
         {
-            for(int i = 0; i < (int) menus.size(); i++) menus[i]->updateElements(e);
+            if((e.type == SDL_MOUSEBUTTONDOWN && mousePressed) || (e.type == SDL_MOUSEBUTTONUP && !mousePressed))
+            {
+                continue;
+            }
+            if(e.type == SDL_MOUSEBUTTONDOWN) mousePressed = true;
+            if(e.type == SDL_MOUSEBUTTONUP) mousePressed = false;
+            
+            if(e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP || e.type == SDL_FINGERMOTION)
+            {
+                // No touch events...
+                continue;
+            }
+
+            for(int i = (int) menus.size() - 1; i >= 0; i--) menus[i]->updateElements(e);
             
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)
@@ -136,7 +151,7 @@ void Window::runGameLoop()
         bool toUpdate = true;
         for(int i = 0; i < (int) menus.size(); i++)
         {
-            menus[i]->updateElements(e);
+            // menus[i]->updateElements(e); // What was I doing?
             if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
         }
         if(toUpdate) update();

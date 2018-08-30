@@ -43,5 +43,4 @@ extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x,
 extern void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h); // Keep aspect ratio
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
 
-
 #endif /* SDL_Util_h */

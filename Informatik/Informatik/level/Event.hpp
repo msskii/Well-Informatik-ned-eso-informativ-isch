@@ -28,9 +28,7 @@ public:
     uint8_t *arguments; // The arguments for this event
     EventData event_data; // The actual event
     
-public:
-    int event_id;
-    
+public:    
     Event(EventData eventData, uint8_t *args);
         
     void trigger(EVENT_TYPE type, Level *level);

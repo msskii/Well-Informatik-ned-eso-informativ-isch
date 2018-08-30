@@ -13,11 +13,17 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
 {    
     for(int i = 0; i < w * h; i++)
     {
+<<<<<<< HEAD
         if((i-5)%50==0)
+=======
+        if(i % 50 == 0)
+>>>>>>> 4d4cab0def95ca04a72b24b4c8e1235059637d5f
         {
-            tiles[i] = Tile(i % w, i / w, 1);
-        }else{
-            tiles[i] = Tile(i % w, i / w, 0);
+            tiles[i] = Tile(i % w, i / w, 1); // tile 1
+        }
+        else
+        {
+            tiles[i] = Tile(i % w, i / w, 0); // tile 0
         }
         
     }
@@ -30,7 +36,8 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     
     for(int i = 0; i < 20; i++)
     {
-        tiles[20 + i * 50].data =  {1,1};
+        tiles[20 + i * 50].data =  {1, 1};
+        tiles[20 + i * 50].reloadTexture();
     }
     
     EventData eventData;

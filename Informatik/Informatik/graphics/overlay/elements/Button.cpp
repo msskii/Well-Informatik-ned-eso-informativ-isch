@@ -36,6 +36,8 @@ void Button::processEvent(Menu* menu, SDL_Event e)
         hoverOver = menu->active && e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
         if(e.button.button == SDL_BUTTON_LEFT && hoverOver)
         {
+            consumeEvent = true;
+
             clicked = true;
             if(handler != nullptr) handler(menu, this);
         }
