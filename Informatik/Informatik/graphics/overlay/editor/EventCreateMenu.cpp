@@ -126,8 +126,8 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     type_filter->addOption(4, "NPC finished talking");
     addElement(type_filter);
     
-    addElement(new Button(buttonClick, "Cancel", 0, 900, 250, 100, 0));
-    addElement(new Button(buttonClick, "Ok", 325, 900, 100, 100, 1));
+    addElement(new Button(buttonClick, "Cancel", 0, 900, 300, 100, 0));
+    addElement(new Button(buttonClick, "Ok", 300, 900, 300, 100, 1));
 }
 
 bool EventCreateMenu::shouldWindowClose() { return false; }

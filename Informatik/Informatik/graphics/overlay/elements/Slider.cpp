@@ -25,6 +25,12 @@ void Slider::render(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &r);
     
     drawTextAspect(renderer, std::to_string(currentValue).c_str(), 0xFF000000, x, y, w, h);
+    
+    r = {x + 1, y, w - 1, h - 1};
+    SDL_RenderDrawRect(renderer, &r);
+    
+    r = {x + 2, y + 1, w, h - 2};
+    SDL_RenderDrawRect(renderer, &r);
 }
 
 void Slider::processEvent(Menu *menu, SDL_Event e)

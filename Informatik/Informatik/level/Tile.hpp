@@ -9,8 +9,6 @@
 #ifndef Tile_hpp
 #define Tile_hpp
 
-#define TILE_SIZE 64
-
 #include "../util/SDL_Util.hpp"
 #include "../util/Tile_Util.hpp"
 #include "../config.h"

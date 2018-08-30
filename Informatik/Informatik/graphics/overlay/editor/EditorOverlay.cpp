@@ -110,7 +110,14 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
                     break;
                 }
             }
-            if(e == nullptr) return;
+            if(e == nullptr)
+            {
+                // Create new event at location of mouse
+                EventData data;
+                data.event_x = clickhandler->x;
+                data.event_y = clickhandler->y;
+                e = new Event(data, new uint8_t[1]{});
+            }
             openSubMenu(new EventCreateMenu(e));
         }
         else

@@ -9,17 +9,26 @@
 #ifndef config_h
 #define config_h
 
-#define GAME_TITLE "..."
+// All enable / disable options are just commented = disabled & uncommented = enabled
 
+// ======================
+// Debug stuff
+// ======================
+
+// #define DEBUG_OVERLAY
+
+
+// ======================
+// Window & Game stuff stuff
+// ======================
+
+#define GAME_TITLE "..."
 // #define FULLSCREEN_ENABLED // Comment this line if no fullscreen
 // #define HIGH_RESOLUTION // Comment this line if no high resolution
 
 #define GAME_WIDTH 1920
 #define GAME_HEIGHT 1080
 
-// #define DEBUG_OVERLAY
-
-// 16 to 9 ratio?
 #ifdef HIGH_RESOLUTION
 #  define WINDOW_WIDTH GAME_WIDTH
 #  define WINDOW_HEIGHT GAME_HEIGHT
@@ -28,7 +37,23 @@
 #  define WINDOW_HEIGHT 540
 #endif
 
+
+// ======================
+// Tile stuff
+// ======================
+#define TILE_SIZE 64
+
+// ======================
+// Player stuff
+// ======================
+
 #define SPEED 7
 #define STEP_ACCURACY 100.0f
+
+// Same as tile size
+#define PLAYER_WIDTH 64
+#define PLAYER_HEIGHT 64
+#define PLAYER_OFFSET_X ((GAME_WIDTH + PLAYER_WIDTH) / 2)
+#define PLAYER_OFFSET_Y ((GAME_HEIGHT + PLAYER_HEIGHT) / 2)
 
 #endif /* config_h */
