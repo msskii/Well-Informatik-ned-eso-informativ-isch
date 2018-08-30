@@ -64,11 +64,6 @@ void drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x
     int textwidth, textheight;
     TTF_SizeText(font, text, &textwidth, &textheight);
     
-    x += (w - textwidth) / 2;
-    w = textwidth;
-    y += (h - textheight) / 2;
-    h = textheight;
-    
     if(font == nullptr)
     {
         INFO("Font not yet initialized");
@@ -84,6 +79,11 @@ void drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x
         float scaleX = SCALE_X * (float) w / (float) srfc->w;
         float scaleY = SCALE_Y * (float) h / (float) srfc->h;
         float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
+        
+        x += (w - textwidth * scale / SCALE_X) / 2;
+        w = textwidth;
+        y += (h - textheight * scale / SCALE_Y) / 2;
+        h = textheight;
         
         SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
         SDL_RenderSetScale(renderer, scale, scale); // Set scaling

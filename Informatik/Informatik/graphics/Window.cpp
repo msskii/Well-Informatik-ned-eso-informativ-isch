@@ -18,8 +18,9 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     
-    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 50); // Window opened = font initialized
-
+    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 100); // Window opened = font initialized
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    
     if(!font)
     {
         ERROR("Couldn't open font file...");
