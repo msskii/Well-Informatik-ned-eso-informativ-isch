@@ -19,9 +19,15 @@ protected:
     
     DropDown *tilenumber_dropdown;
     Slider *zheight_slider, *variant_slider;
+    bool isOnLeftSide = true;
+    bool jpressed;
     
 public:
     TileEditor(Level *level, int i);
+    friend void variantSliderCallback(Menu *menu, int variant);
+    friend void tilenumberCallback(Menu *menu, DropDownElement tile);
+    
+    void switchSide();
     
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;

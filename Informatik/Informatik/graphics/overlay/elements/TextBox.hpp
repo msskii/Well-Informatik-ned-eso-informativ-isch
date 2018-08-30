@@ -14,9 +14,7 @@
 
 class TextBox : public Element
 {
-protected:
-    int x, y, w, h;
-    
+protected:    
     bool defaultText = true;
     bool focus = false; // No default focus
     bool hoverOver = false;

@@ -11,11 +11,13 @@
 
 #include "Element.hpp"
 
+typedef void (*sliderCallback)(Menu *menuIn, int newValue);
+
 class Slider : public Element
 {
 protected:
     int minValue, maxValue;
-    int x, y, w, h;
+    sliderCallback clbck = nullptr;
     
 public:
     int currentValue = 0;
@@ -23,6 +25,8 @@ public:
     Slider(int min, int max, int x, int y, int w, int h, int id);
     Slider(int min, int max, int current, int x, int y, int w, int h, int id);
 
+    inline void setCallback(sliderCallback c) { clbck = c; }
+    
     void render(SDL_Renderer *renderer) override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };

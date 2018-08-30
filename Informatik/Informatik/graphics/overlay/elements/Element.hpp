@@ -21,6 +21,7 @@ protected:
 
 public:
 	int elementID;
+    int x, y, w, h;
     bool consumeEvent = false;
 
     void addToMenu(Menu *menu);

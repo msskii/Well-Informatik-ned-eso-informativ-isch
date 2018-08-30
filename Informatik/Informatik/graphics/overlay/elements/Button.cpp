@@ -9,8 +9,12 @@
 #include "Button.hpp"
 #include "../Menu.hpp"
 
-Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), x(_x), y(_y), w(_w), h(_h), text(t)
+Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _w, int _h, int bid) : handler(bhandler), text(t)
 {
+    x = _x;
+    y = _y;
+    w = _w;
+    h = _h;
 	elementID = bid;
 }
 

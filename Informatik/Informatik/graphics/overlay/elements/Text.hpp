@@ -14,7 +14,6 @@
 class Text : public Element
 {
 protected:
-    int x, y, w, h;
     const char *text;
 
 public:
@@ -32,7 +31,6 @@ class DebugText : public Element
 {
 public:
     textUpdate updater;
-    int x, y, w, h;
     const char *format;
     int maxLength;
     char *buffer;

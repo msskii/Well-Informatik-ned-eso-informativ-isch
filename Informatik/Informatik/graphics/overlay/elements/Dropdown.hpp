@@ -20,14 +20,17 @@ typedef struct DropDownElement
     
 } DropDownElement;
 
+typedef void (*dropdownCallback)(Menu *menu, DropDownElement newSelected);
+
 class DropDown : public Element
 {
 protected:
     std::vector<DropDownElement> elements;
     bool expanded = false;
 
+    dropdownCallback clbck = nullptr;
+    
 public:
-    int x, y, w, h;
     int currentSelected = 0;
     int currentID = 0;
     
@@ -38,6 +41,7 @@ public:
     
     void addOption(int index, const char *text);
     
+    inline void setCallback(dropdownCallback c) { clbck = c; }
     void render(SDL_Renderer *renderer) override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };

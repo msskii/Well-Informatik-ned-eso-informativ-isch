@@ -8,13 +8,21 @@
 
 #include "Slider.hpp"
 
-Slider::Slider(int min, int max, int _x, int _y, int _w, int _h, int id) : minValue(min), maxValue(max), x(_x), y(_y), w(_w), h(_h)
+Slider::Slider(int min, int max, int _x, int _y, int _w, int _h, int id) : minValue(min), maxValue(max)
 {
+    x = _x;
+    y = _y;
+    w = _w;
+    h = _h;
     elementID = id;
 }
 
-Slider::Slider(int min, int max, int current, int _x, int _y, int _w, int _h, int id) : minValue(min), maxValue(max), currentValue(current), x(_x), y(_y), w(_w), h(_h)
+Slider::Slider(int min, int max, int current, int _x, int _y, int _w, int _h, int id) : minValue(min), maxValue(max), currentValue(current)
 {
+    x = _x;
+    y = _y;
+    w = _w;
+    h = _h;
     elementID = id;
 }
 
@@ -40,7 +48,11 @@ void Slider::processEvent(Menu *menu, SDL_Event e)
         if(e.button.button == SDL_BUTTON_LEFT)
         {
             bool isOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
-            if(isOver) currentValue = (float)((e.button.x / SCALE_X) - x) * (float)(maxValue - minValue) / (float)w + minValue;
+            if(isOver)
+            {
+                currentValue = (float)((e.button.x / SCALE_X) - x) * (float)(maxValue - minValue) / (float)w + minValue;
+                if(clbck != nullptr) clbck(menu, currentValue);
+            }
         }
     }
 }

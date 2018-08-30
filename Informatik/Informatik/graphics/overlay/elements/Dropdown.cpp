@@ -8,8 +8,12 @@
 
 #include "Dropdown.hpp"
 
-DropDown::DropDown(int defaultSelected, int _x, int _y, int _w, int _h, int id) : currentID(defaultSelected), x(_x), y(_y), w(_w), h(_h)
+DropDown::DropDown(int defaultSelected, int _x, int _y, int _w, int _h, int id) : currentID(defaultSelected)
 {
+    x = _x;
+    y = _y;
+    w = _w;
+    h = _h;
     elementID = id;
 }
 
@@ -99,6 +103,8 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
                 for(int i = 0; i < (int) elements.size(); i++) if(eid == elements[i].id) currentSelected = i;
                 consumeEvent = true;
                 expanded = false;
+                
+                if(clbck != nullptr) clbck(menu, elements[currentSelected]);
             }
             else
             {

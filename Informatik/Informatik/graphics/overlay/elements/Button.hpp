@@ -17,7 +17,6 @@ typedef void (*buttonClickHandler)(Menu *menu, Button *button);
 class Button : public Element
 {
 public:
-    int x, y, w, h;
     const char *text;
     bool hoverOver = false;
     bool clicked = false;

@@ -20,8 +20,9 @@ class Window;
 
 class Menu // Basic menu class to extend from
 {
-protected:
+public:
     std::vector<Element*> elements;
+    
 public:
     bool active = false; // Currently active?
     Menu *under = nullptr; // The menu that is under this one, so we can close one menu and go back to the last
