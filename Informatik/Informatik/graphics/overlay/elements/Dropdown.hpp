@@ -10,6 +10,7 @@
 #define Dropdown_hpp
 
 #include "Element.hpp"
+#include "../../../config.h"
 #include <vector>
 
 typedef struct DropDownElement
@@ -34,7 +35,7 @@ public:
     int currentSelected = 0;
     int currentID = 0;
     
-    bool toTheRight = false;
+    bool toTheSide = false;
     int currentlyOver = 0;
     
     DropDown(int defaultSelected, int x, int y, int w, int h, int id);

@@ -71,7 +71,7 @@ EventCreateMenu::EventCreateMenu()
     addElement(new Button(buttonClick, "Ok", 325, 900, 100, 100, 1));
     
     actions = new DropDown(0, 0, 700, 600, 100, 0);
-    actions->toTheRight = true;
+    actions->toTheSide = true;
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
     actions->addOption(2, "Interact with NPC");
@@ -80,7 +80,7 @@ EventCreateMenu::EventCreateMenu()
     arguments = (uint8_t*) malloc(1); // Just so we can use realloc
     
     type_filter = new DropDown(0, 0, 800, 600, 100, 0);
-    type_filter->toTheRight = true;
+    type_filter->toTheSide = true;
     type_filter->addOption(0, "All Events");
     type_filter->addOption(1, "Step on");
     type_filter->addOption(2, "Game loop");
@@ -109,7 +109,7 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     dependency_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.event_id_dependency, 100, 600, 500, 100, 6));
 
     actions = new DropDown(evt->event_data.event_action, 0, 700, 600, 100, 0);
-    actions->toTheRight = true;
+    actions->toTheSide = true;
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
     actions->addOption(2, "Interact with NPC");
@@ -118,7 +118,7 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     arguments = evt->arguments;
     
     type_filter = new DropDown(evt->event_data.event_type_filter, 0, 800, 600, 100, 0);
-    type_filter->toTheRight = true;
+    type_filter->toTheSide = true;
     type_filter->addOption(0, "All Events");
     type_filter->addOption(1, "Step on");
     type_filter->addOption(2, "Game loop");
@@ -130,6 +130,15 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     addElement(new Button(buttonClick, "Ok", 300, 900, 300, 100, 1));
 }
 
+void EventCreateMenu::switchSide()
+{
+    int toAdd = GAME_WIDTH - 600;
+    toAdd *= isOnLeftSide ? 1 : -1;
+    
+    for(int i = 0; i < (int) elements.size(); i++) elements[i]->x += toAdd;
+    isOnLeftSide = !isOnLeftSide;
+}
+
 bool EventCreateMenu::shouldWindowClose() { return false; }
 
 void EventCreateMenu::renderMenu(SDL_Renderer *renderer)
@@ -139,10 +148,21 @@ void EventCreateMenu::renderMenu(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &event);
     
     COLOR(renderer, 0x55FFFFFF);
-    SDL_Rect r = {0, 0, 600, GAME_HEIGHT};
+    SDL_Rect r = {isOnLeftSide ? 0 : GAME_WIDTH - 600, 0, 600, GAME_HEIGHT};
     SDL_RenderFillRect(renderer, &r);
 }
 
-void EventCreateMenu::updateMenu(const uint8_t *keys) {}
+void EventCreateMenu::updateMenu(const uint8_t *keys)
+{
+    if(keys[SDL_SCANCODE_J])
+    {
+        if(!jpressed)
+        {
+            switchSide();
+        }
+        jpressed = true;
+    } else jpressed = false;
+}
+
 void EventCreateMenu::onOpen() {}
 void EventCreateMenu::onClose() {}

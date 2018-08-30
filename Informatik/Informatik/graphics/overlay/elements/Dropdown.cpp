@@ -30,26 +30,29 @@ void DropDown::render(SDL_Renderer *renderer)
     {
         SDL_Rect background = {x, y, w, h * (int) elements.size() };
         SDL_Rect current = {x, y + h * elements[currentlyOver].id, w, h};
-        if(toTheRight)
+        if(toTheSide)
         {
-            background.x += w;
+            int xoffset = x >= GAME_WIDTH - w ? -w : w;
+            background.x += xoffset;
             background.y -= ((int) elements.size() * h) / 2;
             
-            current.x += w;
+            current.x += xoffset;
             current.y -= ((int) elements.size() * h) / 2;
         }
+
         COLOR(renderer, 0xFFFFFFFF);
         SDL_RenderFillRect(renderer, &background);
         COLOR(renderer, 0xFF777777);
         SDL_RenderFillRect(renderer, &current);
 
         
-        if(toTheRight)
+        if(toTheSide)
         {
+            int xoffset = x >= GAME_WIDTH - w ? -w : w;
             drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h);
             for(int i = 0; i < (int) elements.size(); i++)
             {
-                drawTextAspect(renderer, elements[i].text, 0xFF000000, x + w, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h);
+                drawTextAspect(renderer, elements[i].text, 0xFF000000, x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h);
             }
         }
         else
@@ -68,11 +71,13 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
     {
         int bx = e.button.x / SCALE_X;
         int by = e.button.y / SCALE_Y;
-        if(toTheRight)
+        if(toTheSide)
         {
-            bx -= w;
+            int xoffset = x >= GAME_WIDTH - w ? -w : w;
+            bx -= xoffset;
             by += ((int) elements.size() * h / 2);
         }
+        
         if(bx >= x && bx <= x + w && by >= y && by <= y + h * (int) elements.size())
         {
             int eid = (by - y) / h;
@@ -89,9 +94,9 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
             int by = e.button.y / SCALE_Y;
             
             // bx += w;
-            if(toTheRight)
+            if(toTheSide)
             {
-                bx -= w;
+                bx += x >= GAME_WIDTH - w ? w : -w;
                 by += ((int) elements.size() * h / 2);
             }
             

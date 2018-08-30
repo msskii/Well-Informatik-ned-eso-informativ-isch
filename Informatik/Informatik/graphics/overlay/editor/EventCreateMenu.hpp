@@ -22,11 +22,14 @@ public:
     
     DropDown *actions, *type_filter;
     uint8_t *arguments;
+    bool jpressed, isOnLeftSide = true;
     
 public:
     EventCreateMenu();
 	EventCreateMenu(Event *defaults);
 
+    void switchSide();
+    
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;
     void updateMenu(const uint8_t *keys) override;
