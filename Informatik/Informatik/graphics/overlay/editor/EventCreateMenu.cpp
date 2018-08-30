@@ -77,6 +77,8 @@ EventCreateMenu::EventCreateMenu()
     actions->addOption(2, "Interact with NPC");
     addElement(actions);
     
+    arguments = (uint8_t*) malloc(1); // Just so we can use realloc
+    
     type_filter = new DropDown(0, 0, 800, 600, 100, 0);
     type_filter->toTheRight = true;
     type_filter->addOption(0, "All Events");
@@ -137,7 +139,7 @@ void EventCreateMenu::renderMenu(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &event);
     
     COLOR(renderer, 0x55FFFFFF);
-    SDL_Rect r = {0, 0, 500, GAME_HEIGHT};
+    SDL_Rect r = {0, 0, 600, GAME_HEIGHT};
     SDL_RenderFillRect(renderer, &r);
 }
 

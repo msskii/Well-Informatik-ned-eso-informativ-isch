@@ -88,6 +88,11 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
         eventEditorEnabled = false;
     }
     
+    if(keys[SDL_SCANCODE_N])
+    {
+        openSubMenu(new EventCreateMenu());
+    }
+    
     if(clickhandler->pressed)
     {
         clickhandler->pressed = false;
