@@ -10,7 +10,7 @@
 
 Player::Player(Level *l) : level(l)
 {
-    player_surface = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/player_boy.png"));
+    player_surface = IMG_Load(GET_TEXTURE_PATH("player_boy"));
 }
 
 // Helper function for intersections with other things (xpos & ypos are the players position while the rest are the parameters of the thing trying to compare to)

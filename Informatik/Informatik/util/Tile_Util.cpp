@@ -21,20 +21,20 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                     // 0 - 127: Design
                     // 128 - 254: Transitions between Tiles
                 case GRASS:
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass"));
                 case STONE_ROAD_ON_GRASS:
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_1.png"));
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_1"));
                 case 2:
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_2"));
                 case 128: 
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_2"));
                 default:
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass"));
             }
         case 1:
-            return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
+            return IMG_Load(GET_TEXTURE_PATH("/Tile_StonerPathOnGrass"));
         case 2:
-            return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
+            return IMG_Load(GET_TEXTURE_PATH("/Tile_StonerPathOnGrass"));
             
         default:
             return NULL;

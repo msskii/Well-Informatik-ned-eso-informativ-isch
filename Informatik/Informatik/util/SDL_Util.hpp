@@ -33,6 +33,7 @@
 #define AUDIO_PATH std::string("assets/audio/")
 
 #define GET_VARIANT_PATH(texture_name, variant_num) (TEXTURE_PATH + texture_name + std::to_string(variant_num) + ".png").c_str()
+#define GET_TEXTURE_PATH(texture_name) (TEXTURE_PATH + texture_name + ".png").c_str()
 #define GET_FILE_PATH(initpath, filename) (initpath + filename).c_str()
 
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
