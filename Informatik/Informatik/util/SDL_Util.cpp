@@ -193,10 +193,14 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
 			return shift ? '\0' : '8';
 		case SDL_SCANCODE_KP_9:
 			return shift ? '\0' : '9';
+		case SDL_SCANCODE_PERIOD:
+		case SDL_SCANCODE_KP_PERIOD:
+			return shift ? ':' : '.';
         case SDL_SCANCODE_BACKSPACE:
             return '\x08';
         case SDL_SCANCODE_SPACE:
             return ' ';
+		case SDL_SCANCODE_RETURN:
         case SDL_SCANCODE_LSHIFT: // No characters for this key
         case SDL_SCANCODE_RSHIFT:
         case SDL_SCANCODE_CAPSLOCK:

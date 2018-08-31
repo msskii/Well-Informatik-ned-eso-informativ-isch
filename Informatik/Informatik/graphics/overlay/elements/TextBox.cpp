@@ -46,6 +46,6 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
         }
         char c = scancodeToChar(e.key.keysym.scancode, (SDL_Keymod) e.key.keysym.mod);
         if(c && c != '\x08') currentText += c;
-        else if(c == '\x08') currentText.pop_back(); // Backspace
+        else if(c == '\x08' && currentText.size() > 0) currentText.pop_back(); // Backspace
     }
 }

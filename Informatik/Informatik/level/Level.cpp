@@ -111,6 +111,15 @@ void Level::render(SDL_Renderer *renderer) // and update
         events[i]->render(renderer, xoffset, yoffset);
     }
     
+#ifdef ENABLE_TEST_MULTIPLAYER
+	if (clientConnector != nullptr)
+	{
+		// We connected & arent playing singleplayer
+		clientConnector->render(renderer, xoffset, yoffset);
+		clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
+	}
+#endif
+
     player->render(renderer, xoffset, yoffset);
 }
 

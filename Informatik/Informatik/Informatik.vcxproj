@@ -166,7 +166,10 @@
     <ClCompile Include="level\loader\TextLoader.cpp" />
     <ClCompile Include="level\Tile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="multiplayer\Client.cpp" />
+    <ClCompile Include="multiplayer\RemotePlayer.cpp" />
     <ClCompile Include="multiplayer\Server.cpp" />
+    <ClCompile Include="multiplayer\ServerSelector.cpp" />
     <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
     <ClCompile Include="util\SDL_Util.cpp" />
@@ -202,7 +205,10 @@
     <ClInclude Include="level\loader\LevelLoader.hpp" />
     <ClInclude Include="level\loader\TextLoader.hpp" />
     <ClInclude Include="level\Tile.hpp" />
+    <ClInclude Include="multiplayer\Client.hpp" />
+    <ClInclude Include="multiplayer\RemotePlayer.hpp" />
     <ClInclude Include="multiplayer\Server.hpp" />
+    <ClInclude Include="multiplayer\ServerSelector.hpp" />
     <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
     <ClInclude Include="util\Logger.hpp" />
