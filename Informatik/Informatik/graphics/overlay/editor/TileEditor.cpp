@@ -37,8 +37,7 @@ TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
     tilenumber_dropdown = new DropDown(t.data.tileNumber, 0, 200, 500, 100, 0);
     tilenumber_dropdown->setCallback(tilenumberCallback);
     // tilenumber_dropdown->toTheRight = true;
-    tilenumber_dropdown->addOption(0, "0: Grass");
-    tilenumber_dropdown->addOption(1, "1: Stonepath");
+    for(int i = 0; i < NUMBER_OF_TEXTURES; i++) tilenumber_dropdown->addOption(i, textureData[i].textureName);
     addElement(tilenumber_dropdown);
 }
 

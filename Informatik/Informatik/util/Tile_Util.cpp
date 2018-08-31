@@ -22,7 +22,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                     // 128 - 254: Transitions between Tiles
                 case GRASS:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
-                case STONEROADONGRASS:
+                case STONE_ROAD_ON_GRASS:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_1.png"));
                 case 2:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
@@ -39,12 +39,6 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
         default:
             return NULL;
     }
-}
-
-SDL_Surface *loadTile(uint16_t tileNumber, uint8_t &variant)
-{
-    //variant = rand() % 100;
-    return loadTileVariant(tileNumber, variant); // Variant is
 }
 
 void updateVariant(Level *level)
@@ -66,10 +60,11 @@ void updateVariant(Level *level)
             //right
             if((i + 1) % level->width != 0 && level->tiles[i + 1].data.tileNumber == DIRT) type |= 2;
             //down
-            if(i / level->width < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
+            if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
             
             
-            switch (type) {
+            switch (type)
+            {
                 case 0:
                     break;
                 case 1:
@@ -105,11 +100,8 @@ void updateVariant(Level *level)
                 default:
                     break;
             }
-
             
+            level->tiles[i].reloadTexture(); // Reload the texture now...
         }
-        
-        
-        
     }
 }
