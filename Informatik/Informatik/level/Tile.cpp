@@ -10,12 +10,12 @@
 
 Tile::Tile() : xcoord(0), ycoord(0)
 {
-    Tile_surface = loadTile(data.tileNumber, data.variant);
+    
 }
 
 Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({ tileNumber, 0})
 {
-    Tile_surface = loadTile(tileNumber, data.variant);
+    
 }
 
 Tile::Tile(int x, int y, uint16_t tileNumber, uint8_t zheight) : xcoord(x), ycoord(y), data({ tileNumber, zheight})
