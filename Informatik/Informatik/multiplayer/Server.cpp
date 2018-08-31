@@ -8,9 +8,14 @@
 
 #include "Server.hpp"
 
+void Multiplayer::ServerClient::sendTo(const unsigned char *toSend, int length)
+{
+    SDLNet_TCP_Send(socket, toSend, length);
+}
+
 int Multiplayer::handleSocket(void *data)
 {
-    // Server *server = (Server*) ((void**) data)[0]; // The entire server... Use it to send data
+    Server *server = (Server*) ((void**) data)[0]; // The entire server... Use it to send data
     ServerClient *client = (ServerClient*) ((void**) data)[1]; // The client stuff, receiving end
     // TODO: send & receive of this socket...
     
@@ -28,7 +33,9 @@ int Multiplayer::handleSocket(void *data)
             return 0;
         }
         buffer[amount] = 0; // Append null byte
-        printf("Received data: %s", buffer); // Print data
+        printf("Received data: (Client: %d): %s", client->clientID, buffer); // Print data
+        //client->sendTo(buffer, amount);
+        server->broadcast(client, buffer, amount);
     }
     
     return 0;
@@ -45,20 +52,62 @@ Multiplayer::Server::Server()
     
     printf("[INFO] Started server on port: %d\n", SERVER_PORT);
     
-    while(true)
+    SDL_Event e;
+    
+    serverRunning = true;
+    while(serverRunning)
     {
         TCPsocket client = SDLNet_TCP_Accept(serversocket);
         
         if(client)
         {
-            ServerClient c = { client, (int) clients.size(), true };
+            Multiplayer::ServerClient *c = new Multiplayer::ServerClient();
+            c->socket = client;
+            c->clientID = (int) clients.size();
+            c->active = true;
+
             clients.push_back(c);
-            void ** t = new void*[2]{ (void*) this, (void*) &clients[clients.size() - 1] };
+            void ** t = new void*[2]{ (void*) this, (void*) clients[clients.size() - 1] };
             SDL_CreateThread(Multiplayer::handleSocket, "ClientThread", t);
         }
+        
+        while(SDL_PollEvent(&e))
+        {
+            if(e.type == SDL_WINDOWEVENT)
+            {
+                if(e.window.event == SDL_WINDOWEVENT_CLOSE) stopServer();
+            }
+            else if(e.type == SDL_KEYDOWN)
+            {
+                if(e.key.keysym.sym == SDLK_ESCAPE) stopServer();
+            }
+        }
+        
         
         // Also: Send data to the correct clients...
         
         SDL_Delay(100); // Sleep 100ms
     }
+}
+
+void Multiplayer::Server::sendToAll(const unsigned char* data, int length)
+{
+    for(int i = 0; i < (int) clients.size(); i++) SDLNet_TCP_Send(clients[i]->socket, data, length);
+}
+
+void Multiplayer::Server::broadcast(ServerClient *sender, const unsigned char* data, int length)
+{
+    for(int i = 0; i < (int) clients.size(); i++)
+    {
+        if(clients[i]->socket == sender->socket) continue; // Skip the sender
+        SDLNet_TCP_Send(clients[i]->socket, data, length);
+    }
+}
+
+void Multiplayer::Server::stopServer()
+{
+    serverRunning = false;
+    SDLNet_Quit();
+    SDL_Quit();
+    exit(0);
 }
