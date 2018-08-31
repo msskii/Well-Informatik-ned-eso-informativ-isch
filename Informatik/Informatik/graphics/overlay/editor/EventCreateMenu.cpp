@@ -18,6 +18,8 @@ static void buttonClick(Menu *menu, Button *button)
     {
         EventCreateMenu* m = (EventCreateMenu*) menu;
         
+        m->updateArguments();
+        
 		EventData eventData = {};
 		eventData.event_x = m->x_slider->currentValue;
 		eventData.event_y = m->y_slider->currentValue;
@@ -47,6 +49,21 @@ static void buttonClick(Menu *menu, Button *button)
     }
 }
 
+static void addArgumentSliders(Menu *menu, DropDownElement element)
+{
+    EventCreateMenu *m = (EventCreateMenu*) menu;
+    int oa = m->argumentCount;
+    for(int i = 0; i < oa; i++) m->removeElement(m->argumentSliders[i]);
+    
+    m->argumentCount = NUM_ARGS[element.id];
+    m->argumentSliders = new Slider*[m->argumentCount];
+    uint8_t* a2 = (uint8_t*) malloc(m->argumentCount);
+    memcpy(a2, m->arguments, oa);
+    m->arguments = a2;
+    
+    for(int i = 0; i < m->argumentCount; i++) m->argumentSliders[i] = (Slider*) m->addElement(new Slider(0, 0xFF, m->arguments[i], 600, 100 * i, 500, 100, 7 + i));
+}
+
 EventCreateMenu::EventCreateMenu()
 {
     addElement(new Text("ID", 0, 0, 100, 100));
@@ -70,14 +87,14 @@ EventCreateMenu::EventCreateMenu()
     addElement(new Button(buttonClick, "Cancel", 0, 900, 250, 100, 0));
     addElement(new Button(buttonClick, "Ok", 325, 900, 100, 100, 1));
     
-    actions = new DropDown(0, 0, 700, 600, 100, 0);
+    actions = new DropDown(0, 0, 700, 600, 100, 0); // Default 0
+    actions->setCallback(addArgumentSliders);
     actions->toTheSide = true;
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
     actions->addOption(2, "Interact with NPC");
     addElement(actions);
-    
-    arguments = (uint8_t*) malloc(1); // Just so we can use realloc
+    addArgumentSliders(this, {0});
     
     type_filter = new DropDown(0, 0, 800, 600, 100, 0);
     type_filter->toTheSide = true;
@@ -109,13 +126,17 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     dependency_slider = (Slider*) addElement(new Slider(0, 0xFF, evt->event_data.event_id_dependency, 100, 600, 500, 100, 6));
 
     actions = new DropDown(evt->event_data.event_action, 0, 700, 600, 100, 0);
+    actions->setCallback(addArgumentSliders);
     actions->toTheSide = true;
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
     actions->addOption(2, "Interact with NPC");
     addElement(actions);
     
+    argumentCount = NUM_ARGS[evt->event_data.event_action];
+    argumentSliders = new Slider*[argumentCount];
     arguments = evt->arguments;
+    addArgumentSliders(this, {evt->event_data.event_action});
     
     type_filter = new DropDown(evt->event_data.event_type_filter, 0, 800, 600, 100, 0);
     type_filter->toTheSide = true;
@@ -128,6 +149,11 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     
     addElement(new Button(buttonClick, "Cancel", 0, 900, 300, 100, 0));
     addElement(new Button(buttonClick, "Ok", 300, 900, 300, 100, 1));
+}
+
+void EventCreateMenu::updateArguments()
+{
+    for(int i = 0; i < argumentCount; i++) arguments[i] = argumentSliders[i]->currentValue;
 }
 
 void EventCreateMenu::switchSide()

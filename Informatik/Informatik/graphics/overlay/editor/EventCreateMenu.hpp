@@ -27,6 +27,10 @@ public:
 public:
     EventCreateMenu();
 	EventCreateMenu(Event *defaults);
+    
+    Slider **argumentSliders;
+    int argumentCount = 0;
+    void updateArguments();
 
     void switchSide();
     

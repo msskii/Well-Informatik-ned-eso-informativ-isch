@@ -64,6 +64,12 @@ Element *Menu::addElement(Element *e)
     return e;
 }
 
+Element *Menu::removeElement(Element *e)
+{
+    for(int i = 0; i < (int) elements.size(); i++) if(elements[i] == e) elements.erase(elements.begin() + i);
+    return e;
+}
+
 void Menu::open(Window *window)
 {
     active = true;

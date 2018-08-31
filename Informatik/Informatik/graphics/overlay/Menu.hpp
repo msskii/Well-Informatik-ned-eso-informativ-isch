@@ -32,6 +32,7 @@ public:
     bool shouldLevelBeUpdated = false; // Set to true for overlays like shops or minimaps
     
     Element *addElement(Element *e);
+    Element *removeElement(Element *e);
     
 public:
     ~Menu();
