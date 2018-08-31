@@ -21,6 +21,7 @@ uint8_t* readFile(const char *filePath)
     if(f == nullptr)
     {
         ERROR("File not found");
+        printf("\t%s\n", filePath);
         return nullptr; // File not found
     }
 
@@ -46,6 +47,7 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
     if(f == nullptr)
     {
         ERROR("File not found");
+        printf("\t%s\n", filePath);
         return; // File not found
     }
 
