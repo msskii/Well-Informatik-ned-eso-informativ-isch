@@ -80,9 +80,9 @@ void drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x
         float scaleY = SCALE_Y * (float) h / (float) srfc->h;
         float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
         
-        x += (w - textwidth * scale / SCALE_X) / 2;
+        x += (int) ((w - textwidth * scale / SCALE_X) / 2);
         w = textwidth;
-        y += (h - textheight * scale / SCALE_Y) / 2;
+        y += (int)((h - textheight * scale / SCALE_Y) / 2);
         h = textheight;
         
         SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect

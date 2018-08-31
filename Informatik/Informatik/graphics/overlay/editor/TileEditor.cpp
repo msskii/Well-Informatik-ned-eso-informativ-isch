@@ -20,6 +20,7 @@ void tilenumberCallback(Menu *menu, DropDownElement tile)
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.tileNumber = tile.id;
     m->level->tiles[m->tileID].reloadTexture();
+	m->variant_slider->setMax(textureData[tile.id].numberOfVariants);
 }
 
 TileEditor::TileEditor(Level* level, int tid) : tileID(tid)

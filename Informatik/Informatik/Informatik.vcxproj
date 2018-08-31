@@ -141,11 +141,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entity\Entity.cpp" />
+    <ClCompile Include="entity\loader\NPCLoader.cpp" />
+    <ClCompile Include="entity\NPC.cpp" />
     <ClCompile Include="entity\Player.cpp" />
     <ClCompile Include="graphics\overlay\DebugOverlay.cpp" />
+    <ClCompile Include="graphics\overlay\DialogOverlay.cpp" />
+    <ClCompile Include="graphics\overlay\editor\EditorOverlay.cpp" />
     <ClCompile Include="graphics\overlay\editor\EventCreateMenu.cpp" />
+    <ClCompile Include="graphics\overlay\editor\TileEditor.cpp" />
     <ClCompile Include="graphics\overlay\elements\Button.cpp" />
+    <ClCompile Include="graphics\overlay\elements\Dropdown.cpp" />
     <ClCompile Include="graphics\overlay\elements\Element.cpp" />
+    <ClCompile Include="graphics\overlay\elements\Slider.cpp" />
     <ClCompile Include="graphics\overlay\elements\Text.cpp" />
     <ClCompile Include="graphics\overlay\elements\TextBox.cpp" />
     <ClCompile Include="graphics\overlay\MainMenu.cpp" />
@@ -156,21 +163,32 @@
     <ClCompile Include="level\loader\EventActions.cpp" />
     <ClCompile Include="level\loader\EventLoader.cpp" />
     <ClCompile Include="level\loader\LevelLoader.cpp" />
+    <ClCompile Include="level\loader\TextLoader.cpp" />
     <ClCompile Include="level\Tile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="multiplayer\Server.cpp" />
     <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
     <ClCompile Include="util\SDL_Util.cpp" />
+    <ClCompile Include="util\Tile_Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
     <ClInclude Include="entity\Entity.hpp" />
+    <ClInclude Include="entity\loader\NPCLoader.hpp" />
+    <ClInclude Include="entity\NPC.h" />
+    <ClInclude Include="entity\NPC.hpp" />
     <ClInclude Include="entity\Player.hpp" />
     <ClInclude Include="graphics\overlay\DebugOverlay.hpp" />
+    <ClInclude Include="graphics\overlay\DialogOverlay.hpp" />
+    <ClInclude Include="graphics\overlay\editor\EditorOverlay.hpp" />
     <ClInclude Include="graphics\overlay\editor\EventCreateMenu.hpp" />
+    <ClInclude Include="graphics\overlay\editor\TileEditor.hpp" />
     <ClInclude Include="graphics\overlay\elements\Button.hpp" />
+    <ClInclude Include="graphics\overlay\elements\Dropdown.hpp" />
     <ClInclude Include="graphics\overlay\elements\Element.hpp" />
     <ClInclude Include="graphics\overlay\elements\Elements.hpp" />
+    <ClInclude Include="graphics\overlay\elements\Slider.hpp" />
     <ClInclude Include="graphics\overlay\elements\Text.hpp" />
     <ClInclude Include="graphics\overlay\elements\TextBox.hpp" />
     <ClInclude Include="graphics\overlay\MainMenu.hpp" />
@@ -182,11 +200,14 @@
     <ClInclude Include="level\loader\EventData.hpp" />
     <ClInclude Include="level\loader\EventLoader.hpp" />
     <ClInclude Include="level\loader\LevelLoader.hpp" />
+    <ClInclude Include="level\loader\TextLoader.hpp" />
     <ClInclude Include="level\Tile.hpp" />
+    <ClInclude Include="multiplayer\Server.hpp" />
     <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
     <ClInclude Include="util\Logger.hpp" />
     <ClInclude Include="util\SDL_Util.hpp" />
+    <ClInclude Include="util\Tile_Util.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

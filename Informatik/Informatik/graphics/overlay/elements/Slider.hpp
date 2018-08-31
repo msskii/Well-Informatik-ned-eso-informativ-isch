@@ -22,7 +22,10 @@ protected:
 public:
     int currentValue = 0;
 
-    Slider(int min, int max, int x, int y, int w, int h, int id);
+	inline void setMin(int m) { minValue = m; }
+	inline void setMax(int m) { maxValue = m; }
+
+	Slider(int min, int max, int x, int y, int w, int h, int id);
     Slider(int min, int max, int current, int x, int y, int w, int h, int id);
 
     inline void setCallback(sliderCallback c) { clbck = c; }

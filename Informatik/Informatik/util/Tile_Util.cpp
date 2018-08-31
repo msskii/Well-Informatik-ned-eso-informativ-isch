@@ -34,7 +34,8 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
         case STONE_ROAD_ON_GRASS:
             return IMG_Load(GET_TEXTURE_PATH("/Tile_StonerPathOnGrass"));
         case DIRT:
-            switch (variant) {
+            switch (variant) 
+			{
                 case 0:
                     return IMG_Load(GET_TEXTURE_PATH("/Tile_Dirt"));
                 case 1:
@@ -55,7 +56,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 
 void updateVariant(Level *level)
 {
-    for(int i = 0; i < level->width * level->height; i++)
+    for(uint64_t i = 0; i < level->width * level->height; i++)
     {
         //check if Grass is surrounded by Dirt
         if(level->tiles[i].data.tileNumber == GRASS)

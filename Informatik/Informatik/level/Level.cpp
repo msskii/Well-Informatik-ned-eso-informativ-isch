@@ -13,12 +13,15 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
 {    
     for(int i = 0; i < w * h; i++)
     {
-        if (i % 50 == 3) {
+        if (i % 50 == 3) 
+		{
             tiles[i] = Tile(i % w, i / w, 1);
-        }else if (i % 50 == 5 || i % 50 == 6)
+        }
+		else if (i % 50 == 5 || i % 50 == 6)
         {
             tiles[i] = Tile(i % w, i / w, 0);
-        }else
+        }
+		else
         {
             tiles[i] = Tile(i % w, i / w, 2);
         }
@@ -40,7 +43,7 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     updateVariant(this); // Update all variants for the tiles
     for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
-    
+	text = new Loader::TextLoader(textFile);
     
     EventData eventData;
     eventData.event_x = TILE_SIZE * 6;
@@ -136,7 +139,7 @@ void Level::update()
 
 void Level::reloadFiles()
 {
-    text = Loader::TextLoader(textFile);
+    text = new Loader::TextLoader(textFile);
 }
 
 Tile Level::getTile(int screenX, int screenY)

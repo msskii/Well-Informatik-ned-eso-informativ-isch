@@ -47,7 +47,7 @@ Entity* Loader::loadNPC(uint8_t *&data)
     printf("Number of texts: %d\n", numTexts);
     
     std::vector<NPCText> texts;
-    for(int i = 0; i < numTexts; i++)
+    for(uint32_t i = 0; i < numTexts; i++)
     {
         uint32_t timesDisplayed = ((uint32_t*)data)[0];
         uint32_t event_to_trigger = ((uint32_t*)data)[1];

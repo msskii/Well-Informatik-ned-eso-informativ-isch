@@ -7,7 +7,7 @@
 //
 
 #include "MainMenu.hpp"
-#include "config.h"
+#include "../../config.h"
 
 enum MenuOptions
 {

@@ -34,9 +34,9 @@ bool Player::isInside(float dx, float dy)
     if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
     if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
     
-    for(int i = 0; i < level->entities.size(); i++)
+    for(size_t i = 0; i < level->entities.size(); i++)
     {
-        if(intersectWith(x_pos + dx, y_pos + dy, level->entities[i]->data.x_pos, level->entities[i]->data.y_pos, level->entities[i]->data.width, level->entities[i]->data.height)) return true;
+        if(intersectWith((int)(x_pos + dx), (int)(y_pos + dy), (int) level->entities[i]->data.x_pos, (int) level->entities[i]->data.y_pos, (int) level->entities[i]->data.width, (int) level->entities[i]->data.height)) return true;
     }
     
     return false;
@@ -103,23 +103,23 @@ void Player::updateMovement(float dx, float dy)
     if(_x <= ((GAME_WIDTH + PLAYER_WIDTH) / 2))
     {
         _x = ((GAME_WIDTH + PLAYER_WIDTH) / 2);
-        xoff = ((GAME_WIDTH + PLAYER_WIDTH) / 2) - x_pos;
+        xoff = (int)(((GAME_WIDTH + PLAYER_WIDTH) / 2) - x_pos);
     }
     else if(_x >= level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2))
     {
-        _x = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2);
-        xoff = level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - x_pos;
+        _x = (float) level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2.0f);
+        xoff = (int)(level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - x_pos);
     }
     
     if(_y < ((GAME_HEIGHT + PLAYER_HEIGHT) / 2))
     {
         _y = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2);
-        yoff = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - y_pos;
+        yoff = (int)(((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - y_pos);
     }
     else if(_y >= level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2))
     {
-        _y = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2);
-        yoff = level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - y_pos;
+        _y = (float) level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2.0f);
+        yoff = (int)(level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - y_pos);
     }
 }
 

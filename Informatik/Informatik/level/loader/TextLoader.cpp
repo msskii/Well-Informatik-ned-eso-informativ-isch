@@ -11,10 +11,12 @@
 Loader::TextLoader::TextLoader(const char *path)
 {
     uint8_t *t = readFile(path);
+	if (t == nullptr) return; // File not found
+
     uint32_t numStrings = ((uint32_t*)t)[0];
     t += 4;
     
-    for(int i = 0; i < numStrings; i++)
+    for(uint32_t i = 0; i < numStrings; i++)
     {
         uint32_t strlen = ((uint32_t*)t)[0];
         uint8_t *text = (uint8_t*) malloc(strlen + 1);

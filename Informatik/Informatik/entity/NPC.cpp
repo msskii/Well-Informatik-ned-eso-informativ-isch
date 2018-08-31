@@ -17,8 +17,8 @@ NPC::NPC(float xPos, float yPos, int level)
     data.y_pos = yPos;
     
     EventData evt;
-    evt.event_x = xPos - PLAYER_WIDTH;
-    evt.event_y = yPos - PLAYER_HEIGHT;
+    evt.event_x = (int)(xPos - PLAYER_WIDTH);
+    evt.event_y = (int)(yPos - PLAYER_HEIGHT);
     evt.event_w = 3 * PLAYER_WIDTH;
     evt.event_h = 3 * PLAYER_HEIGHT;
     
@@ -76,8 +76,8 @@ void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)
 
 void NPC::update(const uint8_t *keys)
 {
-    event->event_data.event_x = data.x_pos - PLAYER_WIDTH;
-    event->event_data.event_y = data.y_pos - PLAYER_HEIGHT;
+    event->event_data.event_x = (int)(data.x_pos - PLAYER_WIDTH);
+    event->event_data.event_y = (int)(data.y_pos - PLAYER_HEIGHT);
 }
 
 void NPC::onAddToLevel(Level *l)
