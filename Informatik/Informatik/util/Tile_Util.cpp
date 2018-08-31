@@ -22,14 +22,12 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                     // 128 - 254: Transitions between Tiles
                 case 0:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
-<<<<<<< HEAD
                 case 1:
-=======
-                case STONE_ROAD_ON_GRASS:
->>>>>>> 32b8dbf4259057381a81fbd7effcd42113453d63
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_1.png"));
                 case 2:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
+                case 129:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0001.png"));
                 case 130:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0010.png"));
                 case 131:
@@ -61,7 +59,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                 default:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));;
             }
-        case STONEROADONGRASS:
+        case STONE_ROAD_ON_GRASS:
             return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
         case DIRT:
             switch (variant) {
@@ -84,48 +82,18 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 
 void updateVariant(Level *level)
 {
-<<<<<<< HEAD
-    return loadTileVariant(tileNumber, variant); // Variant is
-}
-
-void updateVariant(Tile *tiles, int w, int h)
-{
-    for(int i = 0; i < w * h; i++)
-    {
-        //check if Grass is surrounded by Dirt
-        tiles[i].data.variant = rand() % 100;
-        if(tiles[i].data.tileNumber == GRASS)
-=======
     for(int i = 0; i < level->width * level->height; i++)
     {
         //check if Grass is surrounded by Dirt
         if(level->tiles[i].data.tileNumber == GRASS)
->>>>>>> 32b8dbf4259057381a81fbd7effcd42113453d63
         {
             // syntax: 0 0 0 0 left up right down
             uint8_t type = 0;
             
-            // Bitwise operators! Keanu pls
+            //Ich han Bitwise operatore gha aber es het ned gfunkt demit also han ichs me em andere gmacht XD
             
             //left always checks if in bounds
-<<<<<<< HEAD
-            if(i % w != 0 && tiles[i-1].data.tileNumber == DIRT){
-                type += 8;
-            }
-            //up
-            if(i - w >= 0 && tiles[i-w].data.tileNumber == DIRT){
-                type += 4;
-            }
-            //right
-            if((i + 1) % w != 0 &&tiles[i+1].data.tileNumber == DIRT){
-                type += 2;
-            }
-            //down
-            if(i + w < w * h && tiles[i+w].data.tileNumber == DIRT){
-                type += 1;
-            }
-            tiles[i].data.variant = 128 + type;
-=======
+
             if(i % level->width != 0 && level->tiles[i - 1].data.tileNumber == DIRT) type |= 8;
             //up
             if(i >= level->width && level->tiles[i - level->width].data.tileNumber == DIRT) type |= 4;
@@ -134,47 +102,9 @@ void updateVariant(Tile *tiles, int w, int h)
             //down
             if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
             
-            
-            switch (type)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                case 10:
-                    break;
-                case 11:
-                    break;
-                case 12:
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    break;
-                case 15:
-                    break;
-                default:
-                    break;
-            }
+            level->tiles[i].data.variant = 128 + type;
             
             level->tiles[i].reloadTexture(); // Reload the texture now...
->>>>>>> 32b8dbf4259057381a81fbd7effcd42113453d63
         }
     }
 }

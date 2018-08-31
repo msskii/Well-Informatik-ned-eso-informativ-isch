@@ -23,6 +23,15 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
             tiles[i] = Tile(i % w, i / w, 2);
         }
     }
+    tiles[230].data.tileNumber = 0;
+    tiles[229].data.tileNumber = 0;
+    tiles[231].data.tileNumber = 0;
+    tiles[179].data.tileNumber = 0;
+    tiles[180].data.tileNumber = 0;
+    tiles[181].data.tileNumber = 0;
+    tiles[280].data.tileNumber = 0;
+    tiles[281].data.tileNumber = 0;
+    tiles[279].data.tileNumber = 0;
     
     updateVariant(this);
     
