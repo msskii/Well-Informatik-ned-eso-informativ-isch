@@ -11,9 +11,31 @@
 
 #include "SDL_Util.hpp"
 class Tile;
+class Level;
+
+#define NUMBER_OF_TEXTURES 3
+
+enum Textures
+{
+    GRASS = 0,
+    STONE_ROAD_ON_GRASS,
+    DIRT
+};
+
+typedef struct TextureInformation
+{
+    const char *textureName;
+    int numberOfVariants;
+} TextureInformation;
+
+const TextureInformation textureData[NUMBER_OF_TEXTURES] =
+{
+    {"Grass",       17}, // 17 variants of grass --> 1 normal & 16 other ones
+    {"Stone path",  1},
+    {"Dirt",        1}
+};
 
 extern SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant);
-extern SDL_Surface *loadTile(uint16_t tileNumber, uint8_t &variant);
-extern void updateVariant(Tile *tiles, int w, int h);
+extern void updateVariant(Level *l);
 
 #endif /* Tile_Util_hpp */

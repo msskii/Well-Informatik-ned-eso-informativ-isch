@@ -24,7 +24,7 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
         }
     }
     
-    updateVariant(tiles, w, h);
+    updateVariant(this);
     
     for(int i = 0; i < w * h; i++)
     {

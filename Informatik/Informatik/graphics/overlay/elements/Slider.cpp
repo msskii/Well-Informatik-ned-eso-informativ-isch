@@ -29,9 +29,11 @@ Slider::Slider(int min, int max, int current, int _x, int _y, int _w, int _h, in
 void Slider::render(SDL_Renderer *renderer)
 {
     SDL_Rect r = { x + (int) ((float) (currentValue - minValue) * (float) w / (float) (maxValue - minValue)), y, 5, h };
-    COLOR(renderer, 0xFF000000);
+    COLOR(renderer, 0xFFF00000);
     SDL_RenderFillRect(renderer, &r);
     
+    COLOR(renderer, 0xFF000000);
+
     drawTextAspect(renderer, std::to_string(currentValue).c_str(), 0xFF000000, x, y, w, h);
     
     r = {x + 1, y, w - 1, h - 1};
@@ -47,10 +49,11 @@ void Slider::processEvent(Menu *menu, SDL_Event e)
     {
         if(e.button.button == SDL_BUTTON_LEFT)
         {
-            bool isOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
+            bool isOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X - 10 <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
             if(isOver)
             {
                 currentValue = (float)((e.button.x / SCALE_X) - x) * (float)(maxValue - minValue) / (float)w + minValue;
+                currentValue = currentValue >= maxValue ? maxValue : currentValue; // Min(current, max)
                 if(clbck != nullptr) clbck(menu, currentValue);
             }
         }

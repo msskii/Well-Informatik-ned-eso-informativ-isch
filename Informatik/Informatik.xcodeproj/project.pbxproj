@@ -86,7 +86,6 @@
 /* Begin PBXFileReference section */
 		4D42764F2133F636003F6411 /* NPC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
 		4D4276502133F636003F6411 /* NPC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPC.hpp; sourceTree = "<group>"; };
-		4D42765221390D3C003F6411 /* tile_ID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tile_ID.h; sourceTree = "<group>"; };
 		932D320C212AB6E500DA45BD /* Informatik */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Informatik; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D320F212AB6E500DA45BD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -252,7 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				932D3229212ABBBC00DA45BD /* FileReader.hpp */,
-				4D42765221390D3C003F6411 /* tile_ID.h */,
 				93D47B99212C414B007853BC /* FileReader.cpp */,
 				932D322E212ABC6700DA45BD /* Logger.hpp */,
 				93D47BBA212D9338007853BC /* SDL_Util.hpp */,

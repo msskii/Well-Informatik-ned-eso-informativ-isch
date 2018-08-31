@@ -22,8 +22,7 @@ void EditorClickHandler::render(SDL_Renderer *renderer)
     x /= SCALE_X;
     y /= SCALE_Y;
     
-    selected = (int) ((x - (menu->window->level->player->getOffsetX() % TILE_SIZE) - TILE_SIZE / 2) / TILE_SIZE) + (int) ((y - (menu->window->level->player->getOffsetY() % TILE_SIZE) - TILE_SIZE) / TILE_SIZE) * menu->window->level->width;
-    selectedID = (int) (x / TILE_SIZE) + (int) (y / TILE_SIZE) * menu->window->level->width;
+    selectedID = (int) ((x - menu->window->level->player->getOffsetX() - PLAYER_OFFSET_X) / TILE_SIZE) + (int) ((y - menu->window->level->player->getOffsetY() - PLAYER_OFFSET_Y) / TILE_SIZE) * menu->window->level->width;
 }
 
 
@@ -70,8 +69,14 @@ void EditorOverlay::renderMenu(SDL_Renderer *renderer)
     else
     {
         COLOR(renderer, 0xAFFFFFFF);
-        SDL_Rect dst = { (int)(clickhandler->selected % window->level->width) * TILE_SIZE + (window->level->player->getOffsetX() % TILE_SIZE) + TILE_SIZE / 2, (int)(clickhandler->selected / window->level->width) * TILE_SIZE + (window->level->player->getOffsetY() % TILE_SIZE) + TILE_SIZE, TILE_SIZE, TILE_SIZE };
+        int tileX = clickhandler->selectedID % window->level->width;
+        int tileY = clickhandler->selectedID / window->level->width;
+        
+        // printf("X: %d, Y: %d\n", tileX, tileY);
+        
+        SDL_Rect dst = { tileX * TILE_SIZE + window->level->player->getOffsetX() + PLAYER_OFFSET_X, tileY * TILE_SIZE + window->level->player->getOffsetY() + PLAYER_OFFSET_Y, TILE_SIZE, TILE_SIZE };
         SDL_RenderFillRect(renderer, &dst);
+
     }
 }
 
@@ -122,7 +127,10 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
         }
         else
         {
-            int tileIndex = clickhandler->selectedID - ((PLAYER_OFFSET_X + window->level->player->getOffsetX()) / TILE_SIZE) - ((PLAYER_OFFSET_Y + window->level->player->getOffsetY()) / TILE_SIZE) * (window->level->width);
+            int tileX = clickhandler->selectedID % window->level->width;
+            int tileY = clickhandler->selectedID / window->level->width;
+            
+            int tileIndex = tileX + tileY * window->level->width;
             
             openSubMenu(new TileEditor(window->level, tileIndex));
         }

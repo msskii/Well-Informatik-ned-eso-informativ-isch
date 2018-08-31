@@ -19,7 +19,7 @@ private:
     
 public:
     int x, y;
-    int selected = 0, selectedID = 0;
+    int selectedID = 0;
     bool pressed = false;
 
     EditorClickHandler();
