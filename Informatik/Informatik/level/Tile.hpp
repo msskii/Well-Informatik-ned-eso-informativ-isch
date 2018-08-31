@@ -18,7 +18,7 @@ typedef struct TileData
 {
     uint16_t tileNumber;
     uint8_t tileZ;
-    uint8_t variant;
+    uint8_t variant = 0;
 } TileData;
 #pragma pack(pop)
 

@@ -10,8 +10,10 @@
 #define Tile_Util_hpp
 
 #include "SDL_Util.hpp"
+class Tile;
 
 extern SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant);
 extern SDL_Surface *loadTile(uint16_t tileNumber, uint8_t &variant);
+extern void updateVariant(Tile *tiles, int w, int h);
 
 #endif /* Tile_Util_hpp */
