@@ -55,6 +55,10 @@ bool TileEditor::shouldWindowClose() { return false; }
 
 void TileEditor::renderMenu(SDL_Renderer *renderer)
 {
+    SDL_Rect dst = { (int)(tileID % window->level->width) * TILE_SIZE - PLAYER_OFFSET_X + window->level->player->getOffsetX(), (int)(tileID / window->level->width) * TILE_SIZE , TILE_SIZE, TILE_SIZE };
+    COLOR(renderer, 0xAFFF0000);
+    SDL_RenderFillRect(renderer, &dst);
+    
     SDL_Rect background = {isOnLeftSide ? 0 : GAME_WIDTH - 600, 0, 600, GAME_HEIGHT};
     COLOR(renderer, 0x55FFFFFF);
     SDL_RenderFillRect(renderer, &background);
