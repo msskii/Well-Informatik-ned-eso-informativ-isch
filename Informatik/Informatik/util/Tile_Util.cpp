@@ -9,7 +9,7 @@
 #include "Tile_Util.hpp"
 #include <stdlib.h>
 #include "../level/Tile.hpp"
-#include "tile_ID.h"
+#include "../level/Level.hpp"
 
 SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 {
@@ -47,32 +47,26 @@ SDL_Surface *loadTile(uint16_t tileNumber, uint8_t &variant)
     return loadTileVariant(tileNumber, variant); // Variant is
 }
 
-void updateVariant(Tile *tiles, int w, int h)
+void updateVariant(Level *level)
 {
-    for(int i = 0; i < w * h; i++)
+    for(int i = 0; i < level->width * level->height; i++)
     {
         //check if Grass is surrounded by Dirt
-        if(tiles[i].data.tileNumber == GRASS)
+        if(level->tiles[i].data.tileNumber == GRASS)
         {
             // syntax: 0 0 0 0 left up right down
             uint8_t type = 0;
             
+            // Bitwise operators! Keanu pls
+            
             //left always checks if in bounds
-            if(i % w != 0 && tiles[i-1].data.tileNumber == DIRT){
-                type &= 8;
-            }
+            if(i % level->width != 0 && level->tiles[i - 1].data.tileNumber == DIRT) type |= 8;
             //up
-            if(i - w >= 0 && tiles[i-w].data.tileNumber == DIRT){
-                type &= 4;
-            }
+            if(i >= level->width && level->tiles[i - level->width].data.tileNumber == DIRT) type |= 4;
             //right
-            if((i + 1) % w != 0 &&tiles[i+1].data.tileNumber == DIRT){
-                type &= 2;
-            }
+            if((i + 1) % level->width != 0 && level->tiles[i + 1].data.tileNumber == DIRT) type |= 2;
             //down
-            if(i + w < w * h && tiles[i+w].data.tileNumber == DIRT){
-                type &= 1;
-            }
+            if(i / level->width < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
             
             
             switch (type) {
