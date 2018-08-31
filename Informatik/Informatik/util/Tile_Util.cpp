@@ -15,26 +15,63 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 {
     switch (tileNumber)
     {
-        case 0:
+        case GRASS:
             switch (variant)
             {
                     // 0 - 127: Design
                     // 128 - 254: Transitions between Tiles
-                case GRASS:
+                case 0:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
-                case STONEROADONGRASS:
+                case 1:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_1.png"));
                 case 2:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
-                case 128: 
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass_2.png"));
+                case 130:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0010.png"));
+                case 131:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0011.png"));
+                case 132:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0100.png"));
+                case 133:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0101.png"));
+                case 134:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0110.png"));
+                case 135:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_0111.png"));
+                case 136:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1000.png"));
+                case 137:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1001.png"));
+                case 138:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1010.png"));
+                case 139:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1011.png"));
+                case 140:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1100.png"));
+                case 141:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1101.png"));
+                case 142:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1110.png"));
+                case 143:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_GrassToDirt_1111.png"));
                 default:
-                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));;
             }
-        case 1:
+        case STONEROADONGRASS:
             return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
-        case 2:
-            return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_StonerPathOnGrass.png"));
+        case DIRT:
+            switch (variant) {
+                case 0:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Dirt.png"));
+                case 1:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Dirt_1.png"));
+                case 2:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Dirt_2.png"));
+                case 3:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Dirt_3.png"));
+                default:
+                    return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Dirt.png"));;
+            }
             
         default:
             return NULL;
@@ -43,7 +80,6 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 
 SDL_Surface *loadTile(uint16_t tileNumber, uint8_t &variant)
 {
-    //variant = rand() % 100;
     return loadTileVariant(tileNumber, variant); // Variant is
 }
 
@@ -52,6 +88,7 @@ void updateVariant(Tile *tiles, int w, int h)
     for(int i = 0; i < w * h; i++)
     {
         //check if Grass is surrounded by Dirt
+        tiles[i].data.variant = rand() % 100;
         if(tiles[i].data.tileNumber == GRASS)
         {
             // syntax: 0 0 0 0 left up right down
@@ -59,60 +96,21 @@ void updateVariant(Tile *tiles, int w, int h)
             
             //left always checks if in bounds
             if(i % w != 0 && tiles[i-1].data.tileNumber == DIRT){
-                type &= 8;
+                type += 8;
             }
             //up
             if(i - w >= 0 && tiles[i-w].data.tileNumber == DIRT){
-                type &= 4;
+                type += 4;
             }
             //right
             if((i + 1) % w != 0 &&tiles[i+1].data.tileNumber == DIRT){
-                type &= 2;
+                type += 2;
             }
             //down
             if(i + w < w * h && tiles[i+w].data.tileNumber == DIRT){
-                type &= 1;
+                type += 1;
             }
-            
-            
-            switch (type) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                case 10:
-                    break;
-                case 11:
-                    break;
-                case 12:
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    break;
-                case 15:
-                    break;
-                default:
-                    break;
-            }
-
-            
+            tiles[i].data.variant = 128 + type;
         }
         
         
