@@ -30,7 +30,7 @@ TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
     zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 000, 500, 100, 0);
     addElement(zheight_slider);
     
-    variant_slider = new Slider(0, textureData[t.data.tileNumber].numberOfVariants, 0, 100, 500, 100, 0);
+    variant_slider = new Slider(0, textureData[t.data.tileNumber].numberOfVariants - 1, 0, 100, 500, 100, 0);
     variant_slider->setCallback(variantSliderCallback);
     addElement(variant_slider);
     

@@ -62,6 +62,8 @@ void updateVariant(Level *level)
             //down
             if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
             
+            // Maybe also do it like this? Just a proposition...
+            GET_VARIANT_PATH("grass", type);
             
             switch (type)
             {

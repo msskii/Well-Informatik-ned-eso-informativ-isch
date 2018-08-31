@@ -11,17 +11,12 @@
 
 Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player(new Player(this)) // Number of tiles
 {    
-    for(int i = 0; i < w * h; i++)
-    {
-        tiles[i] = Tile(i % w, i / w, 0); // tile 0
-    }
+    for(int i = 0; i < w * h; i++) tiles[i] = Tile(i % w, i / w, 0); // default to tile number 0
     
-    updateVariant(this);
+    tiles[5 * w + 5] = Tile(5, 5, 2);
     
-    for(int i = 0; i < w * h; i++)
-    {
-        tiles[i].reloadTexture();
-    }
+    updateVariant(this); // Update all variants for the tiles
+    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
     
     
