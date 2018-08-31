@@ -37,7 +37,6 @@ public:
     Tile(int x, int y, uint16_t tilenumber, uint8_t zheight);
 
     void reloadTexture();
-    void reloadTexture(int variant);
     void render(SDL_Renderer *renderer, int xoff, int yoff);
 };
 

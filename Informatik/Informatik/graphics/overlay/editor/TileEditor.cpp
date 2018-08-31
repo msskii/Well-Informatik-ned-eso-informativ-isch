@@ -12,14 +12,14 @@ void variantSliderCallback(Menu *menu, int variant)
 {
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.variant = variant;
-    m->level->tiles[m->tileID].reloadTexture(variant);
+    m->level->tiles[m->tileID].reloadTexture();
 }
 
 void tilenumberCallback(Menu *menu, DropDownElement tile)
 {
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.tileNumber = tile.id;
-    m->level->tiles[m->tileID].reloadTexture(m->level->tiles[m->tileID].data.variant);
+    m->level->tiles[m->tileID].reloadTexture();
 }
 
 TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
@@ -30,7 +30,7 @@ TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
     zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 000, 500, 100, 0);
     addElement(zheight_slider);
     
-    variant_slider = new Slider(0, 100, t.data.variant, 0, 100, 500, 100, 0);
+    variant_slider = new Slider(0, textureData[t.data.tileNumber].numberOfVariants, 0, 100, 500, 100, 0);
     variant_slider->setCallback(variantSliderCallback);
     addElement(variant_slider);
     
@@ -86,6 +86,6 @@ void TileEditor::onClose()
     level->tiles[tileID].data.tileNumber = tilenumber_dropdown->currentID;
     level->tiles[tileID].data.tileZ = zheight_slider->currentValue;
     level->tiles[tileID].data.variant = variant_slider->currentValue;
-    level->tiles[tileID].reloadTexture(level->tiles[tileID].data.variant);
+    level->tiles[tileID].reloadTexture();
 }
 

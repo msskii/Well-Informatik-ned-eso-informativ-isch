@@ -10,7 +10,7 @@
 
 int Multiplayer::handleSocket(void *data)
 {
-    Server *server = (Server*) ((void**) data)[0]; // The entire server... Use it to send data
+    // Server *server = (Server*) ((void**) data)[0]; // The entire server... Use it to send data
     ServerClient *client = (ServerClient*) ((void**) data)[1]; // The client stuff, receiving end
     // TODO: send & receive of this socket...
     

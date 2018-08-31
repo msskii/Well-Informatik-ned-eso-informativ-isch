@@ -30,13 +30,6 @@ void Tile::reloadTexture()
     Tile_surface = loadTileVariant(data.tileNumber, data.variant);
 }
 
-void Tile::reloadTexture(int variant) // For the tileeditor
-{
-    texture = nullptr;
-    data.variant = variant;
-    Tile_surface = loadTileVariant(data.tileNumber, variant);
-}
-
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
     if(texture == nullptr)
