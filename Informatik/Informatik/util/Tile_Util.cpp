@@ -20,6 +20,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
             {
                     // 0 - 127: Design
                     // 128 - 254: Transitions between Tiles
+<<<<<<< HEAD
                 case 0:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Grass.png"));
                 case 1:
@@ -74,6 +75,23 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                 default:
                     return IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/Tile_Dirt.png"));;
             }
+=======
+                case GRASS:
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass"));
+                case STONE_ROAD_ON_GRASS:
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_1"));
+                case 2:
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_2"));
+                case 128: 
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_2"));
+                default:
+                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass"));
+            }
+        case 1:
+            return IMG_Load(GET_TEXTURE_PATH("/Tile_StonerPathOnGrass"));
+        case 2:
+            return IMG_Load(GET_TEXTURE_PATH("/Tile_StonerPathOnGrass"));
+>>>>>>> 1d52ce2a5bcb1dade5c1a778e797cfd8ac3505ec
             
         default:
             return NULL;
@@ -102,7 +120,50 @@ void updateVariant(Level *level)
             //down
             if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
             
+<<<<<<< HEAD
             level->tiles[i].data.variant = 128 + type;
+=======
+            // Maybe also do it like this? Just a proposition...
+            GET_VARIANT_PATH("grass", type);
+            
+            switch (type)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                case 10:
+                    break;
+                case 11:
+                    break;
+                case 12:
+                    break;
+                case 13:
+                    break;
+                case 14:
+                    break;
+                case 15:
+                    break;
+                default:
+                    break;
+            }
+>>>>>>> 1d52ce2a5bcb1dade5c1a778e797cfd8ac3505ec
             
             level->tiles[i].reloadTexture(); // Reload the texture now...
         }

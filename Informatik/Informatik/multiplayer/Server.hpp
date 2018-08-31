@@ -23,6 +23,7 @@ namespace Multiplayer
         TCPsocket socket = NULL; // The socket to receive data from & send it to
         int clientID = 0; // The id of this client. Also it's index in the vector
         bool active = true; // Socket is still connected
+        void sendTo(const unsigned char *toSend, int length); // Send data to just this client
         // Other stuff will go here like name, id and such
     } ServerClient;
     
@@ -30,10 +31,16 @@ namespace Multiplayer
     {
     private:
         friend int handleSocket(void *data);
-        std::vector<ServerClient> clients;
-        
+        std::vector<ServerClient*> clients;
+        bool serverRunning = false;
+
     public:
         TCPsocket serversocket;
+        
+        void stopServer();
+
+        void sendToAll(const unsigned char* data, int length);
+        void broadcast(ServerClient *sender, const unsigned char* data, int length);
         
     public:
         Server();

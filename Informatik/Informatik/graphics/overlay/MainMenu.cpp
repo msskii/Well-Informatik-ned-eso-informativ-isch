@@ -9,9 +9,14 @@
 #include "MainMenu.hpp"
 #include "config.h"
 
-#define START_GAME 1
-#define START_LEVEREDITOR 2
-#define QUIT_GAME 3
+enum MenuOptions
+{
+    START_GAME,
+    START_LEVELEDITOR, // Fixed spelling mistake
+    QUIT_GAME,
+    
+    START_SERVER // Testing only
+};
 
 static void onButtonPress(Menu *menu, Button *button)
 {
@@ -20,12 +25,18 @@ static void onButtonPress(Menu *menu, Button *button)
         case START_GAME:
             menu->close(); // Close the menu that is currently open (Main Menu)
             break;
-        case START_LEVEREDITOR:
+        case START_LEVELEDITOR:
             menu->close();
             menu->window->openMenu(new EditorOverlay());
             break;
         case QUIT_GAME:
             exit(0);
+            break;
+        case START_SERVER:
+        {
+            Multiplayer::Server s; // Start a server
+        }
+            menu->close();
             break;
         default:
             break;
@@ -36,8 +47,10 @@ static void onButtonPress(Menu *menu, Button *button)
 MainMenu::MainMenu()
 {
     addElement(new Button(onButtonPress, "Start Game", 100, 200, 400, 100, START_GAME));
-    addElement(new Button(onButtonPress, "Level Editor", 100, 300, 400, 100, START_LEVEREDITOR));
+    addElement(new Button(onButtonPress, "Level Editor", 100, 300, 400, 100, START_LEVELEDITOR));
     addElement(new Button(onButtonPress, "Quit", 100, 400, 400, 100, QUIT_GAME));
+    
+    addElement(new Button(onButtonPress, "Start Server", 100, 700, 400, 100, START_SERVER));
 }
 
 bool MainMenu::shouldWindowClose()

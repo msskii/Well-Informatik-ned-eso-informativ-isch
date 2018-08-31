@@ -11,6 +11,7 @@
 
 Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player(new Player(this)) // Number of tiles
 {    
+<<<<<<< HEAD
     for(int i = 0; i < w * h; i++)
     {
         if (i % 50 == 3) {
@@ -32,13 +33,14 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     tiles[280].data.tileNumber = 0;
     tiles[281].data.tileNumber = 0;
     tiles[279].data.tileNumber = 0;
+=======
+    for(int i = 0; i < w * h; i++) tiles[i] = Tile(i % w, i / w, 0); // default to tile number 0
+>>>>>>> 1d52ce2a5bcb1dade5c1a778e797cfd8ac3505ec
     
-    updateVariant(this);
+    for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
     
-    for(int i = 0; i < w * h; i++)
-    {
-        tiles[i].reloadTexture();
-    }
+    updateVariant(this); // Update all variants for the tiles
+    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
     
     

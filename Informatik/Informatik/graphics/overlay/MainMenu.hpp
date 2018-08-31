@@ -11,6 +11,7 @@
 
 #include "Menu.hpp"
 #include "editor/EditorOverlay.hpp"
+#include "../../multiplayer/Server.hpp"
 
 class MainMenu : public Menu
 {

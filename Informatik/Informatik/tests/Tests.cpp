@@ -39,7 +39,7 @@ void Tests::testPNG()
     createWindow();
     
     IMG_Init(IMG_INIT_PNG);
-    SDL_Surface *s = IMG_Load(GET_FILE_PATH(TEXTURE_PATH, "/test.png"));
+    SDL_Surface *s = IMG_Load(GET_TEXTURE_PATH("test"));
     SDL_Texture *t = SDL_CreateTextureFromSurface(renderer, s);
     
     running = true;
