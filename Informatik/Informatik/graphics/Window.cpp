@@ -11,15 +11,17 @@
 Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
     SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
-    if(TTF_Init() == -1) {
+    if(TTF_Init() == -1)
+    {
         printf("TTF_Init error: %s\n", TTF_GetError());
         exit(2);
     }
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     
-    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 50); // Window opened = font initialized
-
+    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 100); // Window opened = font initialized
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    
     if(!font)
     {
         ERROR("Couldn't open font file...");
@@ -161,7 +163,7 @@ void Window::runGameLoop()
     }
     
     Loader::LevelLoader loader(level);
-    loader.saveFile("data/testlevel.level");
+    loader.saveFile(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"));
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
