@@ -43,6 +43,7 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     updateVariant(this); // Update all variants for the tiles
     for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
+    textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
 	text = new Loader::TextLoader(textFile);
     
     EventData eventData;

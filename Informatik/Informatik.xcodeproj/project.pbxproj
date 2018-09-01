@@ -34,6 +34,9 @@
 		937B0D6221301D1000C2051B /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D6021301D1000C2051B /* TextBox.cpp */; };
 		937B0D6421317D3100C2051B /* SDL2_net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 937B0D6321317D3100C2051B /* SDL2_net.framework */; };
 		937B0D6521317D4000C2051B /* SDL2_net.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 937B0D6321317D3100C2051B /* SDL2_net.framework */; };
+		9382707F213A5C050084F967 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827079213A5C050084F967 /* Client.cpp */; };
+		93827080213A5C050084F967 /* ServerSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382707B213A5C050084F967 /* ServerSelector.cpp */; };
+		93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382707D213A5C050084F967 /* RemotePlayer.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
@@ -129,6 +132,12 @@
 		937B0D6021301D1000C2051B /* TextBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
 		937B0D6121301D1000C2051B /* TextBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextBox.hpp; sourceTree = "<group>"; };
 		937B0D6321317D3100C2051B /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = ../SDL2_net.framework; sourceTree = "<group>"; };
+		93827079213A5C050084F967 /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cpp; sourceTree = "<group>"; };
+		9382707A213A5C050084F967 /* RemotePlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RemotePlayer.hpp; sourceTree = "<group>"; };
+		9382707B213A5C050084F967 /* ServerSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerSelector.cpp; sourceTree = "<group>"; };
+		9382707C213A5C050084F967 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
+		9382707D213A5C050084F967 /* RemotePlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemotePlayer.cpp; sourceTree = "<group>"; };
+		9382707E213A5C050084F967 /* ServerSelector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerSelector.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
 		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -282,6 +291,12 @@
 		936C12ED213593FD00404679 /* multiplayer */ = {
 			isa = PBXGroup;
 			children = (
+				93827079213A5C050084F967 /* Client.cpp */,
+				9382707C213A5C050084F967 /* Client.hpp */,
+				9382707D213A5C050084F967 /* RemotePlayer.cpp */,
+				9382707A213A5C050084F967 /* RemotePlayer.hpp */,
+				9382707B213A5C050084F967 /* ServerSelector.cpp */,
+				9382707E213A5C050084F967 /* ServerSelector.hpp */,
 				936C12EE2135941800404679 /* Server.cpp */,
 				936C12EF2135941800404679 /* Server.hpp */,
 			);
@@ -451,11 +466,14 @@
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
 				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,
 				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,
+				9382707F213A5C050084F967 /* Client.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
 				93D47BB3212D9086007853BC /* Element.cpp in Sources */,
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
+				93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */,
 				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,
+				93827080213A5C050084F967 /* ServerSelector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
