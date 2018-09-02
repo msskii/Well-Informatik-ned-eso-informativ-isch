@@ -10,16 +10,15 @@
 
 Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50)) // Load from file, or if not found w = 50 & h = 50
 {
-    SDL_Init(SDL_INIT_VIDEO); // Add audio subsystem?
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER); // Add audio subsystem?
     if(TTF_Init() == -1)
     {
         printf("TTF_Init error: %s\n", TTF_GetError());
         exit(2);
     }
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
-
     
-    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 100); // Window opened = font initialized
+    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
     if(!font)
@@ -101,15 +100,26 @@ void Window::render(SDL_Renderer *renderer)
     }
 }
 
+uint32_t secondCallback(uint32_t delay, void *args)
+{
+    Window* w = (Window*) args;
+    w->fps = w->frames;
+    w->frames = 0;
+    return delay;
+}
+
 void Window::runGameLoop()
 {
     running = true;
     SDL_Event e;
+    SDL_AddTimer(1000, secondCallback, this);
     
     bool mousePressed = false;
     
     while(running)
     {
+        ++frames;
+        
         while(SDL_PollEvent(&e))
         {
             if((e.type == SDL_MOUSEBUTTONDOWN && mousePressed) || (e.type == SDL_MOUSEBUTTONUP && !mousePressed))
@@ -155,15 +165,15 @@ void Window::runGameLoop()
         
         if(paused)
         {
+            level->render(renderer);
+
             for(int i = 0; i < (int) menus.size(); i++)
             {
                 auto *m = menus[i];
+                menus[i]->renderMenu(renderer);
                 if(typeid(*m) == typeid(PauseMenu))
                 {
-                    level->render(renderer);
                     menus[i]->updateMenu(keyStates);
-                    
-                    menus[i]->renderMenu(renderer);
                     for(int j = 0; j < (int) menus[i]->elements.size(); j++) menus[i]->elements[j]->render(renderer);
 
                     if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
@@ -172,7 +182,7 @@ void Window::runGameLoop()
                         paused = false;
                     }
                     
-                    break; // Only one open at most?
+                    break; // Only one pausemenu open at most?
                 }
             }
             SDL_RenderPresent(renderer); // Draw & limit FPS

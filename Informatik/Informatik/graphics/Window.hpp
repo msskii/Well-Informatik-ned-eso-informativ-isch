@@ -34,6 +34,9 @@ public:
     std::vector<Menu*> menus; // All open menus
     Level *level;
     
+    int frames = 0, fps = 0;
+    uint64_t lastTime = time(NULL);
+    
     bool running = false;
     bool paused = false;
 public:
