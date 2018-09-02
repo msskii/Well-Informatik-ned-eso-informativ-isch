@@ -20,6 +20,9 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
             
             switch (variant)
             {
+                    // GET_TEXTURE_PATH gives the path from the texture, it appends .png, so it can be left out here
+                    // GET_VARIANT_PATH gives the path from a certain variant, it does so by appending the variant number to the end of the path
+                    
                     // 0 - 127: Design
                     // 128 - 254: Transitions between Tiles
                 case 0:

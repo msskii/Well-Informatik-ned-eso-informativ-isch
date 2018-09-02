@@ -142,12 +142,42 @@ void Window::runGameLoop()
             }
             else if(e.type == SDL_KEYDOWN)
             {
-                if(e.key.keysym.sym == SDLK_ESCAPE) running = false;
+                if(e.key.keysym.sym == SDLK_ESCAPE && !paused)
+                {
+                    openMenu(new PauseMenu());
+                    paused = true;
+                }
             }
         }
         
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
         SDL_RenderClear(renderer); // Everything black
+        
+        if(paused)
+        {
+            for(int i = 0; i < (int) menus.size(); i++)
+            {
+                auto *m = menus[i];
+                if(typeid(*m) == typeid(PauseMenu))
+                {
+                    level->render(renderer);
+                    menus[i]->updateMenu(keyStates);
+                    
+                    menus[i]->renderMenu(renderer);
+                    for(int j = 0; j < (int) menus[i]->elements.size(); j++) menus[i]->elements[j]->render(renderer);
+
+                    if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
+                    {
+                        menus[i]->close();
+                        paused = false;
+                    }
+                    
+                    break; // Only one open at most?
+                }
+            }
+            SDL_RenderPresent(renderer); // Draw & limit FPS
+            continue;
+        }
         
         // Update & render
         bool toUpdate = true;

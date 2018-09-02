@@ -31,20 +31,20 @@ TileEditor::TileEditor(Level* level, int tid) : tileID(tid)
     zheight_slider = new Slider(0, 0xFF, t.data.tileZ, 0, 000, 500, 100, 0);
     addElement(zheight_slider);
     
-    variant_slider = new Slider(0, textureData[t.data.tileNumber].numberOfVariants - 1, 0, 100, 500, 100, 0);
+    variant_slider = new Slider(0, 0xFF, t.data.variant, 0, 100, 500, 100, 0);
     variant_slider->setCallback(variantSliderCallback);
     addElement(variant_slider);
     
     tilenumber_dropdown = new DropDown(t.data.tileNumber, 0, 200, 500, 100, 0);
     tilenumber_dropdown->setCallback(tilenumberCallback);
-    // tilenumber_dropdown->toTheRight = true;
+    tilenumber_dropdown->toTheSide = true;
     for(int i = 0; i < NUMBER_OF_TEXTURES; i++) tilenumber_dropdown->addOption(i, textureData[i].textureName);
     addElement(tilenumber_dropdown);
 }
 
 void TileEditor::switchSide()
 {
-    int toAdd = GAME_WIDTH - 600;
+    int toAdd = GAME_WIDTH - 500;
     toAdd *= isOnLeftSide ? 1 : -1;
     
     for(int i = 0; i < (int) elements.size(); i++) elements[i]->x += toAdd;
@@ -59,7 +59,7 @@ void TileEditor::renderMenu(SDL_Renderer *renderer)
     COLOR(renderer, 0xAFFF0000);
     SDL_RenderFillRect(renderer, &dst);
     
-    SDL_Rect background = {isOnLeftSide ? 0 : GAME_WIDTH - 600, 0, 600, GAME_HEIGHT};
+    SDL_Rect background = {isOnLeftSide ? 0 : GAME_WIDTH - 500, 0, 500, GAME_HEIGHT};
     COLOR(renderer, 0x55FFFFFF);
     SDL_RenderFillRect(renderer, &background);
 }
@@ -88,5 +88,7 @@ void TileEditor::onClose()
     level->tiles[tileID].data.tileZ = zheight_slider->currentValue;
     level->tiles[tileID].data.variant = variant_slider->currentValue;
     level->tiles[tileID].reloadTexture();
+    
+    // updateVariant(level); // Update the variant based on the stuff around
 }
 

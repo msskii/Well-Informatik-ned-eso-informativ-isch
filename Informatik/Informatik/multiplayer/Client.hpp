@@ -3,7 +3,7 @@
 //  Informatik
 //
 //  Created by Aaron Hodel on 28.08.18.
-//  Copyright © 2018 Aaron Hodel. All rights reserved.
+//  Copyright ï¿½ 2018 Aaron Hodel. All rights reserved.
 //
 
 #ifndef Client_hpp
@@ -16,7 +16,7 @@
 
 namespace Multiplayer
 {
-	extern int clientReceive(void *data);
+	extern int clientReceive(void *data); // Client receive handler
 
 	class Client
 	{

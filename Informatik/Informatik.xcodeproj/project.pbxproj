@@ -37,6 +37,7 @@
 		9382707F213A5C050084F967 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827079213A5C050084F967 /* Client.cpp */; };
 		93827080213A5C050084F967 /* ServerSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382707B213A5C050084F967 /* ServerSelector.cpp */; };
 		93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382707D213A5C050084F967 /* RemotePlayer.cpp */; };
+		93827084213BAE3A0084F967 /* PauseMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827082213BAE3A0084F967 /* PauseMenu.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
@@ -138,6 +139,8 @@
 		9382707C213A5C050084F967 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
 		9382707D213A5C050084F967 /* RemotePlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemotePlayer.cpp; sourceTree = "<group>"; };
 		9382707E213A5C050084F967 /* ServerSelector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerSelector.hpp; sourceTree = "<group>"; };
+		93827082213BAE3A0084F967 /* PauseMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PauseMenu.cpp; sourceTree = "<group>"; };
+		93827083213BAE3A0084F967 /* PauseMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PauseMenu.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
 		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -359,6 +362,8 @@
 				937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */,
 				936C12D42133D03A00404679 /* DialogOverlay.cpp */,
 				936C12D52133D03A00404679 /* DialogOverlay.hpp */,
+				93827082213BAE3A0084F967 /* PauseMenu.cpp */,
+				93827083213BAE3A0084F967 /* PauseMenu.hpp */,
 			);
 			path = overlay;
 			sourceTree = "<group>";
@@ -444,6 +449,7 @@
 				936C12E221353A4000404679 /* NPCLoader.cpp in Sources */,
 				936C12F72135DBD800404679 /* Dropdown.cpp in Sources */,
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
+				93827084213BAE3A0084F967 /* PauseMenu.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
 				937B0D6221301D1000C2051B /* TextBox.cpp in Sources */,
 				9368D3192131A17B005D6756 /* Tests.cpp in Sources */,

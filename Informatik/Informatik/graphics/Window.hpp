@@ -19,6 +19,7 @@
 #include "overlay/MainMenu.hpp"
 #include "overlay/DebugOverlay.hpp"
 #include "overlay/DialogOverlay.hpp"
+#include "overlay/PauseMenu.hpp"
 
 #include "../util/SDL_Util.hpp"
 
@@ -34,7 +35,7 @@ public:
     Level *level;
     
     bool running = false;
-    
+    bool paused = false;
 public:
     
     Window();
