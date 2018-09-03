@@ -20,6 +20,7 @@ A dead village in the mountains, your task is to restore its glory. In the mine 
 The Mine should be runover by monsters. It should be dark in there, to see one needs a lantern which will slowly loose fule. Maybe you can also build lanterns and elevators to shorten the time it takes to decend. Maybe theres a way to fight the sorce of monsters.
 
 # Village Map[To do]:
+[work in progress]
 
 
 
@@ -31,9 +32,20 @@ Allows new NPCs to arrive at the village
 Tavern: 
 Is where you can turn in Monster meat. You can also buy food for buffs and hp restores.
 
+Smithery:
+Place to sell ore and build armor and weponary
+
+Old Mans Hut:
+First helps 
+
+
+
+
 
 # Day-Night cycle
 
 At first the MC will have to sleep in his tent leaving him with a [back pain] debuff in the morning.
 
+
+#
 
