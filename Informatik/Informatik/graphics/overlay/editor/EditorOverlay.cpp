@@ -19,8 +19,8 @@ void EditorClickHandler::render(SDL_Renderer *renderer)
     if(!menu->active) return;
     
     SDL_GetMouseState(&x, &y);
-    x /= SCALE_X;
-    y /= SCALE_Y;
+    x = (int)(x / SCALE_X);
+    y = (int)(y / SCALE_Y);
     
     selectedID = (int) ((x - menu->window->level->player->getOffsetX() - PLAYER_OFFSET_X) / TILE_SIZE) + (int) ((y - menu->window->level->player->getOffsetY() - PLAYER_OFFSET_Y) / TILE_SIZE) * menu->window->level->width;
 }

@@ -29,7 +29,7 @@ public:
     Event *event = nullptr; // The event this npc carries around
     
     std::vector<NPCText> texts;
-    int currentNumTriggered = 0;
+    unsigned int currentNumTriggered = 0;
     int currentText = 0;
     
     float walking_speed = SPEED;

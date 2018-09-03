@@ -16,6 +16,10 @@
 #include <vector>
 #include "loader/TextLoader.hpp"
 
+#ifdef ENABLE_TEST_MULTIPLAYER
+#  include "../multiplayer/Client.hpp"
+#endif
+
 class Player;
 class Window;
 
@@ -28,6 +32,11 @@ public:
     std::vector<Event*> events; // The events in this level
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
+
+#ifdef ENABLE_TEST_MULTIPLAYER
+	Multiplayer::Client *clientConnector = nullptr;
+	inline void connectToServer(const char *address) { clientConnector = new Multiplayer::Client(address);  }
+#endif
     
     int xoffset, yoffset;
     
@@ -35,7 +44,7 @@ public:
     const char* tileMapFile = GET_FILE_PATH(LEVEL_PATH, "default.tilemap");
     const char* textFile = GET_FILE_PATH(LEVEL_PATH, "test.text");
     
-    Loader::TextLoader text = Loader::TextLoader(textFile);
+    Loader::TextLoader *text;
     Window *window = nullptr;
 public:
     Tile getTile(int xcoord, int ycoord);

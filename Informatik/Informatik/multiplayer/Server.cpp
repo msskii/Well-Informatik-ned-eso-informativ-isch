@@ -19,10 +19,12 @@ int Multiplayer::handleSocket(void *data)
     ServerClient *client = (ServerClient*) ((void**) data)[1]; // The client stuff, receiving end
     // TODO: send & receive of this socket...
     
-    printf("Number of client: %d\n", client->clientID);
+    printf("Number of client newly connected: %d\n", client->clientID);
     
     uint8_t *buffer = (uint8_t*) malloc(BUFFER_SIZE + 1);
-    
+	uint8_t *newData = (uint8_t*)malloc(BUFFER_SIZE + 4);
+	((uint32_t*)newData)[0] = client->clientID; // Set the id as the first element, only write to index 4 and onward
+
     while(client->active)
     {
         int amount = SDLNet_TCP_Recv(client->socket, buffer, BUFFER_SIZE);
@@ -33,9 +35,10 @@ int Multiplayer::handleSocket(void *data)
             return 0;
         }
         buffer[amount] = 0; // Append null byte
-        printf("Received data: (Client: %d): %s", client->clientID, buffer); // Print data
-        //client->sendTo(buffer, amount);
-        server->broadcast(client, buffer, amount);
+
+		// new data copy
+		memcpy(newData + 4, buffer, amount);
+        server->broadcast(client, newData, amount + 4); // Send to everybody
     }
     
     return 0;

@@ -36,7 +36,7 @@ static void buttonClick(Menu *menu, Button *button)
 		eventData.event_id = evtID; // Auto increment & start from one
 
         menu->close();
-        for(int i = 0; i < menu->window->level->events.size(); i++)
+        for(size_t i = 0; i < menu->window->level->events.size(); i++)
         {
             if(menu->window->level->events[i]->event_data.event_id == evtID)
             {

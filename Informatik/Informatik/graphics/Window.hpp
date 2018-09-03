@@ -19,6 +19,7 @@
 #include "overlay/MainMenu.hpp"
 #include "overlay/DebugOverlay.hpp"
 #include "overlay/DialogOverlay.hpp"
+#include "overlay/PauseMenu.hpp"
 
 #include "../util/SDL_Util.hpp"
 
@@ -33,8 +34,11 @@ public:
     std::vector<Menu*> menus; // All open menus
     Level *level;
     
-    bool running = false;
+    int frames = 0, fps = 0;
+    uint64_t lastTime = time(NULL);
     
+    bool running = false;
+    bool paused = false;
 public:
     
     Window();

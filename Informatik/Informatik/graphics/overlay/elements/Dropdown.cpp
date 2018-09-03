@@ -69,8 +69,8 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
 {
     if(expanded)
     {
-        int bx = e.button.x / SCALE_X;
-        int by = e.button.y / SCALE_Y;
+        int bx = (int)(e.button.x / SCALE_X);
+        int by = (int)(e.button.y / SCALE_Y);
         if(toTheSide)
         {
             int xoffset = x >= GAME_WIDTH - w ? -w : w;
@@ -90,8 +90,8 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
     {
         if(e.type == SDL_MOUSEBUTTONDOWN)
         {
-            int bx = e.button.x / SCALE_X;
-            int by = e.button.y / SCALE_Y;
+			int bx = (int)(e.button.x / SCALE_X);
+			int by = (int)(e.button.y / SCALE_Y);
             
             // bx += w;
             if(toTheSide)

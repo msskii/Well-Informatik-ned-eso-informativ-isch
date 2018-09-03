@@ -23,6 +23,7 @@ static const char* updateDebugText(Menu *menu, DebugText *text)
     else if(text->y == 200) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_z);
     else if(text->y == 300) snprintf(text->buffer, text->maxLength + 1, text->format, m->eventIdCounter);
     else if(text->y == 400) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->events[m->eventIdCounter]->event_data.event_action);
+    else if(text->y == 700) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->fps);
 
     return text->buffer;
 }
@@ -40,6 +41,8 @@ DebugOverlay::DebugOverlay(Level *l) : level(l)
     
     addElement(new Button(buttonClick, "Add Event", GAME_WIDTH - 500, 500, 500, 100, 0));
 	addElement(new Button(buttonClick, "Edit Event", GAME_WIDTH - 500, 600, 500, 100, 1));
+    
+    addElement(new DebugText("FPS = %d", 40, updateDebugText, GAME_WIDTH - 500, 700, 500, 100, 5));
 }
 
 bool DebugOverlay::shouldWindowClose() {return false;}

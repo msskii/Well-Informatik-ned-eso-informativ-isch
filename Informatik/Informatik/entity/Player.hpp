@@ -40,8 +40,8 @@ public:
     bool walking = false;
     int anim = 0, timer = 0;
     
-    inline int getOffsetX() { return -_x; }
-    inline int getOffsetY() { return -_y; }
+    inline int getOffsetX() { return -(int)_x; }
+    inline int getOffsetY() { return -(int)_y; }
 
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);
