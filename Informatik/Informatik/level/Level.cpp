@@ -35,6 +35,15 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     tiles[280].data.tileNumber = 0;
     tiles[281].data.tileNumber = 0;
     tiles[279].data.tileNumber = 0;
+    
+    
+    tiles[240].data.tileNumber = 0;
+    tiles[290].data.tileNumber = 0;
+    tiles[340].data.tileNumber = 0;
+    tiles[440].data.tileNumber = 0;
+    tiles[441].data.tileNumber = 0;
+    tiles[439].data.tileNumber = 0;
+    tiles[540].data.tileNumber = 0;
 
   //  for(int i = 0; i < w * h; i++) tiles[i] = Tile(i % w, i / w, 0); // default to tile number 0
     
