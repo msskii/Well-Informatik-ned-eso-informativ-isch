@@ -16,7 +16,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
     switch (tileNumber)
     {
         case GRASS:
-            if(variant >= 129 && variant <= 128 + 0xF) return IMG_Load(GET_VARIANT_PATH("/Tile_GrassToDirt_", variant - 128)); // Different variants
+            if(variant >= 129 && variant <= 128 + 0xF) return IMG_Load(GET_VARIANT_PATH("tiles/Tile_GrassToDirt_", variant - 128)); // Different variants
             
             switch (variant)
             {
@@ -26,29 +26,29 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                     // 0 - 127: Design
                     // 128 - 254: Transitions between Tiles
                 case 0:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Grass"));
                 case 1:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_1"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Grass_1"));
                 case 2:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass_2"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Grass_2"));
                 default:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Grass"));;
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Grass"));;
             }
         case STONE_ROAD_ON_GRASS:
-            return IMG_Load(GET_TEXTURE_PATH("/Tile_StonerPathOnGrass"));
+            return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_StonerPathOnGrass"));
         case DIRT:
             switch (variant) 
 			{
                 case 0:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Dirt"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt"));
                 case 1:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Dirt_1"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt_1"));
                 case 2:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Dirt_2"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt_2"));
                 case 3:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Dirt_3"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt_3"));
                 default:
-                    return IMG_Load(GET_TEXTURE_PATH("/Tile_Dirt"));
+                    return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt"));
             }
 
             

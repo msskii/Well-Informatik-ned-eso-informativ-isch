@@ -40,6 +40,7 @@
 		93827084213BAE3A0084F967 /* PauseMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827082213BAE3A0084F967 /* PauseMenu.cpp */; };
 		93827088213EC7EF0084F967 /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827086213EC7EF0084F967 /* Enemy.cpp */; };
 		9382708B213ECD8C0084F967 /* Slime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827089213ECD8C0084F967 /* Slime.cpp */; };
+		9382708F213ED2D10084F967 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382708D213ED2D10084F967 /* Projectile.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
@@ -147,6 +148,8 @@
 		93827087213EC7EF0084F967 /* Enemy.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Enemy.hpp; sourceTree = "<group>"; };
 		93827089213ECD8C0084F967 /* Slime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Slime.cpp; sourceTree = "<group>"; };
 		9382708A213ECD8C0084F967 /* Slime.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Slime.hpp; sourceTree = "<group>"; };
+		9382708D213ED2D10084F967 /* Projectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Projectile.cpp; sourceTree = "<group>"; };
+		9382708E213ED2D10084F967 /* Projectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Projectile.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
 		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -222,6 +225,7 @@
 		932D320E212AB6E500DA45BD /* Informatik */ = {
 			isa = PBXGroup;
 			children = (
+				9382708C213ED2990084F967 /* projectile */,
 				93827085213EC7E20084F967 /* enemy */,
 				936C12ED213593FD00404679 /* multiplayer */,
 				9368D3162131A161005D6756 /* tests */,
@@ -335,6 +339,15 @@
 				9382708A213ECD8C0084F967 /* Slime.hpp */,
 			);
 			path = enemy;
+			sourceTree = "<group>";
+		};
+		9382708C213ED2990084F967 /* projectile */ = {
+			isa = PBXGroup;
+			children = (
+				9382708D213ED2D10084F967 /* Projectile.cpp */,
+				9382708E213ED2D10084F967 /* Projectile.hpp */,
+			);
+			path = projectile;
 			sourceTree = "<group>";
 		};
 		93D1C7CD212ADCBE004AACD1 /* entity */ = {
@@ -483,6 +496,7 @@
 				9382708B213ECD8C0084F967 /* Slime.cpp in Sources */,
 				93D47B9A212C414B007853BC /* FileReader.cpp in Sources */,
 				93D47BA0212C433C007853BC /* EventActions.cpp in Sources */,
+				9382708F213ED2D10084F967 /* Projectile.cpp in Sources */,
 				936C12F32135CE4D00404679 /* Slider.cpp in Sources */,
 				936C12FD2136BDE400404679 /* TileEditor.cpp in Sources */,
 				937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */,
