@@ -7,6 +7,7 @@
 //
 
 #include "Projectile.hpp"
+#include "../level/Level.hpp"
 
 Projectile::Projectile(float x, float y, float ra) : rotationAngle(ra)
 {
@@ -38,4 +39,13 @@ void Projectile::update(const uint8_t *keys)
 {
     data.x_pos += velocity.x;
     data.y_pos += velocity.y;
+    
+    SDL_Rect r = getBoundingBox();
+    TRANSFORM_LEVEL_POS(r, level->player->getOffsetX(), level->player->getOffsetY());
+    
+    if(r.x < 0 || r.x + r.w >= GAME_WIDTH || r.y < 0 || r.y + r.h >= GAME_HEIGHT)
+    {
+        // Despawn...
+        level->removeEntity(this); // Stops render & update
+    }
 }

@@ -163,6 +163,14 @@ void Window::runGameLoop()
                     openMenu(new PauseMenu());
                     paused = true;
                 }
+                else if(e.key.keysym.sym == SDLK_e)
+                {
+                    for(int i = 0; i < 5; i++) // Shoot n projectiles
+                    {
+                        Projectile *p = new Projectile(level->player->x_pos, level->player->y_pos, TO_RAD(rand() % 360));
+                        level->addEntity(p);
+                    }
+                }
             }
         }
         

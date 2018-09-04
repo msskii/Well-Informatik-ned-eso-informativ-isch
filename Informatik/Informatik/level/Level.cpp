@@ -83,6 +83,11 @@ void Level::addEntity(Entity *e)
     entities.push_back(e);
 }
 
+void Level::removeEntity(Entity *e)
+{
+    for(int i = 0; i < (int) entities.size(); i++) if(entities[i] == e) entities.erase(entities.begin() + i);
+}
+
 int Level::getEventSize()
 {
     int es = 0;

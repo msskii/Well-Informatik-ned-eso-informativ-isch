@@ -53,6 +53,7 @@ public:
     
     void reloadFiles();
     void addEntity(Entity *e); // To add an entity
+    void removeEntity(Entity *e);
     
     int getLevelSize();
     int getEventSize();
