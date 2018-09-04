@@ -24,11 +24,11 @@ private:
     SDL_Texture *texture = nullptr;
 
     float _x = 0, _y = 0; // Coordinates
-    int xoff = 0, yoff = 0;
 
 public:
     // Position
     float x_pos = 0, y_pos = 0;
+    int xoff = 0, yoff = 0;
     uint8_t _z = 0; // Height level
     
     // Movement & control

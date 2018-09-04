@@ -43,7 +43,7 @@ void Projectile::update(const uint8_t *keys)
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, level->player->getOffsetX(), level->player->getOffsetY());
     
-    if(r.x < 0 || r.x + r.w >= GAME_WIDTH || r.y < 0 || r.y + r.h >= GAME_HEIGHT)
+    if(r.x < 0 || r.x + r.w >= GAME_WIDTH || r.y < 0 || r.y + r.h >= GAME_HEIGHT || --despawnTimer < 0)
     {
         // Despawn...
         level->removeEntity(this); // Stops render & update

@@ -172,6 +172,18 @@ void Window::runGameLoop()
                     }
                 }
             }
+            else if(e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if(e.button.button == SDL_BUTTON_RIGHT)
+                {
+                    int xdif = (int) (e.button.x / SCALE_X) - PLAYER_OFFSET_X + level->player->xoff;
+                    int ydif = (int) (e.button.y / SCALE_Y) - PLAYER_OFFSET_Y + level->player->yoff;
+                    float angle = -atan2(ydif, xdif);
+                    
+                    Projectile *p = new Projectile(level->player->x_pos, level->player->y_pos, angle);
+                    level->addEntity(p);
+                }
+            }
         }
         
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
