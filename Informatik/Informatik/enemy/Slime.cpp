@@ -22,7 +22,7 @@ void Slime::onAddToLevel(Level *level) {}
 
 void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
-    SDL_Rect r = { (int) data.x_pos, (int) data.y_pos, (int) data.width, (int) data.height};
+    SDL_Rect r = { (int) data.x_pos + PLAYER_OFFSET_X + xoff, (int) data.y_pos + PLAYER_OFFSET_Y + yoff, (int) data.width, (int) data.height};
     COLOR(renderer, 0xFFFF00FF);
     SDL_RenderFillRect(renderer, &r);
 }
