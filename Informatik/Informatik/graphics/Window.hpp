@@ -18,6 +18,7 @@
 
 #include "../enemy/Slime.hpp"
 
+#include "../projectile/Projectile.hpp"
 
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"

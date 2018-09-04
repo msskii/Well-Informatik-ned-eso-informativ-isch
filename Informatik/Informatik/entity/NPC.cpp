@@ -70,7 +70,8 @@ void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)
     //data.y_pos += (rand() % 3) - 1;
 
     COLOR(renderer, 0xFF000000);
-    SDL_Rect r = {(int) data.x_pos + xoff + PLAYER_OFFSET_X, (int) data.y_pos + yoff + PLAYER_OFFSET_Y, (int) data.width, (int) data.height};
+    SDL_Rect r = getBoundingBox();
+    TRANSFORM_LEVEL_POS(r, xoff, yoff);
     SDL_RenderFillRect(renderer, &r);
 }
 

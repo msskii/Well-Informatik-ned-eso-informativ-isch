@@ -44,6 +44,8 @@ public:
     EntityData data;
     void addedToLevel(Level *level);
     
+    inline SDL_Rect getBoundingBox() { return {(int) data.x_pos, (int) data.y_pos, (int) data.width, (int) data.height}; }
+    
     virtual void onAddToLevel(Level *level) = 0;
     
     virtual void render(SDL_Renderer *renderer, int xoff, int yoff) = 0;

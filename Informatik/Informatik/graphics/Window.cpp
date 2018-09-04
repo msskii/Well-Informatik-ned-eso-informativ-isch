@@ -64,6 +64,9 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
     
     Slime *slime = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE);
     level->addEntity(slime);
+    
+    Projectile *projectile = new Projectile(0, 0, PI * 15.0 / 8.0);
+    level->addEntity(projectile);
 }
 
 void Window::update()

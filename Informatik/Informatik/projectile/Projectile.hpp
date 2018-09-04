@@ -13,7 +13,20 @@
 
 class Projectile : public Entity
 {
+private:
+    SDL_Surface *surface;
+    SDL_Texture *texture = nullptr;
     
+    vector2d velocity = {0, 0};
+    
+public:
+    float rotationAngle = 0; // Rotation of this projectile
+    
+    Projectile(float x, float y, float ra);
+    
+    void onAddToLevel(Level *level) override;
+    void render(SDL_Renderer *renderer, int xoff, int yoff) override;
+    void update(const uint8_t *keys) override;
 };
 
 #endif /* Projectile_hpp */

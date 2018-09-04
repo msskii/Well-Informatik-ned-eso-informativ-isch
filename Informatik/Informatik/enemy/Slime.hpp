@@ -18,10 +18,10 @@ private:
 public:
     Slime(float x, float y);
     
-    bool isInside(float x, float y);
-    void onAddToLevel(Level *level);
-    void render(SDL_Renderer *renderer, int xoff, int yoff);
-    void update(const uint8_t *keys);
+    bool isInside(float x, float y) override;
+    void onAddToLevel(Level *level) override;
+    void render(SDL_Renderer *renderer, int xoff, int yoff) override;
+    void update(const uint8_t *keys) override;
 };
 
 #endif /* Slime_hpp */

@@ -9,6 +9,8 @@
 #ifndef SDL_Util_h
 #define SDL_Util_h
 
+#include "Math_Util.hpp"
+
 #ifdef __APPLE__
 #  include <SDL2/SDL.h> // Other path than on windows
 #  include <SDL2_ttf/SDL_ttf.h>
@@ -38,6 +40,8 @@
 
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
 #define TO_COLOR(col) SDL_Color({ (uint8_t) ((col) >> 16), (uint8_t) ((col) >> 8), (uint8_t) (col), (uint8_t) ((col) >> 24) })
+
+#define TRANSFORM_LEVEL_POS(rect, xoff, yoff) {rect.x += xoff + PLAYER_OFFSET_X; rect.y += yoff + PLAYER_OFFSET_Y;}
 
 extern TTF_Font *font;
 extern float SCALE_X, SCALE_Y;

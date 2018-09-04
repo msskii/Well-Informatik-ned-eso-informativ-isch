@@ -46,6 +46,12 @@
 #define TILE_SIZE 64
 
 // ======================
+// Projectile stuff
+// ======================
+
+#define PROJECTILE_SPEED 7
+
+// ======================
 // Player stuff
 // ======================
 
