@@ -61,6 +61,9 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
     npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
     npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
     level->addEntity(npc);
+    
+    Slime *slime = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE);
+    level->addEntity(slime);
 }
 
 void Window::update()

@@ -30,7 +30,8 @@ typedef struct EntityData
     float width = TILE_SIZE;
     float height = TILE_SIZE;
     
-    int maxhealth = 0;
+    float maxhealth = 0;
+    float currentHealth = 0;
 } EntityData;
 
 class Entity
@@ -40,7 +41,6 @@ protected:
 public:
     Level *level;
     
-    float health;
     EntityData data;
     void addedToLevel(Level *level);
     

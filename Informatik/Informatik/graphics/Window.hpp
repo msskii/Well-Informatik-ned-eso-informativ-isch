@@ -12,8 +12,12 @@
 #include "../config.h"
 #include "../level/Level.hpp"
 #include "../level/loader/LevelLoader.hpp"
+
 #include "../entity/Player.hpp"
 #include "../entity/NPC.hpp"
+
+#include "../enemy/Slime.hpp"
+
 
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
