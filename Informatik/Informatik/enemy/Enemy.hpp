@@ -25,17 +25,20 @@ typedef void (*attackFunction)(Enemy *e, Level *level);
 
 class Enemy : public Entity
 {
-private:
+protected:
     std::vector<attackFunction> attacks;
     ATTACK_STATE attackState = READY_TO_ATTACK;
     
 public:
     virtual bool isInside(float x, float y) = 0;
     float animationHealth = data.currentHealth; // Start without animation
+    float attackRadius = TILE_SIZE * 5; // Enemy may attack in a range of x
     bool isAlive = true;
     
     void renderHP(SDL_Renderer *renderer, float xoffset, float yoffset);
     void takeDamage(float amount);
 };
+
+#include "../level/Level.hpp"
 
 #endif /* Enemy_hpp */

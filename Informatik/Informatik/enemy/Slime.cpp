@@ -27,7 +27,14 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
     renderHP(renderer, xoff, yoff); // Render the hp of the enemy
     
-    if(ATTACKING && (timer++) >= 5) // Attacking is a number... do you mean to check if the state is equal?
+    float l = PLAYER_DIST(this, level->player);
+
+    if(l < attackRadius && attackState == READY_TO_ATTACK)
+    {
+        attackState = ATTACKING;
+    }
+    
+    if(attackState == ATTACKING && (timer++) >= 5) // Attacking is a number... do you mean to check if the state is equal?
     {
         timer = 0;
         anim = (anim + 1) % 10;
