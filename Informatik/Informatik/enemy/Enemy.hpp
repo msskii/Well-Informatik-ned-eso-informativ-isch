@@ -31,6 +31,7 @@ private:
     
 public:
     virtual bool isInside(float x, float y) = 0;
+    float animationHealth = data.currentHealth; // Start without animation
     bool isAlive = true;
     
     void renderHP(SDL_Renderer *renderer, float xoffset, float yoffset);

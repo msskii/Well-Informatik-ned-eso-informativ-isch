@@ -14,6 +14,7 @@
 class Slime : public Enemy
 {
 private:
+    int slimeColor = 0;
     
 public:
     Slime(float x, float y);

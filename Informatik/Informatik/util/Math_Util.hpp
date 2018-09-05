@@ -16,6 +16,8 @@
 #define TO_DEG(rad) (rad/PI*180.0)
 #define TO_RAD(deg) (deg*PI/180.0)
 
+#define SIGN(x) (x<0?-1:1)
+
 typedef struct vector2d
 {
     float x, y;

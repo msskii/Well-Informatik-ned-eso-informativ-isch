@@ -14,13 +14,29 @@ void Enemy::takeDamage(float amount)
     data.currentHealth -= amount;
     if(data.currentHealth <= 0)
     {
-        level->removeEntity(this); // Dead
+        //level->removeEntity(this); // Dead
+        isAlive = false;
     }
 }
 
+#define MAX_STEP 0.05
+
 void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
 {
-    if(data.currentHealth <= 0 || data.currentHealth == data.maxhealth) return; // Dead or full health
+    if(animationHealth <= 0 || data.currentHealth == data.maxhealth) return; // Dead or full health
+    
+    if(animationHealth != data.currentHealth)
+    {
+        float difference = data.currentHealth - animationHealth;
+        float step = difference;
+        if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
+        animationHealth += step;
+        
+        if(animationHealth <= 0)
+        {
+            level->removeEntity(this);
+        }
+    }
     
     SDL_Rect hpbar = { (int) data.x_pos, (int) data.y_pos - 40, (int) data.width, 20 };
     TRANSFORM_LEVEL_POS(hpbar, xoffset, yoffset);
@@ -28,7 +44,7 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
     SDL_RenderFillRect(renderer, &hpbar); // Full background
     
-    hpbar.w = (int)(data.width * data.currentHealth / data.maxhealth);
+    hpbar.w = (int)(data.width * animationHealth / data.maxhealth);
     COLOR(renderer, 0xFF00FF00);
     SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
     // Draw box around hp bar
