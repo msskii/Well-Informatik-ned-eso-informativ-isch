@@ -37,12 +37,20 @@ bool Player::isInside(float dx, float dy)
     for(size_t i = 0; i < level->entities.size(); i++)
     {
         auto *entity = level->entities[i];
+        
         auto *enemy = dynamic_cast<Enemy*>(entity);
+        auto *projectile = dynamic_cast<Projectile*>(entity);
+        
         if(enemy != nullptr)
         {
             // TODO
             if(enemy->isInside(x_pos + dx, y_pos + dy)) printf("I'm inside an enemy... It hurts\n");
-        } else if(intersectWith((int)(x_pos + dx), (int)(y_pos + dy), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
+        }
+        else if(projectile != nullptr)
+        {
+            // Currently no collision with a projectile
+        }
+        else if(intersectWith((int)(x_pos + dx), (int)(y_pos + dy), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
     }
     
     return false;

@@ -28,8 +28,8 @@ void EditorClickHandler::render(SDL_Renderer *renderer)
 
 void EditorClickHandler::processEvent(Menu *menu, SDL_Event e)
 {
-    if(e.type == SDL_MOUSEBUTTONDOWN) pressed = true;
-    if(e.type == SDL_MOUSEBUTTONUP) pressed = false;
+    if(e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) pressed = true;
+    if(e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) pressed = false;
 }
 
 EditorOverlay::EditorOverlay()

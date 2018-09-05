@@ -19,6 +19,7 @@ private:
     
     vector2d velocity = {0, 0};
     int despawnTimer = 600; // The maximum amount of frames a projectile can live
+    Entity *sender = nullptr; // Nullptr if from player, entity otherwise (enemy probably)
     
 public:
     float rotationAngle = 0; // Rotation of this projectile
