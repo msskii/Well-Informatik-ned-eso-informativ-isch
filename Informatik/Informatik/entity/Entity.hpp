@@ -41,6 +41,8 @@ protected:
 public:
     Level *level;
     
+    ~Entity();
+    
     EntityData data;
     void addedToLevel(Level *level);
     

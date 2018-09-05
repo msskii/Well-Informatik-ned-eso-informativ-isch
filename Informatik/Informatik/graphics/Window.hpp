@@ -20,6 +20,8 @@
 
 #include "../projectile/Projectile.hpp"
 
+#include "../items/EntityItem.hpp"
+
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
 #include "overlay/DebugOverlay.hpp"

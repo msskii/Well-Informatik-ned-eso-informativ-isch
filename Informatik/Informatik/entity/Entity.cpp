@@ -13,3 +13,8 @@ void Entity::addedToLevel(Level *l)
     level = l;
     onAddToLevel(l);
 }
+
+Entity::~Entity()
+{
+    
+}

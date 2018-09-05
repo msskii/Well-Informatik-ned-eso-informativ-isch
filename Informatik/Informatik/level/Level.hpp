@@ -9,11 +9,14 @@
 #ifndef Level_hpp
 #define Level_hpp
 
-#include "Tile.hpp"
-#include "Event.hpp"
-#include "../entity/Player.hpp"
 #include <stdint.h>
 #include <vector>
+
+#include "Tile.hpp"
+#include "Event.hpp"
+
+#include "../entity/Player.hpp"
+
 #include "loader/TextLoader.hpp"
 
 #ifdef ENABLE_TEST_MULTIPLAYER

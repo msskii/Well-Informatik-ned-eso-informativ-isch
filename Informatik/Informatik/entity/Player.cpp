@@ -34,23 +34,40 @@ bool Player::isInside(float dx, float dy)
     if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
     if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
     
-    for(size_t i = 0; i < level->entities.size(); i++)
+    for(int point_index = 0; point_index < 4; point_index++)
     {
-        auto *entity = level->entities[i];
+        float player_x_offset = dx + PLAYER_WIDTH * (point_index % 2);
+        float player_y_offset = dx + PLAYER_HEIGHT * (int)(point_index / 2);
         
-        auto *enemy = dynamic_cast<Enemy*>(entity);
-        auto *projectile = dynamic_cast<Projectile*>(entity);
-        
-        if(enemy != nullptr && enemy->isAlive)
+        // Test point at index point_index
+        for(size_t i = 0; i < level->entities.size(); i++)
         {
-            // TODO
-            if(enemy->isInside(x_pos + dx, y_pos + dy)) printf("I'm inside an enemy... It hurts\n");
+            auto *entity = level->entities[i];
+            
+            auto *enemy = dynamic_cast<Enemy*>(entity);
+            auto *projectile = dynamic_cast<Projectile*>(entity);
+            auto *item = dynamic_cast<EntityItem*>(entity);
+            
+            if(enemy != nullptr && enemy->isAlive)
+            {
+                // TODO
+                if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset)) printf("I'm inside an enemy... It hurts\n");
+            }
+            else if(projectile != nullptr)
+            {
+                // Currently no collision with a projectile
+            }
+            else if(item != nullptr)
+            {
+                if(x_pos + player_x_offset >= item->data.x_pos && x_pos + player_x_offset <= item->data.x_pos + item->data.width && y_pos + player_y_offset >= item->data.y_pos && y_pos + player_y_offset <= item->data.y_pos + item->data.height)
+                {
+                    printf("I'm picking up an item...\n");
+                    item->pickUp(); // Send the item the message we picked it up
+                    level->removeEntity(item);
+                }
+            }
+            else if(intersectWith((int)(x_pos + player_x_offset), (int)(y_pos + player_y_offset), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
         }
-        else if(projectile != nullptr)
-        {
-            // Currently no collision with a projectile
-        }
-        else if(intersectWith((int)(x_pos + dx), (int)(y_pos + dy), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
     }
     
     return false;
