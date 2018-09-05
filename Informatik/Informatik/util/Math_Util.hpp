@@ -18,6 +18,9 @@
 
 #define SIGN(x) (x<0?-1:1)
 
+// The length of the position vector (x|y)
+#define LENGTH(x, y) sqrt((x) * (x) + (y) * (y))
+
 typedef struct vector2d
 {
     float x, y;

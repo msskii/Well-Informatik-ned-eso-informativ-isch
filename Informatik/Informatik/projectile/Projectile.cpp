@@ -52,15 +52,31 @@ void Projectile::update(const uint8_t *keys)
     float x_pos_front = data.x_pos + data.width * (0.5 + cos(rotationAngle) / 2.0);
     float y_pos_front = data.y_pos + data.height * (0.5 + sin(rotationAngle) / 2.0);
     
+    float x_pos_end = data.x_pos + data.width * (0.5 - cos(rotationAngle) / 2.0);
+    float y_pos_end = data.y_pos + data.height * (0.5 - sin(rotationAngle) / 2.0);
+    
+    float xstep = (x_pos_end - x_pos_front) / PROJECTILE_ACCURACY;
+    float ystep = (y_pos_end - y_pos_front) / PROJECTILE_ACCURACY;
+
     // Find enemies in close proximity?
     for(size_t i = 0; i < level->entities.size(); i++)
     {
         auto *enemy = dynamic_cast<Enemy*>(level->entities[i]);
         if(enemy == nullptr || !enemy->isAlive) continue; // Couldnt cast to enemy --> isnt an enemy
-        if(enemy->isInside(x_pos_front, y_pos_front))
+        
+        if(LENGTH(enemy->data.x_pos - data.x_pos, enemy->data.y_pos - data.y_pos) > LENGTH(data.width, data.height))
         {
-            enemy->takeDamage(damage);
-            level->removeEntity(this);
+            // Out of reach... continue
+            continue;
+        }
+        
+        for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
+        {
+            if(enemy->isInside(x_pos_front + i * xstep, y_pos_front + i * ystep))
+            {
+                enemy->takeDamage(damage);
+                level->removeEntity(this);
+            }
         }
     }
 }
