@@ -15,6 +15,7 @@ class Slime : public Enemy
 {
 private:
     int slimeColor = 0;
+    SDL_Surface *enemy_surface = nullptr;
     
 public:
     Slime(float x, float y);

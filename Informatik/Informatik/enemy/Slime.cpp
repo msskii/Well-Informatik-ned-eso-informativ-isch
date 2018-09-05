@@ -14,9 +14,7 @@ Slime::Slime(float x, float y)
     data.y_pos = y;
     
     data.width *= 3;
-    data.height *= 3;
-    
-    slimeColor = (rand() & 0xFF) | (rand() & 0xFF) << 8 | (rand() & 0xFF) << 16;
+    enemy_surface = IMG_Load(GET_TEXTURE_PATH("Enemy_BlueSlime"));
 }
 
 bool Slime::isInside(float x, float y)
@@ -28,12 +26,21 @@ void Slime::onAddToLevel(Level *level) {}
 
 void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
-    SDL_Rect r = { (int) data.x_pos, (int) data.y_pos, (int) data.width, (int) data.height};
-    TRANSFORM_LEVEL_POS(r, xoff, yoff); // Transform r to the level position
-    COLOR(renderer, 0xFF000000 | slimeColor);
-    SDL_RenderFillRect(renderer, &r);
+    if(ATTACKING &&(timer++) >= 5)
+    {
+        timer = 0;
+        anim = (anim + 1) % 10;
+    }
     
-    renderHP(renderer, xoff, yoff);
+    {
+        texture = SDL_CreateTextureFromSurface(renderer, enemy_surface);
+        return;
+    }
+    
+    SDL_Rect src = {32 * anim, 0, 32, 32};
+    SDL_Rect dst = getBoundingBox();
+    TRANSFORM_LEVEL_POS(dst, xoff, yoff); // Transform r to the level position
+    SDL_RenderCopy(renderer, texture, &src, &dst);
 }
 
 void Slime::update(const uint8_t *keys) {}
