@@ -14,8 +14,11 @@
 class Slime : public Enemy
 {
 private:
+    SDL_Surface *enemy_surface = nullptr;
+    SDL_Texture *texture = nullptr;
     
 public:
+    int anim = 0, timer = 0;
     Slime(float x, float y);
     
     bool isInside(float x, float y) override;
