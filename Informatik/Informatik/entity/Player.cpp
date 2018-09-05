@@ -41,7 +41,7 @@ bool Player::isInside(float dx, float dy)
         auto *enemy = dynamic_cast<Enemy*>(entity);
         auto *projectile = dynamic_cast<Projectile*>(entity);
         
-        if(enemy != nullptr)
+        if(enemy != nullptr && enemy->isAlive)
         {
             // TODO
             if(enemy->isInside(x_pos + dx, y_pos + dy)) printf("I'm inside an enemy... It hurts\n");

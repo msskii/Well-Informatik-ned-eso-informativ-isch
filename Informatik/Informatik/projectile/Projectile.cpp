@@ -48,4 +48,19 @@ void Projectile::update(const uint8_t *keys)
         // Despawn...
         level->removeEntity(this); // Stops render & update
     }
+    
+    float x_pos_front = data.x_pos + data.width * (0.5 + cos(rotationAngle) / 2.0);
+    float y_pos_front = data.y_pos + data.height * (0.5 + sin(rotationAngle) / 2.0);
+    
+    // Find enemies in close proximity
+    for(size_t i = 0; i < level->entities.size(); i++)
+    {
+        auto *enemy = dynamic_cast<Enemy*>(level->entities[i]);
+        if(enemy == nullptr || !enemy->isAlive) continue; // Couldnt cast to enemy --> isnt an enemy
+        if(enemy->isInside(x_pos_front, y_pos_front))
+        {
+            enemy->takeDamage(damage);
+            level->removeEntity(this);
+        }
+    }
 }

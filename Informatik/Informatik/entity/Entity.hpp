@@ -30,8 +30,8 @@ typedef struct EntityData
     float width = TILE_SIZE;
     float height = TILE_SIZE;
     
-    float maxhealth = 0;
-    float currentHealth = 0;
+    float maxhealth = 10;
+    float currentHealth = 10;
 } EntityData;
 
 class Entity

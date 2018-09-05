@@ -23,6 +23,7 @@ private:
     
 public:
     float rotationAngle = 0; // Rotation of this projectile
+    float damage = 1.0f;
     
     Projectile(float x, float y, float ra);
     

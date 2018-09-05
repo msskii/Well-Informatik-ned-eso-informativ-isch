@@ -31,6 +31,10 @@ private:
     
 public:
     virtual bool isInside(float x, float y) = 0;
+    bool isAlive = true;
+    
+    void renderHP(SDL_Renderer *renderer, float xoffset, float yoffset);
+    void takeDamage(float amount);
 };
 
 #endif /* Enemy_hpp */
