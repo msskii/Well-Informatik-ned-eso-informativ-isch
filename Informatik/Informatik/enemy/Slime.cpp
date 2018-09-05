@@ -13,7 +13,6 @@ Slime::Slime(float x, float y)
     data.x_pos = x;
     data.y_pos = y;
     
-    data.width *= 3;
     enemy_surface = IMG_Load(GET_TEXTURE_PATH("Enemy_BlueSlime"));
 }
 
@@ -26,12 +25,14 @@ void Slime::onAddToLevel(Level *level) {}
 
 void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
+    renderHP(renderer, xoff, yoff); // Render the hp of the enemy
     if(ATTACKING &&(timer++) >= 5)
     {
         timer = 0;
         anim = (anim + 1) % 10;
     }
     
+    if(texture == nullptr)
     {
         texture = SDL_CreateTextureFromSurface(renderer, enemy_surface);
         return;
