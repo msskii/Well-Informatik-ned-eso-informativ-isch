@@ -13,7 +13,7 @@ Slime::Slime(float x, float y)
     data.x_pos = x;
     data.y_pos = y;
     
-    enemy_surface = IMG_Load(GET_TEXTURE_PATH("Enemy_BlueSlime"));
+    enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
 }
 
 bool Slime::isInside(float x, float y)
@@ -26,7 +26,8 @@ void Slime::onAddToLevel(Level *level) {}
 void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
     renderHP(renderer, xoff, yoff); // Render the hp of the enemy
-    if(ATTACKING &&(timer++) >= 5)
+    
+    if(ATTACKING && (timer++) >= 5) // Attacking is a number... do you mean to check if the state is equal?
     {
         timer = 0;
         anim = (anim + 1) % 10;
