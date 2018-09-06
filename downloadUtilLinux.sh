@@ -8,5 +8,6 @@ function downloadLibrary() # args: library, version
   cd "./$1"
   ./configure
   make
+  sudo make install
   cd ..
 }

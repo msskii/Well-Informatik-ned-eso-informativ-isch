@@ -10,6 +10,13 @@
 #define TextLoader_hpp
 
 #include <vector>
+
+#ifdef __linux__
+#  include <cstring>
+#else
+#  include <string>
+#endif
+
 #include "../../util/FileReader.hpp"
 
 namespace Loader
