@@ -174,6 +174,14 @@ void Window::runGameLoop()
                         level->addEntity(p);
                     }
                 }
+                else if(e.key.keysym.sym == SDLK_i)
+                {
+                    if(!paused)
+                    {
+                        paused = true;
+                        openMenu(new Inventory(level->player));
+                    }
+                }
             }
             else if(e.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -200,7 +208,7 @@ void Window::runGameLoop()
             {
                 auto *m = menus[i];
                 menus[i]->renderMenu(renderer);
-                if(typeid(*m) == typeid(PauseMenu))
+                if(typeid(*m) == typeid(PauseMenu) || typeid(*m) == typeid(Inventory))
                 {
                     menus[i]->updateMenu(keyStates);
                     for(int j = 0; j < (int) menus[i]->elements.size(); j++) menus[i]->elements[j]->render(renderer);

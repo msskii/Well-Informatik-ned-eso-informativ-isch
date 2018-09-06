@@ -15,8 +15,11 @@ Menu::~Menu()
 
 void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
 {
+    if(background_surface != nullptr && background_texture == nullptr) background_texture = SDL_CreateTextureFromSurface(renderer, background_surface);
+    if(background_texture != nullptr) SDL_RenderCopy(renderer, background_texture, NULL, &SDL_GetWindowSurface(window->window)->clip_rect); // Just copy it to the screen
+    
     renderMenu(renderer);
-    for(int i = 0; i < (int)elements.size(); i++) elements[i]->render(renderer);
+    for(int i = 0; i < (int) elements.size(); i++) elements[i]->render(renderer);
 
     if(active)
     {

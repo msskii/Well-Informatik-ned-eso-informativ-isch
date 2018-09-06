@@ -61,6 +61,7 @@
 		93D47BB6212D91DA007853BC /* SDL2_ttf.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 93D47BB4212D91D7007853BC /* SDL2_ttf.framework */; };
 		93D47BB9212D91F1007853BC /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB7212D91F1007853BC /* Text.cpp */; };
 		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
+		93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788B214146AA00F5EC35 /* Inventory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -188,6 +189,8 @@
 		93D47BB8212D91F1007853BC /* Text.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Text.hpp; sourceTree = "<group>"; };
 		93D47BBA212D9338007853BC /* SDL_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDL_Util.hpp; sourceTree = "<group>"; };
 		93D47BBD212DE69C007853BC /* SDL_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_Util.cpp; sourceTree = "<group>"; };
+		93E2788B214146AA00F5EC35 /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
+		93E2788C214146AA00F5EC35 /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +255,7 @@
 		932D3219212AB78F00DA45BD /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				93E2788A2141469300F5EC35 /* gui */,
 				93D47BA5212D4EE7007853BC /* overlay */,
 				932D321A212AB79C00DA45BD /* Window.cpp */,
 				932D321B212AB79C00DA45BD /* Window.hpp */,
@@ -442,6 +446,15 @@
 			path = elements;
 			sourceTree = "<group>";
 		};
+		93E2788A2141469300F5EC35 /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				93E2788B214146AA00F5EC35 /* Inventory.cpp */,
+				93E2788C214146AA00F5EC35 /* Inventory.hpp */,
+			);
+			path = gui;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -539,6 +552,7 @@
 				93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */,
 				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,
+				93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */,
 				93827080213A5C050084F967 /* ServerSelector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -29,6 +29,9 @@ public:
     bool menuShouldBeClosed = false; // Used to close menus apart from the shouldwindowclose method
     Window *window;
     
+    SDL_Texture *background_texture = nullptr;
+    SDL_Surface *background_surface = nullptr;
+    
     bool shouldLevelBeUpdated = false; // Set to true for overlays like shops or minimaps
     
     Element *addElement(Element *e);
