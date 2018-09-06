@@ -7,7 +7,7 @@
 //
 
 #include "Player.hpp"
-#define MAX_STEP 1
+#define MAX_STEP 10
 
 Player::Player(Level *l) : level(l)
 {
@@ -82,11 +82,16 @@ bool Player::isInside(float dx, float dy)
 
 void Player::takeDamage(float amount)
 {
+    
+    if(graceLeft <= 0)
+    {
+        graceLeft = gracePeriode * 60;
         currentHealth -= amount;
         if(currentHealth <= 0)
         {
             isAlive = false;
         }
+    }
 }
 
 void Player::correctMovement(float &dx, float &dy)
@@ -179,6 +184,7 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
+    
     //animation speed scales with player speed
     if(walking && (timer++ * SPEED) >= 50)
     {
@@ -217,7 +223,7 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
         
     }
     
-    SDL_Rect hpbar = { (int) GAME_WIDTH-this->xoff - PLAYER_OFFSET_X, (int) GAME_HEIGHT-this->yoff - 40 - PLAYER_OFFSET_Y, (int) TILE_SIZE, 20 };
+    SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 40, (int) TILE_SIZE, 20 };
     
     COLOR(renderer, 0xFF000000);
     SDL_RenderFillRect(renderer, &hpbar); // Draw black border
