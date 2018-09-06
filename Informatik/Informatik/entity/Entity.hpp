@@ -33,7 +33,7 @@ typedef struct EntityData
     float maxhealth = 10;
     float currentHealth = 10;
     
-    float speed = 10;
+    float speed = 0;
 } EntityData;
 
 class Entity
