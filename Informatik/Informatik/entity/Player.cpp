@@ -7,6 +7,7 @@
 //
 
 #include "Player.hpp"
+#define MAX_STEP 0.05
 
 Player::Player(Level *l) : level(l)
 {
@@ -54,7 +55,8 @@ bool Player::isInside(float dx, float dy)
                 if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset))
                 {
                     printf("I'm inside an enemy... It hurts\n");
-                    enemy->onDamaging();
+                    printf("%f\n", currentHealth);
+                    takeDamage(enemy->onDamaging());
                     
                 }
             }
@@ -76,6 +78,15 @@ bool Player::isInside(float dx, float dy)
     }
     
     return false;
+}
+
+void Player::takeDamage(float amount)
+{
+        currentHealth -= amount;
+        if(currentHealth <= 0)
+        {
+            isAlive = false;
+        }
 }
 
 void Player::correctMovement(float &dx, float &dy)
@@ -189,4 +200,41 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
     SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
     SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, PLAYER_HEIGHT};
     SDL_RenderCopy(renderer, texture, &src, &dst);
+    renderStats(renderer, xoff, yoff);
+    
+}
+
+void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff){
+    
+        //if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
+        
+        if(animationHealth != currentHealth)
+        {
+            float difference = currentHealth - animationHealth;
+            float step = difference;
+            if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
+            animationHealth += step;
+            
+        }
+        
+        SDL_Rect hpbar = { (int) x_pos, (int) y_pos - 40, (int) TILE_SIZE, 20 };
+        TRANSFORM_LEVEL_POS(hpbar, xoff, yoff);
+        
+        COLOR(renderer, 0xFF000000);
+        SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+        
+        // If it ever does not work: add ceil() around those four lines
+        hpbar.x += 1.0 / SCALE_X;
+        hpbar.y += 1.0 / SCALE_Y;
+        hpbar.w -= 2.0 / SCALE_X;
+        hpbar.h -= 2.0 / SCALE_Y;
+        
+        COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
+        SDL_RenderFillRect(renderer, &hpbar); // Full background
+        
+        hpbar.w = (int)(TILE_SIZE * animationHealth / maxHealth);
+        COLOR(renderer, 0xFF00FF00);
+        SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
+        // Draw box around hp bar
+    
 }
