@@ -29,6 +29,10 @@
 #include "overlay/PauseMenu.hpp"
 #include "gui/Inventory.hpp"
 
+#include <time.h>
+#include <thread>
+#include <chrono>
+
 
 #include "../util/SDL_Util.hpp"
 

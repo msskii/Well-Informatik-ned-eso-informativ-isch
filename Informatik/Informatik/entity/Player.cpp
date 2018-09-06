@@ -82,7 +82,6 @@ void Player::takeDamage(float amount)
 {
     if(graceLeft <= 0)
     {
-        printf("Took damage at time: %ull\n", time(NULL));
         graceLeft = gracePeriode * 60; // Wait gracePeriod seconds
         currentHealth -= amount;
         if(currentHealth <= 0)

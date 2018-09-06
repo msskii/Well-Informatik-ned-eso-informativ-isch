@@ -123,11 +123,14 @@ void Window::runGameLoop()
     SDL_Event e;
     SDL_AddTimer(1000, secondCallback, this);
     
+    auto clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
+    
     bool mousePressed = false;
     
     while(running)
     {
         ++frames;
+        auto start_time = clock.now(); // Now
         
         while(SDL_PollEvent(&e))
         {
@@ -222,21 +225,25 @@ void Window::runGameLoop()
                     break; // Only one pausemenu open at most?
                 }
             }
-            SDL_RenderPresent(renderer); // Draw & limit FPS
-            continue;
+        }
+        else
+        {
+            // Update & render
+            bool toUpdate = true;
+            for(int i = 0; i < (int) menus.size(); i++)
+            {
+                // menus[i]->updateElements(e); // What was I doing?
+                if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
+            }
+            if(toUpdate) update();
+            render(renderer);
         }
         
-        // Update & render
-        bool toUpdate = true;
-        for(int i = 0; i < (int) menus.size(); i++)
-        {
-            // menus[i]->updateElements(e); // What was I doing?
-            if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
-        }
-        if(toUpdate) update();
-        render(renderer);
-                
-        SDL_RenderPresent(renderer); // Draw & limit FPS
+        auto end_time = clock.now();
+        auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
+        
+        SDL_RenderPresent(renderer); // Draw & limit FPS when opened
     }
     
     Loader::LevelLoader loader(level);
