@@ -54,8 +54,6 @@ bool Player::isInside(float dx, float dy)
                 // TODO
                 if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset))
                 {
-                    printf("I'm inside an enemy... It hurts\n");
-                    printf("%f\n", currentHealth);
                     takeDamage(enemy->onDamaging());
                     
                 }
@@ -82,10 +80,10 @@ bool Player::isInside(float dx, float dy)
 
 void Player::takeDamage(float amount)
 {
-    
     if(graceLeft <= 0)
     {
-        graceLeft = gracePeriode * 60;
+        printf("Took damage at time: %ull\n", time(NULL));
+        graceLeft = gracePeriode * 60; // Wait gracePeriod seconds
         currentHealth -= amount;
         if(currentHealth <= 0)
         {
@@ -184,8 +182,8 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
-    graceLeft = graceLeft - 1;
-    printf("%d\n", graceLeft);
+    if(graceLeft > 0) graceLeft = graceLeft - 1;
+
     //animation speed scales with player speed
     if(walking && (timer++ * SPEED) >= 50)
     {
