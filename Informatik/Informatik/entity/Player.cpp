@@ -120,6 +120,13 @@ void Player::updateMovement(float dx, float dy)
     else if(dy > 0) direction = DOWN;
     else if(dy < 0) direction = UP;
     
+    float movement_amount = LENGTH(dx, dy); // Length of vector
+    if(movement_amount != 0)
+    {
+        dx /= movement_amount / (float) SPEED;
+        dy /= movement_amount / (float) SPEED;
+    }
+    
     x_pos += dx;
     y_pos += dy;
     
