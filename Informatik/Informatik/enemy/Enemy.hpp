@@ -35,6 +35,7 @@ protected:
 public:
     virtual bool isInside(float x, float y) = 0;
     virtual void onDamage(float amount) = 0;
+    virtual void onDamaging() = 0;
     
     float animationHealth = data.currentHealth; // Start without animation
     float agroRadius = TILE_SIZE * 5; // Enemy may attack in a range of x
