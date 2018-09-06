@@ -27,6 +27,8 @@
 #include "overlay/DebugOverlay.hpp"
 #include "overlay/DialogOverlay.hpp"
 #include "overlay/PauseMenu.hpp"
+#include "gui/Inventory.hpp"
+
 
 #include "../util/SDL_Util.hpp"
 
