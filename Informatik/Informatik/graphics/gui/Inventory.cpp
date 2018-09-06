@@ -10,15 +10,15 @@
 
 Inventory::Inventory(Player *p)
 {
-    background_surface = IMG_Load(GET_TEXTURE_PATH("test"));
+    background_surface = IMG_Load(GET_TEXTURE_PATH("/test"));
 }
 
 bool Inventory::shouldWindowClose() { return false; }
 void Inventory::renderMenu(SDL_Renderer *renderer)
 {
-    COLOR(renderer, 0xAFFF00FF);
+    /*COLOR(renderer, 0xAFFF00FF);
     SDL_Rect r = {0, 0, GAME_WIDTH, GAME_HEIGHT};
-    SDL_RenderFillRect(renderer, &r);
+    SDL_RenderFillRect(renderer, &r);*/
 }
 
 void Inventory::updateMenu(const uint8_t *keys)
