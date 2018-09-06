@@ -48,6 +48,7 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     COLOR(renderer, 0xFF000000);
     SDL_RenderFillRect(renderer, &hpbar); // Draw black border
     
+    // If it ever does not work: add ceil() around those four lines
     hpbar.x += 1.0 / SCALE_X;
     hpbar.y += 1.0 / SCALE_Y;
     hpbar.w -= 2.0 / SCALE_X;

@@ -51,9 +51,10 @@ void Slime::onDamage(float amount)
     
 }
 
-void Slime::update(const uint8_t *keys) {
+void Slime::update(const uint8_t *keys)
+{
     float l = PLAYER_DIST(this, level->player);
-    if(l<agroRadius && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
+    if(l < agroRadius && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
     {
         attackState = ATTACKING;
         set = 1;
@@ -65,7 +66,9 @@ void Slime::update(const uint8_t *keys) {
             data.y_pos += ydirection * data.speed * 2;
         }
         
-    }else{
+    }
+    else
+    {
         set = 0;
         attackState = READY_TO_ATTACK;
     }
