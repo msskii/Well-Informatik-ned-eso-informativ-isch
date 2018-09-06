@@ -17,6 +17,10 @@ void Enemy::takeDamage(float amount)
         //level->removeEntity(this); // Dead
         isAlive = false;
     }
+    
+    if(attackState == READY_TO_ATTACK) attackState = ATTACKING;
+    
+    onDamage(amount);
 }
 
 #define MAX_STEP 0.05

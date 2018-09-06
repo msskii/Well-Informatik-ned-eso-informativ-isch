@@ -52,4 +52,9 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
     SDL_RenderCopy(renderer, texture, &src, &dst);
 }
 
+void Slime::onDamage(float amount)
+{
+    
+}
+
 void Slime::update(const uint8_t *keys) {}

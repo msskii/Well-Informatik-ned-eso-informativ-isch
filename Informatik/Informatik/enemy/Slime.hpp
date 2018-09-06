@@ -25,6 +25,7 @@ public:
     void onAddToLevel(Level *level) override;
     void render(SDL_Renderer *renderer, int xoff, int yoff) override;
     void update(const uint8_t *keys) override;
+    void onDamage(float amount) override;
 };
 
 #endif /* Slime_hpp */
