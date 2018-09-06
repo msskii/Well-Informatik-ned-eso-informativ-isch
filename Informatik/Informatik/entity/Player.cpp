@@ -51,7 +51,12 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset)) printf("I'm inside an enemy... It hurts\n");
+                if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset))
+                {
+                    printf("I'm inside an enemy... It hurts\n");
+                    enemy->onDamaging();
+                    
+                }
             }
             else if(projectile != nullptr)
             {

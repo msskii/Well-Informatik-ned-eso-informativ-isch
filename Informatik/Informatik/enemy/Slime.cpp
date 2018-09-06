@@ -37,16 +37,31 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
     if(texture == nullptr)
     {
         texture = SDL_CreateTextureFromSurface(renderer, enemy_surface);
+        texture_hurt = SDL_CreateTextureFromSurface(renderer, enemy_surface);
+        SDL_SetTextureColorMod(texture_hurt, 255, 0, 0);
         return;
     }
     
     SDL_Rect src = {32 * anim, set * 32, 32, 32};
     SDL_Rect dst = getBoundingBox();
     TRANSFORM_LEVEL_POS(dst, xoff, yoff); // Transform r to the level position
-    SDL_RenderCopy(renderer, texture, &src, &dst);
+    if((hurt--) > 0)
+    {
+        SDL_RenderCopy(renderer, texture_hurt, &src, &dst);
+    }
+    else
+    {
+        SDL_RenderCopy(renderer, texture, &src, &dst);
+    }
 }
 
 void Slime::onDamage(float amount)
+{
+    hurt = 10;
+    
+}
+
+void Slime::onDamaging()
 {
     
 }
