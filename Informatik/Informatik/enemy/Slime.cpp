@@ -27,14 +27,7 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
     renderHP(renderer, xoff, yoff); // Render the hp of the enemy
     
-    float l = PLAYER_DIST(this, level->player);
-
-    if(l < attackRadius && attackState == READY_TO_ATTACK)
-    {
-        attackState = ATTACKING;
-    }
-    
-    if(attackState == ATTACKING && (timer++) >= 5) // Attacking is a number... do you mean to check if the state is equal?
+    if((attackState == ATTACKING || attackState == READY_TO_ATTACK) && (timer++) >= 5)
     {
         timer = 0;
         anim = (anim + 1) % 10;
@@ -57,4 +50,18 @@ void Slime::onDamage(float amount)
     
 }
 
-void Slime::update(const uint8_t *keys) {}
+void Slime::update(const uint8_t *keys) {
+    float l = PLAYER_DIST(this, level->player);
+    if(l<agroRadius)
+    {
+        attackState = ATTACKING;
+        //move to player, get norm vektor in player pos
+        xdirection = (level->player->x_pos - this->data.x_pos)/l;
+        ydirection = (level->player->y_pos - this->data.y_pos)/l;
+        data.x_pos += xdirection * data.speed;
+        data.y_pos += ydirection * data.speed;
+        
+        
+    }
+    
+}

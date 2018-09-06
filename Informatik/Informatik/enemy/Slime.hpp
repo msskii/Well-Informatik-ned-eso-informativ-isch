@@ -14,6 +14,7 @@
 class Slime : public Enemy
 {
 private:
+    bool isMoving = false;
     SDL_Surface *enemy_surface = nullptr;
     SDL_Texture *texture = nullptr;
     

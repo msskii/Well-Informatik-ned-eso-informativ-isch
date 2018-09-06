@@ -28,14 +28,19 @@ class Enemy : public Entity
 protected:
     std::vector<attackFunction> attacks;
     ATTACK_STATE attackState = READY_TO_ATTACK;
+    int xdirection = 0;
+    int ydirection = 0;
+    int leftToMove = 0;
     
 public:
     virtual bool isInside(float x, float y) = 0;
     virtual void onDamage(float amount) = 0;
     
     float animationHealth = data.currentHealth; // Start without animation
-    float attackRadius = TILE_SIZE * 5; // Enemy may attack in a range of x
+    float agroRadius = TILE_SIZE * 5; // Enemy may attack in a range of x
+    float Attackradius;
     bool isAlive = true;
+    
     
     void renderHP(SDL_Renderer *renderer, float xoffset, float yoffset);
     void takeDamage(float amount);
