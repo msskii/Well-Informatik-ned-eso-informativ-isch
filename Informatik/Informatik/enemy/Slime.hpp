@@ -19,7 +19,7 @@ private:
     SDL_Texture *texture = nullptr;
     
 public:
-    int anim = 0, timer = 0;
+    int anim = 0, set = 0, timer = 0; 
     Slime(float x, float y);
     
     bool isInside(float x, float y) override;

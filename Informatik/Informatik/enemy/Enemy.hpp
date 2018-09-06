@@ -28,8 +28,8 @@ class Enemy : public Entity
 protected:
     std::vector<attackFunction> attacks;
     ATTACK_STATE attackState = READY_TO_ATTACK;
-    int xdirection = 0;
-    int ydirection = 0;
+    float xdirection = 0;
+    float ydirection = 0;
     int leftToMove = 0;
     
 public:
