@@ -30,7 +30,7 @@ public:
     bool isAlive = false;
     float currentHealth = 100, maxHealth = 100, mana = 10, maxMana = 10;
     float animationHealth = currentHealth;
-    float gracePeriode = 1;
+    float gracePeriode = 30;
     int graceLeft = 0;
     
     

@@ -184,7 +184,8 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
-    
+    graceLeft = graceLeft - 1;
+    printf("%d\n", graceLeft);
     //animation speed scales with player speed
     if(walking && (timer++ * SPEED) >= 50)
     {
