@@ -666,6 +666,7 @@
 					"$(PROJECT_DIR)/..",
 					"$(PROJECT_DIR)",
 				);
+				LD_RUNPATH_SEARCH_PATHS = .;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -682,6 +683,7 @@
 					"$(PROJECT_DIR)/..",
 					"$(PROJECT_DIR)",
 				);
+				LD_RUNPATH_SEARCH_PATHS = .;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
