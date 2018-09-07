@@ -214,6 +214,7 @@ void Window::runGameLoop()
                 if(typeid(*m) == typeid(PauseMenu) || typeid(*m) == typeid(Inventory))
                 {
                     menus[i]->updateMenu(keyStates);
+                    menus[i]->render(renderer, keyStates);
                     for(int j = 0; j < (int) menus[i]->elements.size(); j++) menus[i]->elements[j]->render(renderer);
 
                     if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
