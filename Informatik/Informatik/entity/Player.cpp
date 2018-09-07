@@ -210,7 +210,7 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
 
 void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
 {
-    //if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
+    if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
     
     if(animationHealth != currentHealth)
     {
@@ -218,7 +218,6 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
         float step = difference;
         if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
         animationHealth += step;
-        
     }
     
     SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 40, (int) TILE_SIZE, 20 };

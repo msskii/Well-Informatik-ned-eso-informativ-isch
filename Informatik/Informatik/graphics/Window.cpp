@@ -68,8 +68,11 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
     Projectile *projectile = new Projectile(0, 0, PI * 15.0 / 8.0);
     level->addEntity(projectile);
     
-    EntityItem *item = new EntityItem();
-    level->addEntity(item);
+    
+    for(int i = 0; i < 22; i++)
+    {
+        level->addEntity(new EntityItem(5, i, new Item("test", renderer)));
+    }
 }
 
 void Window::update()

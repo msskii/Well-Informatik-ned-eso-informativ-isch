@@ -9,9 +9,15 @@
 #ifndef Item_hpp
 #define Item_hpp
 
+#include "../util/SDL_Util.hpp"
+
 class Item
 {
+public:
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
     
+    Item(const char* itemname, SDL_Renderer *renderer);
 };
 
 #endif /* Item_hpp */
