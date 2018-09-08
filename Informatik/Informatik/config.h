@@ -65,4 +65,21 @@
 #define PLAYER_OFFSET_X ((GAME_WIDTH + PLAYER_WIDTH) / 2)
 #define PLAYER_OFFSET_Y ((GAME_HEIGHT + PLAYER_HEIGHT) / 2)
 
+// ======================
+// Inventory stuff
+// ======================
+
+#define X_START_POS (270)
+#define Y_START_POS (270)
+
+// Where does the inventory with items start
+#define INV_START_X (X_START_POS)
+#define INV_START_Y (Y_START_POS + 90)
+
+#define INV_GRID_SIZE 50 // The slots width
+#define INV_GRID_BORDER 4 // The Border around the slots in pixels
+
+#define INV_WIDTH 20
+#define INV_HEIGHT 9
+
 #endif /* config_h */

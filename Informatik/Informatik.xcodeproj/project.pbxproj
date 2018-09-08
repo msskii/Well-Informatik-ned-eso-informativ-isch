@@ -62,6 +62,7 @@
 		93D47BB9212D91F1007853BC /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BB7212D91F1007853BC /* Text.cpp */; };
 		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
 		93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788B214146AA00F5EC35 /* Inventory.cpp */; };
+		93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -191,6 +192,8 @@
 		93D47BBD212DE69C007853BC /* SDL_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_Util.cpp; sourceTree = "<group>"; };
 		93E2788B214146AA00F5EC35 /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		93E2788C214146AA00F5EC35 /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
+		93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ItemSlot.cpp; sourceTree = "<group>"; };
+		93E278902143AB1C00F5EC35 /* ItemSlot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ItemSlot.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -451,6 +454,8 @@
 			children = (
 				93E2788B214146AA00F5EC35 /* Inventory.cpp */,
 				93E2788C214146AA00F5EC35 /* Inventory.hpp */,
+				93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */,
+				93E278902143AB1C00F5EC35 /* ItemSlot.hpp */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -551,6 +556,7 @@
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 				93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */,
 				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
+				93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,
 				93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */,
 				93827080213A5C050084F967 /* ServerSelector.cpp in Sources */,

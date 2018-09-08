@@ -10,6 +10,7 @@
 #define Inventory_hpp
 
 #include "../overlay/Menu.hpp"
+#include "ItemSlot.hpp"
 
 class Inventory : public Menu
 {
