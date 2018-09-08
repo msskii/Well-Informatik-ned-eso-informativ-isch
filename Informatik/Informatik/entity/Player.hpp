@@ -36,7 +36,7 @@ public:
     int graceLeft = 0;
     
     // Items
-    std::vector<Item*> playerItems;
+    std::map<int, InventoryElement> playerItems;
     
     // Position
     float x_pos = 0, y_pos = 0;

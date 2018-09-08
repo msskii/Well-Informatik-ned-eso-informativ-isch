@@ -39,6 +39,7 @@ void PauseMenu::renderMenu(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &r);
 }
 
+void PauseMenu::drawOverlay(SDL_Renderer *renderer) {}
 void PauseMenu::updateMenu(const uint8_t *keys) { if(keys[SDL_SCANCODE_SPACE]) close(); }
 void PauseMenu::onOpen() {}
 void PauseMenu::onClose() {}

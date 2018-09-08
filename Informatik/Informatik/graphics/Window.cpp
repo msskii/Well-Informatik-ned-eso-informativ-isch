@@ -72,6 +72,7 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
     for(int i = 0; i < 22; i++)
     {
         level->addEntity(new EntityItem(5, i, new Item("test", renderer)));
+        level->addEntity(new EntityItem(3, i, new Item("test2", renderer)));
     }
 }
 
@@ -219,7 +220,8 @@ void Window::runGameLoop()
                     menus[i]->updateMenu(keyStates);
                     menus[i]->render(renderer, keyStates);
                     for(int j = 0; j < (int) menus[i]->elements.size(); j++) menus[i]->elements[j]->render(renderer);
-
+                    menus[i]->drawOverlay(renderer);
+                    
                     if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
                     {
                         menus[i]->close();

@@ -84,6 +84,8 @@ void MainMenu::updateMenu(const uint8_t *keys)
     if(keys[SDL_SCANCODE_SPACE]) gameStart = true;
 }
 
+void MainMenu::drawOverlay(SDL_Renderer *renderer) {}
+
 void MainMenu::onOpen()
 {
     

@@ -16,9 +16,14 @@ class Inventory : public Menu
 {
 public:
     Inventory(Player *p);
+    Player *player;
+    
+    ItemSlot *selected = nullptr;
+    int hoverX, hoverY;
     
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;
+    void drawOverlay(SDL_Renderer *renderer) override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
     void onClose() override;

@@ -43,6 +43,8 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
         ERROR("Menu is not active and has no parent! Making this menu active again");
         active = true;
     }
+    
+    drawOverlay(renderer);
 }
 
 void Menu::updateElements(SDL_Event e)

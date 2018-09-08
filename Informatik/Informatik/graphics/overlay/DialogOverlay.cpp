@@ -55,6 +55,9 @@ void DialogOverlay::updateMenu(const uint8_t *keys)
     }
 }
 
+void DialogOverlay::drawOverlay(SDL_Renderer *renderer) {}
+
+
 void DialogOverlay::onOpen()
 {
     

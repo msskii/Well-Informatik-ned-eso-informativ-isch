@@ -137,5 +137,6 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
     }
 }
 
+void EditorOverlay::drawOverlay(SDL_Renderer *renderer) {}
 void EditorOverlay::onOpen() {}
 void EditorOverlay::onClose() {}

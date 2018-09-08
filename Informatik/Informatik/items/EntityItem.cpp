@@ -9,10 +9,12 @@
 #include "EntityItem.hpp"
 #include "../level/Level.hpp"
 
-EntityItem::EntityItem(int x, int y, Item *i) : item(i)
+EntityItem::EntityItem(int x, int y, Item *i)
 {
     data.x_pos = TILE_SIZE * x;
     data.y_pos = TILE_SIZE * y;
+    
+    item = i;
 }
 
 void EntityItem::onAddToLevel(Level *level) {}
@@ -28,5 +30,13 @@ void EntityItem::update(const uint8_t *keys) {}
 
 void EntityItem::pickUp()
 {
-    level->player->playerItems.push_back(item);
+    for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
+    {
+        if(level->player->playerItems[i].item == nullptr || *item == level->player->playerItems[i].item)
+        {
+            level->player->playerItems[i].item = item;
+            ++level->player->playerItems[i].amountItems; // Increase amount of items in that slot
+            return;
+        }
+    }
 }

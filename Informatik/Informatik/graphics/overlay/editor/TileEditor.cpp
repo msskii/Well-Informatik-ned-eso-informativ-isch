@@ -81,6 +81,7 @@ void TileEditor::updateMenu(const uint8_t *keys)
     } else jpressed = false;
 }
 
+void TileEditor::drawOverlay(SDL_Renderer *renderer) {}
 void TileEditor::onOpen() {}
 void TileEditor::onClose()
 {
