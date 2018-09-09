@@ -1,3 +1,5 @@
+cd Informatik
+
 a=$(find . -name *.cpp)
 a="${a//.\//    }"
 a="${a//.cpp/.cpp \\}"
