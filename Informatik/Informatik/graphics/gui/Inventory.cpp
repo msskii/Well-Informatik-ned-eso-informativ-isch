@@ -14,7 +14,7 @@ Inventory::Inventory(Player *p) : player(p)
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
-        addElement(new ItemSlot(p->playerItems[i]));
+        slots.push_back((ItemSlot*) addElement(new ItemSlot(p->playerItems[i])));
     }
 }
 
@@ -39,4 +39,12 @@ void Inventory::updateMenu(const uint8_t *keys)
 }
 
 void Inventory::onOpen() {}
-void Inventory::onClose() { window->paused = false; } // Unpause game
+void Inventory::onClose()
+{
+    window->paused = false;
+    if(selected != nullptr)
+    {
+        // Place selected item in correct spot
+        player->playerItems[selected->renderItem.numSlot] = selected->renderItem;
+    }
+}

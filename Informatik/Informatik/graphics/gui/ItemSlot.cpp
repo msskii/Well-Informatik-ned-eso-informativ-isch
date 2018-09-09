@@ -11,8 +11,6 @@
 
 ItemSlot::ItemSlot(InventoryElement element) : renderItem(element)
 {
-    if(element.item != nullptr) printf("Item in slot nr. %d\n", element.numSlot);
-    
     x = (int) (element.numSlot % INV_WIDTH) * INV_GRID_SIZE + INV_START_X;
     y = (int) (element.numSlot / INV_WIDTH) * INV_GRID_SIZE + INV_START_Y;
     
@@ -22,7 +20,6 @@ ItemSlot::ItemSlot(InventoryElement element) : renderItem(element)
 
 void ItemSlot::render(SDL_Renderer *renderer)
 {
-    
     SDL_Rect bck = {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER};
     COLOR(renderer, hoverOver ? 0xFFAAAAAA : 0xFFFFFFFF);
     SDL_RenderFillRect(renderer, &bck);
@@ -57,9 +54,14 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
         if(inv->selected == nullptr)
         {
             printf("Picked up item in slot: %d\n", renderItem.numSlot);
+            
             inv->selected = renderItem.item == nullptr ? nullptr : this;
+            inv->player->playerItems[renderItem.numSlot] = {nullptr, renderItem.numSlot, 0}; // Clear slot
+            
             inv->hoverX = (float) e.button.x / SCALE_X;
             inv->hoverY = (float) e.button.y / SCALE_Y;
+            
+            consumeEvent = inv->selected != nullptr;
             return;
         }
     }
@@ -78,44 +80,29 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
         if(xslot < 0 || yslot < 0 || xslot >= INV_WIDTH || yslot >= INV_HEIGHT) return; // Clicked outside of inventory
         
         int slotnum = xslot + yslot * INV_WIDTH;
+        int oldslot = renderItem.numSlot;
+        // Swapping slotnum with oldslot
         
-        if(inv->player->playerItems[slotnum].item != nullptr)
-        {
-            printf("Already an item in slot number: %d: %p\n", slotnum, inv->player->playerItems[slotnum].item);
-            
-            InventoryElement nelement = inv->player->playerItems[slotnum];
-            nelement.numSlot = renderItem.numSlot;
-            inv->player->playerItems[slotnum] = renderItem;
-            inv->player->playerItems[renderItem.numSlot] = nelement;
-            
-            for(int i = 0; i < (int) inv->elements.size(); i++)
-            {
-                if(((ItemSlot*) inv->elements[i])->renderItem.numSlot == slotnum)
-                {
-                    ((ItemSlot*) inv->elements[i])->renderItem = renderItem;
-                    inv->selected = (ItemSlot*) inv->elements[i];
-                    break;
-                }
-            }
-            
-            renderItem = nelement;
-            inv->player->playerItems[slotnum].numSlot = slotnum; // Change to new slot number
-        }
-        else
-        {
-            printf("Placing down item in slot: %d\n", slotnum);
-            inv->player->playerItems[slotnum] = renderItem;
-            InventoryElement nelement = {nullptr, renderItem.numSlot, 0};
-            inv->player->playerItems[renderItem.numSlot] = nelement;
-            
-            for(int i = 0; i < (int) inv->elements.size(); i++)
-            {
-                if(((ItemSlot*) inv->elements[i])->renderItem.numSlot == slotnum) ((ItemSlot*) inv->elements[i])->renderItem = renderItem;
-            }
-            
-            renderItem = nelement;
-            inv->player->playerItems[slotnum].numSlot = slotnum; // Change to new slot number
-            inv->selected = nullptr;
-        }
+        
+        printf("Placing down item in slot: %d\n", slotnum);
+        
+        // Create copies of elements & update slot numbers
+        InventoryElement newElementTo = renderItem; // Same as inv->player->playerItems[oldslot];
+        newElementTo.numSlot = slotnum;
+        InventoryElement newElementFrom = inv->player->playerItems[slotnum];
+        newElementFrom.numSlot = oldslot;
+        
+        // Place in inventory
+        inv->player->playerItems[slotnum] = newElementTo;
+        inv->player->playerItems[oldslot] = newElementFrom;
+        
+        // Update slots
+        renderItem = newElementFrom; // This slot is from, so we now hold the item from slotnum (The other slot)
+        inv->slots[slotnum]->renderItem = newElementTo;
+        
+        // Pick up the other slots contents if there is an item
+        inv->selected = newElementFrom.item == nullptr || oldslot == slotnum ? nullptr : inv->slots[oldslot];
+        
+        consumeEvent = true;
     }
 }

@@ -11,12 +11,15 @@
 
 #include "../overlay/Menu.hpp"
 #include "ItemSlot.hpp"
+#include <vector>
 
 class Inventory : public Menu
 {
 public:
     Inventory(Player *p);
     Player *player;
+    
+    std::vector<ItemSlot*> slots;
     
     ItemSlot *selected = nullptr;
     int hoverX, hoverY;
