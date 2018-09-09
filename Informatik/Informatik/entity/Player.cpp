@@ -7,10 +7,16 @@
 //
 
 #include "Player.hpp"
+#define MAX_STEP 10
 
 Player::Player(Level *l) : level(l)
 {
     player_surface = IMG_Load(GET_TEXTURE_PATH("player_boy"));
+    
+    for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
+    {
+        playerItems[i] = {nullptr, i, 0};
+    }
 }
 
 // Helper function for intersections with other things (xpos & ypos are the players position while the rest are the parameters of the thing trying to compare to)
@@ -51,7 +57,11 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset)) printf("I'm inside an enemy... It hurts\n");
+                if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset))
+                {
+                    takeDamage(enemy->onDamaging());
+                    
+                }
             }
             else if(projectile != nullptr)
             {
@@ -61,7 +71,6 @@ bool Player::isInside(float dx, float dy)
             {
                 if(x_pos + player_x_offset >= item->data.x_pos && x_pos + player_x_offset <= item->data.x_pos + item->data.width && y_pos + player_y_offset >= item->data.y_pos && y_pos + player_y_offset <= item->data.y_pos + item->data.height)
                 {
-                    printf("I'm picking up an item...\n");
                     item->pickUp(); // Send the item the message we picked it up
                     level->removeEntity(item);
                 }
@@ -71,6 +80,19 @@ bool Player::isInside(float dx, float dy)
     }
     
     return false;
+}
+
+void Player::takeDamage(float amount)
+{
+    if(graceLeft <= 0)
+    {
+        graceLeft = gracePeriode * 60; // Wait gracePeriod seconds
+        currentHealth -= amount;
+        if(currentHealth <= 0)
+        {
+            isAlive = false;
+        }
+    }
 }
 
 void Player::correctMovement(float &dx, float &dy)
@@ -120,6 +142,13 @@ void Player::updateMovement(float dx, float dy)
     else if(dy > 0) direction = DOWN;
     else if(dy < 0) direction = UP;
     
+    float movement_amount = LENGTH(dx, dy); // Length of vector
+    if(movement_amount != 0)
+    {
+        dx /= movement_amount / (float) SPEED;
+        dy /= movement_amount / (float) SPEED;
+    }
+    
     x_pos += dx;
     y_pos += dy;
     
@@ -156,6 +185,8 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(SDL_Renderer *renderer, int x, int y)
 {
+    if(graceLeft > 0) graceLeft = graceLeft - 1;
+
     //animation speed scales with player speed
     if(walking && (timer++ * SPEED) >= 50)
     {
@@ -177,4 +208,39 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
     SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
     SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, PLAYER_HEIGHT};
     SDL_RenderCopy(renderer, texture, &src, &dst);
+    renderStats(renderer, xoff, yoff);
+    
+}
+
+void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
+{
+    if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
+    
+    if(animationHealth != currentHealth)
+    {
+        float difference = currentHealth - animationHealth;
+        float step = difference;
+        if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
+        animationHealth += step;
+    }
+    
+    SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 40, (int) TILE_SIZE, 20 };
+    
+    COLOR(renderer, 0xFF000000);
+    SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+    
+    // If it ever does not work: add ceil() around those four lines
+    hpbar.x += 1.0 / SCALE_X;
+    hpbar.y += 1.0 / SCALE_Y;
+    hpbar.w -= 2.0 / SCALE_X;
+    hpbar.h -= 2.0 / SCALE_Y;
+    
+    COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
+    SDL_RenderFillRect(renderer, &hpbar); // Full background
+    
+    hpbar.w = (int)(TILE_SIZE * animationHealth / maxHealth);
+    COLOR(renderer, 0xFF00FF00);
+    SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
+    // Draw box around hp bar
+    
 }

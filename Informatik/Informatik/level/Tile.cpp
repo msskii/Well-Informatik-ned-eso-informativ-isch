@@ -20,24 +20,20 @@ Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({ til
 
 Tile::Tile(int x, int y, uint16_t tileNumber, uint8_t zheight) : xcoord(x), ycoord(y), data({ tileNumber, zheight})
 {
-
     Tile_surface = loadTileVariant(tileNumber, data.variant);
 }
 
-void Tile::reloadTexture()
+void Tile::reloadTexture(SDL_Renderer *renderer)
 {
-    texture = nullptr;
+    SDL_DestroyTexture(texture); // clear texture & mark as garbage
+    SDL_FreeSurface(Tile_surface);
+    
     Tile_surface = loadTileVariant(data.tileNumber, data.variant);
+    texture = SDL_CreateTextureFromSurface(renderer, Tile_surface);
 }
 
 void Tile::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    if(texture == nullptr)
-    {
-        texture = SDL_CreateTextureFromSurface(renderer, Tile_surface);
-        return;
-    }
-    
     SDL_Rect src = {0, 0, 32, 32}; // For individual 32 by 32 tiles
     SDL_Rect dst = {xcoord * TILE_SIZE + xoffset, ycoord * TILE_SIZE + yoffset, TILE_SIZE, TILE_SIZE};
     

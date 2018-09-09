@@ -14,17 +14,21 @@
 class Slime : public Enemy
 {
 private:
+    bool isMoving = false;
     SDL_Surface *enemy_surface = nullptr;
     SDL_Texture *texture = nullptr;
+    SDL_Texture *texture_hurt = nullptr;
     
 public:
-    int anim = 0, timer = 0;
+    int anim = 0, set = 0, timer = 0, hurt = 0; 
     Slime(float x, float y);
     
     bool isInside(float x, float y) override;
     void onAddToLevel(Level *level) override;
     void render(SDL_Renderer *renderer, int xoff, int yoff) override;
     void update(const uint8_t *keys) override;
+    void onDamage(float amount) override;
+    float onDamaging() override;
 };
 
 #endif /* Slime_hpp */

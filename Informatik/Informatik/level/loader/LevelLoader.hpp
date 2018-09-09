@@ -23,14 +23,14 @@ namespace Loader
         Level *level;
         
     public:
-        LevelLoader(const char *path);
+        LevelLoader(const char *path, SDL_Renderer *renderer);
         LevelLoader(Level *level);
         
         Level *buildLevel();
         void saveFile(const char *path);
     };
     
-    extern Level *loadLevel(const char* path, int w, int h);
+    extern Level *loadLevel(const char* path, int w, int h, SDL_Renderer *renderer);
 }
     
 #endif /* LevelLoader_hpp */

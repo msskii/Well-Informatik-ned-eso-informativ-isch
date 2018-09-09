@@ -8,7 +8,7 @@
 
 #include "Window.hpp"
 
-Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50)) // Load from file, or if not found w = 50 & h = 50
+Window::Window() // Load from file, or if not found w = 50 & h = 50
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER); // Add audio subsystem?
     if(TTF_Init() == -1)
@@ -36,6 +36,9 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
+    
+    // Set up level
+    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50, renderer);
     
     // Set up scaling
     int w, h;
@@ -68,8 +71,19 @@ Window::Window() : level(Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.
     Projectile *projectile = new Projectile(0, 0, PI * 15.0 / 8.0);
     level->addEntity(projectile);
     
-    EntityItem *item = new EntityItem();
-    level->addEntity(item);
+    
+    for(int i = 0; i < 22; i++)
+    {
+        level->addEntity(new EntityItem(5, i, new Item("test", renderer)));
+        level->addEntity(new EntityItem(3, i, new Item("test2", renderer)));
+    }
+}
+
+Window::~Window()
+{
+    delete level;
+    SDL_DestroyWindow(window);
+    
 }
 
 void Window::update()
@@ -123,11 +137,14 @@ void Window::runGameLoop()
     SDL_Event e;
     SDL_AddTimer(1000, secondCallback, this);
     
+    auto clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
+    
     bool mousePressed = false;
     
     while(running)
     {
         ++frames;
+        auto start_time = clock.now(); // Now
         
         while(SDL_PollEvent(&e))
         {
@@ -159,13 +176,13 @@ void Window::runGameLoop()
 					SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
 				}
             }
-            else if(e.type == SDL_KEYDOWN)
-            {
-                if(e.key.keysym.sym == SDLK_ESCAPE && !paused)
-                {
-                    openMenu(new PauseMenu());
-                    paused = true;
-                }
+            
+            // Player & Level control:
+            if(!toUpdate) continue; // We're paused...
+            
+            if(e.type == SDL_KEYDOWN)
+            {                
+                if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
                 else if(e.key.keysym.sym == SDLK_e)
                 {
                     for(int i = 0; i < 5; i++) // Shoot n projectiles
@@ -174,6 +191,7 @@ void Window::runGameLoop()
                         level->addEntity(p);
                     }
                 }
+                else if(e.key.keysym.sym == SDLK_i) openMenu(new Inventory(level->player));
             }
             else if(e.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -192,34 +210,8 @@ void Window::runGameLoop()
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
         SDL_RenderClear(renderer); // Everything black
         
-        if(paused)
-        {
-            level->render(renderer);
-
-            for(int i = 0; i < (int) menus.size(); i++)
-            {
-                auto *m = menus[i];
-                menus[i]->renderMenu(renderer);
-                if(typeid(*m) == typeid(PauseMenu))
-                {
-                    menus[i]->updateMenu(keyStates);
-                    for(int j = 0; j < (int) menus[i]->elements.size(); j++) menus[i]->elements[j]->render(renderer);
-
-                    if(menus[i]->shouldWindowClose() || menus[i]->menuShouldBeClosed)
-                    {
-                        menus[i]->close();
-                        paused = false;
-                    }
-                    
-                    break; // Only one pausemenu open at most?
-                }
-            }
-            SDL_RenderPresent(renderer); // Draw & limit FPS
-            continue;
-        }
-        
         // Update & render
-        bool toUpdate = true;
+        toUpdate = true;
         for(int i = 0; i < (int) menus.size(); i++)
         {
             // menus[i]->updateElements(e); // What was I doing?
@@ -227,8 +219,12 @@ void Window::runGameLoop()
         }
         if(toUpdate) update();
         render(renderer);
-                
-        SDL_RenderPresent(renderer); // Draw & limit FPS
+        
+        auto end_time = clock.now();
+        auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
+        
+        SDL_RenderPresent(renderer); // Draw & limit FPS when opened
     }
     
     Loader::LevelLoader loader(level);

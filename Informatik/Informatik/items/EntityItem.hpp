@@ -17,7 +17,7 @@ class EntityItem : public Entity
 private:
     
 public:
-    EntityItem();
+    EntityItem(int x, int y, Item *item);
     
     Item *item = nullptr; // The item this thing holds in the level
     

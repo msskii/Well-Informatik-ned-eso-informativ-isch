@@ -17,6 +17,10 @@ void Enemy::takeDamage(float amount)
         //level->removeEntity(this); // Dead
         isAlive = false;
     }
+    
+    if(attackState == READY_TO_ATTACK) attackState = ATTACKING;
+    
+    onDamage(amount);
 }
 
 #define MAX_STEP 0.05
@@ -41,6 +45,15 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     SDL_Rect hpbar = { (int) data.x_pos, (int) data.y_pos - 40, (int) data.width, 20 };
     TRANSFORM_LEVEL_POS(hpbar, xoffset, yoffset);
     
+    COLOR(renderer, 0xFF000000);
+    SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+    
+    // If it ever does not work: add ceil() around those four lines
+    hpbar.x += 1.0 / SCALE_X;
+    hpbar.y += 1.0 / SCALE_Y;
+    hpbar.w -= 2.0 / SCALE_X;
+    hpbar.h -= 2.0 / SCALE_Y;
+    
     COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
     SDL_RenderFillRect(renderer, &hpbar); // Full background
     
@@ -48,10 +61,4 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     COLOR(renderer, 0xFF00FF00);
     SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
     // Draw box around hp bar
-    
-    COLOR(renderer, 0xFF000000);
-    hpbar.w = data.width - 1;
-    hpbar.x += 1;
-    hpbar.h -= 1;
-    SDL_RenderDrawRect(renderer, &hpbar); // Draw black border
 }

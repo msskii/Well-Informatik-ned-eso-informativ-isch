@@ -14,18 +14,18 @@ int Loader::readInt(uint8_t *&levelFile)
     return ((uint32_t*)(levelFile - 4))[0];
 }
 
-Level *Loader::loadLevel(const char *path, int w, int h)
+Level *Loader::loadLevel(const char *path, int w, int h, SDL_Renderer *renderer)
 {
     uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here
     if(file == nullptr)
     {
-        Level *l = new Level(w, h);
+        Level *l = new Level(w, h, renderer);
         l->reloadFiles();
         return l;
     }
     else
     {
-        return Loader::LevelLoader(path).buildLevel();
+        return Loader::LevelLoader(path, renderer).buildLevel();
     }
 }
 
@@ -34,7 +34,7 @@ Loader::LevelLoader::LevelLoader(Level *l) : level(l)
     
 }
 
-Loader::LevelLoader::LevelLoader(const char *path)
+Loader::LevelLoader::LevelLoader(const char *path, SDL_Renderer *renderer)
 {
     INFO("Loading Level");
 
@@ -44,7 +44,7 @@ Loader::LevelLoader::LevelLoader(const char *path)
     uint32_t width = readInt(levelFile);
     uint32_t height = readInt(levelFile);
     
-    level = new Level(width, height);
+    level = new Level(width, height, renderer);
     for(int i = 0; i < (int)(width * height); i++)
     {
         level->tiles[i].data = ((TileData*) levelFile)[0];
