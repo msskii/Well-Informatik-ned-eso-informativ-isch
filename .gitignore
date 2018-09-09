@@ -12,6 +12,9 @@ SDL2_net
 SDL2_mixer
 SDL2_image
 
+# Ignore the game binary on linux
+Game
+
 # No text files or their licenses
 *.ttf
 OFL.txt
