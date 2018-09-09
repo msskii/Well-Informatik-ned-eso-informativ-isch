@@ -53,8 +53,6 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
     {
         if(inv->selected == nullptr)
         {
-            printf("Picked up item in slot: %d\n", renderItem.numSlot);
-            
             inv->selected = renderItem.item == nullptr ? nullptr : this;
             inv->player->playerItems[renderItem.numSlot] = {nullptr, renderItem.numSlot, 0}; // Clear slot
             
@@ -83,9 +81,6 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
         int oldslot = renderItem.numSlot;
         // Swapping slotnum with oldslot
         
-        
-        printf("Placing down item in slot: %d\n", slotnum);
-        
         // Create copies of elements & update slot numbers
         InventoryElement newElementTo = renderItem; // Same as inv->player->playerItems[oldslot];
         newElementTo.numSlot = slotnum;
@@ -100,7 +95,7 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
         renderItem = newElementFrom; // This slot is from, so we now hold the item from slotnum (The other slot)
         inv->slots[slotnum]->renderItem = newElementTo;
         
-        // Pick up the other slots contents if there is an item
+        // Pick up the other slots contents if there is an item & not the same slot to place it down
         inv->selected = newElementFrom.item == nullptr || oldslot == slotnum ? nullptr : inv->slots[oldslot];
         
         consumeEvent = true;

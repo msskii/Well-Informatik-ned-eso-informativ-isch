@@ -55,7 +55,7 @@ public:
     void openSubMenu(Menu *menu);
     void open(Window *window);
     void close();
-    void updateElements(SDL_Event e);
+    virtual void updateElements(SDL_Event e);
     
     // Functions to override
     virtual bool shouldWindowClose() = 0;

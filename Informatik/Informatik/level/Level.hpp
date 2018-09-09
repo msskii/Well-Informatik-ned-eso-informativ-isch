@@ -52,7 +52,7 @@ public:
 public:
     Tile getTile(int xcoord, int ycoord);
     
-    Level(int w, int h);
+    Level(int w, int h, SDL_Renderer *renderer);
     
     void reloadFiles();
     void addEntity(Entity *e); // To add an entity

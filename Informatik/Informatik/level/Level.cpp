@@ -9,7 +9,7 @@
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 
-Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player(new Player(this)) // Number of tiles
+Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), tiles(new Tile[w * h]), player(new Player(this)) // Number of tiles
 {    
     for(int i = 0; i < w * h; i++)
     {
@@ -49,8 +49,8 @@ Level::Level(int w, int h) : width(w), height(h), tiles(new Tile[w * h]), player
     
     for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
     
-    updateVariant(this); // Update all variants for the tiles
-    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
+    updateVariant(this, renderer); // Update all variants for the tiles
+    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture(renderer);
     
     textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
 	text = new Loader::TextLoader(textFile);

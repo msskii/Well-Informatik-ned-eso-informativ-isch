@@ -18,7 +18,7 @@ void onClick(Menu* menu, Button *button)
         case 1:
             exit(0);
         case 2:
-            updateVariant(menu->window->level);
+            updateVariant(menu->window->level, menu->window->renderer);
             break;
     }
 }
@@ -31,6 +31,19 @@ PauseMenu::PauseMenu()
 }
 
 bool PauseMenu::shouldWindowClose() { return false; }
+
+void PauseMenu::updateElements(SDL_Event e)
+{
+    Menu::updateElements(e);
+
+    if(e.type == SDL_KEYDOWN)
+    {
+        if(e.key.keysym.sym == SDLK_ESCAPE)
+        {
+            exit(0);
+        }
+    }
+}
 
 void PauseMenu::renderMenu(SDL_Renderer *renderer)
 {

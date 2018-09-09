@@ -46,6 +46,7 @@ public:
     // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus
     Level *level;
+    bool toUpdate = true;
     
     int frames = 0, fps = 0;
     uint64_t lastTime = time(NULL);
@@ -55,6 +56,7 @@ public:
 public:
     
     Window();
+    ~Window();
     void runGameLoop();
     
     void openMenu(Menu *menu);

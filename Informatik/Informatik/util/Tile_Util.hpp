@@ -36,6 +36,6 @@ const TextureInformation textureData[NUMBER_OF_TEXTURES] =
 };
 
 extern SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant);
-extern void updateVariant(Level *l);
+extern void updateVariant(Level *l, SDL_Renderer *renderer);
 
 #endif /* Tile_Util_hpp */

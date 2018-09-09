@@ -12,14 +12,14 @@ void variantSliderCallback(Menu *menu, int variant)
 {
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.variant = variant;
-    m->level->tiles[m->tileID].reloadTexture();
+    m->level->tiles[m->tileID].reloadTexture(menu->window->renderer);
 }
 
 void tilenumberCallback(Menu *menu, DropDownElement tile)
 {
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.tileNumber = tile.id;
-    m->level->tiles[m->tileID].reloadTexture();
+    m->level->tiles[m->tileID].reloadTexture(menu->window->renderer);
 	m->variant_slider->setMax(textureData[tile.id].numberOfVariants);
 }
 
@@ -83,12 +83,13 @@ void TileEditor::updateMenu(const uint8_t *keys)
 
 void TileEditor::drawOverlay(SDL_Renderer *renderer) {}
 void TileEditor::onOpen() {}
+
 void TileEditor::onClose()
 {
     level->tiles[tileID].data.tileNumber = tilenumber_dropdown->currentID;
     level->tiles[tileID].data.tileZ = zheight_slider->currentValue;
     level->tiles[tileID].data.variant = variant_slider->currentValue;
-    level->tiles[tileID].reloadTexture();
+    level->tiles[tileID].reloadTexture(window->renderer);
     
     // updateVariant(level); // Update the variant based on the stuff around
 }
