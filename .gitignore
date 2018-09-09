@@ -5,6 +5,8 @@ SDL2_net.framework
 SDL2_mixer.framework
 SDL2_image.framework
 
+Makefile
+
 # No libs & includes
 SDL2
 SDL2_ttf
