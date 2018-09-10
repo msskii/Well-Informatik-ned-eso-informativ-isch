@@ -30,24 +30,27 @@ void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y)
     SDL_DestroyTexture(texture);
 }
 
-void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h)
+float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h)
 {
     if(font == nullptr)
     {
         INFO("Font not yet initialized");
-        return;
+        return 0;
     }
     
     SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color));
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
-    if(texture == nullptr) return;
+    
+    if(srfc == nullptr) return 0;
+    
+    float scaleX = SCALE_X * (float) w / (float) srfc->w;
+    float scaleY = SCALE_Y * (float) h / (float) srfc->h;
+    float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
+
+    if(texture == nullptr) return scale;
     
     if(text)
     {
-        float scaleX = SCALE_X * (float) w / (float) srfc->w;
-        float scaleY = SCALE_Y * (float) h / (float) srfc->h;
-        float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
-        
         SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
         SDL_RenderSetScale(renderer, scale, scale); // Set scaling
         SDL_RenderCopy(renderer, texture, NULL, &dst); // Render stuff
@@ -57,6 +60,8 @@ void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, 
     // Clean up
     SDL_FreeSurface(srfc);
     SDL_DestroyTexture(texture);
+    
+    return scale;
 }
 
 void drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h)
@@ -196,10 +201,23 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
 		case SDL_SCANCODE_PERIOD:
 		case SDL_SCANCODE_KP_PERIOD:
 			return shift ? ':' : '.';
+        case SDL_SCANCODE_COMMA:
+        case SDL_SCANCODE_KP_COMMA:
+            return shift ? ';' : ',';
+        case SDL_SCANCODE_NONUSBACKSLASH:
+            return shift? '>' : '<';
+        case SDL_SCANCODE_MINUS:
+            return shift? '?' : '\'';
+        case SDL_SCANCODE_EQUALS:
+            return shift? '`' : '^';
         case SDL_SCANCODE_BACKSPACE:
             return '\x08';
         case SDL_SCANCODE_SPACE:
             return ' ';
+        case SDL_SCANCODE_RIGHT:
+        case SDL_SCANCODE_LEFT:
+        case SDL_SCANCODE_UP:
+        case SDL_SCANCODE_DOWN:
 		case SDL_SCANCODE_RETURN:
         case SDL_SCANCODE_LSHIFT: // No characters for this key
         case SDL_SCANCODE_RSHIFT:
@@ -209,6 +227,7 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
         case SDL_SCANCODE_RALT:
             return '\0';
         default:
+            printf("[INFO] Unknown scancode: %d\n", code);
             return '?'; // Unknown char
     }
 }

@@ -10,8 +10,27 @@
 #define Element_hpp
 
 #include "../../../util/SDL_Util.hpp"
+#include <map>
 
 class Menu;
+
+#define NUM_TEXTURES 3
+enum ElementTextureNames
+{
+    BUTTON_NORMAL = 0,
+    BUTTON_HOVER,
+    BUTTON_CLICKED
+};
+
+static const char** texturePaths = new const char*[NUM_TEXTURES]
+{
+    "/elements/ButtonTest_normal",
+    "/elements/ButtonTest_hover",
+    "/elements/ButtonTest_clicked"
+};
+
+extern std::map<int, SDL_Texture*> textures;
+extern void reloadElementTextures(SDL_Renderer *renderer);
 
 class Element // Full definition of the element class, as used by the menus
 {

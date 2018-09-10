@@ -16,7 +16,8 @@
 enum MenuOptions
 {
     START_GAME,
-    START_LEVELEDITOR, // Fixed spelling mistake
+    START_LEVELEDITOR,
+    START_OPTIONS,
     QUIT_GAME,
     
 #ifdef ENABLE_TEST_MULTIPLAYER
@@ -35,6 +36,10 @@ static void onButtonPress(Menu *menu, Button *button)
         case START_LEVELEDITOR:
             menu->close();
             menu->window->openMenu(new EditorOverlay());
+            break;
+        case START_OPTIONS:
+            //menu->window->openMenu(new ConfigMenu(menu->window->loader));
+            menu->openSubMenu(new ConfigMenu(menu->window->loader));
             break;
         case QUIT_GAME:
             exit(0);
@@ -60,7 +65,8 @@ MainMenu::MainMenu()
 {
     addElement(new Button(onButtonPress, "Start Game", 100, 200, 400, 100, START_GAME));
     addElement(new Button(onButtonPress, "Level Editor", 100, 300, 400, 100, START_LEVELEDITOR));
-    addElement(new Button(onButtonPress, "Quit", 100, 400, 400, 100, QUIT_GAME));
+    addElement(new Button(onButtonPress, "Options", 100, 400, 400, 100, START_OPTIONS));
+    addElement(new Button(onButtonPress, "Quit", 100, 500, 400, 100, QUIT_GAME));
     
 #ifdef ENABLE_TEST_MULTIPLAYER
     addElement(new Button(onButtonPress, "Start Server", 100, 700, 400, 100, START_SERVER));

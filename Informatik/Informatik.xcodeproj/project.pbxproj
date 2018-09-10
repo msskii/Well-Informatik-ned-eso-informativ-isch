@@ -10,6 +10,7 @@
 		4D4276512133F636003F6411 /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D42764F2133F636003F6411 /* NPC.cpp */; };
 		93185F8A21465506001A2167 /* ExplodingProjectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8821465506001A2167 /* ExplodingProjectile.cpp */; };
 		93185F8E21465F31001A2167 /* ConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8C21465F31001A2167 /* ConfigLoader.cpp */; };
+		93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8F2146A699001A2167 /* ConfigMenu.cpp */; };
 		932D3210212AB6E500DA45BD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D320F212AB6E500DA45BD /* main.cpp */; };
 		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
@@ -104,6 +105,8 @@
 		93185F8921465506001A2167 /* ExplodingProjectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExplodingProjectile.hpp; sourceTree = "<group>"; };
 		93185F8C21465F31001A2167 /* ConfigLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigLoader.cpp; sourceTree = "<group>"; };
 		93185F8D21465F31001A2167 /* ConfigLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConfigLoader.hpp; sourceTree = "<group>"; };
+		93185F8F2146A699001A2167 /* ConfigMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigMenu.cpp; sourceTree = "<group>"; };
+		93185F902146A699001A2167 /* ConfigMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConfigMenu.hpp; sourceTree = "<group>"; };
 		932D320C212AB6E500DA45BD /* Informatik */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Informatik; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D320F212AB6E500DA45BD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 			children = (
 				93185F8C21465F31001A2167 /* ConfigLoader.cpp */,
 				93185F8D21465F31001A2167 /* ConfigLoader.hpp */,
+				93185F8F2146A699001A2167 /* ConfigMenu.cpp */,
+				93185F902146A699001A2167 /* ConfigMenu.hpp */,
 			);
 			path = config;
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 				936C12F32135CE4D00404679 /* Slider.cpp in Sources */,
 				936C12FD2136BDE400404679 /* TileEditor.cpp in Sources */,
 				937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */,
+				93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */,
 				937AFC60214046B800F92964 /* Item.cpp in Sources */,
 				93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */,
 				937AC1F2213F011600F1D92C /* Math_Util.cpp in Sources */,

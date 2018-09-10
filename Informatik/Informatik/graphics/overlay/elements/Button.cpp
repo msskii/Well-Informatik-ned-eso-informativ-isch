@@ -23,8 +23,16 @@ void Button::render(SDL_Renderer *renderer)
     if(!menu->active) hoverOver = false;
     
     SDL_Rect r = {x, y, w, h};
-    COLOR(renderer, (hoverOver ? 0xFF777777 : 0xFFFFFFFF)); // Full white or grayish... TODO: Textures
-    SDL_RenderFillRect(renderer, &r);
+    
+    //COLOR(renderer, (hoverOver ? 0xFF777777 : 0xFFFFFFFF)); // Full white or grayish... TODO: Textures
+    //SDL_RenderFillRect(renderer, &r);
+    
+    int texture = clicked ? BUTTON_CLICKED : hoverOver ? BUTTON_HOVER : BUTTON_NORMAL;
+    if(textures[texture] == nullptr)
+    {
+        printf("No texture\n");
+    }
+    SDL_RenderCopy(renderer, textures[texture], NULL, &r);
     
     drawTextCentered(renderer, text, 0xFFFF00FF, x, y, w, h);
 }
@@ -46,4 +54,5 @@ void Button::processEvent(Menu* menu, SDL_Event e)
             if(handler != nullptr) handler(menu, this);
         }
     }
+    if(!hoverOver) clicked = false;
 }

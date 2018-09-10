@@ -18,6 +18,9 @@ protected:
     bool defaultText = true;
     bool focus = false; // No default focus
     bool hoverOver = false;
+    float usedScale = 1.0;
+    
+    int currentIndex = 0;
     
 public:
     TextBox(const char *defaultText, int x, int y, int w, int h, int id);

@@ -45,6 +45,7 @@ public:
     SDL_Renderer *renderer;
     const uint8_t *keyStates;
     
+    ConfigLoader *loader = nullptr;
     int key_inventory, key_shoot;
     
     // Menu *menu = new MainMenu();

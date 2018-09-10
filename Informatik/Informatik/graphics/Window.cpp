@@ -19,9 +19,9 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
     
     // Load config
-    ConfigLoader loader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
-    key_inventory = loader.getInt("button.inventory");
-    key_shoot = loader.getInt("button.shoot");
+    loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
+    key_inventory = loader->getInt("button.inventory");
+    key_shoot = loader->getInt("button.shoot");
 
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
@@ -51,6 +51,9 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     SCALE_X = (float) w / (float) GAME_WIDTH;
     SCALE_Y = (float) h / (float) GAME_HEIGHT;
     SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+    
+    // Reload elements of the menu
+    reloadElementTextures(renderer);
     
     // Set up keystates & level
     keyStates = SDL_GetKeyboardState(NULL);

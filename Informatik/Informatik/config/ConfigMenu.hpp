@@ -1,26 +1,24 @@
 //
-//  MainMenu.hpp
+//  ConfigMenu.hpp
 //  Informatik
 //
-//  Created by Aaron Hodel on 22.08.18.
+//  Created by Aaron Hodel on 10.09.18.
 //  Copyright © 2018 Aaron Hodel. All rights reserved.
 //
 
-#ifndef MainMenu_hpp
-#define MainMenu_hpp
+#ifndef ConfigMenu_hpp
+#define ConfigMenu_hpp
 
-#include "Menu.hpp"
-#include "editor/EditorOverlay.hpp"
-#include "../../config/ConfigMenu.hpp"
-#include "../../multiplayer/Server.hpp"
+#include "../graphics/overlay/Menu.hpp"
+#include "ConfigLoader.hpp"
 
-class MainMenu : public Menu
+class ConfigMenu : public Menu
 {
-protected:
-    bool gameStart = false;
+private:
+    
     
 public:
-    MainMenu();
+    ConfigMenu(ConfigLoader *loader);
     
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;
@@ -30,4 +28,4 @@ public:
     void onClose() override;
 };
 
-#endif /* MainMenu_hpp */
+#endif /* ConfigMenu_hpp */
