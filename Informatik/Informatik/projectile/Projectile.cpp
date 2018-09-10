@@ -15,6 +15,7 @@ Projectile::Projectile(float x, float y, float ra) : rotationAngle(ra)
     data.y_pos = y;
     
     surface = IMG_Load(GET_TEXTURE_PATH("projectiles/arrow_ur"));
+    
     velocity.x = cos(ra) * PROJECTILE_SPEED;
     velocity.y = -sin(ra) * PROJECTILE_SPEED;
 }

@@ -187,7 +187,7 @@ void Window::runGameLoop()
                 {
                     for(int i = 0; i < 5; i++) // Shoot n projectiles
                     {
-                        Projectile *p = new Projectile(level->player->x_pos, level->player->y_pos, TO_RAD(rand() % 360));
+                        ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->player->x_pos, level->player->y_pos, TO_RAD(rand() % 360));
                         level->addEntity(p);
                     }
                 }

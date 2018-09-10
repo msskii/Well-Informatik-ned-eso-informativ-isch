@@ -19,6 +19,7 @@
 #include "../enemy/Slime.hpp"
 
 #include "../projectile/Projectile.hpp"
+#include "../projectile/ExplodingProjectile.hpp"
 
 #include "../items/EntityItem.hpp"
 
