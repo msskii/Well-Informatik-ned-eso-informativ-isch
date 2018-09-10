@@ -13,7 +13,7 @@ Slime::Slime(float x, float y)
     data.x_pos = x;
     data.y_pos = y;
     data.speed = 2;
-    data.damage = 1;
+    data.damage = 10;
     
     enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
 }
