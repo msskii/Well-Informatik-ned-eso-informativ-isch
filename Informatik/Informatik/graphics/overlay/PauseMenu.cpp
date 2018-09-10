@@ -18,7 +18,7 @@ void onClick(Menu* menu, Button *button)
         case 1:
             exit(0);
         case 2:
-            updateVariant(menu->window->level);
+            updateVariant(menu->window->level, menu->window->renderer);
             break;
     }
 }
@@ -32,6 +32,19 @@ PauseMenu::PauseMenu()
 
 bool PauseMenu::shouldWindowClose() { return false; }
 
+void PauseMenu::updateElements(SDL_Event e)
+{
+    Menu::updateElements(e);
+
+    if(e.type == SDL_KEYDOWN)
+    {
+        if(e.key.keysym.sym == SDLK_ESCAPE)
+        {
+            exit(0);
+        }
+    }
+}
+
 void PauseMenu::renderMenu(SDL_Renderer *renderer)
 {
     SDL_Rect r = {0, 0, GAME_WIDTH, GAME_HEIGHT};
@@ -39,6 +52,7 @@ void PauseMenu::renderMenu(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &r);
 }
 
+void PauseMenu::drawOverlay(SDL_Renderer *renderer) {}
 void PauseMenu::updateMenu(const uint8_t *keys) { if(keys[SDL_SCANCODE_SPACE]) close(); }
 void PauseMenu::onOpen() {}
 void PauseMenu::onClose() {}

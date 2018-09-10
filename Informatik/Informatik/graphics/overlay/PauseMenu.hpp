@@ -16,8 +16,11 @@ class PauseMenu : public Menu
 public:
     PauseMenu();
     
+    void updateElements(SDL_Event e) override;
+    
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;
+    void drawOverlay(SDL_Renderer *renderer) override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
     void onClose() override;

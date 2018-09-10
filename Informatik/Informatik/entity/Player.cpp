@@ -12,6 +12,11 @@
 Player::Player(Level *l) : level(l)
 {
     player_surface = IMG_Load(GET_TEXTURE_PATH("player_boy"));
+    
+    for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
+    {
+        playerItems[i] = {nullptr, i, 0};
+    }
 }
 
 // Helper function for intersections with other things (xpos & ypos are the players position while the rest are the parameters of the thing trying to compare to)
@@ -66,7 +71,6 @@ bool Player::isInside(float dx, float dy)
             {
                 if(x_pos + player_x_offset >= item->data.x_pos && x_pos + player_x_offset <= item->data.x_pos + item->data.width && y_pos + player_y_offset >= item->data.y_pos && y_pos + player_y_offset <= item->data.y_pos + item->data.height)
                 {
-                    printf("I'm picking up an item...\n");
                     item->pickUp(); // Send the item the message we picked it up
                     level->removeEntity(item);
                 }
@@ -82,7 +86,6 @@ void Player::takeDamage(float amount)
 {
     if(graceLeft <= 0)
     {
-        printf("Took damage at time: %ull\n", time(NULL));
         graceLeft = gracePeriode * 60; // Wait gracePeriod seconds
         currentHealth -= amount;
         if(currentHealth <= 0)
@@ -211,7 +214,7 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
 
 void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
 {
-    //if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
+    if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
     
     if(animationHealth != currentHealth)
     {
@@ -219,7 +222,6 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
         float step = difference;
         if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
         animationHealth += step;
-        
     }
     
     SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 40, (int) TILE_SIZE, 20 };

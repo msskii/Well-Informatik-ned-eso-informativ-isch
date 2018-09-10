@@ -29,6 +29,10 @@
 #include "overlay/PauseMenu.hpp"
 #include "gui/Inventory.hpp"
 
+#include <time.h>
+#include <thread>
+#include <chrono>
+
 
 #include "../util/SDL_Util.hpp"
 
@@ -42,6 +46,7 @@ public:
     // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus
     Level *level;
+    bool toUpdate = true;
     
     int frames = 0, fps = 0;
     uint64_t lastTime = time(NULL);
@@ -51,6 +56,7 @@ public:
 public:
     
     Window();
+    ~Window();
     void runGameLoop();
     
     void openMenu(Menu *menu);

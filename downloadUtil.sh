@@ -11,6 +11,7 @@ elif [[ $unamestr = "Linux" ]]; then
   if [[ "$releasestr" =~ .+-Microsoft$ ]]; then
     source "./downloadUtilWin.sh"
   else
+    source "./configure.sh" # setup makefile for later
     source "./downloadUtilLinux.sh"
   fi
 else

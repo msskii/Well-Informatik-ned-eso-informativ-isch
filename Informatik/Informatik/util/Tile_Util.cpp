@@ -57,7 +57,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
     }
 }
 
-void updateVariant(Level *level)
+void updateVariant(Level *level, SDL_Renderer *renderer)
 {
     for(uint64_t i = 0; i < level->width * level->height; i++)
     {
@@ -82,7 +82,7 @@ void updateVariant(Level *level)
             level->tiles[i].data.variant = 128 + type;
             // Maybe also do it like this? Just a proposition...
             
-            level->tiles[i].reloadTexture(); // Reload the texture now...
+            level->tiles[i].reloadTexture(renderer); // Reload the texture now...
         }
     }
 }

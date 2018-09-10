@@ -13,6 +13,8 @@
 #include "../config.h"
 #include "../level/Level.hpp"
 
+#include "../items/Item.hpp"
+
 #include "../util/SDL_Util.hpp"
 
 class Level;
@@ -33,6 +35,8 @@ public:
     float gracePeriode = 3;
     int graceLeft = 0;
     
+    // Items
+    std::map<int, InventoryElement> playerItems;
     
     // Position
     float x_pos = 0, y_pos = 0;

@@ -190,5 +190,6 @@ void EventCreateMenu::updateMenu(const uint8_t *keys)
     } else jpressed = false;
 }
 
+void EventCreateMenu::drawOverlay(SDL_Renderer *renderer) {}
 void EventCreateMenu::onOpen() {}
 void EventCreateMenu::onClose() {}
