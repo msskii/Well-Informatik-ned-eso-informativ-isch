@@ -14,6 +14,7 @@
 #include "../level/loader/TextLoader.hpp"
 #include "../entity/loader/NPCLoader.hpp"
 #include "../multiplayer/Server.hpp"
+#include "../config/ConfigLoader.hpp"
 
 namespace Tests
 {
@@ -24,6 +25,8 @@ namespace Tests
     extern void testNPCLoader();
 
     extern void testPNG();
+    
+    extern void testConfig();
 }
 
 

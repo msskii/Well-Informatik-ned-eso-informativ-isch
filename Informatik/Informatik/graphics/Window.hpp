@@ -34,6 +34,7 @@
 #include <thread>
 #include <chrono>
 
+#include "../config/ConfigLoader.hpp"
 
 #include "../util/SDL_Util.hpp"
 
@@ -43,6 +44,8 @@ public:
     SDL_Window *window;
     SDL_Renderer *renderer;
     const uint8_t *keyStates;
+    
+    int key_inventory, key_shoot;
     
     // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus

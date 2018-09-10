@@ -8,7 +8,7 @@
 
 #include "FileReader.hpp"
 
-uint8_t* readFile(const char *filePath)
+filedata readFile(const char *filePath)
 {
     FILE *f;
 
@@ -22,7 +22,7 @@ uint8_t* readFile(const char *filePath)
     {
         ERROR("File not found");
         printf("\t%s\n", filePath);
-        return nullptr; // File not found
+        return {nullptr, 0}; // File not found
     }
 
     fseek(f, 0, SEEK_END);
@@ -31,7 +31,7 @@ uint8_t* readFile(const char *filePath)
     uint8_t *data = (uint8_t *) malloc(fileSize);
     fread(data, 1, fileSize, f); // Read data
 
-    return data;
+    return {data, fileSize};
 }
 
 void writeFile(const char *filePath, uint8_t *dataToWrite, int size)

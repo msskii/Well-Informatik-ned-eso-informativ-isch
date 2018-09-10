@@ -18,6 +18,11 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
     
+    // Load config
+    ConfigLoader loader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
+    key_inventory = loader.getInt("button.inventory");
+    key_shoot = loader.getInt("button.shoot");
+
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
@@ -183,7 +188,7 @@ void Window::runGameLoop()
             if(e.type == SDL_KEYDOWN)
             {                
                 if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
-                else if(e.key.keysym.sym == SDLK_e)
+                else if(e.key.keysym.sym == key_shoot)
                 {
                     for(int i = 0; i < 5; i++) // Shoot n projectiles
                     {
@@ -191,7 +196,7 @@ void Window::runGameLoop()
                         level->addEntity(p);
                     }
                 }
-                else if(e.key.keysym.sym == SDLK_i) openMenu(new Inventory(level->player));
+                else if(e.key.keysym.sym == key_inventory) openMenu(new Inventory(level->player));
             }
             else if(e.type == SDL_MOUSEBUTTONDOWN)
             {

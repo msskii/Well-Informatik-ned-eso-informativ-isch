@@ -15,7 +15,15 @@
 #include <iostream>
 #include <string>
 
-extern uint8_t* readFile(const char *filePath);
+typedef struct filedata
+{
+    uint8_t *data;
+    size_t filesize;
+    
+    inline uint8_t operator[] (int index) { return data[index]; } // Keep backwards compability
+} filedata;
+
+extern filedata readFile(const char *filePath);
 extern void writeFile(const char *filePath, uint8_t *dataToWrite, int size);
 
 #endif /* FileReader_hpp */

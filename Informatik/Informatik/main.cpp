@@ -34,7 +34,7 @@ int main(int argc, char **args)
     // Tests::testPNG();
     // Tests::testTextLoader();
     // Tests::testNPCLoader();
-    
+        
     startGame();
     //Multiplayer::Server s;
     
