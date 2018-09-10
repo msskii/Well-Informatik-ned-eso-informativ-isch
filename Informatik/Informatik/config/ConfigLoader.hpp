@@ -18,17 +18,16 @@ extern std::map<std::string, std::string> generateDefaultValues();
 class ConfigLoader
 {
 private:
-    const char *configFile = nullptr;
+    char *configFile = nullptr;
     filedata configData;
     
-    std::map<std::string, std::string> values;
-    
-    void parseLine(const char* line);
     void parseConfig();
     
     void testValues();
     
 public:
+    std::map<std::string, std::string> values;
+    
     ConfigLoader(const char* file);
     
     std::string get(const char* key);

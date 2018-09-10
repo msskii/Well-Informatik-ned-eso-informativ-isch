@@ -69,6 +69,8 @@ public:
     void update();
     void render(SDL_Renderer *renderer);
     
+    void reloadConfig();
+    
     inline void stopGameLoop() { running = false; }
 };
 

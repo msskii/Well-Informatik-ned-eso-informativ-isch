@@ -31,6 +31,8 @@ filedata readFile(const char *filePath)
     uint8_t *data = (uint8_t *) malloc(fileSize);
     fread(data, 1, fileSize, f); // Read data
 
+    fclose(f);
+    
     return {data, fileSize};
 }
 
@@ -39,7 +41,7 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
     FILE *f;
 
 #if defined(__APPLE__) || defined(__linux__)
-    f = fopen(filePath, "wb"); // Apple has the insecure version here, fuck linux
+    f = fopen(filePath, "wb"); // Apple has the insecure version here, <3 linux
 #else
     fopen_s(&f, filePath, "wb"); // Windows has secure
 #endif
@@ -52,4 +54,6 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
     }
 
     fwrite(dataToWrite, 1, size, f); // Write data
+    
+    fclose(f);
 }

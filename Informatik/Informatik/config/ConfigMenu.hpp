@@ -11,11 +11,16 @@
 
 #include "../graphics/overlay/Menu.hpp"
 #include "ConfigLoader.hpp"
+#include <vector>
 
 class ConfigMenu : public Menu
 {
 private:
+    std::vector<Text*> keys;
+    std::vector<TextBox*> values;
+    ConfigLoader *loader;
     
+    friend void buttonHandler(Menu *menu, Button* button);
     
 public:
     ConfigMenu(ConfigLoader *loader);

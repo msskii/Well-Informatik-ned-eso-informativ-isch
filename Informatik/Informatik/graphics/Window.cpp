@@ -19,9 +19,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
     
     // Load config
-    loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
-    key_inventory = loader->getInt("button.inventory");
-    key_shoot = loader->getInt("button.shoot");
+    reloadConfig();
 
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
@@ -241,4 +239,12 @@ void Window::runGameLoop()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+void Window::reloadConfig()
+{
+    loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
+    
+    key_inventory = loader->getInt("button.inventory");
+    key_shoot = loader->getInt("button.shoot");
 }

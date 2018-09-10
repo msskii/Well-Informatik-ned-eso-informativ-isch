@@ -16,6 +16,9 @@ TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h, int id
     w = _w;
     h = _h;
     elementID = id;
+    
+    selectionStart = (int) strlen(defaultText);
+    currentIndex = selectionStart;
 }
 
 void TextBox::render(SDL_Renderer *renderer)
@@ -39,7 +42,6 @@ void TextBox::render(SDL_Renderer *renderer)
     int tw, th;
     TTF_SizeText(font, currentText.substr(0, currentIndex).c_str(), &tw, &th);
     int realWidth = (int)((float) tw / SCALE_X * usedScale);
-    int realHeight = (int)((float) th / SCALE_Y * usedScale);
     TTF_SizeText(font, currentText.substr(0, selectionStart).c_str(), &tw, &th);
     int selectionWidth = (int)((float) tw / SCALE_X * usedScale);
     
@@ -48,6 +50,12 @@ void TextBox::render(SDL_Renderer *renderer)
     if(selectionStart < currentIndex) selection = {x + selectionWidth, y, realWidth - selectionWidth, h};
     else selection = {x + realWidth, y, selectionWidth - realWidth, h};
     SDL_RenderFillRect(renderer, &selection);
+    
+    if(!focus)
+    {
+        selectionStart = currentIndex;
+        return;
+    }
     
     COLOR(renderer, 0xFF000000);
     SDL_Rect r = {x + realWidth, y, (int)(5.0 / SCALE_X), h};
@@ -60,13 +68,15 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
     {
         hoverOver = menu->active && e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
         
+        if(!focus) return; // Dont track if we're not focused
+        
         if(e.button.button == SDL_BUTTON_LEFT)
         {
             float xpos = e.button.x / SCALE_X - x;
             for(int i = (int) currentText.size(); i > 0; --i)
             {
                 int tw, th;
-                TTF_SizeText(font, currentText.substr(0, i - 1).c_str(), &tw, &th);
+                TTF_SizeText(font, currentText.substr(0, i).c_str(), &tw, &th);
                 int realWidth = (int)((float) tw / SCALE_X * usedScale);
                 
                 if(xpos >= realWidth)
@@ -82,9 +92,7 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
     else if(e.type == SDL_MOUSEBUTTONDOWN)
     {
         hoverOver = menu->active && e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
-        
-        printf("Mouse button down...\n");
-        
+                
         if(hoverOver) focus = true;
         else focus = false;
         
@@ -94,7 +102,7 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
             for(int i = (int) currentText.size(); i > 0; --i)
             {
                 int tw, th;
-                TTF_SizeText(font, currentText.substr(0, i - 1).c_str(), &tw, &th);
+                TTF_SizeText(font, currentText.substr(0, i).c_str(), &tw, &th);
                 int realWidth = (int)((float) tw / SCALE_X * usedScale);
                 
                 if(xpos >= realWidth)

@@ -36,8 +36,13 @@ void ConfigLoader::testValues()
     if(needsSaving) save();
 }
 
-ConfigLoader::ConfigLoader(const char *path) : configFile(path)
+ConfigLoader::ConfigLoader(const char *path)
 {
+    int len = (int) strlen(path);
+    configFile = (char*) malloc(len + 1);
+    configFile[len] = 0;
+    memcpy(configFile, path, len);
+    
     load();
 }
 
@@ -57,7 +62,6 @@ void ConfigLoader::load()
 
 void ConfigLoader::save()
 {
-    // TODO
     int fileLength = 0;
     for(auto iterator = values.begin(); iterator != values.end(); iterator++) fileLength += 2 + iterator->first.size() + iterator->second.size(); // first & second are key & value
     char *file = (char*) malloc(fileLength);
@@ -76,6 +80,7 @@ void ConfigLoader::save()
         file[currentIndex] = '\n';
         ++currentIndex;
     }
+    printf("Saving in file: %s\n", configFile);
     writeFile(configFile, (uint8_t*) file, fileLength);
 }
 
@@ -83,10 +88,6 @@ void ConfigLoader::reloadConfig()
 {
     save();
     load();
-}
-
-void ConfigLoader::parseLine(const char* line)
-{
 }
 
 void ConfigLoader::parseConfig()

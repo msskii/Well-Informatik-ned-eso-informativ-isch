@@ -20,6 +20,9 @@ void onClick(Menu* menu, Button *button)
         case 2:
             updateVariant(menu->window->level, menu->window->renderer);
             break;
+        case 3:
+            menu->window->openMenu(new ConfigMenu(menu->window->loader));
+            break;
     }
 }
 
@@ -28,6 +31,7 @@ PauseMenu::PauseMenu()
     addElement(new Button(onClick, "Continue", 0, 0, 500, 100, 0));
     addElement(new Button(onClick, "Exit", 0, 100, 500, 100, 1));
     addElement(new Button(onClick, "Update variants", 0, 400, 500, 100, 2));
+    addElement(new Button(onClick, "Config", 0, 500, 500, 100, 3));
 }
 
 bool PauseMenu::shouldWindowClose() { return false; }

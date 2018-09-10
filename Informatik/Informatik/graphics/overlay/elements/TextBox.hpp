@@ -15,7 +15,6 @@
 class TextBox : public Element
 {
 protected:    
-    bool defaultText = true;
     bool focus = false; // No default focus
     bool hoverOver = false;
     float usedScale = 1.0;
@@ -27,6 +26,8 @@ protected:
     bool changed = true;
     
 public:
+    bool defaultText = true;
+
     TextBox(const char *defaultText, int x, int y, int w, int h, int id);
     std::string currentText;
 
