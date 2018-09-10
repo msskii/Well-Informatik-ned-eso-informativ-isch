@@ -14,19 +14,27 @@
 
 class Menu;
 
-#define NUM_TEXTURES 3
+#define NUM_TEXTURES 7
 enum ElementTextureNames
 {
     BUTTON_NORMAL = 0,
     BUTTON_HOVER,
-    BUTTON_CLICKED
+    BUTTON_CLICKED,
+    DROPDOWN,
+    DROPDOWN_ELEMENT,
+    DROPDOWN_ELEMENT_HOVER,
+    TEXTBOX
 };
 
 static const char** texturePaths = new const char*[NUM_TEXTURES]
 {
     "/elements/button_normal",
     "/elements/button_hover",
-    "/elements/button_clicked"
+    "/elements/button_clicked",
+    "/elements/dropdown",
+    "/elements/dropdown_element",
+    "/elements/dropdown_element_hover",
+    "/elements/textbox"
 };
 
 extern std::map<int, SDL_Texture*> textures;

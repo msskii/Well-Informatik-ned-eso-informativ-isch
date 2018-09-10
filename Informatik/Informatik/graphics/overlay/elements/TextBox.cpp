@@ -20,15 +20,26 @@ TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h, int id
 
 void TextBox::render(SDL_Renderer *renderer)
 {
-    if(changed)
+    SDL_Rect dst = {x, y, w, h};
+    SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
+    
+    if(lastTexture.texture == nullptr || changed)
     {
         usedScale = drawTextAspect(renderer, currentText.c_str(), 0xFF000000, x, y, w, h, lastTexture);
+        changed = false;
+    }
+    else
+    {
+        dst.w = lastTexture.textwidth;
+        dst.h = lastTexture.textheight;
+        SDL_RenderCopy(renderer, lastTexture.texture, NULL, &dst);
     }
     
     // cursor is after last character --> measure string till
     int tw, th;
     TTF_SizeText(font, currentText.substr(0, currentIndex).c_str(), &tw, &th);
     int realWidth = (int)((float) tw / SCALE_X * usedScale);
+    int realHeight = (int)((float) th / SCALE_Y * usedScale);
     TTF_SizeText(font, currentText.substr(0, selectionStart).c_str(), &tw, &th);
     int selectionWidth = (int)((float) tw / SCALE_X * usedScale);
     
@@ -124,10 +135,12 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
         }
         char c = scancodeToChar(e.key.keysym.scancode, (SDL_Keymod) e.key.keysym.mod);
         
+        changed = true; // update text
+        
         if(currentIndex == selectionStart)
         {
             if(c && c != '\x08') currentText.insert(currentText.begin() + currentIndex++, c);
-            else if(c == '\x08' && currentText.size() > 0) currentText.erase(currentText.begin() + --currentIndex);
+            else if(c == '\x08' && currentText.size() > 0 && currentIndex > 0) currentText.erase(currentText.begin() + --currentIndex);
         }
         else
         {
