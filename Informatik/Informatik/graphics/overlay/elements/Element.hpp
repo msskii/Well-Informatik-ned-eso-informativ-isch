@@ -24,9 +24,9 @@ enum ElementTextureNames
 
 static const char** texturePaths = new const char*[NUM_TEXTURES]
 {
-    "/elements/ButtonTest_normal",
-    "/elements/ButtonTest_hover",
-    "/elements/ButtonTest_clicked"
+    "/elements/button_normal",
+    "/elements/button_hover",
+    "/elements/button_clicked"
 };
 
 extern std::map<int, SDL_Texture*> textures;

@@ -24,7 +24,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     key_shoot = loader->getInt("button.shoot");
 
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
-    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
     if(!font)
     {

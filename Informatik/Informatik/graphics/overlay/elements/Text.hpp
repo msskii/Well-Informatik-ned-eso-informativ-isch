@@ -15,6 +15,7 @@ class Text : public Element
 {
 protected:
     const char *text;
+    cachedTexture texture;
 
 public:
     Text(const char *text, int x, int y, int w, int h);
@@ -34,6 +35,9 @@ public:
     const char *format;
     int maxLength;
     char *buffer;
+    
+    cachedTexture texture;
+    std::string os = "";
     
 public:
     DebugText(const char* format, int ml, textUpdate updater, int x, int y, int w, int h, int id);

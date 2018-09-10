@@ -49,20 +49,34 @@ void DropDown::render(SDL_Renderer *renderer)
         if(toTheSide)
         {
             int xoffset = x >= GAME_WIDTH - w ? -w : w;
-            drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h);
+            drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h, cachedText);
             for(int i = 0; i < (int) elements.size(); i++)
             {
-                drawTextAspect(renderer, elements[i].text, 0xFF000000, x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h);
+                if(elements[i].cachedTexture.texture == nullptr) drawTextAspect(renderer, elements[i].text, 0xFF000000, x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h, elements[i].cachedTexture);
+                else
+                {
+                    SDL_Rect r = {x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, elements[i].cachedTexture.textwidth, elements[i].cachedTexture.textheight};
+                    SDL_RenderCopy(renderer, elements[i].cachedTexture.texture, NULL, &r);
+                }
             }
         }
         else
         {
             for(int i = 0; i < (int) elements.size(); i++)
             {
-                drawTextAspect(renderer, elements[i].text, 0xFF000000, x, y + h * elements[i].id, w, h);
+                if(elements[i].cachedTexture.texture == nullptr) drawTextAspect(renderer, elements[i].text, 0xFF000000, x, y + h * elements[i].id, w, h, elements[i].cachedTexture);
+                else
+                {
+                    SDL_Rect r = {x, y + h * elements[i].id, elements[i].cachedTexture.textwidth, elements[i].cachedTexture.textheight};
+                    SDL_RenderCopy(renderer, elements[i].cachedTexture.texture, NULL, &r);
+                }
             }
         }
-    } else drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h);
+    }
+    else
+    {
+        drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h, cachedText);
+    }
 }
 
 void DropDown::processEvent(Menu *menu, SDL_Event e)

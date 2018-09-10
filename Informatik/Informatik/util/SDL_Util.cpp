@@ -30,7 +30,7 @@ void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y)
     SDL_DestroyTexture(texture);
 }
 
-float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h)
+float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture)
 {
     if(font == nullptr)
     {
@@ -38,67 +38,75 @@ float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x,
         return 0;
     }
     
+    if(texture.texture != nullptr) SDL_DestroyTexture(texture.texture);
+    
+    TTF_SizeText(font, text, &texture.textwidth, &texture.textheight);
+    
     SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color));
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
+    texture.texture = SDL_CreateTextureFromSurface(renderer, srfc);
     
     if(srfc == nullptr) return 0;
     
     float scaleX = SCALE_X * (float) w / (float) srfc->w;
     float scaleY = SCALE_Y * (float) h / (float) srfc->h;
     float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
+    
+    texture.textwidth = (int) (texture.textwidth / SCALE_X * scale);
+    texture.textheight = (int) (texture.textheight / SCALE_Y * scale);
 
-    if(texture == nullptr) return scale;
+    if(texture.texture == nullptr) return scale;
     
     if(text)
     {
         SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
         SDL_RenderSetScale(renderer, scale, scale); // Set scaling
-        SDL_RenderCopy(renderer, texture, NULL, &dst); // Render stuff
+        SDL_RenderCopy(renderer, texture.texture, NULL, &dst); // Render stuff
         SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y); // Reset scale
     }
     
     // Clean up
     SDL_FreeSurface(srfc);
-    SDL_DestroyTexture(texture);
     
     return scale;
 }
 
-void drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h)
+float drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture)
 {
-    int textwidth, textheight;
-    TTF_SizeText(font, text, &textwidth, &textheight);
+    TTF_SizeText(font, text, &texture.textwidth, &texture.textheight);
     
     if(font == nullptr)
     {
         INFO("Font not yet initialized");
-        return;
+        return 0;
     }
     
+    if(texture.texture != nullptr) SDL_DestroyTexture(texture.texture);
+    
     SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color));
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, srfc);
-    if(texture == nullptr) return;
+    texture.texture = SDL_CreateTextureFromSurface(renderer, srfc);
+    if(texture.texture == nullptr) return 0;
+    
+    float scaleX = SCALE_X * (float) w / (float) srfc->w;
+    float scaleY = SCALE_Y * (float) h / (float) srfc->h;
+    float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
     
     if(text)
     {
-        float scaleX = SCALE_X * (float) w / (float) srfc->w;
-        float scaleY = SCALE_Y * (float) h / (float) srfc->h;
-        float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
-        
-        x += (int) ((w - textwidth * scale / SCALE_X) / 2);
-        w = textwidth;
-        y += (int)((h - textheight * scale / SCALE_Y) / 2);
-        h = textheight;
+        x += (int) ((w - texture.textwidth * scale / SCALE_X) / 2);
+        w = texture.textwidth;
+        y += (int)((h - texture.textheight * scale / SCALE_Y) / 2);
+        h = texture.textheight;
         
         SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
         SDL_RenderSetScale(renderer, scale, scale); // Set scaling
-        SDL_RenderCopy(renderer, texture, NULL, &dst); // Render stuff
+        SDL_RenderCopy(renderer, texture.texture, NULL, &dst); // Render stuff
         SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y); // Reset scale
     }
     
     // Clean up
     SDL_FreeSurface(srfc);
-    SDL_DestroyTexture(texture);
+    
+    return scale;
 }
 
 char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)

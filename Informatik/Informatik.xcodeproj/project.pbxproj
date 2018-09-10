@@ -11,6 +11,7 @@
 		93185F8A21465506001A2167 /* ExplodingProjectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8821465506001A2167 /* ExplodingProjectile.cpp */; };
 		93185F8E21465F31001A2167 /* ConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8C21465F31001A2167 /* ConfigLoader.cpp */; };
 		93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8F2146A699001A2167 /* ConfigMenu.cpp */; };
+		93185F9A2146E31E001A2167 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93185F992146E318001A2167 /* textures */; };
 		932D3210212AB6E500DA45BD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D320F212AB6E500DA45BD /* main.cpp */; };
 		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
@@ -25,7 +26,6 @@
 		936C12E221353A4000404679 /* NPCLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12E021353A4000404679 /* NPCLoader.cpp */; };
 		936C12EA213550FB00404679 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12E9213550F700404679 /* data */; };
 		936C12EB213550FE00404679 /* fonts in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12E8213550F700404679 /* fonts */; };
-		936C12EC2135510100404679 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936C12E7213550F600404679 /* textures */; };
 		936C12F02135941800404679 /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12EE2135941800404679 /* Server.cpp */; };
 		936C12F32135CE4D00404679 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12F12135CE4D00404679 /* Slider.cpp */; };
 		936C12F72135DBD800404679 /* Dropdown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12F52135DBD800404679 /* Dropdown.cpp */; };
@@ -92,7 +92,7 @@
 			files = (
 				936C12EA213550FB00404679 /* data in CopyFiles */,
 				936C12EB213550FE00404679 /* fonts in CopyFiles */,
-				936C12EC2135510100404679 /* textures in CopyFiles */,
+				93185F9A2146E31E001A2167 /* textures in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +107,7 @@
 		93185F8D21465F31001A2167 /* ConfigLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConfigLoader.hpp; sourceTree = "<group>"; };
 		93185F8F2146A699001A2167 /* ConfigMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigMenu.cpp; sourceTree = "<group>"; };
 		93185F902146A699001A2167 /* ConfigMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConfigMenu.hpp; sourceTree = "<group>"; };
+		93185F992146E318001A2167 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = ../assets/textures; sourceTree = "<group>"; };
 		932D320C212AB6E500DA45BD /* Informatik */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Informatik; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D320F212AB6E500DA45BD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		932D321A212AB79C00DA45BD /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -128,7 +129,6 @@
 		936C12D82133E3A900404679 /* TextLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextLoader.hpp; sourceTree = "<group>"; };
 		936C12E021353A4000404679 /* NPCLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPCLoader.cpp; sourceTree = "<group>"; };
 		936C12E121353A4000404679 /* NPCLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPCLoader.hpp; sourceTree = "<group>"; };
-		936C12E7213550F600404679 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = ../assets/textures; sourceTree = "<group>"; };
 		936C12E8213550F700404679 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../assets/fonts; sourceTree = "<group>"; };
 		936C12E9213550F700404679 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../assets/data; sourceTree = "<group>"; };
 		936C12EE2135941800404679 /* Server.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cpp; sourceTree = "<group>"; };
@@ -235,9 +235,9 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				93185F992146E318001A2167 /* textures */,
 				936C12E9213550F700404679 /* data */,
 				936C12E8213550F700404679 /* fonts */,
-				936C12E7213550F600404679 /* textures */,
 				9368D31A2132A7A8005D6756 /* SDL2_image.framework */,
 				9368D3122131A0B5005D6756 /* SDL2_mixer.framework */,
 				937B0D6321317D3100C2051B /* SDL2_net.framework */,

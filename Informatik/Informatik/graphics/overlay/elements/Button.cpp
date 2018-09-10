@@ -24,9 +24,6 @@ void Button::render(SDL_Renderer *renderer)
     
     SDL_Rect r = {x, y, w, h};
     
-    //COLOR(renderer, (hoverOver ? 0xFF777777 : 0xFFFFFFFF)); // Full white or grayish... TODO: Textures
-    //SDL_RenderFillRect(renderer, &r);
-    
     int texture = clicked ? BUTTON_CLICKED : hoverOver ? BUTTON_HOVER : BUTTON_NORMAL;
     if(textures[texture] == nullptr)
     {
@@ -34,7 +31,14 @@ void Button::render(SDL_Renderer *renderer)
     }
     SDL_RenderCopy(renderer, textures[texture], NULL, &r);
     
-    drawTextCentered(renderer, text, 0xFFFF00FF, x, y, w, h);
+    if(button_texture.texture == nullptr) drawTextCentered(renderer, text, 0xFFFF00FF, x, y, w, h, button_texture);
+    else
+    {
+        r = {x, y, button_texture.textwidth, button_texture.textheight};
+        r.x += (w - button_texture.textwidth) / 2.0;
+        r.y += (h - button_texture.textheight) / 2.0;
+        SDL_RenderCopy(renderer, button_texture.texture, NULL, &r);
+    }
 }
 
 void Button::processEvent(Menu* menu, SDL_Event e)
