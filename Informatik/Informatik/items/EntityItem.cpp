@@ -32,11 +32,21 @@ void EntityItem::pickUp()
 {
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
-        if(level->player->playerItems[i].item == nullptr || *item == level->player->playerItems[i].item)
+        if(level->player->playerItems[i].item != nullptr && *item == level->player->playerItems[i].item)
         {
             level->player->playerItems[i].item = item;
             ++level->player->playerItems[i].amountItems; // Increase amount of items in that slot
             return;
         }
     }
+    for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
+    {
+        if(level->player->playerItems[i].item == nullptr)
+        {
+            level->player->playerItems[i].item = item;
+            ++level->player->playerItems[i].amountItems; // Increase amount of items in that slot
+            return;
+        }
+    }
+    printf("Couldnt pick up item. Inventory is full\n");
 }

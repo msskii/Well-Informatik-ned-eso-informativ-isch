@@ -20,7 +20,7 @@ Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({ til
 
 Tile::Tile(int x, int y, uint16_t tileNumber, uint8_t zheight) : xcoord(x), ycoord(y), data({ tileNumber, zheight})
 {
-    Tile_surface = loadTileVariant(tileNumber, data.variant);
+    Tile_surface = loadTileVariant(tileNumber, data.variant); // Since reloadTexture is called anyway, theres no need to initialize this here is there?
 }
 
 void Tile::reloadTexture(SDL_Renderer *renderer)
