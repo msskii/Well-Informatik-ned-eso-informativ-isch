@@ -56,6 +56,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Set up keystates & level
     keyStates = SDL_GetKeyboardState(NULL);
     level->window = this;
+    openMenu(new PlayerOverlay(level->player));
     
     // Set up random stuff ( Debug & initial stuff on screen)
     

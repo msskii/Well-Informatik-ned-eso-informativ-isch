@@ -29,6 +29,7 @@
 #include "overlay/DialogOverlay.hpp"
 #include "overlay/PauseMenu.hpp"
 #include "gui/Inventory.hpp"
+#include "gui/PlayerOverlay.hpp"
 
 #include <time.h>
 #include <thread>

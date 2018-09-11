@@ -16,15 +16,26 @@ std::map<std::string, std::string> generateDefaultValues()
     
     values["button.inventory"] = std::to_string(SDLK_i);
     values["button.shoot"] = std::to_string(SDLK_e);
+    
+    values["button.left"] = std::to_string(SDLK_LEFT);
+    values["button.right"] = std::to_string(SDLK_RIGHT);
+    values["button.up"] = std::to_string(SDLK_UP);
+    values["button.down"] = std::to_string(SDLK_DOWN);
 
+    values["button.interact"] = std::to_string(SDLK_RETURN);
+    
+    values["screen.width"] = std::to_string(960);
+    values["screen.height"] = std::to_string(540);
+
+    
     return values;
 }
 
 void ConfigLoader::testValues()
 {
-    std::map<std::string, std::string> values = generateDefaultValues();
+    std::map<std::string, std::string> vals = generateDefaultValues();
     bool needsSaving = false;
-    for(auto it = values.begin(); it != values.end(); it++)
+    for(auto it = vals.begin(); it != vals.end(); it++)
     {
         if(values[it->first].size() == 0)
         {
@@ -33,7 +44,11 @@ void ConfigLoader::testValues()
         }
     }
     
-    if(needsSaving) save();
+    if(needsSaving)
+    {
+        save();
+        load();
+    }
 }
 
 ConfigLoader::ConfigLoader(const char *path)

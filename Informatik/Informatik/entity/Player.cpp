@@ -7,7 +7,7 @@
 //
 
 #include "Player.hpp"
-#define MAX_STEP 10
+#define MAX_STEP 1
 
 Player::Player(Level *l) : level(l)
 {
@@ -219,8 +219,9 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
     if(animationHealth != currentHealth)
     {
         float difference = currentHealth - animationHealth;
-        float step = difference;
-        if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
+        float step = difference / 60.0;
+        if(abs(step) <= 0.05f) step = difference;
+        else while(abs(step) <= 0.5f) step *= 2; // Just finish it
         animationHealth += step;
     }
     
