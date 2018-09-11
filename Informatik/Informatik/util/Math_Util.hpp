@@ -24,6 +24,16 @@
 typedef struct vector2d
 {
     float x, y;
+    
+    inline void operator -= (vector2d other) {x -= other.x; y -= other.y;}
+    inline void operator += (vector2d other) {x += other.x; y += other.y;}
+    
+    inline void operator *= (float a) {x *= a; y *= a;}
+    inline vector2d operator * (float a) { return {x * a, y * a}; }
+    
+    inline float len() { return sqrt(x * x + y * y); }
+    inline vector2d norm() { return {x / len(), y / len()}; }
+    inline float dir() { return atan2(y, x); }
 } vector2d;
 
 #endif /* Math_Util_hpp */

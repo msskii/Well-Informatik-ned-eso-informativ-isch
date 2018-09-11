@@ -14,9 +14,10 @@
 class Text : public Element
 {
 protected:
-    const char *text;
+    cachedTexture texture;
 
 public:
+    const char *text;
     Text(const char *text, int x, int y, int w, int h);
     
     void render(SDL_Renderer *renderer) override;
@@ -34,6 +35,9 @@ public:
     const char *format;
     int maxLength;
     char *buffer;
+    
+    cachedTexture texture;
+    std::string os = "";
     
 public:
     DebugText(const char* format, int ml, textUpdate updater, int x, int y, int w, int h, int id);

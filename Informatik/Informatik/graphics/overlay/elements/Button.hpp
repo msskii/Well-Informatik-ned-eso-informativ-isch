@@ -20,6 +20,8 @@ public:
     const char *text;
     bool hoverOver = false;
     bool clicked = false;
+    float scale = 1.0f;
+    cachedTexture button_texture;
     
     buttonClickHandler handler;
     

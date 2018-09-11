@@ -18,7 +18,12 @@ Text::Text(const char* t, int _x, int _y, int _w, int _h) : text(t)
 
 void Text::render(SDL_Renderer *renderer)
 {
-    drawTextAspect(renderer, text, 0xFFFF00FF, x, y, w, h);
+    if(texture.texture == nullptr) drawTextAspect(renderer, text, 0xFFFF00FF, x, y, w, h, texture);
+    else
+    {
+        SDL_Rect r = {x, y, w, h};
+        SDL_RenderCopy(renderer, texture.texture, NULL, &r);
+    }
 }
 
 void Text::processEvent(Menu *menu, SDL_Event e)
@@ -38,7 +43,17 @@ DebugText::DebugText(const char *frmt, int ml, textUpdate u, int _x, int _y, int
 
 void DebugText::render(SDL_Renderer *renderer)
 {
-    drawTextAspect(renderer, updater(menu, this), 0xFF000000, x, y, w, h);
+    const char *ns = updater(menu, this);
+    if(texture.texture == nullptr || std::string(ns) != os)
+    {
+        drawTextAspect(renderer, ns, 0xFF000000, x, y, w, h, texture);
+        os = std::string(ns);
+    }
+    else
+    {
+        SDL_Rect r = {x, y, w, h};
+        SDL_RenderCopy(renderer, texture.texture, NULL, &r);
+    }
 }
 
 void DebugText::processEvent(Menu *menu, SDL_Event e)

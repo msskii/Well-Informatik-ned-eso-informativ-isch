@@ -34,7 +34,16 @@ void Slider::render(SDL_Renderer *renderer)
     
     COLOR(renderer, 0xFF000000);
 
-    drawTextAspect(renderer, std::to_string(currentValue).c_str(), 0xFF000000, x, y, w, h);
+    if(textCache.texture == nullptr || needsUpdate)
+    {
+        drawTextAspect(renderer, std::to_string(currentValue).c_str(), 0xFF000000, x, y, w, h, textCache);
+        needsUpdate = false;
+    }
+    else
+    {
+        SDL_Rect r = {x, y, textCache.textwidth, textCache.textheight};
+        SDL_RenderCopy(renderer, textCache.texture, NULL, &r);
+    }
     
     r = {x + 1, y, w - 1, h - 1};
     SDL_RenderDrawRect(renderer, &r);
@@ -52,6 +61,7 @@ void Slider::processEvent(Menu *menu, SDL_Event e)
             bool isOver = e.button.x / SCALE_X >= x && e.button.x / SCALE_X - 10 <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
             if(isOver)
             {
+                needsUpdate = true;
                 currentValue = (int)((float)((e.button.x / SCALE_X) - x) * (float)(maxValue - minValue) / (float) w + minValue);
                 currentValue = currentValue >= maxValue ? maxValue : currentValue; // Min(current, max)
                 if(clbck != nullptr) clbck(menu, currentValue);

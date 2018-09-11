@@ -15,11 +15,19 @@
 class TextBox : public Element
 {
 protected:    
-    bool defaultText = true;
     bool focus = false; // No default focus
     bool hoverOver = false;
+    float usedScale = 1.0;
+    
+    int selectionStart = 0;
+    int currentIndex = 0;
+    
+    cachedTexture lastTexture;
+    bool changed = true;
     
 public:
+    bool defaultText = true;
+
     TextBox(const char *defaultText, int x, int y, int w, int h, int id);
     std::string currentText;
 

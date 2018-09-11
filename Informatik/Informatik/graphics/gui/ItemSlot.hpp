@@ -17,6 +17,8 @@ class ItemSlot : public Element
 {
 private:
     bool hoverOver = false;
+    cachedTexture texture;
+    bool needsUpdate = false;
     
 public:
     InventoryElement renderItem;

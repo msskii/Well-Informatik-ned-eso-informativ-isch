@@ -18,8 +18,11 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
     
+    // Load config
+    reloadConfig();
+
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
-    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
     if(!font)
     {
@@ -29,9 +32,9 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
     
 #ifdef FULLSCREEN_ENABLED
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP);
 #else
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE);
 #endif
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
@@ -47,9 +50,13 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     SCALE_Y = (float) h / (float) GAME_HEIGHT;
     SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
     
+    // Reload elements of the menu
+    reloadElementTextures(renderer);
+    
     // Set up keystates & level
     keyStates = SDL_GetKeyboardState(NULL);
     level->window = this;
+    openMenu(new PlayerOverlay(level->player));
     
     // Set up random stuff ( Debug & initial stuff on screen)
     
@@ -96,13 +103,13 @@ void Window::update()
 {
     // Put update stuff here
     float x = 0, y = 0;
-    if(keyStates[SDL_SCANCODE_UP]) y -= SPEED;
-    if(keyStates[SDL_SCANCODE_DOWN]) y += SPEED;
-    if(keyStates[SDL_SCANCODE_RIGHT]) x += SPEED;
-    if(keyStates[SDL_SCANCODE_LEFT]) x -= SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_UP])]) y -= SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_DOWN])]) y += SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_RIGHT])]) x += SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
     
     level->player->updateMovement(x, y); // Update player movement
-    level->player->actionPressed = keyStates[SDL_SCANCODE_RETURN];
+    level->player->actionPressed = keyStates[GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]];
     
     level->update(); // Update rest of level according to player
 }
@@ -189,15 +196,15 @@ void Window::runGameLoop()
             if(e.type == SDL_KEYDOWN)
             {                
                 if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
-                else if(e.key.keysym.sym == SDLK_e)
+                else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_SHOOT])
                 {
                     for(int i = 0; i < 5; i++) // Shoot n projectiles
                     {
-                        Projectile *p = new Projectile(level->player->x_pos, level->player->y_pos, TO_RAD(rand() % 360));
+                        ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->player->x_pos, level->player->y_pos, TO_RAD(rand() % 360));
                         level->addEntity(p);
                     }
                 }
-                else if(e.key.keysym.sym == SDLK_i) openMenu(new Inventory(level->player));
+                else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->player));
             }
             else if(e.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -239,4 +246,9 @@ void Window::runGameLoop()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+void Window::reloadConfig()
+{
+    loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
 }

@@ -19,6 +19,9 @@ protected:
     int minValue, maxValue;
     sliderCallback clbck = nullptr;
     
+    bool needsUpdate = false;
+    cachedTexture textCache;
+    
 public:
     int currentValue = 0;
 

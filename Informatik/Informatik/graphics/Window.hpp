@@ -19,6 +19,7 @@
 #include "../enemy/Slime.hpp"
 
 #include "../projectile/Projectile.hpp"
+#include "../projectile/ExplodingProjectile.hpp"
 
 #include "../items/EntityItem.hpp"
 
@@ -28,11 +29,13 @@
 #include "overlay/DialogOverlay.hpp"
 #include "overlay/PauseMenu.hpp"
 #include "gui/Inventory.hpp"
+#include "gui/PlayerOverlay.hpp"
 
 #include <time.h>
 #include <thread>
 #include <chrono>
 
+#include "../config/ConfigLoader.hpp"
 
 #include "../util/SDL_Util.hpp"
 
@@ -42,6 +45,8 @@ public:
     SDL_Window *window;
     SDL_Renderer *renderer;
     const uint8_t *keyStates;
+    
+    ConfigLoader *loader = nullptr;
     
     // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus
@@ -63,6 +68,8 @@ public:
     
     void update();
     void render(SDL_Renderer *renderer);
+    
+    void reloadConfig();
     
     inline void stopGameLoop() { running = false; }
 };

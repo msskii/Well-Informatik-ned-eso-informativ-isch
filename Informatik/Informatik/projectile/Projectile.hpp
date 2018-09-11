@@ -13,12 +13,13 @@
 
 class Projectile : public Entity
 {
-private:
+protected:
     SDL_Surface *surface;
     SDL_Texture *texture = nullptr;
     
     vector2d velocity = {0, 0};
-    int despawnTimer = 600; // The maximum amount of frames a projectile can live
+    int despawnTimer = 600; // The maximum amount of frames a projectile can live --> max distance is |velocity| * timer
+    
     Entity *sender = nullptr; // Nullptr if from player, entity otherwise (enemy probably)
     
 public:

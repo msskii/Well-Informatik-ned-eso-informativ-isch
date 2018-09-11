@@ -38,7 +38,7 @@ Loader::LevelLoader::LevelLoader(const char *path, SDL_Renderer *renderer)
 {
     INFO("Loading Level");
 
-    uint8_t *levelFile = readFile(path);
+    uint8_t *levelFile = readFile(path).data;
     if(levelFile == nullptr) return;
     
     uint32_t width = readInt(levelFile);

@@ -8,7 +8,7 @@
 
 #include "FileReader.hpp"
 
-uint8_t* readFile(const char *filePath)
+filedata readFile(const char *filePath)
 {
     FILE *f;
 
@@ -22,7 +22,7 @@ uint8_t* readFile(const char *filePath)
     {
         ERROR("File not found");
         printf("\t%s\n", filePath);
-        return nullptr; // File not found
+        return {nullptr, 0}; // File not found
     }
 
     fseek(f, 0, SEEK_END);
@@ -31,7 +31,9 @@ uint8_t* readFile(const char *filePath)
     uint8_t *data = (uint8_t *) malloc(fileSize);
     fread(data, 1, fileSize, f); // Read data
 
-    return data;
+    fclose(f);
+    
+    return {data, fileSize};
 }
 
 void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
@@ -39,7 +41,7 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
     FILE *f;
 
 #if defined(__APPLE__) || defined(__linux__)
-    f = fopen(filePath, "wb"); // Apple has the insecure version here, fuck linux
+    f = fopen(filePath, "wb"); // Apple has the insecure version here, <3 linux
 #else
     fopen_s(&f, filePath, "wb"); // Windows has secure
 #endif
@@ -52,4 +54,6 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
     }
 
     fwrite(dataToWrite, 1, size, f); // Write data
+    
+    fclose(f);
 }

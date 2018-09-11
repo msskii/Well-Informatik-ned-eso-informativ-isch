@@ -24,7 +24,7 @@ class Player
 private:
     SDL_Surface *player_surface = nullptr;
     SDL_Texture *texture = nullptr;
-
+    
     float _x = 0, _y = 0; // Coordinates
 
 public:

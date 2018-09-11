@@ -11,7 +11,7 @@
 std::vector<Entity*> Loader::loadNPCs(const char *filepath)
 {
     std::vector<Entity*> npcs;
-    uint8_t *data = readFile(filepath);
+    uint8_t *data = readFile(filepath).data;
     
     int numNPCS = ((uint32_t*)data)[0];
     data += 4;

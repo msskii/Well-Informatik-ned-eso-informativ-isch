@@ -92,3 +92,9 @@ void Tests::testTextLoader()
 {
     Loader::TextLoader(GET_FILE_PATH(LEVEL_PATH, "test.text"));
 }
+
+void Tests::testConfig()
+{
+    ConfigLoader loader(GET_FILE_PATH(LEVEL_PATH, "test.config"));
+    printf("Shoot = %d\n", loader.getInt("button.shoot"));
+}

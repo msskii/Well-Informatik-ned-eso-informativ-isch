@@ -46,9 +46,16 @@
 extern TTF_Font *font;
 extern float SCALE_X, SCALE_Y;
 
+typedef struct cachedTexture
+{
+    SDL_Texture *texture = nullptr;
+    int textwidth, textheight;
+} cachedTexture;
+
 extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y);
-extern void drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h); // Keep aspect ratio
-extern void drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h); // Keep aspect ratio & center to the width
+extern float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture); // Keep aspect ratio
+extern float drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture); // Keep aspect ratio & center to the width
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
+
 
 #endif /* SDL_Util_h */
