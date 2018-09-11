@@ -8,6 +8,8 @@
 
 #include "ConfigLoader.hpp"
 
+int *GLOBAL_KEY_CONFIG = new int[7] {};
+
 std::map<std::string, std::string> generateDefaultValues()
 {
     std::map<std::string, std::string> values;
@@ -44,6 +46,17 @@ void ConfigLoader::testValues()
         }
     }
     
+    printf("[INFO] Loading keyconfig\n");
+    // Load config keys
+    GLOBAL_KEY_CONFIG[BUTTON_LEFT] = getInt("button.left");
+    GLOBAL_KEY_CONFIG[BUTTON_RIGHT] = getInt("button.right");
+    GLOBAL_KEY_CONFIG[BUTTON_UP] = getInt("button.up");
+    GLOBAL_KEY_CONFIG[BUTTON_DOWN] = getInt("button.down");
+        
+    GLOBAL_KEY_CONFIG[BUTTON_INVENTORY] = getInt("button.inventory");
+    GLOBAL_KEY_CONFIG[BUTTON_SHOOT] = getInt("button.shoot");
+    GLOBAL_KEY_CONFIG[BUTTON_INTERACT] = getInt("button.interact");
+
     if(needsSaving)
     {
         save();
@@ -71,6 +84,7 @@ void ConfigLoader::load()
         values = generateDefaultValues();
         save();
     }
+    
     parseConfig();
     testValues(); // Test if important values are missing... (& set Defaults if so)
 }

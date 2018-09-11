@@ -28,7 +28,6 @@ ConfigMenu::ConfigMenu(ConfigLoader *loader)
 {
     this->loader = loader;
     
-    int y = 0;
     for(auto it = loader->values.begin(); it != loader->values.end(); it++)
     {
         keys.push_back((Text*) addElement(new Text(it->first.c_str(), 0, y * 100, 400, 100)));
@@ -51,6 +50,24 @@ void ConfigMenu::renderMenu(SDL_Renderer *renderer)
 }
 
 void ConfigMenu::drawOverlay(SDL_Renderer *renderer) {}
-void ConfigMenu::updateMenu(const uint8_t *keys) {}
+
+void ConfigMenu::updateMenu(const uint8_t *keys)
+{
+    for(int i = 0; i < (int) this->keys.size(); i++)
+    {
+        this->keys[i]->y = i * 100 - scrollAmount;
+        values[i]->y = i * 100 - scrollAmount;
+    }
+    
+    if(keys[SDL_SCANCODE_DOWN])
+    {
+        scrollAmount += SCROLL_SPEED;
+    }
+    else if(keys[SDL_SCANCODE_UP])
+    {
+        scrollAmount -= SCROLL_SPEED;
+    }
+}
+
 void ConfigMenu::onOpen() {}
 void ConfigMenu::onClose() {}

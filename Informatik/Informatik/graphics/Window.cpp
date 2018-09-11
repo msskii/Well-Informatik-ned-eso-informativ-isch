@@ -97,11 +97,11 @@ void Window::update()
 {
     // Put update stuff here
     float x = 0, y = 0;
-    if(keyStates[SDL_SCANCODE_UP]) y -= SPEED;
-    if(keyStates[SDL_SCANCODE_DOWN]) y += SPEED;
-    if(keyStates[SDL_SCANCODE_RIGHT]) x += SPEED;
-    if(keyStates[SDL_SCANCODE_LEFT]) x -= SPEED;
-    
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_UP])]) y -= SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_DOWN])]) y += SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_RIGHT])]) x += SPEED;
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
+        
     level->player->updateMovement(x, y); // Update player movement
     level->player->actionPressed = keyStates[SDL_SCANCODE_RETURN];
     
@@ -190,7 +190,7 @@ void Window::runGameLoop()
             if(e.type == SDL_KEYDOWN)
             {                
                 if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
-                else if(e.key.keysym.sym == key_shoot)
+                else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_SHOOT])
                 {
                     for(int i = 0; i < 5; i++) // Shoot n projectiles
                     {
@@ -198,7 +198,7 @@ void Window::runGameLoop()
                         level->addEntity(p);
                     }
                 }
-                else if(e.key.keysym.sym == key_inventory) openMenu(new Inventory(level->player));
+                else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->player));
             }
             else if(e.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -245,7 +245,4 @@ void Window::runGameLoop()
 void Window::reloadConfig()
 {
     loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
-    
-    key_inventory = loader->getInt("button.inventory");
-    key_shoot = loader->getInt("button.shoot");
 }

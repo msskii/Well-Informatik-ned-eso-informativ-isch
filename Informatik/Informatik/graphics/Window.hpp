@@ -47,7 +47,6 @@ public:
     const uint8_t *keyStates;
     
     ConfigLoader *loader = nullptr;
-    int key_inventory, key_shoot;
     
     // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus

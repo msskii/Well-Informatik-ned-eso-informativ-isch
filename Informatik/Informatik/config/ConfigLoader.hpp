@@ -15,6 +15,20 @@
 
 extern std::map<std::string, std::string> generateDefaultValues();
 
+enum CONFIG_KEYS
+{
+    BUTTON_LEFT,
+    BUTTON_RIGHT,
+    BUTTON_UP,
+    BUTTON_DOWN,
+    
+    BUTTON_INVENTORY,
+    BUTTON_SHOOT,
+    BUTTON_INTERACT
+};
+
+extern int *GLOBAL_KEY_CONFIG;
+
 class ConfigLoader
 {
 private:

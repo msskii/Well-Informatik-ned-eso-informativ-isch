@@ -13,12 +13,15 @@
 #include "ConfigLoader.hpp"
 #include <vector>
 
+#define SCROLL_SPEED 5
+
 class ConfigMenu : public Menu
 {
 private:
     std::vector<Text*> keys;
     std::vector<TextBox*> values;
     ConfigLoader *loader;
+    int scrollAmount = 0, y = 0;
     
     friend void buttonHandler(Menu *menu, Button* button);
     
@@ -30,7 +33,7 @@ public:
     void drawOverlay(SDL_Renderer *renderer) override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
-    void onClose() override;
+    void onClose() override;    
 };
 
 #endif /* ConfigMenu_hpp */
