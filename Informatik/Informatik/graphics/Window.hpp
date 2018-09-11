@@ -74,6 +74,7 @@ public:
     inline void stopGameLoop() { running = false; }
 };
 
+extern void exitGame(Window *window);
 extern void openMenu(Menu *menu);
 
 #endif /* Window_hpp */

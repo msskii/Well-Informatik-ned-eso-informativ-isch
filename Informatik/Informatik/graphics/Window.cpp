@@ -41,7 +41,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
     
     // Set up level
-    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), 50, 50, renderer);
+    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50, renderer);
     
     // Set up scaling
     int w, h;
@@ -96,7 +96,6 @@ Window::~Window()
 {
     delete level;
     SDL_DestroyWindow(window);
-    
 }
 
 void Window::update()
@@ -180,7 +179,7 @@ void Window::runGameLoop()
             if(e.type == SDL_WINDOWEVENT)
             {
                 if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
-				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				else if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
 					int w, h;
 					SDL_GetWindowSize(window, &w, &h);
@@ -189,6 +188,7 @@ void Window::runGameLoop()
 					SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
 				}
             }
+            else if(e.type == SDL_QUIT) exitGame(this); // Just close the whole thing...
             
             // Player & Level control:
             if(!toUpdate) continue; // We're paused...
@@ -240,15 +240,24 @@ void Window::runGameLoop()
         SDL_RenderPresent(renderer); // Draw & limit FPS when opened
     }
     
-    Loader::LevelLoader loader(level);
-    loader.saveFile(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"));
     
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    
+    exitGame(this);
 }
 
 void Window::reloadConfig()
 {
     loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
+}
+
+void exitGame(Window *window)
+{
+    Loader::LevelLoader loader(window->level);
+    loader.saveFile(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"));
+    
+    SDL_DestroyRenderer(window->renderer);
+    SDL_DestroyWindow(window->window);
+    SDL_Quit();
+        
+    exit(0);
 }

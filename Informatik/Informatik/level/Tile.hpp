@@ -35,6 +35,7 @@ public:
     TileData data = {0, 0};
     Tile(int x, int y, uint16_t tilenumber);
     Tile(int x, int y, uint16_t tilenumber, uint8_t zheight);
+    Tile(int x, int y, TileData data);
 
     void reloadTexture(SDL_Renderer *renderer);
     void render(SDL_Renderer *renderer, int xoff, int yoff);

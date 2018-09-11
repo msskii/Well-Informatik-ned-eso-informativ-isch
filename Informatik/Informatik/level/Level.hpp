@@ -43,9 +43,9 @@ public:
     
     int xoffset, yoffset;
     
-    const char* audioFile = GET_FILE_PATH(AUDIO_PATH, "default.wav");
-    const char* tileMapFile = GET_FILE_PATH(LEVEL_PATH, "default.tilemap");
-    const char* textFile = GET_FILE_PATH(LEVEL_PATH, "test.text");
+    std::string audioFile = GET_FILE_PATH(AUDIO_PATH, "default.wav");
+    std::string tileMapFile = GET_FILE_PATH(LEVEL_PATH, "default.tilemap");
+    std::string textFile = GET_FILE_PATH(LEVEL_PATH, "test.text");
     
     Loader::TextLoader *text;
     Window *window = nullptr;
@@ -53,6 +53,7 @@ public:
     Tile getTile(int xcoord, int ycoord);
     
     Level(int w, int h, SDL_Renderer *renderer);
+    Level(int w, int h);
     
     void reloadFiles();
     void addEntity(Entity *e); // To add an entity
