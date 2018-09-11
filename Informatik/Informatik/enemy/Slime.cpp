@@ -8,14 +8,34 @@
 
 #include "Slime.hpp"
 
-Slime::Slime(float x, float y)
+Slime::Slime(float x, float y, int level)
 {
     data.x_pos = x;
     data.y_pos = y;
-    data.speed = 2;
-    data.damage = 10;
+    data.speed = 2 + level / 20;
+    data.damage = 5 * level;
+    data.maxhealth = 1 * level;
+    data.currentHealth = 1 * level;
+    animationHealth = 1 * level;
+    agroRadius = 15 * TILE_SIZE;
     
-    enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
+    if(level < 10)
+    {
+         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_GreenSlime"));
+    }
+    else if (level < 20)
+    {
+         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
+    }
+    else if (level < 30)
+    {
+        enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_OrangeSlime"));
+    }
+    else
+    {
+        enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_RedSlime"));
+    }
+   
 }
 
 bool Slime::isInside(float x, float y)

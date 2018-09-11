@@ -21,7 +21,7 @@ private:
     
 public:
     int anim = 0, set = 0, timer = 0, hurt = 0; 
-    Slime(float x, float y);
+    Slime(float x, float y, int level);
     
     bool isInside(float x, float y) override;
     void onAddToLevel(Level *level) override;
