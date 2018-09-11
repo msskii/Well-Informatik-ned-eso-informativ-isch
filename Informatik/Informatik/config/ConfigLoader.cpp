@@ -26,8 +26,8 @@ std::map<std::string, std::string> generateDefaultValues()
 
     values["button.interact"] = std::to_string(SDLK_RETURN);
     
-    values["screen.width"] = std::to_string(960);
-    values["screen.height"] = std::to_string(540);
+    values["screen.width"] = std::to_string(WINDOW_WIDTH);
+    values["screen.height"] = std::to_string(WINDOW_HEIGHT);
 
     
     return values;

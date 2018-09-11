@@ -12,6 +12,7 @@
 #include "../util/FileReader.hpp"
 #include "../util/SDL_Util.hpp"
 #include <map>
+#include "../config.h"
 
 extern std::map<std::string, std::string> generateDefaultValues();
 

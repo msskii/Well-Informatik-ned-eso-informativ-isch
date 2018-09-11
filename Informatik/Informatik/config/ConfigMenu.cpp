@@ -37,8 +37,8 @@ ConfigMenu::ConfigMenu(ConfigLoader *loader)
         ++y;
     }
     
-    addElement(new Button(buttonHandler, "Save", 0, ++y * 100, 500, 100, 0));
-    addElement(new Button(buttonHandler, "Cancel", 500, y * 100, 500, 100, 1));
+    addElement(new Button(buttonHandler, "Save", 0, GAME_HEIGHT - 100, 500, 100, 0));
+    addElement(new Button(buttonHandler, "Cancel", 500, GAME_HEIGHT - 100, 500, 100, 1));
 }
 
 bool ConfigMenu::shouldWindowClose() { return false; }
