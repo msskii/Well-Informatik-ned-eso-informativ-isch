@@ -41,7 +41,7 @@ void DropDown::render(SDL_Renderer *renderer)
                 SDL_RenderCopy(renderer, cachedText.texture, NULL, &r);
             }
 
-            xoffset += 100 * SCALE_X;
+            xoffset += (int)(100 * SCALE_X);
             for(int i = 0; i < (int) elements.size(); i++)
             {
                 SDL_Rect dst = {x + xoffset - (int)(100 * SCALE_X), y +  - ((int) elements.size() * h / 2) + h * elements[i].id, w, h};
@@ -62,7 +62,7 @@ void DropDown::render(SDL_Renderer *renderer)
                 SDL_Rect dst = {x, y + h * elements[i].id, w, h};
                 SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
                 
-                if(elements[i].cachedTexture.texture == nullptr) drawTextAspect(renderer, elements[i].text, 0xFF000000, x + (100 * SCALE_X), y + h * elements[i].id, w, h, elements[i].cachedTexture);
+                if(elements[i].cachedTexture.texture == nullptr) drawTextAspect(renderer, elements[i].text, 0xFF000000, x + (int) (100 * SCALE_X), y + h * elements[i].id, w, h, elements[i].cachedTexture);
                 else
                 {
                     SDL_Rect r = {x + (int) (100 * SCALE_X), y + h * elements[i].id, elements[i].cachedTexture.textwidth, elements[i].cachedTexture.textheight};

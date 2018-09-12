@@ -12,11 +12,11 @@ Slime::Slime(float x, float y, int level)
 {
     data.x_pos = x;
     data.y_pos = y;
-    data.speed = 2 + level / 20;
-    data.damage = 5 * level;
-    data.maxhealth = 1 * level;
-    data.currentHealth = 1 * level;
-    animationHealth = 1 * level;
+    data.speed = 2 + level / 20.0f;
+    data.damage = 5.0f * level;
+    data.maxhealth = 1.0f * level;
+    data.currentHealth = 1.0f * level;
+    animationHealth = 1.0f * level;
     agroRadius = 15 * TILE_SIZE;
     
     if(level < 10)
@@ -47,7 +47,7 @@ void Slime::onAddToLevel(Level *level) {}
 
 void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
 {
-    renderHP(renderer, xoff, yoff); // Render the hp of the enemy
+    renderHP(renderer, (float)xoff, (float)yoff); // Render the hp of the enemy
     
     if(texture == nullptr)
     {

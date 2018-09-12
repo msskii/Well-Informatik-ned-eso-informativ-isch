@@ -40,3 +40,4 @@ close_code.h
 
 # No user-created files from the game
 *.level
+/assets/data/informatik.config

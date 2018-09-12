@@ -35,8 +35,8 @@ void Button::render(SDL_Renderer *renderer)
     else
     {
         r = {x, y, button_texture.textwidth, button_texture.textheight};
-        r.x += (w - button_texture.textwidth) / 2.0;
-        r.y += (h - button_texture.textheight) / 2.0;
+        r.x += (int)((w - button_texture.textwidth) / 2.0);
+        r.y += (int)((h - button_texture.textheight) / 2.0);
         SDL_RenderCopy(renderer, button_texture.texture, NULL, &r);
     }
 }

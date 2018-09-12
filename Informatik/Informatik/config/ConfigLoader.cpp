@@ -121,8 +121,8 @@ void ConfigLoader::reloadConfig()
 
 void ConfigLoader::parseConfig()
 {
-    int linestart = 0;
-    int lineend = 0;
+	unsigned int linestart = 0;
+    unsigned int lineend = 0;
     
     while(lineend < configData.filesize)
     {

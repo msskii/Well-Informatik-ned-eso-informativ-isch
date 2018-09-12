@@ -106,6 +106,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,13 +138,21 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="config\ConfigLoader.cpp" />
+    <ClCompile Include="config\ConfigMenu.cpp" />
+    <ClCompile Include="enemy\Enemy.cpp" />
+    <ClCompile Include="enemy\Slime.cpp" />
     <ClCompile Include="entity\Entity.cpp" />
     <ClCompile Include="entity\loader\NPCLoader.cpp" />
     <ClCompile Include="entity\NPC.cpp" />
     <ClCompile Include="entity\Player.cpp" />
+    <ClCompile Include="graphics\gui\Inventory.cpp" />
+    <ClCompile Include="graphics\gui\ItemSlot.cpp" />
+    <ClCompile Include="graphics\gui\PlayerOverlay.cpp" />
     <ClCompile Include="graphics\overlay\DebugOverlay.cpp" />
     <ClCompile Include="graphics\overlay\DialogOverlay.cpp" />
     <ClCompile Include="graphics\overlay\editor\EditorOverlay.cpp" />
@@ -157,7 +166,10 @@
     <ClCompile Include="graphics\overlay\elements\TextBox.cpp" />
     <ClCompile Include="graphics\overlay\MainMenu.cpp" />
     <ClCompile Include="graphics\overlay\Menu.cpp" />
+    <ClCompile Include="graphics\overlay\PauseMenu.cpp" />
     <ClCompile Include="graphics\Window.cpp" />
+    <ClCompile Include="items\EntityItem.cpp" />
+    <ClCompile Include="items\Item.cpp" />
     <ClCompile Include="level\Event.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\loader\EventActions.cpp" />
@@ -170,18 +182,28 @@
     <ClCompile Include="multiplayer\RemotePlayer.cpp" />
     <ClCompile Include="multiplayer\Server.cpp" />
     <ClCompile Include="multiplayer\ServerSelector.cpp" />
+    <ClCompile Include="projectile\ExplodingProjectile.cpp" />
+    <ClCompile Include="projectile\Projectile.cpp" />
     <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
+    <ClCompile Include="util\Math_Util.cpp" />
     <ClCompile Include="util\SDL_Util.cpp" />
     <ClCompile Include="util\Tile_Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="config\ConfigLoader.hpp" />
+    <ClInclude Include="config\ConfigMenu.hpp" />
+    <ClInclude Include="enemy\Enemy.hpp" />
+    <ClInclude Include="enemy\Slime.hpp" />
     <ClInclude Include="entity\Entity.hpp" />
     <ClInclude Include="entity\loader\NPCLoader.hpp" />
     <ClInclude Include="entity\NPC.h" />
     <ClInclude Include="entity\NPC.hpp" />
     <ClInclude Include="entity\Player.hpp" />
+    <ClInclude Include="graphics\gui\Inventory.hpp" />
+    <ClInclude Include="graphics\gui\ItemSlot.hpp" />
+    <ClInclude Include="graphics\gui\PlayerOverlay.hpp" />
     <ClInclude Include="graphics\overlay\DebugOverlay.hpp" />
     <ClInclude Include="graphics\overlay\DialogOverlay.hpp" />
     <ClInclude Include="graphics\overlay\editor\EditorOverlay.hpp" />
@@ -196,7 +218,10 @@
     <ClInclude Include="graphics\overlay\elements\TextBox.hpp" />
     <ClInclude Include="graphics\overlay\MainMenu.hpp" />
     <ClInclude Include="graphics\overlay\Menu.hpp" />
+    <ClInclude Include="graphics\overlay\PauseMenu.hpp" />
     <ClInclude Include="graphics\Window.hpp" />
+    <ClInclude Include="items\EntityItem.hpp" />
+    <ClInclude Include="items\Item.hpp" />
     <ClInclude Include="level\Event.hpp" />
     <ClInclude Include="level\Level.hpp" />
     <ClInclude Include="level\loader\EventActions.hpp" />
@@ -209,9 +234,12 @@
     <ClInclude Include="multiplayer\RemotePlayer.hpp" />
     <ClInclude Include="multiplayer\Server.hpp" />
     <ClInclude Include="multiplayer\ServerSelector.hpp" />
+    <ClInclude Include="projectile\ExplodingProjectile.hpp" />
+    <ClInclude Include="projectile\Projectile.hpp" />
     <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
     <ClInclude Include="util\Logger.hpp" />
+    <ClInclude Include="util\Math_Util.hpp" />
     <ClInclude Include="util\SDL_Util.hpp" />
     <ClInclude Include="util\Tile_Util.hpp" />
   </ItemGroup>

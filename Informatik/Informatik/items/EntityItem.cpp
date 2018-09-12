@@ -11,8 +11,8 @@
 
 EntityItem::EntityItem(int x, int y, Item *i)
 {
-    data.x_pos = TILE_SIZE * x;
-    data.y_pos = TILE_SIZE * y;
+    data.x_pos = (float) TILE_SIZE * x;
+    data.y_pos = (float) TILE_SIZE * y;
     
     item = i;
 }

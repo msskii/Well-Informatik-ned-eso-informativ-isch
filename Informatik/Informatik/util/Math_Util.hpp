@@ -13,8 +13,8 @@
 
 #define PI 3.1415926535897932384626
 
-#define TO_DEG(rad) (rad/PI*180.0)
-#define TO_RAD(deg) (deg*PI/180.0)
+#define TO_DEG(rad) (rad/PI*180.0f)
+#define TO_RAD(deg) (deg*PI/180.0f)
 
 #define SIGN(x) (x<0?-1:1)
 
