@@ -92,9 +92,9 @@ void ConfigLoader::load()
 void ConfigLoader::save()
 {
     int fileLength = 0;
-    for(auto iterator = values.begin(); iterator != values.end(); iterator++) fileLength += 2 + iterator->first.size() + iterator->second.size(); // first & second are key & value
+    for(auto iterator = values.begin(); iterator != values.end(); iterator++) fileLength += 2 + (int) iterator->first.size() + (int) iterator->second.size(); // first & second are key & value
     char *file = (char*) malloc(fileLength);
-    int currentIndex = 0;
+	size_t currentIndex = 0;
     for(auto iterator = values.begin(); iterator != values.end(); iterator++)
     {
         printf("Saving %s=%s\n", iterator->first.c_str(), iterator->second.c_str());
