@@ -12,16 +12,16 @@
 
 void Loader::saveEventData(uint8_t *destination, std::vector<Event*> events)
 {
-    INFO_VAR("Saving Event data for ");
-    PRINT_INT((int) events.size());
-    PRINT_STRING(" events\n");
-
     int numEvents = 0;
     for(int i = 0; i < (int) events.size(); i++)
     {
         if(events[i]->isStored) ++numEvents;
     }
     
+    INFO_VAR("Saving Event data for ");
+    PRINT_INT((int) numEvents);
+    PRINT_STRING(" events\n");
+
     ((uint32_t*)destination)[0] = numEvents; // Maximum of 2^32 events... I think that's enough
     destination += 4; // uint32_t = 4 bytes
     for(int i = 0; i < numEvents; i++)

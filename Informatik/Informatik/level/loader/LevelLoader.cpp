@@ -110,7 +110,6 @@ void Loader::LevelLoader::saveFile(const char *path)
     }
     
     // Paths
-    printf("Audio path: %s\n", level->audioFile.c_str());
     int musicLength = (int) level->audioFile.size();
     ((uint32_t*) levelFile)[0] = musicLength;
     levelFile += 4;
