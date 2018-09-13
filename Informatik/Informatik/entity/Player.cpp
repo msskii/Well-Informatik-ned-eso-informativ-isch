@@ -34,18 +34,15 @@ bool intersectWith(int xpos1, int ypos1, int x, int y, int w, int h)
 bool Player::isInside(float dx, float dy)
 {
     if(x_pos + dx < 0 || x_pos + dx >= TILE_SIZE * level->width || y_pos + dy < 0 || y_pos + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
-    
-    if(level->getTile((int)((x_pos + dx + MARGIN) / TILE_SIZE), (int)((y_pos + dy + MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((x_pos + dx + MARGIN) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
-    if(level->getBuildingCollision(x_pos + dx + PLAYER_WIDTH - MARGIN, y_pos + dy + PLAYER_HEIGHT - MARGIN)) return true;
-    
+
     for(int point_index = 0; point_index < 4; point_index++)
     {
-        float player_x_offset = dx + PLAYER_WIDTH * (point_index % 2);
-        float player_y_offset = dx + PLAYER_HEIGHT * (int)(point_index / 2);
+        float player_x_offset = dx + MARGIN + (PLAYER_WIDTH - 2 * MARGIN) * (point_index % 2);
+        float player_y_offset = dx + MARGIN + (PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
         
+        if(level->getTile((int)((x_pos + player_x_offset) / TILE_SIZE), (int)((y_pos + player_y_offset) / TILE_SIZE)).data.tileZ != _z) return true;
+        if(level->getBuildingCollision(x_pos + player_x_offset, y_pos + player_y_offset)) return true;
+
         // Test point at index point_index
         for(size_t i = 0; i < level->entities.size(); i++)
         {
@@ -100,25 +97,18 @@ void Player::correctMovement(float &dx, float &dy)
 {
     if(isInside(dx, dy))
     {        
-        float xmax = 0;
-        for(xmax = 0; xmax < STEP_ACCURACY; xmax++) // Walk in 1/n of one step
-        {
-            if(isInside(dx * xmax / STEP_ACCURACY, dy)) break;
-        }
+        float xmax = STEP_ACCURACY, ymax = STEP_ACCURACY;
+        
+        if(dx != 0) for(xmax = 1; xmax <= STEP_ACCURACY; xmax++) if(isInside(dx * xmax / STEP_ACCURACY, dy)) break;
         --xmax; // Not up to and with (inside), just up to the thing
-        float ymax = 0;
-        for(ymax = 0; ymax < STEP_ACCURACY; ymax++) // Walk in 1/n of one step
-        {
-            if(isInside(dx * xmax / STEP_ACCURACY, dy * ymax / STEP_ACCURACY)) break;
-        }
+        
+        if(dy != 0) for(ymax = 1; ymax <= STEP_ACCURACY; ymax++) if(isInside(dx * xmax / STEP_ACCURACY, dy * ymax / STEP_ACCURACY)) break;
         --ymax; // Not up to and with (inside), just up to the thing
-        for(xmax = 0; xmax < STEP_ACCURACY; xmax++) // Walk in 1/n of one step
-        {
-            if(isInside(dx * xmax / STEP_ACCURACY, dy * ymax / STEP_ACCURACY)) break;
-        }
+        
+        // Check x again
+        if(dx != 0) for(xmax = 1; xmax <= STEP_ACCURACY; xmax++) if(isInside(dx * xmax / STEP_ACCURACY, dy * ymax / STEP_ACCURACY)) break;
         --xmax;
-        
-        
+
         dx *= xmax / STEP_ACCURACY;
         dy *= ymax / STEP_ACCURACY;
     }
@@ -135,8 +125,7 @@ void Player::updateMovement(float dx, float dy)
     else if(dy < 0) direction = UP;
     
     walking = dx != 0 || dy != 0;
-    
-    correctMovement(dx, dy);
+    if(walking) correctMovement(dx, dy);
     
     if(dx > 0) direction = RIGHT;
     else if(dx < 0) direction = LEFT;
@@ -144,7 +133,7 @@ void Player::updateMovement(float dx, float dy)
     else if(dy < 0) direction = UP;
     
     float movement_amount = LENGTH(dx, dy); // Length of vector
-    if(movement_amount != 0)
+    if(movement_amount >= SPEED)
     {
         dx /= movement_amount / (float) SPEED;
         dy /= movement_amount / (float) SPEED;
