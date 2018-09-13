@@ -205,10 +205,12 @@ Tile Level::getTile(int screenX, int screenY)
 
 bool Level::getBuildingCollision(float x, float y){
     
-    for (int i = 0; i < buildingCount; i++) {
-        if(buildings[1].isInside(x,y)){
+    for (int i = 0; i < buildingCount; i++)
+    {
+        if(buildings[i].isInside(x,y))
+        {
             return true;
         }
     }
-       return false;
+    return false;
 }
