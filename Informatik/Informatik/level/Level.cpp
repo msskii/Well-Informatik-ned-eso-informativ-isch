@@ -52,10 +52,13 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     tiles[441].data.tileNumber = 0;
     tiles[439].data.tileNumber = 0;
     tiles[540].data.tileNumber = 0;
+    
+    
     buildings = new Building[1]
     {
         Building(20, 20, 0)
     };
+    buildings[0].reloadTexture(renderer);
     
     
     
@@ -140,7 +143,7 @@ void Level::render(SDL_Renderer *renderer) // and update
     int buildingCount = 1;
     for(int i = 0; i < buildingCount; i++)
     {
-        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+            buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
     
     for(int i = 0; i < (int) entities.size(); i++)

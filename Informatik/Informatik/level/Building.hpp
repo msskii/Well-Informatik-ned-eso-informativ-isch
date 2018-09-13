@@ -9,6 +9,7 @@
 #ifndef Building_hpp
 #define Building_hpp
 
+#include "../util/Tile_Util.hpp"
 #include "../util/SDL_Util.hpp"
 #include "../config.h"
 
@@ -35,9 +36,8 @@ public:
     BuildingData data;
     Building();
     Building(int x, int y, uint16_t buildingnumber);
-    
-    void reloadTexture(SDL_Renderer *renderer);
     void render(SDL_Renderer *renderer, int xoff, int yoff);
+    
 };
 
 
