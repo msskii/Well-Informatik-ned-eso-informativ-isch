@@ -16,8 +16,8 @@ int Loader::readInt(uint8_t *&levelFile)
 
 Level *Loader::loadLevel(const char *path, int w, int h, SDL_Renderer *renderer)
 {
-    //uint8_t *file = nullptr;
-    uint8_t* file = readFile(path).data; // Enable loading the level file here
+    uint8_t *file = nullptr;
+    // uint8_t* file = readFile(path).data; // Enable loading the level file here
     if(file == nullptr)
     {
         Level *l = new Level(w, h, renderer);
