@@ -38,7 +38,7 @@ bool Player::isInside(float dx, float dy)
     for(int point_index = 0; point_index < 4; point_index++)
     {
         float player_x_offset = dx + MARGIN + (PLAYER_WIDTH - 2 * MARGIN) * (point_index % 2);
-        float player_y_offset = dx + MARGIN + (PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
+        float player_y_offset = dy + MARGIN + (PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
         
         if(level->getTile((int)((x_pos + player_x_offset) / TILE_SIZE), (int)((y_pos + player_y_offset) / TILE_SIZE)).data.tileZ != _z) return true;
         if(level->getBuildingCollision(x_pos + player_x_offset, y_pos + player_y_offset)) return true;
@@ -108,6 +108,9 @@ void Player::correctMovement(float &dx, float &dy)
         // Check x again
         if(dx != 0) for(xmax = 1; xmax <= STEP_ACCURACY; xmax++) if(isInside(dx * xmax / STEP_ACCURACY, dy * ymax / STEP_ACCURACY)) break;
         --xmax;
+        
+        if(xmax < 0) xmax = 0;
+        if(ymax < 0) ymax = 0;
 
         dx *= xmax / STEP_ACCURACY;
         dy *= ymax / STEP_ACCURACY;
