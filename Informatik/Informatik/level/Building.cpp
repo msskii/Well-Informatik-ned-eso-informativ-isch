@@ -41,7 +41,6 @@ bool Building::isInside(float x, float y)
     {
        return true;
     }
-    printf("xcoord in isINside:%d\n", xcoord);
     
     return false;
 }
@@ -49,8 +48,8 @@ bool Building::isInside(float x, float y)
 
 void Building::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    printf("xcoord in renderfunction:%d\n", xcoord);
-    if (texture == nullptr) {
+    if (texture == nullptr)
+    {
         texture = SDL_CreateTextureFromSurface(renderer, building_surface);
     }
     
