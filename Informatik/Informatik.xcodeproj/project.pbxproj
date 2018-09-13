@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D4276512133F636003F6411 /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D42764F2133F636003F6411 /* NPC.cpp */; };
+		4D6A79C82147F57C003F31B5 /* Building.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79C62147F57C003F31B5 /* Building.cpp */; };
 		93185F8A21465506001A2167 /* ExplodingProjectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8821465506001A2167 /* ExplodingProjectile.cpp */; };
 		93185F8E21465F31001A2167 /* ConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8C21465F31001A2167 /* ConfigLoader.cpp */; };
 		93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8F2146A699001A2167 /* ConfigMenu.cpp */; };
@@ -102,6 +103,8 @@
 /* Begin PBXFileReference section */
 		4D42764F2133F636003F6411 /* NPC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
 		4D4276502133F636003F6411 /* NPC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPC.hpp; sourceTree = "<group>"; };
+		4D6A79C62147F57C003F31B5 /* Building.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Building.cpp; sourceTree = "<group>"; };
+		4D6A79C72147F57C003F31B5 /* Building.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Building.hpp; sourceTree = "<group>"; };
 		93185F8821465506001A2167 /* ExplodingProjectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExplodingProjectile.cpp; sourceTree = "<group>"; };
 		93185F8921465506001A2167 /* ExplodingProjectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExplodingProjectile.hpp; sourceTree = "<group>"; };
 		93185F8C21465F31001A2167 /* ConfigLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigLoader.cpp; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 			isa = PBXGroup;
 			children = (
 				93D1C7D3212C2259004AACD1 /* loader */,
+				4D6A79C62147F57C003F31B5 /* Building.cpp */,
+				4D6A79C72147F57C003F31B5 /* Building.hpp */,
 				932D3221212ABAF600DA45BD /* Level.cpp */,
 				932D3222212ABAF600DA45BD /* Level.hpp */,
 				932D3224212ABB4A00DA45BD /* Tile.cpp */,
@@ -572,6 +577,7 @@
 				936C12FD2136BDE400404679 /* TileEditor.cpp in Sources */,
 				937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */,
 				93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */,
+				4D6A79C82147F57C003F31B5 /* Building.cpp in Sources */,
 				937AFC60214046B800F92964 /* Item.cpp in Sources */,
 				93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */,
 				937AC1F2213F011600F1D92C /* Math_Util.cpp in Sources */,

@@ -23,7 +23,8 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                     // GET_TEXTURE_PATH gives the path from the texture, it appends .png, so it can be left out here
                     // GET_VARIANT_PATH gives the path from a certain variant, it does so by appending the variant number to the end of the path
                     
-                    // 0 - 127: Design
+                    // 0 - 100: Design
+                    // 101 - 127: Buildings
                     // 128 - 254: Transitions between Tiles
                 case 0:
                     return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Grass"));
@@ -50,7 +51,7 @@ SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
                 default:
                     return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt"));
             }
-
+            
             
         default:
             return NULL;

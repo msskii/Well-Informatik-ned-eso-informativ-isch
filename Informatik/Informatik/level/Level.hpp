@@ -14,6 +14,7 @@
 
 #include "Tile.hpp"
 #include "Event.hpp"
+#include "Building.hpp"
 
 #include "../entity/Player.hpp"
 
@@ -35,6 +36,7 @@ public:
     std::vector<Event*> events; // The events in this level
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
+    Building *buildings; //The Buildings .. you guessed
 
 #ifdef ENABLE_TEST_MULTIPLAYER
 	Multiplayer::Client *clientConnector = nullptr;

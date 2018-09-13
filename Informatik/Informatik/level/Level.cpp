@@ -44,6 +44,16 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), tiles(
     tiles[441].data.tileNumber = 0;
     tiles[439].data.tileNumber = 0;
     tiles[540].data.tileNumber = 0;
+    buildings = new Building[1]
+    {
+        Building(20, 20, 0)
+    };
+    
+    
+    
+    
+    
+    
 
   //  for(int i = 0; i < w * h; i++) tiles[i] = Tile(i % w, i / w, 0); // default to tile number 0
     
@@ -114,6 +124,11 @@ void Level::render(SDL_Renderer *renderer) // and update
     {
         tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
+    int buildingCount = 1;
+    for(int i = 0; i < buildingCount; i++)
+    {
+        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+    }
     
     for(int i = 0; i < (int) entities.size(); i++)
     {
@@ -125,6 +140,7 @@ void Level::render(SDL_Renderer *renderer) // and update
     {
         events[i]->render(renderer, xoffset, yoffset);
     }
+
     
 #ifdef ENABLE_TEST_MULTIPLAYER
 	if (clientConnector != nullptr)
