@@ -58,8 +58,7 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     {
         Building(20, 20, 0)
     };
-    buildings[0].reloadTexture(renderer);
-    
+
     
     
     
