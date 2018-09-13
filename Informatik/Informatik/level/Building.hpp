@@ -20,8 +20,6 @@ typedef struct BuildingData
     uint16_t buildingNumber;
     uint8_t sizeX;
     uint8_t sizeY;
-    uint16_t x;
-    uint16_t y;
     
 } BuildingData;
 

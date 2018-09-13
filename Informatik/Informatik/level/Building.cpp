@@ -9,9 +9,8 @@
 #include "Building.hpp"
 
 
-Building::Building(int x, int y, uint16_t buildingNumber): xcoord(x), ycoord(y), data({buildingNumber,0,0,(uint16_t)x,(uint16_t)y})
+Building::Building(int x, int y, uint16_t buildingNumber): xcoord(x), ycoord(y), data({buildingNumber,0,0})
 {
-    printf("initial xcoord:%d\n", xcoord);
     switch (buildingNumber) {
         case 0:
             //Old Mans Hut
@@ -21,9 +20,6 @@ Building::Building(int x, int y, uint16_t buildingNumber): xcoord(x), ycoord(y),
             break;
             
         default:
-            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Building_OldManHut"));
-            data.sizeX = 6;
-            data.sizeY = 5;
             break;
             
             
@@ -37,11 +33,10 @@ Building::Building()
 
 bool Building::isInside(float x, float y)
 {
-    if((20 * TILE_SIZE < x && (20 * TILE_SIZE + 7 * TILE_SIZE) > x) && (20 * TILE_SIZE < y && (20 *TILE_SIZE + 5 * TILE_SIZE) > y))
+    if((xcoord * TILE_SIZE < x && (xcoord * TILE_SIZE + data.sizeX * TILE_SIZE) > x) && (ycoord * TILE_SIZE < y && (ycoord *TILE_SIZE + data.sizeY * TILE_SIZE) > y))
     {
        return true;
     }
-    printf("xcoord in isINside:%d\n", xcoord);
     
     return false;
 }
@@ -49,7 +44,6 @@ bool Building::isInside(float x, float y)
 
 void Building::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-    printf("xcoord in renderfunction:%d\n", xcoord);
     if (texture == nullptr) {
         texture = SDL_CreateTextureFromSurface(renderer, building_surface);
     }
