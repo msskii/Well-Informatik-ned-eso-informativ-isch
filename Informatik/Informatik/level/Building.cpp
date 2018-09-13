@@ -44,12 +44,8 @@ bool Building::isInside(float x, float y)
 
 void Building::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
-<<<<<<< HEAD
-    if (texture == nullptr) {
-=======
     if (texture == nullptr)
     {
->>>>>>> 99f54219a51e0fdad6830cf5b3efbb2af38e7747
         texture = SDL_CreateTextureFromSurface(renderer, building_surface);
     }
     
