@@ -20,6 +20,8 @@ typedef struct BuildingData
     uint16_t buildingNumber;
     uint8_t sizeX;
     uint8_t sizeY;
+    uint16_t x;
+    uint16_t y;
     
 } BuildingData;
 
@@ -34,10 +36,10 @@ private:
     
 public:
     BuildingData data;
-    Building();
     Building(int x, int y, uint16_t buildingnumber);
+    Building();
     void render(SDL_Renderer *renderer, int xoff, int yoff);
-    
+    bool isInside(float x, float y);
 };
 
 

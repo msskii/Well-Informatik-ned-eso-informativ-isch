@@ -9,9 +9,11 @@
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 
+
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
 {
     tiles = new Tile[w * h];
+    buildings = new Building[1];
     player->updateMovement(0, 0); // Update player before level loads
 }
 
@@ -139,10 +141,9 @@ void Level::render(SDL_Renderer *renderer) // and update
     {
         tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
-    int buildingCount = 1;
     for(int i = 0; i < buildingCount; i++)
     {
-            buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
     
     for(int i = 0; i < (int) entities.size(); i++)
@@ -200,4 +201,14 @@ void Level::reloadFiles()
 Tile Level::getTile(int screenX, int screenY)
 {
     return tiles[screenX + width * screenY];
+}
+
+bool Level::getBuildingCollision(float x, float y){
+    
+    for (int i = 0; i < buildingCount; i++) {
+        if(buildings[1].isInside(x,y)){
+            return true;
+        }
+    }
+       return false;
 }

@@ -9,8 +9,9 @@
 #include "Building.hpp"
 
 
-Building::Building(int x, int y, uint16_t buildingNumber): xcoord(x), ycoord(y), data({buildingNumber,0,0})
+Building::Building(int x, int y, uint16_t buildingNumber): xcoord(x), ycoord(y), data({buildingNumber,0,0,(uint16_t)x,(uint16_t)y})
 {
+    printf("initial xcoord:%d\n", xcoord);
     switch (buildingNumber) {
         case 0:
             //Old Mans Hut
@@ -29,9 +30,26 @@ Building::Building(int x, int y, uint16_t buildingNumber): xcoord(x), ycoord(y),
     }
     
 }
+Building::Building()
+{
+    
+}
+
+bool Building::isInside(float x, float y)
+{
+    if((20 * TILE_SIZE < x && (20 * TILE_SIZE + 7 * TILE_SIZE) > x) && (20 * TILE_SIZE < y && (20 *TILE_SIZE + 5 * TILE_SIZE) > y))
+    {
+       return true;
+    }
+    printf("xcoord in isINside:%d\n", xcoord);
+    
+    return false;
+}
+
 
 void Building::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {
+    printf("xcoord in renderfunction:%d\n", xcoord);
     if (texture == nullptr) {
         texture = SDL_CreateTextureFromSurface(renderer, building_surface);
     }

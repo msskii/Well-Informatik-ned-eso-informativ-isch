@@ -39,6 +39,7 @@ bool Player::isInside(float dx, float dy)
     if(level->getTile((int)((x_pos + dx + MARGIN) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
     if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
     if(level->getTile((int)((x_pos + dx + PLAYER_WIDTH - MARGIN) / TILE_SIZE), (int)((y_pos + dy + PLAYER_HEIGHT - MARGIN) / TILE_SIZE)).data.tileZ != _z) return true;
+    if(level->getBuildingCollision(x_pos + dx + PLAYER_WIDTH - MARGIN, y_pos + dy + PLAYER_HEIGHT - MARGIN)) return true;
     
     for(int point_index = 0; point_index < 4; point_index++)
     {
