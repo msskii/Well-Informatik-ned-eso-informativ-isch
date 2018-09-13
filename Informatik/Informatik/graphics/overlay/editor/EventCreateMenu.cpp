@@ -93,6 +93,7 @@ EventCreateMenu::EventCreateMenu()
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
     actions->addOption(2, "Interact with NPC");
+    actions->addOption(3, "Teleport Player");
     addElement(actions);
     addArgumentSliders(this, {0});
     
@@ -131,6 +132,7 @@ EventCreateMenu::EventCreateMenu(Event *evt)
     actions->addOption(0, "No Action");
     actions->addOption(1, "Move Player");
     actions->addOption(2, "Interact with NPC");
+    actions->addOption(3, "Teleport Player");
     addElement(actions);
     
     argumentCount = NUM_ARGS[evt->event_data.event_action];

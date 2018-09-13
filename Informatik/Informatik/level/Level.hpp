@@ -44,6 +44,7 @@ public:
 #endif
     
     int xoffset, yoffset;
+    void setLevelMap(uint8_t map);
     
     std::string audioFile = GET_FILE_PATH(AUDIO_PATH, "default.wav");
     std::string tileMapFile = GET_FILE_PATH(LEVEL_PATH, "default.tilemap");
