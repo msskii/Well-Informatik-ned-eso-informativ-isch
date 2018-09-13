@@ -9,8 +9,16 @@
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 
-Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), tiles(new Tile[w * h]), player(new Player(this)) // Number of tiles
-{    
+Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
+{
+    tiles = new Tile[w * h];
+    player->updateMovement(0, 0); // Update player before level loads
+}
+
+Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player(new Player(this)) // Number of tiles
+{
+    tiles = new Tile[w * h];
+    
     for(int i = 0; i < w * h; i++)
     {
         if (i % 50 == 3) 
@@ -63,7 +71,7 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), tiles(
     for(int i = 0; i < w * h; i++) tiles[i].reloadTexture(renderer);
     
     textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
-	text = new Loader::TextLoader(textFile);
+	text = new Loader::TextLoader(textFile.c_str());
     
     EventData eventData;
     eventData.event_x = TILE_SIZE * 6;
@@ -83,6 +91,11 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), tiles(
     eventData.event_id_dependency = 1;
     eventData.event_type_filter = PLAYER_INTERACT;
     events.push_back(new Event(eventData, new uint8_t[2] { UP, 3 * TILE_SIZE })); // Move player 2 down
+    
+    audioFile = std::string(GET_FILE_PATH(AUDIO_PATH, "default.wav"));
+    printf("AudioFile %s\n", audioFile.c_str());
+    tileMapFile = std::string(GET_FILE_PATH(LEVEL_PATH, "default.tilemap"));
+    textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
     player->updateMovement(0, 0); // Update player before level loads
 }
@@ -112,7 +125,7 @@ int Level::getEventSize()
 
 int Level::getLevelSize()
 {
-    return 8 + width * height * sizeof(TileData) + 12 + (int) strlen(audioFile) + (int) strlen(tileMapFile) + (int) strlen(textFile);
+    return 8 + width * height * sizeof(TileData) + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
 }
 
 void Level::render(SDL_Renderer *renderer) // and update
@@ -179,7 +192,7 @@ void Level::update()
 
 void Level::reloadFiles()
 {
-    text = new Loader::TextLoader(textFile);
+    text = new Loader::TextLoader(textFile.c_str());
 }
 
 Tile Level::getTile(int screenX, int screenY)

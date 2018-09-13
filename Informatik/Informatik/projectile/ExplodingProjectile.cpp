@@ -12,7 +12,7 @@
 ExplodingProjectile::ExplodingProjectile(EXPLODING_TYPE type, float x, float y, float ra) : Projectile(x, y, ra)
 {
     
-    acceleration = velocity * (-1 / 60.0);
+    acceleration = velocity * (-1.0f / 60.0f);
     switch (type) {
         case NORMAL:
             surface = IMG_Load(GET_TEXTURE_PATH("projectiles/arrow_ur")); // Same as other arrow

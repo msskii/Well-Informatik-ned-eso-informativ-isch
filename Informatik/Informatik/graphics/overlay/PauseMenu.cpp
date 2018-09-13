@@ -16,7 +16,7 @@ void onClick(Menu* menu, Button *button)
             menu->close();
             break;
         case 1:
-            exit(0);
+            exitGame(menu->window);
         case 2:
             updateVariant(menu->window->level, menu->window->renderer);
             break;
@@ -44,7 +44,7 @@ void PauseMenu::updateElements(SDL_Event e)
     {
         if(e.key.keysym.sym == SDLK_ESCAPE)
         {
-            exit(0);
+            exitGame(window);
         }
     }
 }

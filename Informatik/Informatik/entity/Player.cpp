@@ -86,7 +86,7 @@ void Player::takeDamage(float amount)
 {
     if(graceLeft <= 0)
     {
-        graceLeft = gracePeriode * 60; // Wait gracePeriod seconds
+        graceLeft = (int)(gracePeriode * 60); // Wait gracePeriod seconds
         currentHealth -= amount;
         if(currentHealth <= 0)
         {
@@ -219,7 +219,7 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
     if(animationHealth != currentHealth)
     {
         float difference = currentHealth - animationHealth;
-        float step = difference / 60.0;
+        float step = difference / 60.0f;
         if(abs(step) <= 0.05f) step = difference;
         else while(abs(step) <= 0.5f) step *= 2; // Just finish it
         animationHealth += step;
@@ -231,10 +231,10 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
     SDL_RenderFillRect(renderer, &hpbar); // Draw black border
     
     // If it ever does not work: add ceil() around those four lines
-    hpbar.x += 1.0 / SCALE_X;
-    hpbar.y += 1.0 / SCALE_Y;
-    hpbar.w -= 2.0 / SCALE_X;
-    hpbar.h -= 2.0 / SCALE_Y;
+    hpbar.x += (int)ceil(1.0 / SCALE_X);
+    hpbar.y += (int)ceil(1.0 / SCALE_Y);
+    hpbar.w -= (int)ceil(2.0 / SCALE_X);
+    hpbar.h -= (int)ceil(2.0 / SCALE_Y);
     
     COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
     SDL_RenderFillRect(renderer, &hpbar); // Full background

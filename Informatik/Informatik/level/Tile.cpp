@@ -18,6 +18,11 @@ Tile::Tile(int x, int y, uint16_t tileNumber) : xcoord(x), ycoord(y), data({ til
     
 }
 
+Tile::Tile(int x, int y, TileData d) : xcoord(x), ycoord(y), data(d)
+{
+    
+}
+
 Tile::Tile(int x, int y, uint16_t tileNumber, uint8_t zheight) : xcoord(x), ycoord(y), data({ tileNumber, zheight})
 {
     //Tile_surface = loadTileVariant(tileNumber, data.variant); // Since reloadTexture is called anyway, theres no need to initialize this here is there?

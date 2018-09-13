@@ -122,7 +122,7 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
         // Special keys...
         if(e.key.keysym.sym == SDLK_RIGHT)
         {
-            if(++currentIndex > currentText.size()) --currentIndex;
+            if(++currentIndex > (int) currentText.size()) --currentIndex;
             if(!(e.key.keysym.mod & KMOD_SHIFT)) selectionStart = currentIndex;
             return;
         }

@@ -47,8 +47,8 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
     
     if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN)
     {
-        int xpos = (float) e.button.x / SCALE_X;
-        int ypos = (float) e.button.y / SCALE_Y;
+        int xpos = (int)((float) e.button.x / SCALE_X);
+        int ypos = (int)((float) e.button.y / SCALE_Y);
 
         if(this == inv->selected)
         {
@@ -67,8 +67,8 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
             inv->selected = renderItem.item == nullptr ? nullptr : this;
             inv->player->playerItems[renderItem.numSlot] = {nullptr, renderItem.numSlot, 0}; // Clear slot
             
-            inv->hoverX = (float) e.button.x / SCALE_X;
-            inv->hoverY = (float) e.button.y / SCALE_Y;
+            inv->hoverX = (int)((float) e.button.x / SCALE_X);
+            inv->hoverY = (int)((float) e.button.y / SCALE_Y);
             
             consumeEvent = inv->selected != nullptr;
             return;
@@ -81,8 +81,8 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
         needsUpdate = true;
         
         // calculate slot number
-        int xpos = (float) e.button.x / SCALE_X;
-        int ypos = (float) e.button.y / SCALE_Y;
+		int xpos = (int)((float)e.button.x / SCALE_X);
+		int ypos = (int)((float)e.button.y / SCALE_Y);
         
         int xslot = (xpos - INV_START_X) / INV_GRID_SIZE;
         int yslot = (ypos - INV_START_Y) / INV_GRID_SIZE;

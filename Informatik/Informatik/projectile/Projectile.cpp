@@ -50,11 +50,11 @@ void Projectile::update(const uint8_t *keys)
         level->removeEntity(this); // Stops render & update
     }
     
-    float x_pos_front = data.x_pos + data.width * (0.5 + cos(rotationAngle) / 2.0);
-    float y_pos_front = data.y_pos + data.height * (0.5 + sin(rotationAngle) / 2.0);
+    float x_pos_front = data.x_pos + data.width * (0.5f + cos(rotationAngle) / 2.0f);
+    float y_pos_front = data.y_pos + data.height * (0.5f + sin(rotationAngle) / 2.0f);
     
-    float x_pos_end = data.x_pos + data.width * (0.5 - cos(rotationAngle) / 2.0);
-    float y_pos_end = data.y_pos + data.height * (0.5 - sin(rotationAngle) / 2.0);
+    float x_pos_end = data.x_pos + data.width * (0.5f - cos(rotationAngle) / 2.0f);
+    float y_pos_end = data.y_pos + data.height * (0.5f - sin(rotationAngle) / 2.0f);
     
     float xstep = (x_pos_end - x_pos_front) / PROJECTILE_ACCURACY;
     float ystep = (y_pos_end - y_pos_front) / PROJECTILE_ACCURACY;

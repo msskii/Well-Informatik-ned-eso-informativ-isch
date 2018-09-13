@@ -18,7 +18,7 @@ void buttonHandler(Menu *menu, Button* button)
     
     ConfigMenu *m = (ConfigMenu*) menu;
     
-    for(int i = 0; i < m->keys.size(); i++) m->loader->set(m->keys[i]->text, m->values[i]->currentText.c_str());
+    for(unsigned int i = 0; i < m->keys.size(); i++) m->loader->set(m->keys[i]->text, m->values[i]->currentText.c_str());
     m->loader->save();
     m->window->reloadConfig();
     menu->close();

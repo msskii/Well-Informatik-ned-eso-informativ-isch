@@ -42,7 +42,7 @@ static void onButtonPress(Menu *menu, Button *button)
             menu->openSubMenu(new ConfigMenu(menu->window->loader));
             break;
         case QUIT_GAME:
-            exit(0);
+            exitGame(menu->window);
             break;
 #ifdef ENABLE_TEST_MULTIPLAYER
         case START_SERVER:

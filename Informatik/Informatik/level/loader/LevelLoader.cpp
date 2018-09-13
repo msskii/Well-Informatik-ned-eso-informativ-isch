@@ -16,7 +16,8 @@ int Loader::readInt(uint8_t *&levelFile)
 
 Level *Loader::loadLevel(const char *path, int w, int h, SDL_Renderer *renderer)
 {
-    uint8_t* file = nullptr; //readFile(path); // Enable loading the level file here
+    //uint8_t *file = nullptr;
+    uint8_t* file = readFile(path).data; // Enable loading the level file here
     if(file == nullptr)
     {
         Level *l = new Level(w, h, renderer);
@@ -36,7 +37,7 @@ Loader::LevelLoader::LevelLoader(Level *l) : level(l)
 
 Loader::LevelLoader::LevelLoader(const char *path, SDL_Renderer *renderer)
 {
-    INFO("Loading Level");
+    printf("[INFO] Loading Level from file: %s\n", path);
 
     uint8_t *levelFile = readFile(path).data;
     if(levelFile == nullptr) return;
@@ -44,10 +45,11 @@ Loader::LevelLoader::LevelLoader(const char *path, SDL_Renderer *renderer)
     uint32_t width = readInt(levelFile);
     uint32_t height = readInt(levelFile);
     
-    level = new Level(width, height, renderer);
+    level = new Level(width, height);
     for(int i = 0; i < (int)(width * height); i++)
     {
-        level->tiles[i].data = ((TileData*) levelFile)[0];
+        level->tiles[i] = Tile(i % level->width, i / level->width, ((TileData*) levelFile)[0]);
+        level->tiles[i].reloadTexture(renderer);
         levelFile += sizeof(TileData);
     }
     
@@ -108,23 +110,22 @@ void Loader::LevelLoader::saveFile(const char *path)
     }
     
     // Paths
-
-    int musicLength = (int) strlen(level->audioFile);
+    int musicLength = (int) level->audioFile.size();
     ((uint32_t*) levelFile)[0] = musicLength;
     levelFile += 4;
-    memcpy(levelFile, level->audioFile, musicLength);
+    memcpy(levelFile, level->audioFile.c_str(), musicLength);
     levelFile += musicLength;
     
-    int textLength = (int) strlen(level->textFile);
+    int textLength = (int) level->textFile.size();
     ((uint32_t*) levelFile)[0] = textLength;
     levelFile += 4;
-    memcpy(levelFile, level->textFile, textLength);
+    memcpy(levelFile, level->textFile.c_str(), textLength);
     levelFile += textLength;
     
-    int tileMapLength = (int) strlen(level->tileMapFile);
+    int tileMapLength = (int) level->tileMapFile.size();
     ((uint32_t*) levelFile)[0] = tileMapLength;
     levelFile += 4;
-    memcpy(levelFile, level->tileMapFile, tileMapLength);
+    memcpy(levelFile, level->tileMapFile.c_str(), tileMapLength);
     levelFile += tileMapLength;
 
     // Events
