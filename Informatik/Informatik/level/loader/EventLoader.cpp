@@ -47,6 +47,8 @@ std::vector<Event*> Loader::loadEventData(uint8_t *destination)
     PRINT_INT(size);
     PRINT_STRING(" events\n");*/
     
+    event_id_counter = 0; // Start at event 0 again...
+    
     destination += 4; // uint32_t = 4 bytes
     for(int i = 0; i < (int)size; i++)
     {

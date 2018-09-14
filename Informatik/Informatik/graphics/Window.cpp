@@ -252,7 +252,7 @@ void Window::reloadConfig()
 void exitGame(Window *window)
 {
     Loader::LevelLoader loader(window->level);
-    loader.saveFile(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"));
+    loader.saveFile(window->level->levelFile.c_str());
     
     SDL_DestroyRenderer(window->renderer);
     SDL_DestroyWindow(window->window);

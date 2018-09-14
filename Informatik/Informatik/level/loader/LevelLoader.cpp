@@ -47,6 +47,7 @@ Level *Loader::loadLevel(const char *path, int w, int h, SDL_Renderer *renderer)
     if(file == nullptr)
     {
         Level *l = new Level(w, h, renderer);
+        l->levelFile = std::string(path);
         l->reloadFiles();
         return l;
     }
@@ -54,6 +55,7 @@ Level *Loader::loadLevel(const char *path, int w, int h, SDL_Renderer *renderer)
     {
         Level *l = Loader::LevelLoader(path, renderer).buildLevel();
         if(l == nullptr) l = new Level(w, h, renderer);
+        l->levelFile = std::string(path);
         l->reloadFiles();
         return l;
     }
@@ -118,7 +120,7 @@ void Loader::LevelLoader::saveFile(const char *path)
     uint8_t *levelFile = (uint8_t *) malloc(size);
     write<int>(levelFile, (int) LOADER_VERSION);
     
-    INFO("[INFO] Saving Level");
+    printf("[INFO] Saving Level to %s (Version of loader: %d)\n", path, (int) LOADER_VERSION);
     
     write<int>(levelFile, level->width);
     write<int>(levelFile, level->height);    

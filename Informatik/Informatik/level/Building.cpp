@@ -44,7 +44,7 @@ Building::Building(BuildingData d) : data(d)
 
 bool Building::isInside(float x, float y)
 {
-    if((data.xcoord * TILE_SIZE < x && (data.xcoord * TILE_SIZE + data.sizeX * TILE_SIZE) > x) && (data.ycoord * TILE_SIZE < y && (data.ycoord *TILE_SIZE + data.sizeY * TILE_SIZE) > y))
+    if(data.xcoord * TILE_SIZE < x && (data.xcoord + data.sizeX) * TILE_SIZE > x && (data.ycoord * TILE_SIZE < y) && (data.ycoord + data.sizeY) * TILE_SIZE > y)
     {
        return true;
     }

@@ -205,11 +205,12 @@ Tile Level::getTile(int screenX, int screenY)
     return tiles[screenX + width * screenY];
 }
 
-bool Level::getBuildingCollision(float x, float y){
+bool Level::getBuildingCollision(float x, float y)
+{
     
     for (int i = 0; i < buildingCount; i++)
     {
-        if(buildings[i].isInside(x,y))
+        if(buildings[i].isInside(x, y))
         {
             return true;
         }
@@ -220,6 +221,9 @@ bool Level::getBuildingCollision(float x, float y){
 void Level::setLevelMap(uint8_t map)
 {
     Level *nl = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "level_" + std::to_string(map) + ".level"), 50, 50, window->renderer);
+    
+    Loader::LevelLoader loader(window->level);
+    loader.saveFile(window->level->levelFile.c_str());
     
     delete[] tiles;
     delete text;
@@ -232,10 +236,9 @@ void Level::setLevelMap(uint8_t map)
     height = nl->height;
     buildings = nl->buildings;
     
-    
+    levelFile = nl->levelFile;
     audioFile = nl->audioFile;
     tileMapFile = nl->tileMapFile;
     textFile = nl->textFile;
     text = nl->text;
-    
 }

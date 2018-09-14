@@ -17,6 +17,8 @@
 #include "../util/SDL_Util.hpp"
 #include "loader/EventData.hpp"
 
+extern int event_id_counter;
+
 class Event
 {
 public:
