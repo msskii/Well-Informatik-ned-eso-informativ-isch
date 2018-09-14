@@ -96,7 +96,7 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     eventData.event_id_dependency = 0;
     eventData.event_type_filter = STEP_ON;
     eventData.event_action = TELEPORT_PLAYER;
-    events.push_back(new Event(eventData, new uint8_t[9] {10, 10, 1}));
+    events.push_back(new Event(eventData, new uint8_t[9] {0, 0, 0, 0, 0, 0, 0, 0, 1})); // two floats of zero & map id 1
     
     audioFile = std::string(GET_FILE_PATH(AUDIO_PATH, "default.wav"));
     printf("[DEBUG] AudioFile %s\n", audioFile.c_str());
