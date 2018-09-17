@@ -42,6 +42,7 @@ class Entity
 protected:
     
 public:
+    bool isBehind = false;
     Level *level;
     
     ~Entity();
