@@ -28,6 +28,7 @@
 #include "overlay/DebugOverlay.hpp"
 #include "overlay/DialogOverlay.hpp"
 #include "overlay/PauseMenu.hpp"
+#include "overlay/LightOverlay.hpp"
 #include "gui/Inventory.hpp"
 #include "gui/PlayerOverlay.hpp"
 
@@ -44,6 +45,7 @@ class Window
 public:
     SDL_Window *window;
     SDL_Renderer *renderer;
+    SDL_GLContext context;
     const uint8_t *keyStates;
     
     ConfigLoader *loader = nullptr;

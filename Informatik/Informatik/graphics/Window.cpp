@@ -32,10 +32,12 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
     
 #ifdef FULLSCREEN_ENABLED
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL);
 #else
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 #endif
+    
+    context = SDL_GL_CreateContext(window);
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
@@ -67,19 +69,21 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     openMenu(new MainMenu()); // Skip main menu
     // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
     
+    openMenu(new LightOverlay(renderer));
+    
     NPC *npc = new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0);
     npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
     npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
     level->addEntity(npc);
     
-   /* Slime *slimeg = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE, 1);
+    Slime *slimeg = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE, 1);
     Slime *slimeb = new Slime(10 * TILE_SIZE, 15 * TILE_SIZE, 10);
     Slime *slimeo = new Slime(10 * TILE_SIZE, 25 * TILE_SIZE, 20);
     Slime *slimer = new Slime(10 * TILE_SIZE, 35 * TILE_SIZE, 30);
     level->addEntity(slimeg);
     level->addEntity(slimeb);
     level->addEntity(slimeo);
-    level->addEntity(slimer);*/
+    level->addEntity(slimer);
     
     Projectile *projectile = new Projectile(0, 0, (float) PI * 15.0f / 8.0f);
     level->addEntity(projectile);

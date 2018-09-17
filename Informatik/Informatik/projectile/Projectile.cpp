@@ -33,7 +33,9 @@ void Projectile::render(SDL_Renderer *renderer, int xoff, int yoff)
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
     SDL_Point center = {(int) data.width / 2, (int) data.height / 2};
     
-    SDL_RenderCopyEx(renderer, texture, NULL, &r, -TO_DEG(rotationAngle) + 45, &center, SDL_FLIP_NONE);
+    SDL_Rect src = {current_anim * 32, 0, 32, 32};
+    
+    SDL_RenderCopyEx(renderer, texture, &src, &r, -TO_DEG(rotationAngle) + 45, &center, SDL_FLIP_NONE);
 }
 
 void Projectile::update(const uint8_t *keys)
@@ -43,6 +45,12 @@ void Projectile::update(const uint8_t *keys)
     
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, level->player->getOffsetX(), level->player->getOffsetY());
+    
+    if(++anim_timer >= 7)
+    {
+        current_anim = (current_anim + 1) % max_anim;
+        anim_timer = 0;
+    }
     
     if(r.x < 0 || r.x + r.w >= GAME_WIDTH || r.y < 0 || r.y + r.h >= GAME_HEIGHT || --despawnTimer < 0)
     {

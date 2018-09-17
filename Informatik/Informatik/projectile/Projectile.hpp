@@ -17,6 +17,9 @@ protected:
     SDL_Surface *surface;
     SDL_Texture *texture = nullptr;
     
+    int max_anim = 1;
+    int current_anim = 0, anim_timer = 0;
+    
     vector2d velocity = {0, 0};
     int despawnTimer = 600; // The maximum amount of frames a projectile can live --> max distance is |velocity| * timer
     
