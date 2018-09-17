@@ -25,20 +25,6 @@ downloadLibrary "SDL2_net" "2.0.1" "https://www.libsdl.org/projects/SDL_net/rele
 downloadLibrary "SDL2_mixer" "2.0.2" "https://www.libsdl.org/projects/SDL_mixer/release"
 downloadLibrary "SDL2_image" "2.0.3" "https://www.libsdl.org/projects/SDL_image/release"
 
-curl "https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.zip" -o "./glew.zip" -L
-echo -n "A" | unzip "./glew.zip"
-rm -f "glew.zip"
-mkdir "./Informatik/Informatik/glew/"
-mv "./glew-2.1.0/src/glew.c" "./Informatik/Informatik/glew/"
-
-mkdir "./Informatik/Informatik/glew/GL"
-mv "./glew-2.1.0/include/GL/glew.h" "./Informatik/Informatik/glew/GL/glew.h"
-mv "./glew-2.1.0/include/GL/eglew.h" "./Informatik/Informatik/glew/GL/eglew.h"
-mv "./glew-2.1.0/include/GL/glxew.h" "./Informatik/Informatik/glew/GL/glxew.h"
-mv "./glew-2.1.0/include/GL/wglew.h" "./Informatik/Informatik/glew/GL/wglew.h"
-
-rm -rf "./glew-2.1.0"
-
 cd assets/fonts
 # Download & unzip font
 curl "https://www.1001freefonts.com/d/5455/ormont-light.zip" -o "font.zip"

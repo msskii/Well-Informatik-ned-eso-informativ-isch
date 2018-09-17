@@ -8,18 +8,6 @@
 
 #include "LightOverlay.hpp"
 
-GLuint LightOverlay::compileShader(const char *path, GLenum shaderType)
-{
-    GLuint id = glCreateShader(shaderType);
-    filedata d = readFile(path);
-    GLchar *f = (GLchar*) d.data;
-    GLint l = (GLint) d.filesize;
-    
-    glShaderSource(id, 1, &f, &l);
-    
-    return id;
-}
-
 LightOverlay::LightOverlay(SDL_Renderer *renderer)
 {    
     shouldLevelBeUpdated = true;

@@ -10,7 +10,22 @@
 
 Window::Window() // Load from file, or if not found w = 50 & h = 50
 {
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER); // Add audio subsystem?
+    // Load config
+    reloadConfig();
+ 
+    // Init SDL & subsystems
+    SDL_Init(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL | SDL_INIT_TIMER); // Add audio subsystem?
+    
+    // Create window
+#ifdef FULLSCREEN_ENABLED
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
+#else
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
+#endif
+    
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
+    
     if(TTF_Init() == -1)
     {
         printf("TTF_Init error: %s\n", TTF_GetError());
@@ -18,9 +33,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
     
-    // Load config
-    reloadConfig();
-
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
@@ -30,36 +42,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
         printf("%s\n", TTF_GetError());
         exit(0);
     }
-    
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    
-#ifdef FULLSCREEN_ENABLED
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL);
-#else
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-#endif
-    
-    glewExperimental = true;
-
-    context = SDL_GL_CreateContext(window);
-    
-    GLenum error = glewInit();
-    if(error != GLEW_OK)
-    {
-        printf("[ERROR] Glew init error: %s\n", glewGetErrorString(error));
-        exit(0);
-    }
-    else
-    {
-        printf("[INFO] Glew initialized: GL Version: %s\n", glGetString(GL_VERSION));
-    }
-    
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
     
     // Set up level
     level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50, renderer);
