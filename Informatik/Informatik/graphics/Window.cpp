@@ -16,14 +16,42 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Init SDL & subsystems
     SDL_Init(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL | SDL_INIT_TIMER); // Add audio subsystem?
     
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+    
     // Create window
 #ifdef FULLSCREEN_ENABLED
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 #else
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 #endif
     
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    context = SDL_GL_CreateContext(window);
+    if(context == nullptr)
+    {
+        printf("[ERROR] Couldn't create GL context\n");
+        exit(0);
+    }
+    
+    glewExperimental = GL_TRUE;
+    GLenum err = glewInit();
+    if(err != GLEW_OK)
+    {
+        printf("[ERROR] Error initializing GLEW: %s\n", glewGetErrorString(err));
+        exit(0);
+    }
+    
+    printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+    SDL_GL_SetSwapInterval(1); // Vsync
+    
+    SDL_Surface *testSurface = SDL_CreateRGBSurfaceWithFormat(0, GAME_WIDTH, GAME_HEIGHT, 32, SDL_PIXELFORMAT_ARGB8888);
+    SDL_SetSurfaceBlendMode(testSurface, SDL_BLENDMODE_BLEND);
+    renderer = SDL_CreateSoftwareRenderer(testSurface);
+    
+    //renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
     
     if(TTF_Init() == -1)
@@ -224,16 +252,15 @@ void Window::runGameLoop()
             }
         }
         
+        glClearColor(0, 0, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
         SDL_RenderClear(renderer); // Everything black
         
         // Update & render
         toUpdate = true;
-        for(int i = 0; i < (int) menus.size(); i++)
-        {
-            // menus[i]->updateElements(e); // What was I doing?
-            if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
-        }
+        for(int i = 0; i < (int) menus.size(); i++) if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
         if(toUpdate) update();
         render(renderer);
         
@@ -241,7 +268,9 @@ void Window::runGameLoop()
         auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
         
-        SDL_RenderPresent(renderer); // Draw & limit FPS when opened
+        
+        // SDL_RenderPresent(renderer); // Draw & limit FPS when opened
+        SDL_GL_SwapWindow(window);
     }
     
     

@@ -17,6 +17,9 @@
 #  include <SDL2_net/SDL_net.h>
 #  include <SDL2_mixer/SDL_mixer.h>
 #  include <SDL2_image/SDL_image.h>
+
+#  include <GL/glew.h>
+#  include <SDL2/SDL_opengl.h>
 #else
 #  include <SDL.h>
 #  include <SDL_ttf.h>

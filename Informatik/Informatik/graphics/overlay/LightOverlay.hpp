@@ -14,7 +14,8 @@
 class LightOverlay : public Menu
 {
 private:
-
+    GLuint compileShader(const char *path, GLenum shaderType);
+    
 public:
     LightOverlay(SDL_Renderer *renderer);
     
