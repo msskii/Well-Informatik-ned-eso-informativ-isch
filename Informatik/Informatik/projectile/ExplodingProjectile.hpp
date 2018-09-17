@@ -10,6 +10,7 @@
 #define ExplodingProjectile_hpp
 
 #include "Projectile.hpp"
+#include "Explosion.hpp"
 
 enum EXPLODING_TYPE
 {

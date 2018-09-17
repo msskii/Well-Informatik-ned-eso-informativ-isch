@@ -18,9 +18,9 @@ void Loader::saveEventData(uint8_t *destination, std::vector<Event*> events)
         if(events[i]->isStored) ++numEvents;
     }
     
-    INFO_VAR("Saving Event data for ");
+    /**INFO_VAR("Saving Event data for ");
     PRINT_INT((int) numEvents);
-    PRINT_STRING(" events\n");
+    PRINT_STRING(" events\n");*/
 
     ((uint32_t*)destination)[0] = numEvents; // Maximum of 2^32 events... I think that's enough
     destination += 4; // uint32_t = 4 bytes
@@ -43,9 +43,11 @@ std::vector<Event*> Loader::loadEventData(uint8_t *destination)
     
     uint32_t size = ((uint32_t*)destination)[0];
     
-    INFO_VAR("Loading Event data for ");
+    /**INFO_VAR("Loading Event data for ");
     PRINT_INT(size);
-    PRINT_STRING(" events\n");
+    PRINT_STRING(" events\n");*/
+    
+    event_id_counter = 0; // Start at event 0 again...
     
     destination += 4; // uint32_t = 4 bytes
     for(int i = 0; i < (int)size; i++)
@@ -54,7 +56,7 @@ std::vector<Event*> Loader::loadEventData(uint8_t *destination)
         EventData evt = ((EventData*) destination)[0];
         uint8_t num_args = NUM_ARGS[evt.event_action];
 
-        printf("[INFO] Loading Event: %d, with action: %d & argslength: %d\n", evt.event_id, evt.event_action, NUM_ARGS[evt.event_action]);
+        //printf("[INFO] Loading Event: %d, with action: %d & argslength: %d\n", evt.event_id, evt.event_action, NUM_ARGS[evt.event_action]);
         
         uint8_t *arguments = (uint8_t*) malloc(num_args);
         memcpy(arguments, destination + sizeof(EventData), num_args);

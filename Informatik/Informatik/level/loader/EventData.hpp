@@ -32,13 +32,15 @@ enum EVENT_ACTION // The different actions (Add them here)
     NO_ACTION = 0,
     MOVE_PLAYER,
     NPC_INTERACT,
+    TELEPORT_PLAYER,
 };
 
-const static uint8_t *NUM_ARGS = new uint8_t[3] // how many arguments for the nth action
+const static uint8_t *NUM_ARGS = new uint8_t[4] // how many arguments for the nth action
 {
     0, // No action = No arguments
     2, // Direction & amount
-    0 // Not stored...
+    0, // Not stored...
+    1 + 2 * 4 // x, y, map number
 };
 
 #pragma pack(push, 1)

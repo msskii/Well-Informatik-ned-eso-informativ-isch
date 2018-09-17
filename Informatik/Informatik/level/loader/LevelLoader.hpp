@@ -13,10 +13,18 @@
 #include "../Level.hpp"
 #include "EventLoader.hpp"
 
+#define LOADER_VERSION 3
+
 namespace Loader
 {
-    extern int readInt(uint8_t *&levelFile);
+    template <typename T>
+    extern T read(uint8_t *&levelFile);
+    template <typename T>
+    extern void write(uint8_t *&levelFile, T value);
     
+    void writeString(uint8_t *&levelFile, const char *text, int length);
+    char *readString(uint8_t *&levelFile);
+
     class LevelLoader
     {
     private:

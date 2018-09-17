@@ -32,6 +32,7 @@ void ExplodingProjectile::update(const uint8_t *keys)
     if(velocity.len() <= 0.5)
     {
         // level->addEntity(new FireEntity());
+        level->addEntity(new Explosion(data.x_pos, data.y_pos, 3 * 60));
         level->removeEntity(this);
     }
 }

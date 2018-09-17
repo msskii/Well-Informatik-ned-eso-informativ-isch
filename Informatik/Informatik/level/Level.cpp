@@ -8,12 +8,16 @@
 
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
-
+#include "loader/LevelLoader.hpp"
 
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
 {
     tiles = new Tile[w * h];
-    buildings = new Building[1];
+    buildingCount = 1;
+    buildings = new Building[1]
+    {
+        Building(20, 20, 0)
+    };
     player->updateMovement(0, 0); // Update player before level loads
 }
 
@@ -65,14 +69,6 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     {
         Building(10, 10, 0)
     };
-
-    
-    
-    
-    
-    
-
-  //  for(int i = 0; i < w * h; i++) tiles[i] = Tile(i % w, i / w, 0); // default to tile number 0
     
     for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
     
@@ -101,8 +97,14 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     eventData.event_type_filter = PLAYER_INTERACT;
     events.push_back(new Event(eventData, new uint8_t[2] { UP, 3 * TILE_SIZE })); // Move player 2 down
     
+    eventData.event_x += TILE_SIZE * 4;
+    eventData.event_id_dependency = 0;
+    eventData.event_type_filter = STEP_ON;
+    eventData.event_action = TELEPORT_PLAYER;
+    events.push_back(new Event(eventData, new uint8_t[9] {0, 0, 0, 0, 0, 0, 0, 0, 1})); // two floats of zero & map id 1
+    
     audioFile = std::string(GET_FILE_PATH(AUDIO_PATH, "default.wav"));
-    printf("AudioFile %s\n", audioFile.c_str());
+    printf("[DEBUG] AudioFile %s\n", audioFile.c_str());
     tileMapFile = std::string(GET_FILE_PATH(LEVEL_PATH, "default.tilemap"));
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
@@ -134,7 +136,7 @@ int Level::getEventSize()
 
 int Level::getLevelSize()
 {
-    return 8 + width * height * sizeof(TileData) + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
+    return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * buildingCount + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
 }
 
 void Level::render(SDL_Renderer *renderer) // and update
@@ -234,14 +236,40 @@ Tile Level::getTile(int screenX, int screenY)
     return tiles[screenX + width * screenY];
 }
 
-bool Level::getBuildingCollision(float x, float y){
+bool Level::getBuildingCollision(float x, float y)
+{
     
     for (int i = 0; i < buildingCount; i++)
     {
-        if(buildings[i].isInside(x,y))
+        if(buildings[i].isInside(x, y))
         {
             return true;
         }
     }
     return false;
+}
+
+void Level::setLevelMap(uint8_t map)
+{
+    Level *nl = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "level_" + std::to_string(map) + ".level"), 50, 50, window->renderer);
+    
+    Loader::LevelLoader loader(window->level);
+    loader.saveFile(window->level->levelFile.c_str());
+    
+    delete[] tiles;
+    delete text;
+    
+    // Copy data from nl
+    tiles = nl->tiles;
+    events = nl->events;
+    entities = nl->entities;
+    width = nl->width;
+    height = nl->height;
+    buildings = nl->buildings;
+    
+    levelFile = nl->levelFile;
+    audioFile = nl->audioFile;
+    tileMapFile = nl->tileMapFile;
+    textFile = nl->textFile;
+    text = nl->text;
 }

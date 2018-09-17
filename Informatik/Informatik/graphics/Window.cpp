@@ -83,9 +83,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     
     Projectile *projectile = new Projectile(0, 0, (float) PI * 15.0f / 8.0f);
     level->addEntity(projectile);
-    
-    
-    
+        
     for(int i = 0; i < 22; i++)
     {
         level->addEntity(new EntityItem(5, i, new Item("test", renderer)));
@@ -254,7 +252,7 @@ void Window::reloadConfig()
 void exitGame(Window *window)
 {
     Loader::LevelLoader loader(window->level);
-    loader.saveFile(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"));
+    loader.saveFile(window->level->levelFile.c_str());
     
     SDL_DestroyRenderer(window->renderer);
     SDL_DestroyWindow(window->window);

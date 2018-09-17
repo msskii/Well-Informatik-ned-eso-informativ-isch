@@ -59,6 +59,15 @@ void Projectile::update(const uint8_t *keys)
     float xstep = (x_pos_end - x_pos_front) / PROJECTILE_ACCURACY;
     float ystep = (y_pos_end - y_pos_front) / PROJECTILE_ACCURACY;
 
+    // Find buildings
+    for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
+    {
+        if(level->getBuildingCollision(x_pos_front + i * xstep, y_pos_front + i * ystep))
+        {
+            velocity = {0, 0}; // Stop right at the wall
+        }
+    }
+    
     // Find enemies in close proximity?
     for(size_t i = 0; i < level->entities.size(); i++)
     {

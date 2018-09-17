@@ -19,6 +19,8 @@ eventFunc resolveFunction(int action)
             return move_player;
         case NPC_INTERACT:
             return npc_interact;
+        case TELEPORT_PLAYER:
+            return teleport_player;
         default:
             return no_action;
     }
@@ -46,6 +48,18 @@ void move_player(Event *event, EVENT_TYPE type, Level* level, uint8_t *args)
             level->player->x_pos += args[1];
             break;
     }
+}
+
+void teleport_player(Event *event, EVENT_TYPE type, Level* level, uint8_t *args)
+{
+    float xpos = ((float*)args)[0];
+    float ypos = ((float*)args)[1];
+    uint8_t mapnum = args[8];
+    
+    level->setLevelMap(mapnum);
+    level->player->x_pos = xpos;
+    level->player->y_pos = ypos;
+    level->player->updateMovement(0, 0);
 }
 
 void npc_interact(Event *event, EVENT_TYPE type, Level *level, uint8_t *args)
