@@ -17,6 +17,18 @@ Building::Building(int x, int y, uint16_t buildingNumber): data({buildingNumber,
             building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Building_OldManHut"));
             data.sizeX = 6;
             data.sizeY = 5;
+            data.hitboxsizeX = 6;
+            data.hitboxsizeY = 3;
+            data.hitboxX = data.xcoord;
+            data.hitboxY = data.ycoord + 1.5;
+            
+            data.hitboxXBehind = data.xcoord - 1;
+            data.hitboxYBehind = data.ycoord - 1;
+            data.hitboxsizeXBehind = 8;
+            data.hitboxsizeYBehind = 5.4;
+
+            
+            
             break;
             
         default:
@@ -44,14 +56,22 @@ Building::Building(BuildingData d) : data(d)
 
 bool Building::isInside(float x, float y)
 {
-    if(data.xcoord * TILE_SIZE < x && (data.xcoord + data.sizeX) * TILE_SIZE > x && (data.ycoord * TILE_SIZE < y) && (data.ycoord + data.sizeY) * TILE_SIZE > y)
+    if((data.hitboxX * TILE_SIZE < x && (data.hitboxX * TILE_SIZE + data.hitboxsizeX * TILE_SIZE) > x) && (data.hitboxY * TILE_SIZE < y && (data.hitboxY * TILE_SIZE + data.hitboxsizeY * TILE_SIZE) > y))
     {
-       return true;
+        return true;
     }
     
     return false;
 }
 
+bool Building::isBehind(float x, float y)
+{
+    if((data.hitboxXBehind * TILE_SIZE < x && (data.hitboxXBehind * TILE_SIZE + data.hitboxsizeXBehind * TILE_SIZE) > x) && (data.hitboxYBehind * TILE_SIZE < y && (data.hitboxYBehind * TILE_SIZE + data.hitboxsizeYBehind * TILE_SIZE) > y))
+    {
+        return true;
+    }
+    return false;
+}
 
 void Building::render(SDL_Renderer *renderer, int xoffset, int yoffset)
 {

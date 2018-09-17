@@ -59,10 +59,15 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     tiles[439].data.tileNumber = 0;
     tiles[540].data.tileNumber = 0;
     
+    for (int i = 0; i < 10; i++) {
+        tiles[50 * 15 + 10 +i].data.tileNumber = 0;
+        tiles[50 * 14 + 10 +i].data.tileNumber = 0;
+    }
+    
     
     buildings = new Building[1]
     {
-        Building(20, 20, 0)
+        Building(10, 10, 0)
     };
     
     for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
@@ -138,19 +143,26 @@ void Level::render(SDL_Renderer *renderer) // and update
 {
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
-        
+    
+    //Render all Tiles
     for(int i = 0; i < (int) (width * height); i++)
     {
         tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
-    for(int i = 0; i < buildingCount; i++)
-    {
-        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
-    }
     
+    //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        entities[i]->render(renderer, xoffset, yoffset);
+        for(int i = 0; i < buildingCount; i++)
+        {
+            buildings[i].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos) ? entities[i]->isBehind = true : entities[i]->isBehind = false;
+            buildings[i].isBehind(player->x_pos, player->y_pos) ? player->isBehind = true : player->isBehind = false;
+            
+        }
+        if (entities[i]->isBehind == true) {
+            entities[i]->render(renderer, xoffset, yoffset);
+        }
+        
     }
     
     // Events wont be rendered in the end
@@ -158,6 +170,10 @@ void Level::render(SDL_Renderer *renderer) // and update
     {
         events[i]->render(renderer, xoffset, yoffset);
     }
+    
+    //render player if he is behind a building
+    if (player->isBehind == true)   player->render(renderer, xoffset, yoffset);
+    
 
     
 #ifdef ENABLE_TEST_MULTIPLAYER
@@ -168,8 +184,23 @@ void Level::render(SDL_Renderer *renderer) // and update
 		clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
 	}
 #endif
+    //rendering Buildings
+    for(int i = 0; i < buildingCount; i++)
+    {
+        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+    }
 
-    player->render(renderer, xoffset, yoffset);
+    //Render player here if he is infront of building
+    if (player->isBehind == false)  player->render(renderer, xoffset, yoffset);
+    
+    //render enteties here if they are infrong of a building
+    for(int i = 0; i < (int) entities.size(); i++)
+    {
+        if (entities[i]->isBehind == false) {
+            entities[i]->render(renderer, xoffset, yoffset);
+        }
+        
+    }
 }
 
 void Level::update()

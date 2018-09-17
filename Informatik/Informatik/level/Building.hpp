@@ -20,9 +20,19 @@ typedef struct BuildingData
     uint16_t buildingNumber;
     uint8_t sizeX;
     uint8_t sizeY;
-    int xcoord, ycoord;
+    int xcoord;
+    int ycoord;
+    float hitboxX;
+    float hitboxY;
+    float hitboxsizeX;
+    float hitboxsizeY;
+    float hitboxXBehind;
+    float hitboxYBehind;
+    float hitboxsizeXBehind;
+    float hitboxsizeYBehind;
+
     
-} BuildingData;
+}BuildingData;
 
 
 class Building
@@ -38,6 +48,7 @@ public:
     Building(BuildingData d);
     void render(SDL_Renderer *renderer, int xoff, int yoff);
     bool isInside(float x, float y);
+    bool isBehind(float x, float y);
 };
 
 

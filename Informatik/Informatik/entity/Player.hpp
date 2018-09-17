@@ -42,6 +42,7 @@ public:
     float x_pos = 0, y_pos = 0;
     int xoff = 0, yoff = 0;
     uint8_t _z = 0; // Height level
+    bool isBehind = false; //Is behind a building?
     
     // Movement & control
     bool inControl = true; // Player can control himself by default
