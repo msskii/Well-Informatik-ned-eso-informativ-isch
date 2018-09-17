@@ -20,6 +20,8 @@ typedef struct BuildingData
     uint16_t buildingNumber;
     uint8_t sizeX;
     uint8_t sizeY;
+    int xcoord;
+    int ycoord;
     float hitboxX;
     float hitboxY;
     float hitboxsizeX;
