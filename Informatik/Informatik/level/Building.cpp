@@ -56,11 +56,7 @@ Building::Building(BuildingData d) : data(d)
 
 bool Building::isInside(float x, float y)
 {
-<<<<<<< HEAD
     if((data.hitboxX * TILE_SIZE < x && (data.hitboxX * TILE_SIZE + data.hitboxsizeX * TILE_SIZE) > x) && (data.hitboxY * TILE_SIZE < y && (data.hitboxY * TILE_SIZE + data.hitboxsizeY * TILE_SIZE) > y))
-=======
-    if(data.xcoord * TILE_SIZE < x && (data.xcoord + data.sizeX) * TILE_SIZE > x && (data.ycoord * TILE_SIZE < y) && (data.ycoord + data.sizeY) * TILE_SIZE > y)
->>>>>>> 6c2b179a4f78a1acef49dda837c0fae25cfdee13
     {
         return true;
     }
