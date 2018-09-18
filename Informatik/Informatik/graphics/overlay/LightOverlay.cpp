@@ -38,8 +38,7 @@ GLuint LightOverlay::compileShader(const char *path, GLenum shaderType)
 LightOverlay::LightOverlay(SDL_Renderer *renderer)
 {
     printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-    compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.vert"), GL_VERTEX_SHADER);
+    
     shouldLevelBeUpdated = true;
 }
 
@@ -47,14 +46,7 @@ bool LightOverlay::shouldWindowClose() { return false; }
 
 void LightOverlay::renderMenu(SDL_Renderer *renderer)
 {    
-    glColor4f(1, 0, 1, 1);
-    glBegin(GL_TRIANGLES);
     
-    glVertex2d(0, 0);
-    glVertex2d(0, 1);
-    glVertex2d(1, 1);
-
-    glEnd();
 }
 
 void LightOverlay::drawOverlay(SDL_Renderer *renderer) {}

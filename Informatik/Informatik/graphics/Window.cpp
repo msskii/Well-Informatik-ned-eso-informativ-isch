@@ -19,6 +19,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
     
@@ -47,9 +48,9 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     SDL_GL_SetSwapInterval(1); // Vsync
     
-    SDL_Surface *testSurface = SDL_CreateRGBSurfaceWithFormat(0, GAME_WIDTH, GAME_HEIGHT, 32, SDL_PIXELFORMAT_ARGB8888);
-    SDL_SetSurfaceBlendMode(testSurface, SDL_BLENDMODE_BLEND);
-    renderer = SDL_CreateSoftwareRenderer(testSurface);
+    render_surface = SDL_CreateRGBSurfaceWithFormat(0, GAME_WIDTH, GAME_HEIGHT, 32, SDL_PIXELFORMAT_ARGB8888);
+    SDL_SetSurfaceBlendMode(render_surface, SDL_BLENDMODE_BLEND);
+    renderer = SDL_CreateSoftwareRenderer(render_surface);
     
     //renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
@@ -175,6 +176,26 @@ uint32_t secondCallback(uint32_t delay, void *args)
     return delay;
 }
 
+static const float *verticies = new float[2 * 6]
+{
+    -1, -1,
+    1, -1,
+    1, 1,
+    -1, -1,
+    -1, 1,
+    1, 1
+};
+
+static const float *uv_vert = new float[2 * 6]
+{
+    0, 0,
+    1, 0,
+    1, 1,
+    0, 0,
+    0, 1,
+    1, 1
+};
+
 void Window::runGameLoop()
 {
     running = true;
@@ -184,6 +205,36 @@ void Window::runGameLoop()
     auto clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
     
     bool mousePressed = false;
+    
+    // Init gl
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), verticies, GL_STATIC_DRAW);
+    
+    GLuint uv;
+    glGenBuffers(1, &uv);
+    glBindBuffer(GL_ARRAY_BUFFER, uv);
+    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), uv_vert, GL_STATIC_DRAW);
+    
+    GLuint vert = compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.vert"), GL_VERTEX_SHADER);
+    GLuint frag = compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.frag"), GL_FRAGMENT_SHADER);
+    GLuint prog = glCreateProgram();
+    
+    glAttachShader(prog, vert);
+    glAttachShader(prog, frag);
+    glLinkProgram(prog);
+    
+    GLint status;
+    glGetProgramiv(prog, GL_LINK_STATUS, &status);
+    if(status != GL_TRUE)
+    {
+        printf("Couldn't link shader program...\n");
+    }
     
     while(running)
     {
@@ -252,7 +303,7 @@ void Window::runGameLoop()
             }
         }
         
-        glClearColor(0, 0, 0, 1);
+        glClearColor(0, 1, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
         
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
@@ -264,16 +315,44 @@ void Window::runGameLoop()
         if(toUpdate) update();
         render(renderer);
         
+        GLuint texID;
+        glGenTextures(1, &texID);
+        glBindTexture(GL_TEXTURE_2D, texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, render_surface->w, render_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, render_surface->pixels);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        
+        glBindTexture(GL_TEXTURE_2D, texID);
+        
+        glUseProgram(prog);
+
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, uv);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        
+        glUseProgram(0);
+        
+        GLenum err = glGetError();
+        if(err != GL_NO_ERROR)
+        {
+            printf("[ERROR] GL Error: %d\n", err);
+        }
+        
+        //glDeleteTextures(1, &texID);
+        
         auto end_time = clock.now();
         auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
         
-        
         // SDL_RenderPresent(renderer); // Draw & limit FPS when opened
         SDL_GL_SwapWindow(window);
     }
-    
-    
     
     exitGame(this);
 }

@@ -7,9 +7,37 @@
 //
 
 #include "SDL_Util.hpp"
+#include "FileReader.hpp"
 
 TTF_Font *font = nullptr;
 float SCALE_X = 0, SCALE_Y = 0;
+
+GLuint compileShader(const char *path, GLenum shaderType)
+{
+    GLuint id = glCreateShader(shaderType);
+    filedata d = readFile(path);
+    GLchar *f = (GLchar*) d.data;
+    GLint l = (GLint) d.filesize;
+    
+    glShaderSource(id, 1, &f, &l);
+    
+    glCompileShader(id);
+    int status;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+    if(status != GL_TRUE)
+    {
+        printf("[ERROR] Couldn't compile Shader: \n");
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &status);
+        char *msg = (char*) malloc(status + 1);
+        int len;
+        glGetShaderInfoLog(id, status, &len, msg);
+        msg[status] = 0;
+        printf("%s\n", msg);
+        free(msg);
+    }
+    
+    return id;
+}
 
 void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y)
 {    

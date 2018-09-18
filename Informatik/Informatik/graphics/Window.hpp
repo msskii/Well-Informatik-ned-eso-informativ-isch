@@ -44,6 +44,7 @@ class Window
 {
 public:
     SDL_Window *window;
+    SDL_Surface *render_surface = nullptr;
     SDL_Renderer *renderer;
     SDL_GLContext context;
     const uint8_t *keyStates;
