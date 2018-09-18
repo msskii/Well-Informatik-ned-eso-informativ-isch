@@ -16,7 +16,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
     buildingCount = 1;
     buildings = new Building[1]
     {
-        Building(20, 20, 0)
+        Building(10, 10, 0)
     };
     player->updateMovement(0, 0); // Update player before level loads
 }
