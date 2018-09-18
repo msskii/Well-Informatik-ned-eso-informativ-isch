@@ -11,10 +11,13 @@
 
 #include "Menu.hpp"
 
+#define MAX_LIGHTS 40
+
 class LightOverlay : public Menu
 {
 private:
     GLuint shader_id;
+    GLfloat *positions = new float[2 * MAX_LIGHTS];
     
 public:
     LightOverlay(GLuint id);

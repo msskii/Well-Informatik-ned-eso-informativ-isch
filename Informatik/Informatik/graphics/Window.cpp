@@ -153,7 +153,7 @@ void Window::openMenu(Menu *m)
 
 void Window::render(SDL_Renderer *renderer)
 {
-    level->render(renderer); // Render level, but don't update
+    if(toUpdate) level->render(renderer); // Render level, but don't update
     
     for(int i = 0; i < (int) menus.size(); i++)
     {

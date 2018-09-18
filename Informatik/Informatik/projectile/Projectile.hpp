@@ -21,7 +21,7 @@ protected:
     int current_anim = 0, anim_timer = 0;
     
     vector2d velocity = {0, 0};
-    int despawnTimer = 600; // The maximum amount of frames a projectile can live --> max distance is |velocity| * timer
+    int despawnTimer; // The maximum amount of frames a projectile can live --> max distance is |velocity| * timer
     
     Entity *sender = nullptr; // Nullptr if from player, entity otherwise (enemy probably)
     
