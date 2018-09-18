@@ -8,37 +8,11 @@
 
 #include "LightOverlay.hpp"
 
-GLuint LightOverlay::compileShader(const char *path, GLenum shaderType)
-{
-    GLuint id = glCreateShader(shaderType);
-    filedata d = readFile(path);
-    GLchar *f = (GLchar*) d.data;
-    GLint l = (GLint) d.filesize;
-    
-    glShaderSource(id, 1, &f, &l);
-    
-    glCompileShader(id);
-    int status;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
-    if(status != GL_TRUE)
-    {
-        printf("[ERROR] Couldn't compile Shader: \n");
-        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &status);
-        char *msg = (char*) malloc(status + 1);
-        int len;
-        glGetShaderInfoLog(id, status, &len, msg);
-        msg[status] = 0;
-        printf("%s\n", msg);
-        free(msg);
-    }
-    
-    return id;
-}
-
-LightOverlay::LightOverlay(SDL_Renderer *renderer)
+LightOverlay::LightOverlay(GLuint shader)
 {
     printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     
+    shader_id = shader;
     shouldLevelBeUpdated = true;
 }
 
@@ -46,7 +20,14 @@ bool LightOverlay::shouldWindowClose() { return false; }
 
 void LightOverlay::renderMenu(SDL_Renderer *renderer)
 {    
-    
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    float x_pos_rel = (float) x / (float) GAME_WIDTH;
+    float y_pos_rel = (float) y / (float) GAME_HEIGHT;
+
+    glUseProgram(shader_id);
+    glUniform2f(glGetUniformLocation(shader_id, "mousepos"), x_pos_rel, y_pos_rel);
+    glUseProgram(0);
 }
 
 void LightOverlay::drawOverlay(SDL_Renderer *renderer) {}

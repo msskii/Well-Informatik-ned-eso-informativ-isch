@@ -99,8 +99,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     openMenu(new MainMenu()); // Skip main menu
     // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
     
-    openMenu(new LightOverlay(renderer));
-    
     NPC *npc = new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0);
     npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
     npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
@@ -189,11 +187,11 @@ static const float *verticies = new float[2 * 6]
 static const float *uv_vert = new float[2 * 6]
 {
     0, 0,
-    1, 0,
-    1, 1,
+    0.5, 0,
+    0.5, 0.5,
     0, 0,
-    0, 1,
-    1, 1
+    0, 0.5,
+    0.5, 0.5
 };
 
 void Window::runGameLoop()
@@ -207,6 +205,9 @@ void Window::runGameLoop()
     bool mousePressed = false;
     
     // Init gl
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -220,6 +221,12 @@ void Window::runGameLoop()
     glGenBuffers(1, &uv);
     glBindBuffer(GL_ARRAY_BUFFER, uv);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), uv_vert, GL_STATIC_DRAW);
+    
+    GLuint texID;
+    glGenTextures(1, &texID);
+    glBindTexture(GL_TEXTURE_2D, texID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     GLuint vert = compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.vert"), GL_VERTEX_SHADER);
     GLuint frag = compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.frag"), GL_FRAGMENT_SHADER);
@@ -235,6 +242,8 @@ void Window::runGameLoop()
     {
         printf("Couldn't link shader program...\n");
     }
+    
+    openMenu(new LightOverlay(prog));
     
     while(running)
     {
@@ -303,7 +312,7 @@ void Window::runGameLoop()
             }
         }
         
-        glClearColor(0, 1, 0, 1);
+        glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
         
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
@@ -315,14 +324,8 @@ void Window::runGameLoop()
         if(toUpdate) update();
         render(renderer);
         
-        GLuint texID;
-        glGenTextures(1, &texID);
         glBindTexture(GL_TEXTURE_2D, texID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, render_surface->w, render_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, render_surface->pixels);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        
-        glBindTexture(GL_TEXTURE_2D, texID);
         
         glUseProgram(prog);
 
@@ -343,15 +346,13 @@ void Window::runGameLoop()
         {
             printf("[ERROR] GL Error: %d\n", err);
         }
-        
-        //glDeleteTextures(1, &texID);
-        
+
+        SDL_GL_SwapWindow(window);
+        // SDL_RenderPresent(renderer); // Draw & limit FPS when opened
+
         auto end_time = clock.now();
         auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
-        
-        // SDL_RenderPresent(renderer); // Draw & limit FPS when opened
-        SDL_GL_SwapWindow(window);
     }
     
     exitGame(this);

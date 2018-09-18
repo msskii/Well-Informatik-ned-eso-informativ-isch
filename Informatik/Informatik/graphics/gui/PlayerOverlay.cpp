@@ -29,7 +29,7 @@ void PlayerOverlay::renderMenu(SDL_Renderer *renderer)
     int color = 0xFF000000;
     if(player->y_pos > 100)
     {
-        SDL_RenderCopy(renderer, backtexture, NULL, NULL);
+        SDL_RenderCopy(renderer, backtexture, NULL, &window->render_surface->clip_rect);
         
         SDL_Rect dst = {1150, 10, (int)(750 * player->animationHealth / player->maxHealth), 80};
         SDL_RenderCopy(renderer, hpbartexture, NULL, &dst);

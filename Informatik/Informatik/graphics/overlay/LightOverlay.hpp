@@ -14,10 +14,10 @@
 class LightOverlay : public Menu
 {
 private:
-    GLuint compileShader(const char *path, GLenum shaderType);
+    GLuint shader_id;
     
 public:
-    LightOverlay(SDL_Renderer *renderer);
+    LightOverlay(GLuint id);
     
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;
