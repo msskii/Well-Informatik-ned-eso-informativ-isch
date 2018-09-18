@@ -52,8 +52,9 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     SDL_SetSurfaceBlendMode(render_surface, SDL_BLENDMODE_BLEND);
     renderer = SDL_CreateSoftwareRenderer(render_surface);
     
-    //renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
+    
+    printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     
     if(TTF_Init() == -1)
     {

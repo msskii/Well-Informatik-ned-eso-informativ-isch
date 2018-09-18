@@ -17,7 +17,7 @@ class LightOverlay : public Menu
 {
 private:
     GLuint shader_id;
-    GLfloat *positions = new float[2 * MAX_LIGHTS];
+    GLfloat *positions = new float[3 * MAX_LIGHTS];
     
 public:
     LightOverlay(GLuint id);
