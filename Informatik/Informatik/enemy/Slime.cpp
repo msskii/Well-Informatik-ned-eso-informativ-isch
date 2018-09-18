@@ -113,8 +113,11 @@ void Slime::update(const uint8_t *keys)
         {
             xdirection = (level->player->x_pos - this->data.x_pos)/l;
             ydirection = (level->player->y_pos - this->data.y_pos)/l;
-            data.x_pos += xdirection * data.speed * 2;
-            data.y_pos += ydirection * data.speed * 2;
+            data.dx = xdirection * data.speed * 2;
+            data.dy = ydirection * data.speed * 2;
+            correctMovement(data.dx, data.dy);
+            data.x_pos += data.dx;
+            data.y_pos += data.dy;
         }
         
     }

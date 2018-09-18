@@ -151,19 +151,22 @@ void Level::render(SDL_Renderer *renderer) // and update
     }
     
     //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
-    for(int i = 0; i < (int) entities.size(); i++)
+   
+    for(int j = 0; j < buildingCount; j++)
     {
-        for(int i = 0; i < buildingCount; i++)
+        for(int i = 0; i < (int) entities.size(); i++)
         {
-            buildings[i].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos) ? entities[i]->isBehind = true : entities[i]->isBehind = false;
-            buildings[i].isBehind(player->x_pos, player->y_pos) ? player->isBehind = true : player->isBehind = false;
+            buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos) ? entities[i]->isBehind = true : entities[i]->isBehind = false;
+            if (entities[i]->isBehind == true)
+            {
+                entities[i]->render(renderer, xoffset, yoffset);
+            }
             
         }
-        if (entities[i]->isBehind == true) {
-            entities[i]->render(renderer, xoffset, yoffset);
-        }
+        buildings[j].isBehind(player->x_pos, player->y_pos) ? player->isBehind = true : player->isBehind = false;
         
     }
+    
     
     // Events wont be rendered in the end
     for(int i = 0; i < (int) events.size(); i++)
@@ -172,7 +175,7 @@ void Level::render(SDL_Renderer *renderer) // and update
     }
     
     //render player if he is behind a building
-    if (player->isBehind == true)   player->render(renderer, xoffset, yoffset);
+    if (player->isBehind)   player->render(renderer, xoffset, yoffset);
     
 
     
@@ -184,6 +187,8 @@ void Level::render(SDL_Renderer *renderer) // and update
 		clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
 	}
 #endif
+    
+    
     //rendering Buildings
     for(int i = 0; i < buildingCount; i++)
     {
@@ -191,12 +196,13 @@ void Level::render(SDL_Renderer *renderer) // and update
     }
 
     //Render player here if he is infront of building
-    if (player->isBehind == false)  player->render(renderer, xoffset, yoffset);
+    if (!player->isBehind)  player->render(renderer, xoffset, yoffset);
     
     //render enteties here if they are infrong of a building
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        if (entities[i]->isBehind == false) {
+        if (!entities[i]->isBehind)
+        {
             entities[i]->render(renderer, xoffset, yoffset);
         }
         

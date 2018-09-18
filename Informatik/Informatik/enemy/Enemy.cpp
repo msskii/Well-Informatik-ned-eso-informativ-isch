@@ -23,8 +23,7 @@ void Enemy::takeDamage(float amount)
     onDamage(amount);
 }
 
-#define MAX_STEP 0.05f
-
+#define MAXPERCENT_PER_FRAME 0.02
 void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
 {
     if(animationHealth <= 0 || data.currentHealth == data.maxhealth) return; // Dead or full health
@@ -33,7 +32,7 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     {
         float difference = data.currentHealth - animationHealth;
         float step = difference;
-        if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
+        if(abs(step) >=  data.maxhealth * MAXPERCENT_PER_FRAME) step = SIGN(difference) * data.maxhealth * MAXPERCENT_PER_FRAME;
         animationHealth += step;
         
         if(animationHealth <= 0)
