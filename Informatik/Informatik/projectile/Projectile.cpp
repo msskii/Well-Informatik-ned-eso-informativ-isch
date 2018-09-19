@@ -32,12 +32,11 @@ void Projectile::render(int xoff, int yoff)
 {
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
-    SDL_Point center = {(int) data.width / 2, (int) data.height / 2};
     
     SDL_Rect src = {current_anim * 32, 0, 32, 32};
 
     if(max_anim != 1) renderWithShading(texture, src, r); // Animations cant be rotated...
-    //else SDL_RenderCopyEx(renderer, texture, &src, &r, -TO_DEG(rotationAngle) + 45, &center, SDL_FLIP_NONE);
+    else renderWithRotation(texture, src, r, -rotationAngle + PI / 4.0f, false);
 }
 
 void Projectile::update(const uint8_t *keys)

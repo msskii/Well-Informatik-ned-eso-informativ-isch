@@ -32,10 +32,14 @@ extern GLuint compileShader(const char *path, GLenum shaderType);
 extern GLuint createShader(const char *vert, const char *frag);
 
 extern void setupGL();
+extern void setScreenSize(int w, int h);
 extern gl_texture getTexture(SDL_Surface *surface);
 extern void deleteTexture(gl_texture texture);
+
+extern void renderWithRotation(gl_texture, SDL_Rect src, SDL_Rect dst, float rotationAngle, bool enabledShading);
 extern void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst);
 extern void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst);
+
 extern void fillRect(uint32_t col, SDL_Rect src);
 extern void drawRect(uint32_t col, SDL_Rect src);
 

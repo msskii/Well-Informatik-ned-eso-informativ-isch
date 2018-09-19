@@ -29,6 +29,7 @@ float *verticies = new float[8]; // The verticies on the screen
 
 GLuint uvBuffer = 0, uvBufferFull, vboID = 0, iboID = 0; // The different buffer objects
 GLuint light_shader, const_shader, color_shader; // The shaders
+GLuint light_shader_rotation, const_shader_rotation; // The shaders which enable textures to be rotated
 
 GLuint compileShader(const char *path, GLenum shaderType)
 {
@@ -59,8 +60,8 @@ GLuint compileShader(const char *path, GLenum shaderType)
 
 GLuint createShader(const char* vertPath, const char* fragPath)
 {
-    GLuint vert = compileShader(GET_FILE_PATH(LEVEL_PATH, vertPath), GL_VERTEX_SHADER);
-    GLuint frag = compileShader(GET_FILE_PATH(LEVEL_PATH, fragPath), GL_FRAGMENT_SHADER);
+    GLuint vert = compileShader(GET_FILE_PATH(LEVEL_PATH, "shaders/" + vertPath), GL_VERTEX_SHADER);
+    GLuint frag = compileShader(GET_FILE_PATH(LEVEL_PATH, "shaders/" + fragPath), GL_FRAGMENT_SHADER);
     GLuint shaderProgramID = glCreateProgram();
     
     glAttachShader(shaderProgramID, vert);
@@ -98,6 +99,15 @@ void deleteTexture(gl_texture texture)
     glDeleteTextures(1, &texture.id);
 }
 
+void setScreenSize(int w, int h)
+{
+    glViewport(0, 0, w, h);
+    glUseProgram(const_shader_rotation);
+    glUniform2f(glGetUniformLocation(const_shader_rotation, "screenSize"), (float) w, (float) h);
+    glUseProgram(light_shader_rotation);
+    glUniform2f(glGetUniformLocation(light_shader_rotation, "screenSize"), (float) w, (float) h);
+}
+
 void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
 {
     verticies[0]  = (float)((dst.x) / (GAME_WIDTH / 2.0f) - 1.0f); // upper left x transformed to -1 to 1
@@ -112,7 +122,7 @@ void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
     glUseProgram(shader);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-
+    
     if(src.w != 0 && src.h != 0)
     {
         texture_uvs[0] = ((float) src.x) / ((float) texture.width); // top left
@@ -152,6 +162,14 @@ void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
     glUseProgram(0);
 }
 
+void renderWithRotation(gl_texture texture, SDL_Rect src, SDL_Rect dst, float rotationAngle, bool enabledShading)
+{
+    GLuint shader = enabledShading ? light_shader_rotation : const_shader_rotation;
+    glUseProgram(shader);
+    glUniform3f(glGetUniformLocation(shader, "rotation"), (float)((dst.x + dst.w / 2.0f) / (GAME_WIDTH / 2.0f) - 1.0f), -(float)((dst.y + dst.h / 2.0f) / (GAME_HEIGHT / 2.0f) - 1.0f), rotationAngle);
+    render(texture, src, dst, shader);
+}
+
 void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
 {
     render(texture, src, dst, const_shader);
@@ -175,6 +193,9 @@ void setupGL()
     const_shader = createShader("shader_const.vert", "shader_const.frag");
     color_shader = createShader("shader_color.vert", "shader_color.frag");
 
+    light_shader_rotation = createShader("shader_light_rotation.vert", "shader_light_rotation.frag");
+    const_shader_rotation = createShader("shader_const_rotation.vert", "shader_const_rotation.frag");
+    
     glGenBuffers(1, &uvBuffer);
     glGenBuffers(1, &vboID);
     
@@ -204,7 +225,6 @@ void fillRect(uint32_t col, SDL_Rect dst)
     glBindBuffer(GL_ARRAY_BUFFER, vboID);
     glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), verticies, GL_STREAM_DRAW);
     glUniform4f(glGetUniformLocation(color_shader, "color"), (col >> 24) & 0xFF, (col >> 16) & 0xFF, (col >> 8) & 0xFF, (col >> 0) & 0xFF);
-    
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);

@@ -184,6 +184,7 @@ void Window::runGameLoop()
     
     // Init gl
     setupGL();
+    setScreenSize(width, height);
         
     openMenu(new LightOverlay());
     
@@ -216,6 +217,7 @@ void Window::runGameLoop()
 				else if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
 					SDL_GetWindowSize(window, &width, &height);
+                    setScreenSize(width, height);
 					SCALE_X = (float)width / (float)GAME_WIDTH;
 					SCALE_Y = (float)height / (float)GAME_HEIGHT;
 				}
