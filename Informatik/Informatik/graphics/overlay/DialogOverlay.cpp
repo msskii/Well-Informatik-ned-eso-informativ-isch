@@ -59,9 +59,6 @@ void DialogOverlay::updateMenu(const uint8_t *keys)
     }
 }
 
-void DialogOverlay::drawOverlay() {}
-
-
 void DialogOverlay::onOpen()
 {
     

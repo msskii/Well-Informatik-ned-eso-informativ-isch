@@ -24,7 +24,6 @@ public:
     
     bool shouldWindowClose() override;
     void renderMenu() override;
-    void drawOverlay() override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
     void onClose() override;

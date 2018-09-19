@@ -5,5 +5,5 @@ out vec4 color;
 
 void main()
 {
-    color = col.abgr;
+    color = col.abgr / 255.0f;
 }

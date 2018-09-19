@@ -71,6 +71,5 @@ void DebugOverlay::updateMenu(const uint8_t *keys)
     if(eventIdCounter >= (int)level->events.size()) eventIdCounter = (int) level->events.size() - 1;
 }
 
-void DebugOverlay::drawOverlay() {}
 void DebugOverlay::onOpen(){}
 void DebugOverlay::onClose(){}

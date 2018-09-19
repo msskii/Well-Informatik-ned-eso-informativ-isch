@@ -55,7 +55,6 @@ void PauseMenu::renderMenu()
     fillRect(0x55FFFFFF, r);
 }
 
-void PauseMenu::drawOverlay() {}
 void PauseMenu::updateMenu(const uint8_t *keys) { if(keys[SDL_SCANCODE_SPACE]) close(); }
 void PauseMenu::onOpen() {}
 void PauseMenu::onClose() {}

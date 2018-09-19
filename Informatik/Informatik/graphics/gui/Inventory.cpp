@@ -11,7 +11,6 @@
 Inventory::Inventory(Player *p) : player(p)
 {
     background_surface = IMG_Load(GET_TEXTURE_PATH("/backgrounds/testback"));
-    //texture = getTexture(background_surface);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -29,11 +28,16 @@ void Inventory::drawOverlay()
     renderWithoutShading(selected->renderItem.item->texture, {}, r);
 }
 
-void Inventory::renderMenu()
+void Inventory::drawBackground()
 {
     // Set to white...
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Inventory::renderMenu()
+{
+    
 }
 
 void Inventory::updateMenu(const uint8_t *keys)
@@ -47,7 +51,6 @@ void Inventory::updateMenu(const uint8_t *keys)
 void Inventory::onOpen() {}
 void Inventory::onClose()
 {
-    window->paused = false;
     if(selected != nullptr)
     {
         // Place selected item in correct spot

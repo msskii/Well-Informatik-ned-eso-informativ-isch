@@ -47,8 +47,6 @@ void LightOverlay::renderMenu()
     glUseProgram(0);
 }
 
-void LightOverlay::drawOverlay() {}
-
 void LightOverlay::updateMenu(const uint8_t *keys)
 {
     

@@ -15,6 +15,8 @@ Menu::~Menu()
 
 void Menu::render(const uint8_t *keys)
 {
+    drawBackground(); // Draw background (behind back-texture)
+    
     if(background_surface != nullptr && background_texture.id == 0) background_texture = getTexture(background_surface);
     if(background_texture.id != 0) renderWithoutShading(background_texture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
@@ -99,3 +101,6 @@ void Menu::close()
     menuShouldBeClosed = true;
     // On close will be called from the window
 }
+
+void Menu::drawOverlay() {}
+void Menu::drawBackground() {}

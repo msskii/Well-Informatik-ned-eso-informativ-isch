@@ -13,6 +13,7 @@ Explosion::Explosion(float x, float y, float explosionStrength) : Projectile(x, 
 {
     maxRadius = explosionStrength;
     surface = IMG_Load(GET_TEXTURE_PATH("projectiles/flame_anim")); // Same as other arrow
+    texture = getTexture(surface);
     velocity = {0, 0};
     // despawnTimer = 60 * 1000;
     max_anim = 10; // 10 animations

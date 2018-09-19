@@ -60,7 +60,7 @@ public:
     uint64_t lastTime = time(NULL);
     
     bool running = false;
-    bool paused = false;
+    //bool paused = false;
 public:
     
     Window();

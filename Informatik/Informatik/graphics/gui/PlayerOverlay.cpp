@@ -55,7 +55,6 @@ void PlayerOverlay::renderMenu()
     transition = false;
 }
 
-void PlayerOverlay::drawOverlay() {}
 void PlayerOverlay::updateMenu(const uint8_t *keys) {}
 void PlayerOverlay::onOpen(){}
 void PlayerOverlay::onClose() {}
