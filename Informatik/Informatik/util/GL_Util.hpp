@@ -14,7 +14,10 @@
 #  include <SDL2/SDL_opengl.h>
 #  include <SDL2/SDL.h>
 #else
-// TODO...
+#  include "../glew/GL/glew.h"
+#  include <gl/GL.h>
+#  include <SDL.h>
+#  include <SDL_opengl.h>
 #endif
 
 #include "FileReader.hpp"

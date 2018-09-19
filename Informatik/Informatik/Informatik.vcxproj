@@ -71,19 +71,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(SolutionDir)..\SDL2\lib\x86;$(SolutionDir)..\SDL2_ttf\lib\x86;$(SolutionDir)..\SDL2_net\lib\x86;$(SolutionDir)..\SDL2_mixer\lib\x86;$(SolutionDir)..\SDL2_image\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(SolutionDir)Informatik\glew;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SolutionDir)..\SDL2\lib\x86;$(SolutionDir)..\SDL2_ttf\lib\x86;$(SolutionDir)..\SDL2_net\lib\x86;$(SolutionDir)..\SDL2_mixer\lib\x86;$(SolutionDir)..\SDL2_image\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(SolutionDir)Informatik\glew;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(SolutionDir)..\SDL2\lib\x64;$(SolutionDir)..\SDL2_ttf\lib\x64;$(SolutionDir)..\SDL2_net\lib\x64;$(SolutionDir)..\SDL2_mixer\lib\x64;$(SolutionDir)..\SDL2_image\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(SolutionDir)Informatik\glew;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>$(SolutionDir)..\SDL2\lib\x64;$(SolutionDir)..\SDL2_ttf\lib\x64;$(SolutionDir)..\SDL2_net\lib\x64;$(SolutionDir)..\SDL2_mixer\lib\x64;$(SolutionDir)..\SDL2_image\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(SolutionDir)Informatik\glew;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -94,8 +94,9 @@
       <AdditionalIncludeDirectories>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,8 +108,9 @@
       <AdditionalIncludeDirectories>$(SolutionDir)..\SDL2\include;$(SolutionDir)..\SDL2_ttf\include;$(SolutionDir)..\SDL2_net\include;$(SolutionDir)..\SDL2_mixer\include;$(SolutionDir)..\SDL2_image\include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -124,8 +126,9 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,8 +144,9 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -154,6 +158,12 @@
     <ClCompile Include="entity\loader\NPCLoader.cpp" />
     <ClCompile Include="entity\NPC.cpp" />
     <ClCompile Include="entity\Player.cpp" />
+    <ClCompile Include="glew\glew.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
     <ClCompile Include="graphics\gui\Inventory.cpp" />
     <ClCompile Include="graphics\gui\ItemSlot.cpp" />
     <ClCompile Include="graphics\gui\PlayerOverlay.cpp" />
@@ -168,12 +178,14 @@
     <ClCompile Include="graphics\overlay\elements\Slider.cpp" />
     <ClCompile Include="graphics\overlay\elements\Text.cpp" />
     <ClCompile Include="graphics\overlay\elements\TextBox.cpp" />
+    <ClCompile Include="graphics\overlay\LightOverlay.cpp" />
     <ClCompile Include="graphics\overlay\MainMenu.cpp" />
     <ClCompile Include="graphics\overlay\Menu.cpp" />
     <ClCompile Include="graphics\overlay\PauseMenu.cpp" />
     <ClCompile Include="graphics\Window.cpp" />
     <ClCompile Include="items\EntityItem.cpp" />
     <ClCompile Include="items\Item.cpp" />
+    <ClCompile Include="level\Building.cpp" />
     <ClCompile Include="level\Event.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\loader\EventActions.cpp" />
@@ -187,9 +199,11 @@
     <ClCompile Include="multiplayer\Server.cpp" />
     <ClCompile Include="multiplayer\ServerSelector.cpp" />
     <ClCompile Include="projectile\ExplodingProjectile.cpp" />
+    <ClCompile Include="projectile\Explosion.cpp" />
     <ClCompile Include="projectile\Projectile.cpp" />
     <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
+    <ClCompile Include="util\GL_Util.cpp" />
     <ClCompile Include="util\Math_Util.cpp" />
     <ClCompile Include="util\SDL_Util.cpp" />
     <ClCompile Include="util\Tile_Util.cpp" />
@@ -205,6 +219,10 @@
     <ClInclude Include="entity\NPC.h" />
     <ClInclude Include="entity\NPC.hpp" />
     <ClInclude Include="entity\Player.hpp" />
+    <ClInclude Include="glew\GL\eglew.h" />
+    <ClInclude Include="glew\GL\glew.h" />
+    <ClInclude Include="glew\GL\glxew.h" />
+    <ClInclude Include="glew\GL\wglew.h" />
     <ClInclude Include="graphics\gui\Inventory.hpp" />
     <ClInclude Include="graphics\gui\ItemSlot.hpp" />
     <ClInclude Include="graphics\gui\PlayerOverlay.hpp" />
@@ -220,12 +238,14 @@
     <ClInclude Include="graphics\overlay\elements\Slider.hpp" />
     <ClInclude Include="graphics\overlay\elements\Text.hpp" />
     <ClInclude Include="graphics\overlay\elements\TextBox.hpp" />
+    <ClInclude Include="graphics\overlay\LightOverlay.hpp" />
     <ClInclude Include="graphics\overlay\MainMenu.hpp" />
     <ClInclude Include="graphics\overlay\Menu.hpp" />
     <ClInclude Include="graphics\overlay\PauseMenu.hpp" />
     <ClInclude Include="graphics\Window.hpp" />
     <ClInclude Include="items\EntityItem.hpp" />
     <ClInclude Include="items\Item.hpp" />
+    <ClInclude Include="level\Building.hpp" />
     <ClInclude Include="level\Event.hpp" />
     <ClInclude Include="level\Level.hpp" />
     <ClInclude Include="level\loader\EventActions.hpp" />
@@ -239,9 +259,11 @@
     <ClInclude Include="multiplayer\Server.hpp" />
     <ClInclude Include="multiplayer\ServerSelector.hpp" />
     <ClInclude Include="projectile\ExplodingProjectile.hpp" />
+    <ClInclude Include="projectile\Explosion.hpp" />
     <ClInclude Include="projectile\Projectile.hpp" />
     <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
+    <ClInclude Include="util\GL_Util.hpp" />
     <ClInclude Include="util\Logger.hpp" />
     <ClInclude Include="util\Math_Util.hpp" />
     <ClInclude Include="util\SDL_Util.hpp" />

@@ -7,7 +7,7 @@
 //
 
 #include "Entity.hpp"
-#include "Level.hpp"
+#include "../level/Level.hpp"
 
 void Entity::addedToLevel(Level *l)
 {

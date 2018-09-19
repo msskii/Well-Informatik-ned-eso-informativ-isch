@@ -20,16 +20,15 @@ Building::Building(int x, int y, uint16_t buildingNumber): data({buildingNumber,
             data.sizeY = 5;
             data.hitboxsizeX = 6;
             data.hitboxsizeY = 3;
-            data.hitboxX = data.xcoord;
-            data.hitboxY = data.ycoord + 1.5;
+            data.hitboxX = (float) data.xcoord;
+            data.hitboxY = data.ycoord + 1.5f;
             
-            data.hitboxXBehind = data.xcoord - 1;
-            data.hitboxYBehind = data.ycoord - 1;
-            data.hitboxsizeXBehind = 8;
-            data.hitboxsizeYBehind = 5.4;
+            data.hitboxXBehind = data.xcoord - 1.0f;
+            data.hitboxYBehind = data.ycoord - 1.0f;
+            data.hitboxsizeXBehind = 8.0f;
+            data.hitboxsizeYBehind = 5.4f;
             
             data.textureOffsetX = -1;
-            
             
             break;
             

@@ -78,8 +78,11 @@ GLuint createShader(const char* vertPath, const char* fragPath)
     return shaderProgramID;
 }
 
-gl_texture getTexture(SDL_Surface *surface)
+gl_texture getTexture(SDL_Surface *srfc)
 {
+	SDL_Surface *surface = SDL_CreateRGBSurfaceWithFormat(0, srfc->w, srfc->h, 32, SDL_PIXELFORMAT_ARGB8888);
+	SDL_BlitSurface(srfc, NULL, surface, NULL);
+
     gl_texture tex;
         
     glGenTextures(1, &tex.id);
@@ -172,7 +175,7 @@ void renderWithRotation(gl_texture texture, SDL_Rect src, SDL_Rect dst, float ro
 
 void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
 {
-    render(texture, src, dst, const_shader);
+    render(texture, src, dst, light_shader);
 }
 
 void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
@@ -224,7 +227,7 @@ void fillRect(uint32_t col, SDL_Rect dst)
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vboID);
     glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), verticies, GL_STREAM_DRAW);
-    glUniform4f(glGetUniformLocation(color_shader, "color"), (col >> 24) & 0xFF, (col >> 16) & 0xFF, (col >> 8) & 0xFF, (col >> 0) & 0xFF);
+    glUniform4f(glGetUniformLocation(color_shader, "color"), (float) ((col >> 24) & 0xFF), (float) ((col >> 16) & 0xFF), (float) ((col >> 8) & 0xFF), (float) ((col >> 0) & 0xFF));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
