@@ -7,5 +7,5 @@ in vec2 uv;
 
 void main()
 {
-    col = texture(texture_sampler, vec2(uv.x, uv.y)).bgra;
+    col = texture(texture_sampler, uv).bgra;
 }
