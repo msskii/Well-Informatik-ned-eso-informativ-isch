@@ -47,11 +47,10 @@ DebugOverlay::DebugOverlay(Level *l) : level(l)
 
 bool DebugOverlay::shouldWindowClose() {return false;}
 
-void DebugOverlay::renderMenu(SDL_Renderer *renderer)
+void DebugOverlay::renderMenu()
 {
-    COLOR(renderer, 0x77FFFFFF);
     SDL_Rect r = {GAME_WIDTH - 500, 0, 500, GAME_HEIGHT};
-    SDL_RenderFillRect(renderer, &r);
+    fillRect(0x77FFFFFF, r);
 }
 
 void DebugOverlay::updateMenu(const uint8_t *keys)
@@ -72,6 +71,6 @@ void DebugOverlay::updateMenu(const uint8_t *keys)
     if(eventIdCounter >= (int)level->events.size()) eventIdCounter = (int) level->events.size() - 1;
 }
 
-void DebugOverlay::drawOverlay(SDL_Renderer *renderer) {}
+void DebugOverlay::drawOverlay() {}
 void DebugOverlay::onOpen(){}
 void DebugOverlay::onClose(){}

@@ -25,12 +25,11 @@ typedef struct TileData
 class Tile
 {
 private:
-    gl_texture texture;
     
-    int xcoord, ycoord;
     char brightness_modifier = 0;
     
 public:
+    int xcoord, ycoord;
     SDL_Surface *Tile_surface = nullptr;
 
     Tile();
@@ -40,7 +39,6 @@ public:
     Tile(int x, int y, TileData data);
 
     void reloadTexture();
-    void render(int xoff, int yoff);
 };
 
 #endif /* Tile_hpp */

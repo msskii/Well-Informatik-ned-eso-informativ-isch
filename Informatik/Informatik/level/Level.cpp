@@ -104,8 +104,8 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
     for(int i = 0; i < width * height; i++)
     {
-        dst.x = (i % width) * TILE_SIZE;
-        dst.y = (i / width) * TILE_SIZE;
+        dst.x = (tiles[i].xcoord) * TILE_SIZE;
+        dst.y = (tiles[i].ycoord) * TILE_SIZE;
         if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
         {
             printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
@@ -147,19 +147,18 @@ void Level::render() // and update
 {
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
+
+    renderWithShading(level_texture, {-xoffset, -yoffset, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
-    renderWithShading(level_texture, {}, {xoffset, yoffset, level_texture.width, level_texture.height});
-    
-    //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
+    //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
     for(int i = 0; i < (int) entities.size(); i++)
     {
         for(int i = 0; i < buildingCount; i++)
         {
-            buildings[i].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos) ? entities[i]->isBehind = true : entities[i]->isBehind = false;
-            buildings[i].isBehind(player->x_pos, player->y_pos) ? player->isBehind = true : player->isBehind = false;
-            
+            entities[i]->isBehind = buildings[i].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
+            player->isBehind = buildings[i].isBehind(player->x_pos, player->y_pos);
         }
-        if (entities[i]->isBehind == true)
+        if (entities[i]->isBehind)
         {
             entities[i]->render(xoffset, yoffset);
         }
@@ -185,6 +184,7 @@ void Level::render() // and update
 		clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
 	}
 #endif
+    
     //rendering Buildings
     for(int i = 0; i < buildingCount; i++)
     {

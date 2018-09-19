@@ -18,11 +18,10 @@ ItemSlot::ItemSlot(InventoryElement element) : renderItem(element)
     h = INV_GRID_SIZE;
 }
 
-void ItemSlot::render(SDL_Renderer *renderer)
+void ItemSlot::render()
 {
     SDL_Rect bck = {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER};
-    COLOR(renderer, hoverOver ? 0xFFAAAAAA : 0xFFFFFFFF);
-    SDL_RenderFillRect(renderer, &bck);
+    fillRect(hoverOver ? 0xFFAAAAAA : 0xFFFFFFFF, bck);
     
     if(renderItem.item == nullptr || this == ((Inventory*) menu)->selected) return;
 
@@ -30,16 +29,8 @@ void ItemSlot::render(SDL_Renderer *renderer)
     //SDL_RenderCopy(renderer, renderItem.item->texture, NULL, &dst);
     renderWithoutShading(renderItem.item->texture, {}, dst);
     
-    if(texture.texture == nullptr || needsUpdate)
-    {
-        drawTextAspect(renderer, std::to_string(renderItem.amountItems).c_str(), 0xFF000000, x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, texture);
-        needsUpdate = false;
-    }
-    else
-    {
-        SDL_Rect r = {x + INV_GRID_BORDER, y + INV_GRID_BORDER, texture.textwidth, texture.textheight};
-        SDL_RenderCopy(renderer, texture.texture, NULL, &r);
-    }
+    drawTextAspect(std::to_string(renderItem.amountItems).c_str(), 0xFF000000, {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER}, texture, needsUpdate);
+    needsUpdate = false;
 }
 
 void ItemSlot::processEvent(Menu *menu, SDL_Event e)

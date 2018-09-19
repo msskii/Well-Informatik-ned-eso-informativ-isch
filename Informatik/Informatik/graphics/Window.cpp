@@ -29,11 +29,16 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
     
+    width = loader->getInt("screen.width");
+    height = loader->getInt("screen.height");
+    SCALE_X = (float)width / (float)GAME_WIDTH;
+    SCALE_Y = (float)height / (float)GAME_HEIGHT;
+    
     // Create window
 #ifdef FULLSCREEN_ENABLED
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 #else
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 #endif
     
     context = SDL_GL_CreateContext(window);
@@ -74,15 +79,8 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Set up level
     level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
     
-    // Set up scaling
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    SCALE_X = (float) w / (float) GAME_WIDTH;
-    SCALE_Y = (float) h / (float) GAME_HEIGHT;
-    SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
-    
     // Reload elements of the menu
-    reloadElementTextures(renderer);
+    reloadElementTextures();
     
     // Set up keystates & level
     keyStates = SDL_GetKeyboardState(NULL);
@@ -150,7 +148,7 @@ void Window::openMenu(Menu *m)
     m->open(this);
 }
 
-void Window::render(SDL_Renderer *renderer)
+void Window::render()
 {
     if(toUpdate) level->render(); // Render level, but don't update
     
@@ -161,7 +159,8 @@ void Window::render(SDL_Renderer *renderer)
             if(i != 0) menus[menus.size() - 1]->active = true;
             menus[i]->onClose();
             menus.erase(menus.begin() + i);
-        } else menus[i]->render(renderer, keyStates);
+        }
+        else menus[i]->render(keyStates);
     }
 }
 
@@ -216,11 +215,9 @@ void Window::runGameLoop()
                 if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
 				else if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
-					int w, h;
-					SDL_GetWindowSize(window, &w, &h);
-					SCALE_X = (float)w / (float)GAME_WIDTH;
-					SCALE_Y = (float)h / (float)GAME_HEIGHT;
-					SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+					SDL_GetWindowSize(window, &width, &height);
+					SCALE_X = (float)width / (float)GAME_WIDTH;
+					SCALE_Y = (float)height / (float)GAME_HEIGHT;
 				}
             }
             else if(e.type == SDL_QUIT) exitGame(this); // Just close the whole thing...
@@ -255,17 +252,15 @@ void Window::runGameLoop()
             }
         }
         
+        // Set black as background
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
-        SDL_RenderClear(renderer); // Everything black
         
         // Update & render
         toUpdate = true;
         for(int i = 0; i < (int) menus.size(); i++) if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
         if(toUpdate) update();
-        render(renderer);
+        render();
         
         GLenum err = glGetError();
         if(err != GL_NO_ERROR)
@@ -293,7 +288,6 @@ void exitGame(Window *window)
     Loader::LevelLoader loader(window->level);
     loader.saveFile(window->level->levelFile.c_str());
     
-    SDL_DestroyRenderer(window->renderer);
     SDL_DestroyWindow(window->window);
     SDL_Quit();
         

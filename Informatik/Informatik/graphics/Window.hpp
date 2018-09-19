@@ -44,9 +44,8 @@ class Window
 {
 public:
     SDL_Window *window;
-    SDL_Surface *render_surface = nullptr;
-    SDL_Renderer *renderer;
     SDL_GLContext context;
+    int width = WINDOW_WIDTH, height = WINDOW_HEIGHT;
     const uint8_t *keyStates;
     
     ConfigLoader *loader = nullptr;
@@ -71,7 +70,7 @@ public:
     void openMenu(Menu *menu);
     
     void update();
-    void render(SDL_Renderer *renderer);
+    void render();
     
     void reloadConfig();
     

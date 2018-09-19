@@ -31,7 +31,7 @@ public:
     TextBox(const char *defaultText, int x, int y, int w, int h, int id);
     std::string currentText;
 
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 

@@ -3,7 +3,7 @@
 //  Informatik
 //
 //  Created by Aaron Hodel on 22.08.18.
-//  Copyright © 2018 Aaron Hodel. All rights reserved.
+//  Copyright ï¿½ 2018 Aaron Hodel. All rights reserved.
 //
 
 #ifndef ServerSelector_hpp
@@ -22,7 +22,7 @@ namespace Multiplayer
 		ServerSelector(Menu *mainMenu);
 
 		bool shouldWindowClose() override;
-		void renderMenu(SDL_Renderer *renderer) override;
+		void renderMenu() override;
 		void updateMenu(const uint8_t *keys) override;
 		void onOpen() override;
 		void onClose() override;

@@ -9,7 +9,14 @@
 #ifndef GL_Util_hpp
 #define GL_Util_hpp
 
-#include "SDL_Util.hpp"
+#ifdef __APPLE__
+#  include <GL/glew.h>
+#  include <SDL2/SDL_opengl.h>
+#  include <SDL2/SDL.h>
+#else
+// TODO...
+#endif
+
 #include "FileReader.hpp"
 #include "../config.h"
 

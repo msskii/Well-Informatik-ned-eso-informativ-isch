@@ -13,13 +13,13 @@ Menu::~Menu()
     
 }
 
-void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
+void Menu::render(const uint8_t *keys)
 {
     if(background_surface != nullptr && background_texture.id == 0) background_texture = getTexture(background_surface);
     if(background_texture.id != 0) renderWithoutShading(background_texture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
-    renderMenu(renderer);
-    for(int i = 0; i < (int) elements.size(); i++) elements[i]->render(renderer);
+    renderMenu(); // Render menu (background stuff)
+    for(int i = 0; i < (int) elements.size(); i++) elements[i]->render(); // Render elements of the menu
 
     if(active)
     {
@@ -27,7 +27,7 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
     }
     else if(under != nullptr)
     {
-        under->render(renderer, keys); // Forward rendering process to submenu
+        under->render(keys); // Forward rendering process to submenu
 		if (under == nullptr) return; // Closed in render function
 
         if(under->shouldWindowClose() || under->menuShouldBeClosed)
@@ -44,7 +44,7 @@ void Menu::render(SDL_Renderer *renderer, const uint8_t *keys)
         active = true;
     }
     
-    drawOverlay(renderer);
+    drawOverlay(); // The the foreground
 }
 
 void Menu::updateElements(SDL_Event e)

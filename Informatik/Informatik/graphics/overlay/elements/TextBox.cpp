@@ -21,22 +21,14 @@ TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h, int id
     currentIndex = selectionStart;
 }
 
-void TextBox::render(SDL_Renderer *renderer)
+void TextBox::render()
 {
     SDL_Rect dst = {x, y, w, h};
     // SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
     renderWithoutShading(gl_textures[TEXTBOX], {}, dst);
-    if(lastTexture.texture == nullptr || changed)
-    {
-        usedScale = drawTextAspect(renderer, currentText.c_str(), 0xFF000000, x, y, w, h, lastTexture);
-        changed = false;
-    }
-    else
-    {
-        dst.w = lastTexture.textwidth;
-        dst.h = lastTexture.textheight;
-        SDL_RenderCopy(renderer, lastTexture.texture, NULL, &dst);
-    }
+    
+    drawTextAspect(currentText.c_str(), 0xFF000000, dst, lastTexture, changed);
+    changed = false;
     
     // cursor is after last character --> measure string till
     int tw, th;
@@ -45,11 +37,10 @@ void TextBox::render(SDL_Renderer *renderer)
     TTF_SizeText(font, currentText.substr(0, selectionStart).c_str(), &tw, &th);
     int selectionWidth = (int)((float) tw / SCALE_X * usedScale);
     
-    COLOR(renderer, 0xAF00FFFF);
     SDL_Rect selection;
     if(selectionStart < currentIndex) selection = {x + selectionWidth, y, realWidth - selectionWidth, h};
     else selection = {x + realWidth, y, selectionWidth - realWidth, h};
-    SDL_RenderFillRect(renderer, &selection);
+    fillRect(0xAF00FFFF, selection);
     
     if(!focus)
     {
@@ -57,9 +48,8 @@ void TextBox::render(SDL_Renderer *renderer)
         return;
     }
     
-    COLOR(renderer, 0xFF000000);
     SDL_Rect r = {x + realWidth, y, (int)(5.0 / SCALE_X), h};
-    SDL_RenderFillRect(renderer, &r);
+    fillRect(0xFF000000, r);
 }
 
 void TextBox::processEvent(Menu *menu, SDL_Event e)

@@ -45,7 +45,7 @@ public:
     void addOption(int index, const char *text);
     
     inline void setCallback(dropdownCallback c) { clbck = c; }
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 

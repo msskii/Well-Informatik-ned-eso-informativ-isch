@@ -51,7 +51,7 @@ public:
         return nullptr;
     }
     
-    void render(SDL_Renderer *renderer, const uint8_t *keys);
+    void render(const uint8_t *keys);
     void openSubMenu(Menu *menu);
     void open(Window *window);
     void close();
@@ -59,8 +59,8 @@ public:
     
     // Functions to override
     virtual bool shouldWindowClose() = 0;
-    virtual void renderMenu(SDL_Renderer *renderer) = 0; // Render background of menu
-    virtual void drawOverlay(SDL_Renderer *renderer) = 0;
+    virtual void renderMenu() = 0; // Render background of menu
+    virtual void drawOverlay() = 0;
     virtual void updateMenu(const uint8_t *keys) = 0;
     virtual void onOpen() = 0;
     virtual void onClose() = 0;

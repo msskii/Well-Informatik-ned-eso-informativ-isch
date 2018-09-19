@@ -9,11 +9,10 @@ Multiplayer::ServerSelector::ServerSelector(Menu *mainMenu)
 
 bool Multiplayer::ServerSelector::shouldWindowClose() { return false; }
 
-void Multiplayer::ServerSelector::renderMenu(SDL_Renderer *renderer) 
+void Multiplayer::ServerSelector::renderMenu()
 {
 	SDL_Rect r = {0, 0, 500, 100};
-	COLOR(renderer, 0xFFFFFFFF);
-	SDL_RenderFillRect(renderer, &r);
+    fillRect(0xFFFFFFFF, r);
 }
 
 void Multiplayer::ServerSelector::updateMenu(const uint8_t *keys) 

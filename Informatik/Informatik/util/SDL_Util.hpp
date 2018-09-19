@@ -17,9 +17,6 @@
 #  include <SDL2_net/SDL_net.h>
 #  include <SDL2_mixer/SDL_mixer.h>
 #  include <SDL2_image/SDL_image.h>
-
-#  include <GL/glew.h>
-#  include <SDL2/SDL_opengl.h>
 #else
 #  include <SDL.h>
 #  include <SDL_ttf.h>
@@ -31,16 +28,6 @@
 #include <string>
 #include "Logger.hpp"
 
-
-#define TEXTURE_PATH std::string("assets/textures/")
-#define FONT_PATH std::string("assets/fonts/")
-#define LEVEL_PATH std::string("assets/data/")
-#define AUDIO_PATH std::string("assets/audio/")
-
-#define GET_VARIANT_PATH(texture_name, variant_num) (TEXTURE_PATH + texture_name + std::to_string(variant_num) + ".png").c_str()
-#define GET_TEXTURE_PATH(texture_name) (TEXTURE_PATH + texture_name + ".png").c_str()
-#define GET_FILE_PATH(initpath, filename) (initpath + filename).c_str()
-
 #define COLOR(r, col) SDL_SetRenderDrawColor(r, ((col) >> 16) & 0xFF, ((col) >> 8) & 0xFF, (col) & 0xFF, ((col) >> 24) & 0xFF)
 #define TO_COLOR(col) SDL_Color({ (uint8_t) ((col) >> 16), (uint8_t) ((col) >> 8), (uint8_t) (col), (uint8_t) ((col) >> 24) })
 
@@ -49,17 +36,28 @@
 extern TTF_Font *font;
 extern float SCALE_X, SCALE_Y;
 
+/**
 typedef struct cachedTexture
 {
     SDL_Texture *texture = nullptr;
     int textwidth, textheight;
-} cachedTexture;
+} cachedTexture;*/
 
 #include "GL_Util.hpp"
 
-extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y);
-extern float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture); // Keep aspect ratio
-extern float drawTextCentered(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture); // Keep aspect ratio & center to the width
+typedef struct cachedTexture
+{
+    GLuint id = 0;
+    int width = 0, height = 0;
+    float scale = 0.0f;
+    
+    inline gl_texture getGL() { return gl_texture({width, height, id}); }
+} cachedTexture;
+
+extern void deleteTexture(cachedTexture &texture);
+
+extern float drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate); // Keep aspect ratio
+extern float drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate); // Keep aspect ratio & center to the width
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
 
 

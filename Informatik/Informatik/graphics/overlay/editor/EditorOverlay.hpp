@@ -24,7 +24,7 @@ public:
 
     EditorClickHandler();
     
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 
@@ -38,8 +38,8 @@ public:
     EditorOverlay();
     
     bool shouldWindowClose() override;
-    void renderMenu(SDL_Renderer *renderer) override;
-    void drawOverlay(SDL_Renderer *renderer) override;
+    void renderMenu() override;
+    void drawOverlay() override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
     void onClose() override;

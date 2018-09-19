@@ -15,7 +15,7 @@ class PlayerOverlay : public Menu
 {
 private:
     SDL_Surface *backsurface, *hpbarsurface, *hpbartransparentsurface;
-    SDL_Texture *backtexture = nullptr, *hpbartexture = nullptr, *hpbartransparenttexture = nullptr;
+    gl_texture backtexture, hpbartexture, hpbartransparenttexture;
     cachedTexture cachedHealth;
     float lastHealth = 0.0f;
     int lastState = 0;
@@ -26,8 +26,8 @@ public:
     Player *player;
     
     bool shouldWindowClose() override;
-    void renderMenu(SDL_Renderer *renderer) override;
-    void drawOverlay(SDL_Renderer *renderer) override;
+    void renderMenu() override;
+    void drawOverlay() override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
     void onClose() override;

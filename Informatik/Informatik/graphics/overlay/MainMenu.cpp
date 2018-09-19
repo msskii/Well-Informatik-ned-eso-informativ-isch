@@ -79,11 +79,10 @@ bool MainMenu::shouldWindowClose()
     return gameStart;
 }
 
-void MainMenu::renderMenu(SDL_Renderer *renderer)
+void MainMenu::renderMenu()
 {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-    SDL_RenderClear(renderer);
-    
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
     fillRect(0xFFFF00FF, {0, 0, 10, 10});
 }
 
@@ -92,7 +91,7 @@ void MainMenu::updateMenu(const uint8_t *keys)
     if(keys[SDL_SCANCODE_SPACE]) gameStart = true;
 }
 
-void MainMenu::drawOverlay(SDL_Renderer *renderer) {}
+void MainMenu::drawOverlay() {}
 
 void MainMenu::onOpen()
 {

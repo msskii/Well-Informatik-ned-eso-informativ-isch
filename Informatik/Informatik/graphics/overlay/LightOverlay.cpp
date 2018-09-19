@@ -17,7 +17,7 @@ LightOverlay::LightOverlay()
 
 bool LightOverlay::shouldWindowClose() { return false; }
 
-void LightOverlay::renderMenu(SDL_Renderer *renderer)
+void LightOverlay::renderMenu()
 {    
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -47,7 +47,7 @@ void LightOverlay::renderMenu(SDL_Renderer *renderer)
     glUseProgram(0);
 }
 
-void LightOverlay::drawOverlay(SDL_Renderer *renderer) {}
+void LightOverlay::drawOverlay() {}
 
 void LightOverlay::updateMenu(const uint8_t *keys)
 {

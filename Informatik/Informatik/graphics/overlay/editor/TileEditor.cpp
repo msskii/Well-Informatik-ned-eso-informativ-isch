@@ -53,15 +53,13 @@ void TileEditor::switchSide()
 
 bool TileEditor::shouldWindowClose() { return false; }
 
-void TileEditor::renderMenu(SDL_Renderer *renderer)
+void TileEditor::renderMenu()
 {
     SDL_Rect dst = { (int)(tileID % window->level->width) * TILE_SIZE - PLAYER_OFFSET_X + window->level->player->getOffsetX(), (int)(tileID / window->level->width) * TILE_SIZE , TILE_SIZE, TILE_SIZE };
-    COLOR(renderer, 0xAFFF0000);
-    SDL_RenderFillRect(renderer, &dst);
+    fillRect(0xAFFF0000, dst);
     
     SDL_Rect background = {isOnLeftSide ? 0 : GAME_WIDTH - 500, 0, 500, GAME_HEIGHT};
-    COLOR(renderer, 0x55FFFFFF);
-    SDL_RenderFillRect(renderer, &background);
+    fillRect(0x55FFFFFF, background);
 }
 
 void TileEditor::updateMenu(const uint8_t *keys)
@@ -81,7 +79,7 @@ void TileEditor::updateMenu(const uint8_t *keys)
     } else jpressed = false;
 }
 
-void TileEditor::drawOverlay(SDL_Renderer *renderer) {}
+void TileEditor::drawOverlay() {}
 void TileEditor::onOpen() {}
 
 void TileEditor::onClose()

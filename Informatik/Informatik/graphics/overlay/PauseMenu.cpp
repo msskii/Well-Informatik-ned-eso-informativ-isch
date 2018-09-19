@@ -49,14 +49,13 @@ void PauseMenu::updateElements(SDL_Event e)
     }
 }
 
-void PauseMenu::renderMenu(SDL_Renderer *renderer)
+void PauseMenu::renderMenu()
 {
     SDL_Rect r = {0, 0, GAME_WIDTH, GAME_HEIGHT};
-    COLOR(renderer, 0x55FFFFFF);
-    SDL_RenderFillRect(renderer, &r);
+    fillRect(0x55FFFFFF, r);
 }
 
-void PauseMenu::drawOverlay(SDL_Renderer *renderer) {}
+void PauseMenu::drawOverlay() {}
 void PauseMenu::updateMenu(const uint8_t *keys) { if(keys[SDL_SCANCODE_SPACE]) close(); }
 void PauseMenu::onOpen() {}
 void PauseMenu::onClose() {}
