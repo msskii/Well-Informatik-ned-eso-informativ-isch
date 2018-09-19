@@ -8,6 +8,27 @@
 
 #include "GL_Util.hpp"
 
+// Two triangles form a quad
+static const unsigned char *indicies = new unsigned char[6]
+{
+    0, 1, 2,
+    0, 3, 2
+};
+
+// Indicies for the full image
+static const float *uv_data = new float[8]
+{
+    0, 0,
+    1, 0,
+    1, 1,
+    0, 1
+};
+
+float *texture_uvs = new float[8]; // Variable uv texture coords
+float *verticies = new float[8]; // The verticies on the screen
+
+GLuint uvBuffer = 0, uvBufferFull, vboID = 0, iboID = 0; // The different buffer objects
+GLuint light_shader, const_shader, color_shader; // The shaders
 
 GLuint compileShader(const char *path, GLenum shaderType)
 {
@@ -77,26 +98,6 @@ void deleteTexture(gl_texture texture)
     glDeleteTextures(1, &texture.id);
 }
 
-static const unsigned char *indicies = new unsigned char[6]
-{
-    0, 1, 2,
-    0, 3, 2
-};
-
-static const float *uv_data = new float[8]
-{
-    0, 0,
-    1, 0,
-    1, 1,
-    0, 1
-};
-
-float *texture_uvs = new float[8];
-float *verticies = new float[8];
-
-GLuint uvBuffer = 0, uvBufferFull, vboID = 0, iboID = 0;
-GLuint light_shader, const_shader;
-
 void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
 {
     verticies[0]  = (float)((dst.x) / (GAME_WIDTH / 2.0f) - 1.0f); // upper left x transformed to -1 to 1
@@ -148,7 +149,7 @@ void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
 
 void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
 {
-    render(texture, src, dst, const_shader);
+    render(texture, src, dst, light_shader);
 }
 
 void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
@@ -163,8 +164,8 @@ void setupGL()
     
     light_shader = createShader("shader_light.vert", "shader_light.frag");
     const_shader = createShader("shader_const.vert", "shader_const.frag");
-    
-    
+    color_shader = createShader("shader_color.vert", "shader_color.frag");
+
     glGenBuffers(1, &uvBuffer);
     glGenBuffers(1, &vboID);
     

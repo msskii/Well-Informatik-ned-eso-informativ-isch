@@ -54,6 +54,8 @@ public:
     
     Loader::TextLoader *text;
     Window *window = nullptr;
+    gl_texture level_texture; // All tiles in one texture?
+    
 public:
     int buildingCount = 1;
     

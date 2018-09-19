@@ -10,17 +10,6 @@
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
 
-/**Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
-{
-    tiles = new Tile[w * h];
-    buildingCount = 1;
-    buildings = new Building[1]
-    {
-        Building(20, 20, 0)
-    };
-    player->updateMovement(0, 0); // Update player before level loads
-}*/
-
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
     tiles = new Tile[w * h];
@@ -109,6 +98,21 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
     player->updateMovement(0, 0); // Update player before level loads
+    
+    // Create texture
+    SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, TILE_SIZE * width, TILE_SIZE * height, 32, SDL_PIXELFORMAT_ARGB8888);
+    SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
+    for(int i = 0; i < width * height; i++)
+    {
+        dst.x = (i % width) * TILE_SIZE;
+        dst.y = (i / width) * TILE_SIZE;
+        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+        {
+            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+        }
+    }
+    level_texture = getTexture(srfc);
+    SDL_FreeSurface(srfc);
 }
 
 void Level::addEntity(Entity *e)
@@ -145,10 +149,12 @@ void Level::render() // and update
     yoffset = player->getOffsetY();
     
     //Render all Tiles
-    for(int i = 0; i < (int) (width * height); i++)
+    /**for(int i = 0; i < (int) (width * height); i++)
     {
         tiles[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
-    }
+    }*/
+    
+    renderWithShading(level_texture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
     //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
     for(int i = 0; i < (int) entities.size(); i++)

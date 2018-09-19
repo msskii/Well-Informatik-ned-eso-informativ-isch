@@ -16,11 +16,10 @@
 class LightOverlay : public Menu
 {
 private:
-    GLuint shader_id;
     GLfloat *positions = new float[3 * MAX_LIGHTS];
     
 public:
-    LightOverlay(GLuint id);
+    LightOverlay();
     
     bool shouldWindowClose() override;
     void renderMenu(SDL_Renderer *renderer) override;

@@ -25,13 +25,14 @@ typedef struct TileData
 class Tile
 {
 private:
-    SDL_Surface *Tile_surface = nullptr;
     gl_texture texture;
     
     int xcoord, ycoord;
     char brightness_modifier = 0;
     
 public:
+    SDL_Surface *Tile_surface = nullptr;
+
     Tile();
     TileData data = {0, 0};
     Tile(int x, int y, uint16_t tilenumber);

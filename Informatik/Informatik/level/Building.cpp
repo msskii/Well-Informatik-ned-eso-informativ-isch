@@ -77,6 +77,5 @@ void Building::render(int xoffset, int yoffset)
     SDL_Rect dst = {data.xcoord * TILE_SIZE + xoffset, data.ycoord * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
     if(dst.x >= GAME_WIDTH || dst.x < -TILE_SIZE || dst.y >= GAME_HEIGHT || dst.y < -TILE_SIZE) return; // Only render the visible ones...
-    // SDL_RenderCopy(renderer, texture, &src, &dst);
     renderWithShading(texture, src, dst);
 }

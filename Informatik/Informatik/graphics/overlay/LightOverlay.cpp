@@ -8,11 +8,10 @@
 
 #include "LightOverlay.hpp"
 
-LightOverlay::LightOverlay(GLuint shader)
+LightOverlay::LightOverlay()
 {
     printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     
-    shader_id = shader;
     shouldLevelBeUpdated = true;
 }
 
@@ -25,10 +24,10 @@ void LightOverlay::renderMenu(SDL_Renderer *renderer)
     float x_pos_rel = (float) x / (float) GAME_WIDTH;
     float y_pos_rel = (float) y / (float) GAME_HEIGHT;
 
-    glUseProgram(shader_id);
-    glUniform2f(glGetUniformLocation(shader_id, "mousepos"), x_pos_rel, y_pos_rel);
+    glUseProgram(light_shader);
+    glUniform2f(glGetUniformLocation(light_shader, "mousepos"), x_pos_rel, y_pos_rel);
 
-    glUniform1f(glGetUniformLocation(shader_id, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
+    glUniform1f(glGetUniformLocation(light_shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     
     for(int i = 0; i < 3 * MAX_LIGHTS; i++) positions[i] = -100;
     int count = 0;
@@ -43,7 +42,7 @@ void LightOverlay::renderMenu(SDL_Renderer *renderer)
             if(++count == MAX_LIGHTS) break;
         }
     }
-    glUniform3fv(glGetUniformLocation(shader_id, "ext_lights"), MAX_LIGHTS, positions);
+    glUniform3fv(glGetUniformLocation(light_shader, "ext_lights"), MAX_LIGHTS, positions);
     
     glUseProgram(0);
 }

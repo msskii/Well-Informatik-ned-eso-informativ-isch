@@ -19,6 +19,8 @@ typedef struct gl_texture
     GLuint id = 0;
 } gl_texture;
 
+extern GLuint light_shader, const_shader, color_shader; // The shaders
+
 extern GLuint compileShader(const char *path, GLenum shaderType);
 extern GLuint createShader(const char *vert, const char *frag);
 

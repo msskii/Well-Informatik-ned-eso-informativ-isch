@@ -183,10 +183,8 @@ void Window::runGameLoop()
     glBindVertexArray(vao);
     
     setupGL();
-    
-    shaderProgramID = createShader("shader_light.vert", "shader_light.frag");
-    
-    openMenu(new LightOverlay(shaderProgramID));
+        
+    openMenu(new LightOverlay());
     
     while(running)
     {
