@@ -31,8 +31,6 @@ float drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTextu
     {
         if(forceUpdate) deleteTexture(texture_cache);
         
-        // TTF_SizeText(font, text, &texture_cache.width, &texture_cache.height); // Measure the text
-        
         SDL_Surface *text_surface = TTF_RenderText_Solid(font, text, TO_COLOR(color));
         SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, text_surface->w, text_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
         SDL_BlitSurface(text_surface, NULL, srfc, NULL);
@@ -46,9 +44,6 @@ float drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTextu
         float scaleX = (float) dst.w / (float) srfc->w;
         float scaleY = (float) dst.h / (float) srfc->h;
         texture_cache.scale = (float) fmin(scaleX, scaleY); // Smaller scale value
-        printf("Set scale to: %f\n", texture_cache.scale);
-
-        
         
         // Clean up
         SDL_FreeSurface(srfc);

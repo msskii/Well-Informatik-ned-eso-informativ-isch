@@ -192,19 +192,11 @@ void Player::render(int x, int y)
         timer = 0;
         anim = 0;
     }
-    
-    /**if(texture == nullptr)
-    {
-        texture = SDL_CreateTextureFromSurface(renderer, player_surface);
-        return;
-    }*/
-    
+
     SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
     SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, PLAYER_HEIGHT};
-    // SDL_RenderCopy(renderer, texture, &src, &dst);
     renderWithShading(texture, src, dst);
     renderStats(xoff, yoff);
-    
 }
 
 void Player::renderStats(int xoff, int yoff)

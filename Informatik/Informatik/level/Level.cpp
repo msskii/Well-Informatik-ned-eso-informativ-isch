@@ -104,8 +104,8 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
     for(int i = 0; i < width * height; i++)
     {
-        dst.x = (tiles[i].xcoord) * TILE_SIZE;
-        dst.y = (tiles[i].ycoord) * TILE_SIZE;
+        dst.x = tiles[i].xcoord * TILE_SIZE;
+        dst.y = tiles[i].ycoord * TILE_SIZE;
         if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
         {
             printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
@@ -148,21 +148,20 @@ void Level::render() // and update
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
 
-    renderWithShading(level_texture, {-xoffset, -yoffset, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
+    renderWithShading(level_texture, {-xoffset-PLAYER_OFFSET_X, -yoffset-PLAYER_OFFSET_Y, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
     //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        for(int i = 0; i < buildingCount; i++)
+        for(int j = 0; j < buildingCount; j++)
         {
-            entities[i]->isBehind = buildings[i].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
-            player->isBehind = buildings[i].isBehind(player->x_pos, player->y_pos);
+            entities[i]->isBehind = buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
+            player->isBehind = buildings[j].isBehind(player->x_pos, player->y_pos);
         }
         if (entities[i]->isBehind)
         {
             entities[i]->render(xoffset, yoffset);
         }
-        
     }
     
     // Events wont be rendered in the end
@@ -172,9 +171,7 @@ void Level::render() // and update
     }
     
     //render player if he is behind a building
-    if (player->isBehind == true)   player->render(xoffset, yoffset);
-    
-
+    if (player->isBehind) player->render(xoffset, yoffset);
     
 #ifdef ENABLE_TEST_MULTIPLAYER
 	if (clientConnector != nullptr)
@@ -201,7 +198,6 @@ void Level::render() // and update
         {
             entities[i]->render(xoffset, yoffset);
         }
-        
     }
 }
 

@@ -31,7 +31,7 @@ void PlayerOverlay::renderMenu()
     if(player->y_pos > 100)
     {
         //SDL_RenderCopy(renderer, backtexture, NULL, &window->render_surface->clip_rect);
-        renderWithoutShading(backtexture, {}, {0, 0, window->width, window->height});
+        renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
         
         SDL_Rect dst = {1150, 10, (int)(750 * player->animationHealth / player->maxHealth), 80};
         renderWithoutShading(hpbartexture, {}, dst);
@@ -48,9 +48,11 @@ void PlayerOverlay::renderMenu()
         lastState = 1;
     }
     
-    drawTextAspect((std::to_string((int) lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {1150, 20, 750, 60}, cachedHealth, player->currentHealth != lastHealth || transition);
-    transition = false;
+    bool healthChange = lastHealth != player->animationHealth;
+    
     lastHealth = player->currentHealth;
+    drawTextAspect((std::to_string((int) lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {1150, 20, 750, 60}, cachedHealth, transition || healthChange);
+    transition = false;
 }
 
 void PlayerOverlay::drawOverlay() {}
