@@ -61,7 +61,7 @@ public:
     
     virtual void onAddToLevel(Level *level) = 0;
     
-    virtual void render(SDL_Renderer *renderer, int xoff, int yoff) = 0;
+    virtual void render(int xoff, int yoff) = 0;
     virtual void update(const uint8_t *keys) = 0;
 };
 

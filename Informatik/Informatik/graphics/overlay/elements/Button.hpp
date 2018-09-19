@@ -28,7 +28,7 @@ public:
 public:
     Button(buttonClickHandler bhandler, const char* text, int x, int y, int w, int h, int id);
 
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 

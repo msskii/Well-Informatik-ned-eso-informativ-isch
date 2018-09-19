@@ -44,8 +44,8 @@ class Window
 {
 public:
     SDL_Window *window;
-    SDL_Renderer *renderer;
     SDL_GLContext context;
+    int width = WINDOW_WIDTH, height = WINDOW_HEIGHT;
     const uint8_t *keyStates;
     
     ConfigLoader *loader = nullptr;
@@ -54,12 +54,13 @@ public:
     std::vector<Menu*> menus; // All open menus
     Level *level;
     bool toUpdate = true;
+    GLuint shaderProgramID = 0;
     
     int frames = 0, fps = 0;
     uint64_t lastTime = time(NULL);
     
     bool running = false;
-    bool paused = false;
+    //bool paused = false;
 public:
     
     Window();
@@ -69,7 +70,7 @@ public:
     void openMenu(Menu *menu);
     
     void update();
-    void render(SDL_Renderer *renderer);
+    void render();
     
     void reloadConfig();
     

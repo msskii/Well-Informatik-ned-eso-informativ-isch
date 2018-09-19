@@ -63,16 +63,17 @@ void NPC::onInteractWith()
     }
 }
 
-void NPC::render(SDL_Renderer *renderer, int xoff, int yoff)
+void NPC::render(int xoff, int yoff)
 {
     // Simulate random movement. Doesn't check collision --> very buggy, just to test that the event moves with the entity
     //data.x_pos += (rand() % 3) - 1;
     //data.y_pos += (rand() % 3) - 1;
 
-    COLOR(renderer, 0xFF000000);
+    //COLOR(renderer, 0xFF000000);
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
-    SDL_RenderFillRect(renderer, &r);
+    //SDL_RenderFillRect(renderer, &r);
+    fillRect(0xFF000000, r);
 }
 
 void NPC::update(const uint8_t *keys)

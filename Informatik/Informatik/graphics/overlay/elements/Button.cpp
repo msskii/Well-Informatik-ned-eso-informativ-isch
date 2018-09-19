@@ -18,27 +18,16 @@ Button::Button(buttonClickHandler bhandler, const char* t, int _x, int _y, int _
 	elementID = bid;
 }
 
-void Button::render(SDL_Renderer *renderer)
+void Button::render()
 {
     if(!menu->active) hoverOver = false;
     
     SDL_Rect r = {x, y, w, h};
     
-    int texture = clicked ? BUTTON_CLICKED : hoverOver ? BUTTON_HOVER : BUTTON_NORMAL;
-    if(textures[texture] == nullptr)
-    {
-        printf("No texture\n");
-    }
-    SDL_RenderCopy(renderer, textures[texture], NULL, &r);
+    int texture = clicked ? BUTTON_CLICKED : hoverOver ? BUTTON_HOVER : BUTTON_NORMAL;    
+    renderWithoutShading(gl_textures[texture], {}, r);
     
-    if(button_texture.texture == nullptr) drawTextCentered(renderer, text, 0xFFFF00FF, x, y, w, h, button_texture);
-    else
-    {
-        r = {x, y, button_texture.textwidth, button_texture.textheight};
-        r.x += (int)((w - button_texture.textwidth) / 2.0);
-        r.y += (int)((h - button_texture.textheight) / 2.0);
-        SDL_RenderCopy(renderer, button_texture.texture, NULL, &r);
-    }
+    drawTextCentered(text, 0xFFFF00FF, {x, y, w, h}, button_texture, false);
 }
 
 void Button::processEvent(Menu* menu, SDL_Event e)

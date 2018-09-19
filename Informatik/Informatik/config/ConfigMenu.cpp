@@ -43,13 +43,13 @@ ConfigMenu::ConfigMenu(ConfigLoader *loader)
 
 bool ConfigMenu::shouldWindowClose() { return false; }
 
-void ConfigMenu::renderMenu(SDL_Renderer *renderer)
+void ConfigMenu::renderMenu()
 {
-    COLOR(renderer, 0xFFFFFFFF);
-    SDL_RenderClear(renderer);
+    glClearColor(1, 1, 1, 1); // White
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void ConfigMenu::drawOverlay(SDL_Renderer *renderer) {}
+void ConfigMenu::drawOverlay() {}
 
 void ConfigMenu::updateMenu(const uint8_t *keys)
 {

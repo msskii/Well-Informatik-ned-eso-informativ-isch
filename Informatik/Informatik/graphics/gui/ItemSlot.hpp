@@ -24,7 +24,7 @@ public:
     InventoryElement renderItem;
     ItemSlot(InventoryElement element);
     
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 

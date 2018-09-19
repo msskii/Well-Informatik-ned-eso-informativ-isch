@@ -12,14 +12,14 @@ void variantSliderCallback(Menu *menu, int variant)
 {
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.variant = variant;
-    m->level->tiles[m->tileID].reloadTexture(menu->window->renderer);
+    m->level->tiles[m->tileID].reloadTexture();
 }
 
 void tilenumberCallback(Menu *menu, DropDownElement tile)
 {
     TileEditor *m = (TileEditor*) menu;
     m->level->tiles[m->tileID].data.tileNumber = tile.id;
-    m->level->tiles[m->tileID].reloadTexture(menu->window->renderer);
+    m->level->tiles[m->tileID].reloadTexture();
 	m->variant_slider->setMax(textureData[tile.id].numberOfVariants);
 }
 
@@ -53,15 +53,13 @@ void TileEditor::switchSide()
 
 bool TileEditor::shouldWindowClose() { return false; }
 
-void TileEditor::renderMenu(SDL_Renderer *renderer)
+void TileEditor::renderMenu()
 {
     SDL_Rect dst = { (int)(tileID % window->level->width) * TILE_SIZE - PLAYER_OFFSET_X + window->level->player->getOffsetX(), (int)(tileID / window->level->width) * TILE_SIZE , TILE_SIZE, TILE_SIZE };
-    COLOR(renderer, 0xAFFF0000);
-    SDL_RenderFillRect(renderer, &dst);
+    fillRect(0xAFFF0000, dst);
     
     SDL_Rect background = {isOnLeftSide ? 0 : GAME_WIDTH - 500, 0, 500, GAME_HEIGHT};
-    COLOR(renderer, 0x55FFFFFF);
-    SDL_RenderFillRect(renderer, &background);
+    fillRect(0x55FFFFFF, background);
 }
 
 void TileEditor::updateMenu(const uint8_t *keys)
@@ -81,7 +79,7 @@ void TileEditor::updateMenu(const uint8_t *keys)
     } else jpressed = false;
 }
 
-void TileEditor::drawOverlay(SDL_Renderer *renderer) {}
+void TileEditor::drawOverlay() {}
 void TileEditor::onOpen() {}
 
 void TileEditor::onClose()
@@ -89,7 +87,7 @@ void TileEditor::onClose()
     level->tiles[tileID].data.tileNumber = tilenumber_dropdown->currentID;
     level->tiles[tileID].data.tileZ = zheight_slider->currentValue;
     level->tiles[tileID].data.variant = variant_slider->currentValue;
-    level->tiles[tileID].reloadTexture(window->renderer);
+    level->tiles[tileID].reloadTexture();
     
     // updateVariant(level); // Update the variant based on the stuff around
 }

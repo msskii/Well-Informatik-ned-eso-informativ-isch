@@ -23,7 +23,7 @@ class Player
 {
 private:
     SDL_Surface *player_surface = nullptr;
-    SDL_Texture *texture = nullptr;
+    gl_texture texture;
     
     float _x = 0, _y = 0; // Coordinates
 
@@ -65,8 +65,8 @@ public:
     
     Player(Level *level);
     
-    void render(SDL_Renderer *renderer, int xoff, int yoff);
-    void renderStats(SDL_Renderer *renderer, int xoff, int yoff);
+    void render(int xoff, int yoff);
+    void renderStats(int xoff, int yoff);
     
 };
 

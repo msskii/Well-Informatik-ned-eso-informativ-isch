@@ -61,10 +61,10 @@ void Multiplayer::Client::updatePlayerPos(int xpos, int ypos)
 	free(dataBuffer);
 }	
 
-void Multiplayer::Client::render(SDL_Renderer *renderer, int xoff, int yoff)
+void Multiplayer::Client::render(int xoff, int yoff)
 {
 	for (auto it = otherPlayers.begin(); it != otherPlayers.end(); it++)
 	{
-		it->second.render(renderer, xoff, yoff);
+		it->second.render(xoff, yoff);
 	}
 }

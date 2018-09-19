@@ -11,16 +11,18 @@
 
 #include "Menu.hpp"
 
+#define MAX_LIGHTS 40
+
 class LightOverlay : public Menu
 {
 private:
-
+    GLfloat *positions = new float[3 * MAX_LIGHTS];
+    
 public:
-    LightOverlay(SDL_Renderer *renderer);
+    LightOverlay();
     
     bool shouldWindowClose() override;
-    void renderMenu(SDL_Renderer *renderer) override;
-    void drawOverlay(SDL_Renderer *renderer) override;
+    void renderMenu() override;
     void updateMenu(const uint8_t *keys) override;
     void onOpen() override;
     void onClose() override;

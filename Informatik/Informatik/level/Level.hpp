@@ -43,6 +43,7 @@ public:
 	inline void connectToServer(const char *address) { clientConnector = new Multiplayer::Client(address);  }
 #endif
     
+    float sunBrightness = 0.3f;
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
@@ -53,13 +54,15 @@ public:
     
     Loader::TextLoader *text;
     Window *window = nullptr;
+    gl_texture level_texture; // All tiles in one texture?
+    
 public:
     int buildingCount = 1;
     
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
     
-    Level(int w, int h, SDL_Renderer *renderer);
+    //Level(int w, int h, SDL_Renderer *renderer);
     Level(int w, int h);
     
     void reloadFiles();
@@ -70,7 +73,7 @@ public:
     int getEventSize();
     
     void update();
-    void render(SDL_Renderer *renderer);
+    void render();
 };
 
 #include "../graphics/Window.hpp"

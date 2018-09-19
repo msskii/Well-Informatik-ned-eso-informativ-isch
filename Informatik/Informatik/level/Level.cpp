@@ -10,32 +10,21 @@
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
 
-Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
-{
-    tiles = new Tile[w * h];
-    buildingCount = 1;
-    buildings = new Building[1]
-    {
-        Building(10, 10, 0)
-    };
-    player->updateMovement(0, 0); // Update player before level loads
-}
-
-Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player(new Player(this)) // Number of tiles
+Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
     tiles = new Tile[w * h];
     
     for(int i = 0; i < w * h; i++)
     {
         if (i % 50 == 3) 
-		{
+        {
             tiles[i] = Tile(i % w, i / w, 1);
         }
-		else if (i % 50 == 5 || i % 50 == 6)
+        else if (i % 50 == 5 || i % 50 == 6)
         {
             tiles[i] = Tile(i % w, i / w, 0);
         }
-		else
+        else
         {
             tiles[i] = Tile(i % w, i / w, 2);
         }
@@ -72,11 +61,11 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     
     for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
     
-    updateVariant(this, renderer); // Update all variants for the tiles
-    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture(renderer);
+    updateVariant(this); // Update all variants for the tiles
+    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
     textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
-	text = new Loader::TextLoader(textFile.c_str());
+    text = new Loader::TextLoader(textFile.c_str());
     
     EventData eventData;
     eventData.event_x = TILE_SIZE * 6;
@@ -109,6 +98,21 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
     player->updateMovement(0, 0); // Update player before level loads
+    
+    // Create texture
+    SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, TILE_SIZE * width, TILE_SIZE * height, 32, SDL_PIXELFORMAT_ARGB8888);
+    SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
+    for(int i = 0; i < width * height; i++)
+    {
+        dst.x = tiles[i].xcoord * TILE_SIZE;
+        dst.y = tiles[i].ycoord * TILE_SIZE;
+        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+        {
+            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+        }
+    }
+    level_texture = getTexture(srfc);
+    SDL_FreeSurface(srfc);
 }
 
 void Level::addEntity(Entity *e)
@@ -139,73 +143,63 @@ int Level::getLevelSize()
     return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * buildingCount + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
 }
 
-void Level::render(SDL_Renderer *renderer) // and update
+void Level::render() // and update
 {
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
+
+    renderWithShading(level_texture, {-xoffset-PLAYER_OFFSET_X, -yoffset-PLAYER_OFFSET_Y, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
-    //Render all Tiles
-    for(int i = 0; i < (int) (width * height); i++)
+    //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
+    for(int i = 0; i < (int) entities.size(); i++)
     {
-        tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
-    }
-    
-    //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
-   
-    for(int j = 0; j < buildingCount; j++)
-    {
-        for(int i = 0; i < (int) entities.size(); i++)
+        for(int j = 0; j < buildingCount; j++)
         {
-            buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos) ? entities[i]->isBehind = true : entities[i]->isBehind = false;
-            if (entities[i]->isBehind == true)
-            {
-                entities[i]->render(renderer, xoffset, yoffset);
-            }
-            
+            entities[i]->isBehind = buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
+            player->isBehind = buildings[j].isBehind(player->x_pos, player->y_pos);
         }
-        buildings[j].isBehind(player->x_pos, player->y_pos) ? player->isBehind = true : player->isBehind = false;
-        
+        if (entities[i]->isBehind)
+        {
+            entities[i]->render(xoffset, yoffset);
+        }
     }
     
     
     // Events wont be rendered in the end
     for(int i = 0; i < (int) events.size(); i++)
     {
-        events[i]->render(renderer, xoffset, yoffset);
+        events[i]->render(xoffset, yoffset);
     }
     
     //render player if he is behind a building
-    if (player->isBehind)   player->render(renderer, xoffset, yoffset);
-    
-
+    if (player->isBehind) player->render(xoffset, yoffset);
     
 #ifdef ENABLE_TEST_MULTIPLAYER
-	if (clientConnector != nullptr)
-	{
-		// We connected & arent playing singleplayer
-		clientConnector->render(renderer, xoffset, yoffset);
-		clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
-	}
+    if (clientConnector != nullptr)
+    {
+        // We connected & arent playing singleplayer
+        clientConnector->render(renderer, xoffset, yoffset);
+        clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
+    }
 #endif
     
     
     //rendering Buildings
     for(int i = 0; i < buildingCount; i++)
     {
-        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+        buildings[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
 
     //Render player here if he is infront of building
-    if (!player->isBehind)  player->render(renderer, xoffset, yoffset);
+    if (player->isBehind == false)  player->render(xoffset, yoffset);
     
     //render enteties here if they are infrong of a building
     for(int i = 0; i < (int) entities.size(); i++)
     {
         if (!entities[i]->isBehind)
         {
-            entities[i]->render(renderer, xoffset, yoffset);
+            entities[i]->render(xoffset, yoffset);
         }
-        
     }
 }
 
@@ -257,7 +251,7 @@ bool Level::getBuildingCollision(float x, float y)
 
 void Level::setLevelMap(uint8_t map)
 {
-    Level *nl = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "level_" + std::to_string(map) + ".level"), 50, 50, window->renderer);
+    Level *nl = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "level_" + std::to_string(map) + ".level"), 50, 50);
     
     Loader::LevelLoader loader(window->level);
     loader.saveFile(window->level->levelFile.c_str());

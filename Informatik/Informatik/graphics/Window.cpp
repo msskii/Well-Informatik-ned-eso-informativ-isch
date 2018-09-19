@@ -16,15 +16,48 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Init SDL & subsystems
     SDL_Init(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL | SDL_INIT_TIMER); // Add audio subsystem?
     
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+    
+    // 8 bits per color channel
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    
+    width = loader->getInt("screen.width");
+    height = loader->getInt("screen.height");
+    SCALE_X = (float)width / (float)GAME_WIDTH;
+    SCALE_Y = (float)height / (float)GAME_HEIGHT;
+    
     // Create window
 #ifdef FULLSCREEN_ENABLED
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 #else
-    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, loader->getInt("screen.width"), loader->getInt("screen.height"), SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 #endif
     
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
+    context = SDL_GL_CreateContext(window);
+    if(context == nullptr)
+    {
+        printf("[ERROR] Couldn't create GL context\n");
+        exit(0);
+    }
+    
+    glewExperimental = GL_TRUE;
+    GLenum err = glewInit();
+    if(err != GLEW_OK)
+    {
+        printf("[ERROR] Error initializing GLEW: %s\n", glewGetErrorString(err));
+        exit(0);
+    }
+    
+    printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+    SDL_GL_SetSwapInterval(1); // Vsync
     
     if(TTF_Init() == -1)
     {
@@ -44,17 +77,10 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
     
     // Set up level
-    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50, renderer);
-    
-    // Set up scaling
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    SCALE_X = (float) w / (float) GAME_WIDTH;
-    SCALE_Y = (float) h / (float) GAME_HEIGHT;
-    SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
     
     // Reload elements of the menu
-    reloadElementTextures(renderer);
+    reloadElementTextures();
     
     // Set up keystates & level
     keyStates = SDL_GetKeyboardState(NULL);
@@ -69,8 +95,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     
     openMenu(new MainMenu()); // Skip main menu
     // openMenu(new DialogOverlay("Hello World!\nThis is a test...\nThis is a test for very long lines\nwhich should get a line break or should\nbe newlined by hand"));
-    
-    openMenu(new LightOverlay(renderer));
     
     NPC *npc = new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0);
     npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
@@ -91,8 +115,8 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
         
     for(int i = 0; i < 22; i++)
     {
-        level->addEntity(new EntityItem(5, i, new Item("test", renderer)));
-        level->addEntity(new EntityItem(3, i, new Item("test2", renderer)));
+        level->addEntity(new EntityItem(5, i, new Item("test")));
+        level->addEntity(new EntityItem(3, i, new Item("test2")));
     }
 }
 
@@ -124,9 +148,9 @@ void Window::openMenu(Menu *m)
     m->open(this);
 }
 
-void Window::render(SDL_Renderer *renderer)
+void Window::render()
 {
-    level->render(renderer); // Render level, but don't update
+    if(toUpdate) level->render(); // Render level, but don't update
     
     for(int i = 0; i < (int) menus.size(); i++)
     {
@@ -135,7 +159,8 @@ void Window::render(SDL_Renderer *renderer)
             if(i != 0) menus[menus.size() - 1]->active = true;
             menus[i]->onClose();
             menus.erase(menus.begin() + i);
-        } else menus[i]->render(renderer, keyStates);
+        }
+        else menus[i]->render(keyStates);
     }
 }
 
@@ -156,6 +181,12 @@ void Window::runGameLoop()
     auto clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
     
     bool mousePressed = false;
+    
+    // Init gl
+    setupGL();
+    setScreenSize(width, height);
+        
+    openMenu(new LightOverlay());
     
     while(running)
     {
@@ -185,11 +216,10 @@ void Window::runGameLoop()
                 if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
 				else if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
-					int w, h;
-					SDL_GetWindowSize(window, &w, &h);
-					SCALE_X = (float)w / (float)GAME_WIDTH;
-					SCALE_Y = (float)h / (float)GAME_HEIGHT;
-					SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y);
+					SDL_GetWindowSize(window, &width, &height);
+                    setScreenSize(width, height);
+					SCALE_X = (float)width / (float)GAME_WIDTH;
+					SCALE_Y = (float)height / (float)GAME_HEIGHT;
 				}
             }
             else if(e.type == SDL_QUIT) exitGame(this); // Just close the whole thing...
@@ -224,27 +254,28 @@ void Window::runGameLoop()
             }
         }
         
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF); // Black
-        SDL_RenderClear(renderer); // Everything black
+        // Set black as background
+        glClearColor(0, 0, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
         
         // Update & render
         toUpdate = true;
-        for(int i = 0; i < (int) menus.size(); i++)
-        {
-            // menus[i]->updateElements(e); // What was I doing?
-            if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
-        }
+        for(int i = 0; i < (int) menus.size(); i++) if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
         if(toUpdate) update();
-        render(renderer);
+        render();
+        
+        GLenum err = glGetError();
+        if(err != GL_NO_ERROR)
+        {
+            printf("[ERROR] GL Error: %d\n", err);
+        }
+
+        SDL_GL_SwapWindow(window);
         
         auto end_time = clock.now();
         auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
-        
-        SDL_RenderPresent(renderer); // Draw & limit FPS when opened
     }
-    
-    
     
     exitGame(this);
 }
@@ -259,7 +290,6 @@ void exitGame(Window *window)
     Loader::LevelLoader loader(window->level);
     loader.saveFile(window->level->levelFile.c_str());
     
-    SDL_DestroyRenderer(window->renderer);
     SDL_DestroyWindow(window->window);
     SDL_Quit();
         

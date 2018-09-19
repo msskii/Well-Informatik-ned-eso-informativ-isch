@@ -29,7 +29,7 @@ public:
     bool menuShouldBeClosed = false; // Used to close menus apart from the shouldwindowclose method
     Window *window;
     
-    SDL_Texture *background_texture = nullptr;
+    gl_texture background_texture;
     SDL_Surface *background_surface = nullptr;
     
     bool shouldLevelBeUpdated = false; // Set to true for overlays like shops or minimaps
@@ -51,16 +51,19 @@ public:
         return nullptr;
     }
     
-    void render(SDL_Renderer *renderer, const uint8_t *keys);
+    void render(const uint8_t *keys);
     void openSubMenu(Menu *menu);
     void open(Window *window);
     void close();
     virtual void updateElements(SDL_Event e);
+
+    virtual void drawOverlay();
+    virtual void drawBackground();
+
     
     // Functions to override
     virtual bool shouldWindowClose() = 0;
-    virtual void renderMenu(SDL_Renderer *renderer) = 0; // Render background of menu
-    virtual void drawOverlay(SDL_Renderer *renderer) = 0;
+    virtual void renderMenu() = 0; // Render background of menu
     virtual void updateMenu(const uint8_t *keys) = 0;
     virtual void onOpen() = 0;
     virtual void onClose() = 0;

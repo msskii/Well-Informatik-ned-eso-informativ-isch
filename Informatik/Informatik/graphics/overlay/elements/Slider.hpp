@@ -33,7 +33,7 @@ public:
 
     inline void setCallback(sliderCallback c) { clbck = c; }
     
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 

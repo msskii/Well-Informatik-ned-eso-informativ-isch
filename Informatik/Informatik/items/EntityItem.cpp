@@ -19,11 +19,12 @@ EntityItem::EntityItem(int x, int y, Item *i)
 
 void EntityItem::onAddToLevel(Level *level) {}
 
-void EntityItem::render(SDL_Renderer *renderer, int xoff, int yoff)
+void EntityItem::render(int xoff, int yoff)
 {
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
-    SDL_RenderCopy(renderer, item->texture, NULL, &r);
+    //SDL_RenderCopy(renderer, item->texture, NULL, &r);
+    renderWithShading(item->texture, {}, r);
 }
 
 void EntityItem::update(const uint8_t *keys) {}

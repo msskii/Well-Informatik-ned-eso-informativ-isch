@@ -35,7 +35,7 @@ public:
         
     void trigger(EVENT_TYPE type, Level *level);
     
-    void render(SDL_Renderer *renderer, int xoff, int yoff);
+    void render(int xoff, int yoff);
 };
 
 
