@@ -23,7 +23,7 @@ void Enemy::takeDamage(float amount)
     onDamage(amount);
 }
 
-#define MAX_STEP 0.05f
+#define MAXPERCENT_PER_FRAME 0.02
 
 void Enemy::renderHP(float xoffset, float yoffset)
 {

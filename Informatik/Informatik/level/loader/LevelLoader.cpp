@@ -42,8 +42,8 @@ void Loader::writeString(uint8_t *&levelFile, const char *text, int length)
 
 Level *Loader::loadLevel(const char *path, int w, int h)
 {
-    // uint8_t *file = nullptr;
-    uint8_t* file = readFile(path).data; // Enable loading the level file here
+     uint8_t *file = nullptr;
+    //uint8_t* file = readFile(path).data; // Enable loading the level file here
     if(file == nullptr)
     {
         Level *l = new Level(w, h);

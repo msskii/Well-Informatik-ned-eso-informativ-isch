@@ -17,14 +17,14 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     for(int i = 0; i < w * h; i++)
     {
         if (i % 50 == 3) 
-		{
+        {
             tiles[i] = Tile(i % w, i / w, 1);
         }
-		else if (i % 50 == 5 || i % 50 == 6)
+        else if (i % 50 == 5 || i % 50 == 6)
         {
             tiles[i] = Tile(i % w, i / w, 0);
         }
-		else
+        else
         {
             tiles[i] = Tile(i % w, i / w, 2);
         }
@@ -65,7 +65,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
     textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
-	text = new Loader::TextLoader(textFile.c_str());
+    text = new Loader::TextLoader(textFile.c_str());
     
     EventData eventData;
     eventData.event_x = TILE_SIZE * 6;
@@ -175,13 +175,14 @@ void Level::render() // and update
     if (player->isBehind) player->render(xoffset, yoffset);
     
 #ifdef ENABLE_TEST_MULTIPLAYER
-	if (clientConnector != nullptr)
-	{
-		// We connected & arent playing singleplayer
-		clientConnector->render(renderer, xoffset, yoffset);
-		clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
-	}
+    if (clientConnector != nullptr)
+    {
+        // We connected & arent playing singleplayer
+        clientConnector->render(renderer, xoffset, yoffset);
+        clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
+    }
 #endif
+    
     
     //rendering Buildings
     for(int i = 0; i < buildingCount; i++)
@@ -195,7 +196,7 @@ void Level::render() // and update
     //render enteties here if they are infrong of a building
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        if (entities[i]->isBehind == false)
+        if (!entities[i]->isBehind)
         {
             entities[i]->render(xoffset, yoffset);
         }

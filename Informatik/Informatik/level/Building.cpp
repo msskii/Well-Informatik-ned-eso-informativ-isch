@@ -27,7 +27,10 @@ Building::Building(int x, int y, uint16_t buildingNumber): data({buildingNumber,
             data.hitboxYBehind = data.ycoord - 1;
             data.hitboxsizeXBehind = 8;
             data.hitboxsizeYBehind = 5.4;
-
+            
+            data.textureOffsetX = -1;
+            
+            
             break;
             
         default:
@@ -76,6 +79,6 @@ void Building::render(int xoffset, int yoffset)
     SDL_Rect src = {0, 0, data.sizeX * TILE_SIZE / 2, data.sizeY * TILE_SIZE / 2}; // For individual 32 by 32 tiles
     SDL_Rect dst = {(data.xcoord + data.textureOffsetX) * TILE_SIZE + xoffset, (data.ycoord + data.textureOffsetY) * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
-    if(dst.x >= GAME_WIDTH || dst.x < -TILE_SIZE || dst.y >= GAME_HEIGHT || dst.y < -TILE_SIZE) return; // Only render the visible ones...
+    if(dst.x >= (GAME_WIDTH + data.sizeX * TILE_SIZE) || dst.x < (-TILE_SIZE - data.sizeX * TILE_SIZE) || dst.y >= (GAME_HEIGHT + data.sizeY * TILE_SIZE) || dst.y < (-TILE_SIZE - data.sizeY * TILE_SIZE)) return; // Only render the visible ones...
     renderWithShading(texture, src, dst);
 }
