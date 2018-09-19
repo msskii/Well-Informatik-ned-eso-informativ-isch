@@ -55,6 +55,7 @@ public:
     std::vector<Menu*> menus; // All open menus
     Level *level;
     bool toUpdate = true;
+    GLuint shaderProgramID = 0;
     
     int frames = 0, fps = 0;
     uint64_t lastTime = time(NULL);

@@ -31,7 +31,8 @@ void DropDown::render(SDL_Renderer *renderer)
         if(toTheSide)
         {
             SDL_Rect dst = {x, y, w, h};
-            SDL_RenderCopy(renderer, textures[DROPDOWN], NULL, &dst);
+            // SDL_RenderCopy(renderer, textures[DROPDOWN], NULL, &dst);
+            renderWithoutShading(gl_textures[DROPDOWN], {}, dst);
             int xoffset = x >= GAME_WIDTH - w ? -w : w;
 
             if(cachedText.texture == nullptr) drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h, cachedText);
@@ -45,8 +46,9 @@ void DropDown::render(SDL_Renderer *renderer)
             for(int i = 0; i < (int) elements.size(); i++)
             {
                 SDL_Rect dst = {x + xoffset - (int)(100 * SCALE_X), y +  - ((int) elements.size() * h / 2) + h * elements[i].id, w, h};
-                SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
-                
+                // SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
+                renderWithoutShading(i == currentlyOver ? gl_textures[DROPDOWN_ELEMENT_HOVER] : gl_textures[DROPDOWN_ELEMENT], {}, dst);
+
                 if(elements[i].cachedTexture.texture == nullptr) drawTextAspect(renderer, elements[i].text, 0xFF000000, x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h, elements[i].cachedTexture);
                 else
                 {
@@ -60,8 +62,8 @@ void DropDown::render(SDL_Renderer *renderer)
             for(int i = 0; i < (int) elements.size(); i++)
             {
                 SDL_Rect dst = {x, y + h * elements[i].id, w, h};
-                SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
-                
+                // SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
+                renderWithoutShading(i == currentlyOver ? gl_textures[DROPDOWN_ELEMENT_HOVER] : gl_textures[DROPDOWN_ELEMENT], {}, dst);
                 if(elements[i].cachedTexture.texture == nullptr) drawTextAspect(renderer, elements[i].text, 0xFF000000, x + (int) (100 * SCALE_X), y + h * elements[i].id, w, h, elements[i].cachedTexture);
                 else
                 {
@@ -74,8 +76,8 @@ void DropDown::render(SDL_Renderer *renderer)
     else
     {
         SDL_Rect dst = {x, y, w, h};
-        SDL_RenderCopy(renderer, textures[DROPDOWN], NULL, &dst);
-        
+        // SDL_RenderCopy(renderer, textures[DROPDOWN], NULL, &dst);
+        renderWithoutShading(gl_textures[DROPDOWN], {}, dst);
         if(cachedText.texture == nullptr) drawTextAspect(renderer, elements[currentSelected].text, 0xFF000000, x, y, w, h, cachedText);
         else
         {

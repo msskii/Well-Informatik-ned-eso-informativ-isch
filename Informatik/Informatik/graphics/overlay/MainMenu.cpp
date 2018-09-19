@@ -83,6 +83,8 @@ void MainMenu::renderMenu(SDL_Renderer *renderer)
 {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(renderer);
+    
+    fillRect(0xFFFF00FF, {0, 0, 10, 10});
 }
 
 void MainMenu::updateMenu(const uint8_t *keys)

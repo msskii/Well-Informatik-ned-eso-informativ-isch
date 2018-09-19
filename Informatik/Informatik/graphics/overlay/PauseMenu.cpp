@@ -18,7 +18,7 @@ void onClick(Menu* menu, Button *button)
         case 1:
             exitGame(menu->window);
         case 2:
-            updateVariant(menu->window->level, menu->window->renderer);
+            updateVariant(menu->window->level);
             break;
         case 3:
             menu->window->openMenu(new ConfigMenu(menu->window->loader));

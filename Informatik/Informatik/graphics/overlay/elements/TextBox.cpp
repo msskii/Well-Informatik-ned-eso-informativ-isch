@@ -24,8 +24,8 @@ TextBox::TextBox(const char *defaultText, int _x, int _y, int _w, int _h, int id
 void TextBox::render(SDL_Renderer *renderer)
 {
     SDL_Rect dst = {x, y, w, h};
-    SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
-    
+    // SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
+    renderWithoutShading(gl_textures[TEXTBOX], {}, dst);
     if(lastTexture.texture == nullptr || changed)
     {
         usedScale = drawTextAspect(renderer, currentText.c_str(), 0xFF000000, x, y, w, h, lastTexture);

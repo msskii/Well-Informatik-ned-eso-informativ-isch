@@ -25,7 +25,8 @@ void Inventory::drawOverlay(SDL_Renderer *renderer)
     if(selected == nullptr || selected->renderItem.item == nullptr) return; // No item selected
     
     SDL_Rect r = {hoverX, hoverY, INV_GRID_SIZE, INV_GRID_SIZE};
-    SDL_RenderCopy(renderer, selected->renderItem.item->texture, NULL, &r);
+    // SDL_RenderCopy(renderer, selected->renderItem.item->texture, NULL, &r);
+    renderWithoutShading(selected->renderItem.item->texture, {}, r);
 }
 
 void Inventory::renderMenu(SDL_Renderer *renderer) {}

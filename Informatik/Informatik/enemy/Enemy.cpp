@@ -25,7 +25,7 @@ void Enemy::takeDamage(float amount)
 
 #define MAX_STEP 0.05f
 
-void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
+void Enemy::renderHP(float xoffset, float yoffset)
 {
     if(animationHealth <= 0 || data.currentHealth == data.maxhealth) return; // Dead or full health
     
@@ -45,8 +45,9 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     SDL_Rect hpbar = { (int) data.x_pos, (int) data.y_pos - 40, (int) data.width, 20 };
     TRANSFORM_LEVEL_POS(hpbar, xoffset, yoffset);
     
-    COLOR(renderer, 0xFF000000);
-    SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+    //COLOR(renderer, 0xFF000000);
+    //SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+    fillRect(0xFF000000, hpbar);
     
     // If it ever does not work: add ceil() around those four lines
     hpbar.x += (int) ceil(1.0 / SCALE_X);
@@ -54,11 +55,13 @@ void Enemy::renderHP(SDL_Renderer *renderer, float xoffset, float yoffset)
     hpbar.w -= (int)ceil(2.0 / SCALE_X);
     hpbar.h -= (int)ceil(2.0 / SCALE_Y);
     
-    COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
-    SDL_RenderFillRect(renderer, &hpbar); // Full background
+    //COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
+    //SDL_RenderFillRect(renderer, &hpbar); // Full background
+    fillRect(0xFFFF00, hpbar);
     
     hpbar.w = (int)(data.width * animationHealth / data.maxhealth);
-    COLOR(renderer, 0xFF00FF00);
-    SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
+    // COLOR(renderer, 0xFF00FF00);
+    // SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
     // Draw box around hp bar
+    fillRect(0xFFFF00, hpbar);
 }

@@ -42,7 +42,7 @@ public:
     bool isAlive = true;
     
     
-    void renderHP(SDL_Renderer *renderer, float xoffset, float yoffset);
+    void renderHP(float xoffset, float yoffset);
     void takeDamage(float amount);
 };
 

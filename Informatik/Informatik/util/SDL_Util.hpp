@@ -55,7 +55,7 @@ typedef struct cachedTexture
     int textwidth, textheight;
 } cachedTexture;
 
-extern GLuint compileShader(const char *path, GLenum shaderType);
+#include "GL_Util.hpp"
 
 extern void drawText(SDL_Renderer *renderer, const char *text, int color, int x, int y);
 extern float drawTextAspect(SDL_Renderer *renderer, const char *text, int color, int x, int y, int w, int h, cachedTexture &texture); // Keep aspect ratio

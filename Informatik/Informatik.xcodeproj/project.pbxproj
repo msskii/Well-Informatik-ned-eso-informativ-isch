@@ -41,6 +41,7 @@
 		937B0021214F9C4F00BE1EE0 /* LightOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B001F214F9C4F00BE1EE0 /* LightOverlay.cpp */; };
 		937B0023214FA02200BE1EE0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 937B0022214FA02200BE1EE0 /* OpenGL.framework */; };
 		937B0036215013A100BE1EE0 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 937B0030215013A100BE1EE0 /* glew.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		937B0039215230CD00BE1EE0 /* GL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0037215230CD00BE1EE0 /* GL_Util.cpp */; };
 		937B0D5B212FDAEF00C2051B /* DebugOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */; };
 		937B0D5F21301BC600C2051B /* EventCreateMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */; };
 		937B0D6221301D1000C2051B /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937B0D6021301D1000C2051B /* TextBox.cpp */; };
@@ -169,6 +170,8 @@
 		937B0033215013A100BE1EE0 /* eglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eglew.h; sourceTree = "<group>"; };
 		937B0034215013A100BE1EE0 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
 		937B0035215013A100BE1EE0 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
+		937B0037215230CD00BE1EE0 /* GL_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GL_Util.cpp; sourceTree = "<group>"; };
+		937B0038215230CD00BE1EE0 /* GL_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GL_Util.hpp; sourceTree = "<group>"; };
 		937B0D59212FDAEF00C2051B /* DebugOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlay.cpp; sourceTree = "<group>"; };
 		937B0D5A212FDAEF00C2051B /* DebugOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugOverlay.hpp; sourceTree = "<group>"; };
 		937B0D5D21301BC600C2051B /* EventCreateMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EventCreateMenu.cpp; sourceTree = "<group>"; };
@@ -345,6 +348,8 @@
 				936C12FF2136BFF800404679 /* Tile_Util.hpp */,
 				937AC1F0213F011600F1D92C /* Math_Util.cpp */,
 				937AC1F1213F011600F1D92C /* Math_Util.hpp */,
+				937B0037215230CD00BE1EE0 /* GL_Util.cpp */,
+				937B0038215230CD00BE1EE0 /* GL_Util.hpp */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -591,6 +596,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				937B0039215230CD00BE1EE0 /* GL_Util.cpp in Sources */,
 				936C12D92133E3A900404679 /* TextLoader.cpp in Sources */,
 				936C12E221353A4000404679 /* NPCLoader.cpp in Sources */,
 				936C12F72135DBD800404679 /* Dropdown.cpp in Sources */,

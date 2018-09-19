@@ -27,7 +27,8 @@ void ItemSlot::render(SDL_Renderer *renderer)
     if(renderItem.item == nullptr || this == ((Inventory*) menu)->selected) return;
 
     SDL_Rect dst = {x, y, INV_GRID_SIZE, INV_GRID_SIZE};
-    SDL_RenderCopy(renderer, renderItem.item->texture, NULL, &dst);
+    //SDL_RenderCopy(renderer, renderItem.item->texture, NULL, &dst);
+    renderWithoutShading(renderItem.item->texture, {}, dst);
     
     if(texture.texture == nullptr || needsUpdate)
     {

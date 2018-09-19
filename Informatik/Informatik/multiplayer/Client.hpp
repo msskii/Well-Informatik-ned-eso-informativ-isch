@@ -10,13 +10,14 @@
 #define Client_hpp
 
 #include "../util/SDL_Util.hpp"
-#include "Server.hpp"
 #include "RemotePlayer.hpp"
+#include "Server.hpp"
 #include <map>
 
 namespace Multiplayer
 {
 	extern int clientReceive(void *data); // Client receive handler
+    class RemotePlayer;
 
 	class Client
 	{
@@ -29,8 +30,10 @@ namespace Multiplayer
 		Client(const char *address); // Set up stuff & start receiver
 
 		void updatePlayerPos(int x, int y);
-		void render(SDL_Renderer *renderer, int xoff, int yoff);
+		void render(int xoff, int yoff);
 	};
 }
+
+
 
 #endif

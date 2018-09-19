@@ -9,6 +9,7 @@
 #include "Element.hpp"
 
 std::map<int, SDL_Texture*> textures;
+std::map<int, gl_texture> gl_textures;
 
 void Element::addToMenu(Menu *menu)
 {
@@ -22,6 +23,9 @@ void reloadElementTextures(SDL_Renderer *renderer)
     {
         SDL_Surface *surface = IMG_Load(GET_TEXTURE_PATH(texturePaths[i]));
         textures[i] = SDL_CreateTextureFromSurface(renderer, surface);
+        
+        gl_textures[i] = getTexture(surface);
+        
         SDL_FreeSurface(surface);
     }
 }

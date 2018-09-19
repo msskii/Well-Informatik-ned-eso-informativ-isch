@@ -26,7 +26,8 @@ class Tile
 {
 private:
     SDL_Surface *Tile_surface = nullptr;
-    SDL_Texture *texture = nullptr;
+    gl_texture texture;
+    
     int xcoord, ycoord;
     char brightness_modifier = 0;
     
@@ -37,8 +38,8 @@ public:
     Tile(int x, int y, uint16_t tilenumber, uint8_t zheight);
     Tile(int x, int y, TileData data);
 
-    void reloadTexture(SDL_Renderer *renderer);
-    void render(SDL_Renderer *renderer, int xoff, int yoff);
+    void reloadTexture();
+    void render(int xoff, int yoff);
 };
 
 #endif /* Tile_hpp */

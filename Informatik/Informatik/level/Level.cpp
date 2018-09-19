@@ -10,7 +10,7 @@
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
 
-Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
+/**Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
 {
     tiles = new Tile[w * h];
     buildingCount = 1;
@@ -19,9 +19,9 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this))
         Building(20, 20, 0)
     };
     player->updateMovement(0, 0); // Update player before level loads
-}
+}*/
 
-Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player(new Player(this)) // Number of tiles
+Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
     tiles = new Tile[w * h];
     
@@ -72,8 +72,8 @@ Level::Level(int w, int h, SDL_Renderer *renderer) : width(w), height(h), player
     
     for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
     
-    updateVariant(this, renderer); // Update all variants for the tiles
-    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture(renderer);
+    updateVariant(this); // Update all variants for the tiles
+    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
     textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
 	text = new Loader::TextLoader(textFile.c_str());
@@ -139,7 +139,7 @@ int Level::getLevelSize()
     return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * buildingCount + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
 }
 
-void Level::render(SDL_Renderer *renderer) // and update
+void Level::render() // and update
 {
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
@@ -147,7 +147,7 @@ void Level::render(SDL_Renderer *renderer) // and update
     //Render all Tiles
     for(int i = 0; i < (int) (width * height); i++)
     {
-        tiles[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+        tiles[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
     
     //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
@@ -159,8 +159,9 @@ void Level::render(SDL_Renderer *renderer) // and update
             buildings[i].isBehind(player->x_pos, player->y_pos) ? player->isBehind = true : player->isBehind = false;
             
         }
-        if (entities[i]->isBehind == true) {
-            entities[i]->render(renderer, xoffset, yoffset);
+        if (entities[i]->isBehind == true)
+        {
+            entities[i]->render(xoffset, yoffset);
         }
         
     }
@@ -168,11 +169,11 @@ void Level::render(SDL_Renderer *renderer) // and update
     // Events wont be rendered in the end
     for(int i = 0; i < (int) events.size(); i++)
     {
-        events[i]->render(renderer, xoffset, yoffset);
+        events[i]->render(xoffset, yoffset);
     }
     
     //render player if he is behind a building
-    if (player->isBehind == true)   player->render(renderer, xoffset, yoffset);
+    if (player->isBehind == true)   player->render(xoffset, yoffset);
     
 
     
@@ -187,17 +188,18 @@ void Level::render(SDL_Renderer *renderer) // and update
     //rendering Buildings
     for(int i = 0; i < buildingCount; i++)
     {
-        buildings[i].render(renderer, xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+        buildings[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
 
     //Render player here if he is infront of building
-    if (player->isBehind == false)  player->render(renderer, xoffset, yoffset);
+    if (player->isBehind == false)  player->render(xoffset, yoffset);
     
     //render enteties here if they are infrong of a building
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        if (entities[i]->isBehind == false) {
-            entities[i]->render(renderer, xoffset, yoffset);
+        if (entities[i]->isBehind == false)
+        {
+            entities[i]->render(xoffset, yoffset);
         }
         
     }
@@ -251,7 +253,7 @@ bool Level::getBuildingCollision(float x, float y)
 
 void Level::setLevelMap(uint8_t map)
 {
-    Level *nl = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "level_" + std::to_string(map) + ".level"), 50, 50, window->renderer);
+    Level *nl = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "level_" + std::to_string(map) + ".level"), 50, 50);
     
     Loader::LevelLoader loader(window->level);
     loader.saveFile(window->level->levelFile.c_str());

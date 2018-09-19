@@ -39,14 +39,14 @@ class Building
 {
 private:
     SDL_Surface *building_surface = nullptr;
-    SDL_Texture *texture = nullptr;
+    gl_texture texture;
     char brightness_modifier = 0;
     
 public:
     BuildingData data;
     Building(int x, int y, uint16_t buildingnumber);
     Building(BuildingData d);
-    void render(SDL_Renderer *renderer, int xoff, int yoff);
+    void render(int xoff, int yoff);
     bool isInside(float x, float y);
     bool isBehind(float x, float y);
 };

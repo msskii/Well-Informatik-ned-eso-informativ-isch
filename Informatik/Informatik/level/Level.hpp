@@ -60,7 +60,7 @@ public:
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
     
-    Level(int w, int h, SDL_Renderer *renderer);
+    //Level(int w, int h, SDL_Renderer *renderer);
     Level(int w, int h);
     
     void reloadFiles();
@@ -71,7 +71,7 @@ public:
     int getEventSize();
     
     void update();
-    void render(SDL_Renderer *renderer);
+    void render();
 };
 
 #include "../graphics/Window.hpp"

@@ -36,6 +36,7 @@ Slime::Slime(float x, float y, int level)
         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_RedSlime"));
     }
    
+    texture = getTexture(enemy_surface);
 }
 
 bool Slime::isInside(float x, float y)
@@ -45,11 +46,11 @@ bool Slime::isInside(float x, float y)
 
 void Slime::onAddToLevel(Level *level) {}
 
-void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
+void Slime::render(int xoff, int yoff)
 {
-    renderHP(renderer, (float)xoff, (float)yoff); // Render the hp of the enemy
+    renderHP((float) xoff, (float)yoff); // Render the hp of the enemy
     
-    if(texture == nullptr)
+/**    if(texture == nullptr)
     {
         texture = SDL_CreateTextureFromSurface(renderer, enemy_surface);
         texture_hurt = SDL_CreateTexture(renderer, enemy_surface->format->format, SDL_TEXTUREACCESS_STREAMING, enemy_surface->w, enemy_surface->h);
@@ -65,7 +66,7 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
         }
         SDL_UnlockTexture(texture_hurt);
         return;
-    }
+    }*/
     
     // TODO implement death animation
     
@@ -74,11 +75,11 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
     TRANSFORM_LEVEL_POS(dst, xoff, yoff); // Transform r to the level position
     if((hurt--) > 0)
     {
-        SDL_RenderCopy(renderer, texture_hurt, &src, &dst);
+        renderWithShading(texture_hurt, src, dst);
     }
     else
     {
-        SDL_RenderCopy(renderer, texture, &src, &dst);
+        renderWithShading(texture, src, dst);
     }
 }
 

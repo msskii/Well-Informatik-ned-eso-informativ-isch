@@ -48,14 +48,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     SDL_GL_SetSwapInterval(1); // Vsync
     
-    render_surface = SDL_CreateRGBSurfaceWithFormat(0, GAME_WIDTH, GAME_HEIGHT, 32, SDL_PIXELFORMAT_ARGB8888);
-    SDL_SetSurfaceBlendMode(render_surface, SDL_BLENDMODE_BLEND);
-    renderer = SDL_CreateSoftwareRenderer(render_surface);
-    
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); // Alpha color --> Invisible
-    
-    printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
-    
     if(TTF_Init() == -1)
     {
         printf("TTF_Init error: %s\n", TTF_GetError());
@@ -74,7 +66,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
     
     // Set up level
-    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50, renderer);
+    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
     
     // Set up scaling
     int w, h;
@@ -119,8 +111,8 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
         
     for(int i = 0; i < 22; i++)
     {
-        level->addEntity(new EntityItem(5, i, new Item("test", renderer)));
-        level->addEntity(new EntityItem(3, i, new Item("test2", renderer)));
+        level->addEntity(new EntityItem(5, i, new Item("test")));
+        level->addEntity(new EntityItem(3, i, new Item("test2")));
     }
 }
 
@@ -154,7 +146,7 @@ void Window::openMenu(Menu *m)
 
 void Window::render(SDL_Renderer *renderer)
 {
-    if(toUpdate) level->render(renderer); // Render level, but don't update
+    if(toUpdate) level->render(); // Render level, but don't update
     
     for(int i = 0; i < (int) menus.size(); i++)
     {
@@ -175,26 +167,6 @@ uint32_t secondCallback(uint32_t delay, void *args)
     return delay;
 }
 
-static const float *verticies = new float[2 * 6]
-{
-    -1, -1,
-    1, -1,
-    1, 1,
-    -1, -1,
-    -1, 1,
-    1, 1
-};
-
-static const float *uv_vert = new float[2 * 6]
-{
-    0, 0,
-    0.5, 0,
-    0.5, 0.5,
-    0, 0,
-    0, 0.5,
-    0.5, 0.5
-};
-
 void Window::runGameLoop()
 {
     running = true;
@@ -206,45 +178,15 @@ void Window::runGameLoop()
     bool mousePressed = false;
     
     // Init gl
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), verticies, GL_STATIC_DRAW);
+    setupGL();
     
-    GLuint uv;
-    glGenBuffers(1, &uv);
-    glBindBuffer(GL_ARRAY_BUFFER, uv);
-    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), uv_vert, GL_STATIC_DRAW);
+    shaderProgramID = createShader("shader_light.vert", "shader_light.frag");
     
-    GLuint texID;
-    glGenTextures(1, &texID);
-    glBindTexture(GL_TEXTURE_2D, texID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
-    GLuint vert = compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.vert"), GL_VERTEX_SHADER);
-    GLuint frag = compileShader(GET_FILE_PATH(LEVEL_PATH, "shader.frag"), GL_FRAGMENT_SHADER);
-    GLuint prog = glCreateProgram();
-    
-    glAttachShader(prog, vert);
-    glAttachShader(prog, frag);
-    glLinkProgram(prog);
-    
-    GLint status;
-    glGetProgramiv(prog, GL_LINK_STATUS, &status);
-    if(status != GL_TRUE)
-    {
-        printf("Couldn't link shader program...\n");
-    }
-    
-    openMenu(new LightOverlay(prog));
+    openMenu(new LightOverlay(shaderProgramID));
     
     while(running)
     {
@@ -325,23 +267,6 @@ void Window::runGameLoop()
         if(toUpdate) update();
         render(renderer);
         
-        glBindTexture(GL_TEXTURE_2D, texID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, render_surface->w, render_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, render_surface->pixels);
-        
-        glUseProgram(prog);
-
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, uv);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        
-        glUseProgram(0);
-        
         GLenum err = glGetError();
         if(err != GL_NO_ERROR)
         {
@@ -349,8 +274,7 @@ void Window::runGameLoop()
         }
 
         SDL_GL_SwapWindow(window);
-        // SDL_RenderPresent(renderer); // Draw & limit FPS when opened
-
+        
         auto end_time = clock.now();
         auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);

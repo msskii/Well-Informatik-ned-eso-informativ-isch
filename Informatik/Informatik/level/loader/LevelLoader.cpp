@@ -40,21 +40,21 @@ void Loader::writeString(uint8_t *&levelFile, const char *text, int length)
     levelFile += length;
 }
 
-Level *Loader::loadLevel(const char *path, int w, int h, SDL_Renderer *renderer)
+Level *Loader::loadLevel(const char *path, int w, int h)
 {
     // uint8_t *file = nullptr;
     uint8_t* file = readFile(path).data; // Enable loading the level file here
     if(file == nullptr)
     {
-        Level *l = new Level(w, h, renderer);
+        Level *l = new Level(w, h);
         l->levelFile = std::string(path);
         l->reloadFiles();
         return l;
     }
     else
     {
-        Level *l = Loader::LevelLoader(path, renderer).buildLevel();
-        if(l == nullptr) l = new Level(w, h, renderer);
+        Level *l = Loader::LevelLoader(path).buildLevel();
+        if(l == nullptr) l = new Level(w, h);
         l->levelFile = std::string(path);
         l->reloadFiles();
         return l;
@@ -66,7 +66,7 @@ Loader::LevelLoader::LevelLoader(Level *l) : level(l)
     
 }
 
-Loader::LevelLoader::LevelLoader(const char *path, SDL_Renderer *renderer)
+Loader::LevelLoader::LevelLoader(const char *path)
 {
     printf("[INFO] Loading Level from file: %s\n", path);
 
@@ -85,7 +85,7 @@ Loader::LevelLoader::LevelLoader(const char *path, SDL_Renderer *renderer)
         for(int i = 0; i < (int)(width * height); i++)
         {
             level->tiles[i] = Tile(i % level->width, i / level->width, read<TileData>(levelFile));
-            level->tiles[i].reloadTexture(renderer);
+            level->tiles[i].reloadTexture();
         }
         
         uint32_t numbuildings = read<int>(levelFile);

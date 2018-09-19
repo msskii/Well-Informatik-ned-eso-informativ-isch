@@ -34,12 +34,12 @@ void Event::trigger(EVENT_TYPE type, Level *level)
     onTrigger(this, type, level, arguments);
 }
 
-void Event::render(SDL_Renderer *renderer, int xoffset, int yoffset)
+void Event::render(int xoffset, int yoffset)
 {
     if(eventTriggerCounter[event_data.event_id] >= event_data.triggerAmount && event_data.triggerAmount != 0) return;
     if(event_data.event_id_dependency != 0 && eventTriggerCounter[event_data.event_id_dependency] == 0) return;
     
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x55);
+    //SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x55);
     SDL_Rect r = {event_data.event_x + xoffset + PLAYER_OFFSET_X, event_data.event_y + yoffset + PLAYER_OFFSET_Y, event_data.event_w, event_data.event_h};
-    SDL_RenderFillRect(renderer, &r);
+    //SDL_RenderFillRect(renderer, &r);
 }

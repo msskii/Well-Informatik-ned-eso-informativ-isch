@@ -12,6 +12,7 @@
 Player::Player(Level *l) : level(l)
 {
     player_surface = IMG_Load(GET_TEXTURE_PATH("player_boy"));
+    texture = getTexture(player_surface);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -176,7 +177,7 @@ void Player::updateMovement(float dx, float dy)
     }
 }
 
-void Player::render(SDL_Renderer *renderer, int x, int y)
+void Player::render(int x, int y)
 {
     if(graceLeft > 0) graceLeft = graceLeft - 1;
 
@@ -192,20 +193,21 @@ void Player::render(SDL_Renderer *renderer, int x, int y)
         anim = 0;
     }
     
-    if(texture == nullptr)
+    /**if(texture == nullptr)
     {
         texture = SDL_CreateTextureFromSurface(renderer, player_surface);
         return;
-    }
+    }*/
     
     SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
     SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, PLAYER_HEIGHT};
-    SDL_RenderCopy(renderer, texture, &src, &dst);
-    renderStats(renderer, xoff, yoff);
+    // SDL_RenderCopy(renderer, texture, &src, &dst);
+    renderWithShading(texture, src, dst);
+    renderStats(xoff, yoff);
     
 }
 
-void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
+void Player::renderStats(int xoff, int yoff)
 {
     if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
     
@@ -220,8 +222,10 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
     
     SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 40, (int) TILE_SIZE, 20 };
     
-    COLOR(renderer, 0xFF000000);
-    SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+    //COLOR(renderer, 0xFF000000);
+    //SDL_RenderFillRect(renderer, &hpbar); // Draw black border
+    
+    fillRect(0xFF000000, hpbar);
     
     // If it ever does not work: add ceil() around those four lines
     hpbar.x += (int)ceil(1.0 / SCALE_X);
@@ -229,12 +233,14 @@ void Player::renderStats(SDL_Renderer *renderer, int xoff, int yoff)
     hpbar.w -= (int)ceil(2.0 / SCALE_X);
     hpbar.h -= (int)ceil(2.0 / SCALE_Y);
     
-    COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
-    SDL_RenderFillRect(renderer, &hpbar); // Full background
+    //COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
+    //SDL_RenderFillRect(renderer, &hpbar); // Full background
+    fillRect(0xFFFF0000, hpbar);
     
     hpbar.w = (int)(TILE_SIZE * animationHealth / maxHealth);
-    COLOR(renderer, 0xFF00FF00);
-    SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
+    //COLOR(renderer, 0xFF00FF00);
+    //SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
+    fillRect(0xFF00FF00, hpbar);
     // Draw box around hp bar
     
 }
