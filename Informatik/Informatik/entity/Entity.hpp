@@ -11,8 +11,9 @@
 
 #include "../util/SDL_Util.hpp"
 #include "../level/Tile.hpp"
+#include "../config.h"
 
-class Level;
+
 
 enum DIRECTION
 {
@@ -26,6 +27,7 @@ typedef struct EntityData
 {
     float x_pos = 0;
     float y_pos = 0;
+    uint8_t z_pos = 0;
     
     float width = TILE_SIZE;
     float height = TILE_SIZE;
@@ -34,8 +36,11 @@ typedef struct EntityData
     float currentHealth = 10;
     float damage = 0;
     
+    float dx = 0;
+    float dy = 0;
     float speed = 0;
 } EntityData;
+
 
 class Entity
 {
@@ -49,6 +54,8 @@ public:
     
     EntityData data;
     void addedToLevel(Level *level);
+    bool isInside(float dx, float dy);
+    void correctMovement(float &dx, float &dy);
     
     inline SDL_Rect getBoundingBox() { return {(int) data.x_pos, (int) data.y_pos, (int) data.width, (int) data.height}; }
     

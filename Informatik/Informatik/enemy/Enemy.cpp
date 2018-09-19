@@ -33,7 +33,7 @@ void Enemy::renderHP(float xoffset, float yoffset)
     {
         float difference = data.currentHealth - animationHealth;
         float step = difference;
-        if(abs(step) >= MAX_STEP) step = SIGN(difference) * MAX_STEP;
+        if(abs(step) >=  data.maxhealth * MAXPERCENT_PER_FRAME) step = SIGN(difference) * data.maxhealth * MAXPERCENT_PER_FRAME;
         animationHealth += step;
         
         if(animationHealth <= 0)

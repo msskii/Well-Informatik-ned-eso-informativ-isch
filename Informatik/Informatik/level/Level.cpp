@@ -164,6 +164,7 @@ void Level::render() // and update
         }
     }
     
+    
     // Events wont be rendered in the end
     for(int i = 0; i < (int) events.size(); i++)
     {
