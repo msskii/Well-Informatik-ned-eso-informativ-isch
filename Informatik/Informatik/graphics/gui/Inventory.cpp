@@ -11,6 +11,7 @@
 Inventory::Inventory(Player *p) : player(p)
 {
     background_surface = IMG_Load(GET_TEXTURE_PATH("/backgrounds/testback"));
+    //texture = getTexture(background_surface);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {

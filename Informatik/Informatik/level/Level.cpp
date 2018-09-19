@@ -148,13 +148,7 @@ void Level::render() // and update
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
     
-    //Render all Tiles
-    /**for(int i = 0; i < (int) (width * height); i++)
-    {
-        tiles[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
-    }*/
-    
-    renderWithShading(level_texture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
+    renderWithShading(level_texture, {}, {xoffset, yoffset, level_texture.width, level_texture.height});
     
     //Check if Enteties are behind a building, if yes render them here. Else set a flag to do so after the buildings
     for(int i = 0; i < (int) entities.size(); i++)
