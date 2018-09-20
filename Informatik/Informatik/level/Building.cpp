@@ -22,7 +22,7 @@ Building::Building(int x, int y, uint16_t buildingNumber): data({buildingNumber,
             data.hitboxX = data.xcoord;
             data.hitboxY = data.ycoord + 1.5;
             
-            data.hitboxXBehind = data.xcoord - 1;
+            data.hitboxXBehind = data.xcoord - 2;
             data.hitboxYBehind = data.ycoord - 1;
             data.hitboxsizeXBehind = 8;
             data.hitboxsizeYBehind = 5.4;
