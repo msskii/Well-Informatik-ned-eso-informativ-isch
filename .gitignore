@@ -39,6 +39,6 @@ begin_code.h
 close_code.h
 
 # No user-created files from the game
-# *.level
+*.level
 /assets/data/informatik.config
 /Informatik/Informatik/glew

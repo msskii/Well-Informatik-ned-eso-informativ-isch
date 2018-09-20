@@ -37,8 +37,8 @@ static const char** texturePaths = new const char*[NUM_TEXTURES]
     "/elements/textbox"
 };
 
-extern std::map<int, SDL_Texture*> textures;
-extern void reloadElementTextures(SDL_Renderer *renderer);
+extern std::map<int, gl_texture> gl_textures;
+extern void reloadElementTextures();
 
 class Element // Full definition of the element class, as used by the menus
 {
@@ -53,7 +53,7 @@ public:
 
     void addToMenu(Menu *menu);
     
-    virtual void render(SDL_Renderer *renderer) = 0;
+    virtual void render() = 0;
     virtual void processEvent(Menu *menu, SDL_Event e) = 0; // Like update, but with all events like mouse
 };
 

@@ -14,7 +14,7 @@ EditorClickHandler::EditorClickHandler()
 }
 
 
-void EditorClickHandler::render(SDL_Renderer *renderer)
+void EditorClickHandler::render()
 {
     if(!menu->active) return;
     
@@ -41,7 +41,7 @@ EditorOverlay::EditorOverlay()
 
 bool EditorOverlay::shouldWindowClose() { return false; }
 
-void EditorOverlay::renderMenu(SDL_Renderer *renderer)
+void EditorOverlay::renderMenu()
 {
     if(eventEditorEnabled)
     {
@@ -60,23 +60,20 @@ void EditorOverlay::renderMenu(SDL_Renderer *renderer)
         }
         if(e == nullptr) return;
         
-        COLOR(renderer, 0xAFFFFFFF);
         int xpos = e->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
         int ypos = e->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
         SDL_Rect dst = {xpos, ypos, e->event_data.event_w, e->event_data.event_h};
-        SDL_RenderFillRect(renderer, &dst);
+        fillRect(0xAFFFFFF, dst);
     }
     else
     {
-        COLOR(renderer, 0xAFFFFFFF);
         int tileX = clickhandler->selectedID % window->level->width;
         int tileY = clickhandler->selectedID / window->level->width;
         
         // printf("X: %d, Y: %d\n", tileX, tileY);
         
         SDL_Rect dst = { tileX * TILE_SIZE + window->level->player->getOffsetX() + PLAYER_OFFSET_X, tileY * TILE_SIZE + window->level->player->getOffsetY() + PLAYER_OFFSET_Y, TILE_SIZE, TILE_SIZE };
-        SDL_RenderFillRect(renderer, &dst);
-
+        fillRect(0xAFFFFFF, dst);
     }
 }
 
@@ -137,6 +134,6 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
     }
 }
 
-void EditorOverlay::drawOverlay(SDL_Renderer *renderer) {}
+void EditorOverlay::drawOverlay() {}
 void EditorOverlay::onOpen() {}
 void EditorOverlay::onClose() {}

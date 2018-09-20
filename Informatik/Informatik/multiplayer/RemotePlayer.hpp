@@ -3,7 +3,7 @@
 //  Informatik
 //
 //  Created by Aaron Hodel on 28.08.18.
-//  Copyright © 2018 Aaron Hodel. All rights reserved.
+//  Copyright ï¿½ 2018 Aaron Hodel. All rights reserved.
 //
 
 #ifndef RemotePlayer_hpp
@@ -21,7 +21,7 @@ namespace Multiplayer
 		RemotePlayer();
 
 		void onAddToLevel(Level *level);
-		void render(SDL_Renderer *renderer, int xoff, int yoff);
+		void render(int xoff, int yoff);
 		void update(const uint8_t *keys);
 	};
 }

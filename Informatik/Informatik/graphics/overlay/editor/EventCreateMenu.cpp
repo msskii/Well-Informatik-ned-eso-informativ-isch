@@ -169,15 +169,14 @@ void EventCreateMenu::switchSide()
 
 bool EventCreateMenu::shouldWindowClose() { return false; }
 
-void EventCreateMenu::renderMenu(SDL_Renderer *renderer)
+void EventCreateMenu::renderMenu()
 {
-    COLOR(renderer, 0xFFFF0000);
     SDL_Rect event = { x_slider->currentValue + PLAYER_OFFSET_X + window->level->xoffset, y_slider->currentValue + PLAYER_OFFSET_Y + window->level->yoffset, w_slider->currentValue, h_slider->currentValue };
-    SDL_RenderFillRect(renderer, &event);
+    fillRect(0xFFFF0000, event);
     
-    COLOR(renderer, 0x55FFFFFF);
     SDL_Rect r = {isOnLeftSide ? 0 : GAME_WIDTH - 600, 0, 600, GAME_HEIGHT};
-    SDL_RenderFillRect(renderer, &r);
+    fillRect(0x55FFFFFF, r);
+
 }
 
 void EventCreateMenu::updateMenu(const uint8_t *keys)
@@ -192,6 +191,6 @@ void EventCreateMenu::updateMenu(const uint8_t *keys)
     } else jpressed = false;
 }
 
-void EventCreateMenu::drawOverlay(SDL_Renderer *renderer) {}
+void EventCreateMenu::drawOverlay() {}
 void EventCreateMenu::onOpen() {}
 void EventCreateMenu::onClose() {}

@@ -18,11 +18,11 @@ public:
 
 public:
     SDL_Surface *surface = nullptr;
-    SDL_Texture *texture = nullptr;    
+    gl_texture texture;    
     
     inline bool operator==(Item *other) { return other == nullptr ? false : strcmp(name, other->name) == 0; };
     
-    Item(const char* itemname, SDL_Renderer *renderer);
+    Item(const char* itemname);
 };
 
 typedef struct InventoryElement

@@ -36,6 +36,18 @@ Slime::Slime(float x, float y, int level)
         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_RedSlime"));
     }
    
+    texture = getTexture(enemy_surface);
+    
+    SDL_Surface *hurt_surface = SDL_CreateRGBSurfaceWithFormatFrom(enemy_surface->pixels, enemy_surface->w, enemy_surface->h, 32, enemy_surface->pitch, SDL_PIXELFORMAT_ARGB8888);
+    
+    uint32_t *pixels = (uint32_t*) hurt_surface->pixels;
+    for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
+    {
+        uint32_t cp = ((uint32_t*) enemy_surface->pixels)[i];
+        pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
+    }
+    
+    texture_hurt = getTexture(hurt_surface);
 }
 
 bool Slime::isInside(float x, float y)
@@ -45,27 +57,9 @@ bool Slime::isInside(float x, float y)
 
 void Slime::onAddToLevel(Level *level) {}
 
-void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
+void Slime::render(int xoff, int yoff)
 {
-    renderHP(renderer, (float)xoff, (float)yoff); // Render the hp of the enemy
-    
-    if(texture == nullptr)
-    {
-        texture = SDL_CreateTextureFromSurface(renderer, enemy_surface);
-        texture_hurt = SDL_CreateTexture(renderer, enemy_surface->format->format, SDL_TEXTUREACCESS_STREAMING, enemy_surface->w, enemy_surface->h);
-        SDL_SetTextureBlendMode(texture_hurt, SDL_BLENDMODE_BLEND);
-        
-        uint32_t *pixels;
-        int pitch;
-        SDL_LockTexture(texture_hurt, NULL, (void**) &pixels, &pitch);
-        for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
-        {
-            uint32_t cp = ((uint32_t*) enemy_surface->pixels)[i];
-            pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
-        }
-        SDL_UnlockTexture(texture_hurt);
-        return;
-    }
+    renderHP((float) xoff, (float)yoff); // Render the hp of the enemy
     
     // TODO implement death animation
     
@@ -74,11 +68,11 @@ void Slime::render(SDL_Renderer *renderer, int xoff, int yoff)
     TRANSFORM_LEVEL_POS(dst, xoff, yoff); // Transform r to the level position
     if((hurt--) > 0)
     {
-        SDL_RenderCopy(renderer, texture_hurt, &src, &dst);
+        renderWithShading(texture_hurt, src, dst);
     }
     else
     {
-        SDL_RenderCopy(renderer, texture, &src, &dst);
+        renderWithShading(texture, src, dst);
     }
 }
 

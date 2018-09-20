@@ -80,7 +80,7 @@ void Tests::testSockets()
 void Tests::testLevelLoader()
 {
     Tests::createWindow();
-    printf("Textfile of level: %s\n", Loader::LevelLoader(GET_FILE_PATH(LEVEL_PATH, "testlevel.level"), Tests::renderer).buildLevel()->textFile.c_str()); // Test loading level
+    printf("Textfile of level: %s\n", Loader::LevelLoader(GET_FILE_PATH(LEVEL_PATH, "testlevel.level")).buildLevel()->textFile.c_str()); // Test loading level
 }
 
 void Tests::testNPCLoader()

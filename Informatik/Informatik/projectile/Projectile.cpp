@@ -14,28 +14,29 @@ Projectile::Projectile(float x, float y, float ra) : rotationAngle(ra)
     data.x_pos = x;
     data.y_pos = y;
     
+    data.width = 64;
+    data.height = 64;
+    
     surface = IMG_Load(GET_TEXTURE_PATH("projectiles/arrow_ur"));
+    texture = getTexture(surface);
     
     velocity.x = cos(ra) * PROJECTILE_SPEED;
     velocity.y = -sin(ra) * PROJECTILE_SPEED;
+    
+    despawnTimer = 60 * 10;
 }
 
 void Projectile::onAddToLevel(Level *level) {}
 
-void Projectile::render(SDL_Renderer *renderer, int xoff, int yoff)
+void Projectile::render(int xoff, int yoff)
 {
-    if(texture == nullptr)
-    {
-        texture = SDL_CreateTextureFromSurface(renderer, surface);
-    }
-    
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
-    SDL_Point center = {(int) data.width / 2, (int) data.height / 2};
     
     SDL_Rect src = {current_anim * 32, 0, 32, 32};
-    
-    SDL_RenderCopyEx(renderer, texture, &src, &r, -TO_DEG(rotationAngle) + 45, &center, SDL_FLIP_NONE);
+
+    if(max_anim != 1) renderWithShading(texture, src, r); // Animations cant be rotated...
+    else renderWithRotation(texture, src, r, -rotationAngle + PI / 4.0f, false);
 }
 
 void Projectile::update(const uint8_t *keys)

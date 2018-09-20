@@ -20,15 +20,25 @@ Inventory::Inventory(Player *p) : player(p)
 
 bool Inventory::shouldWindowClose() { return false; }
 
-void Inventory::drawOverlay(SDL_Renderer *renderer)
+void Inventory::drawOverlay()
 {
     if(selected == nullptr || selected->renderItem.item == nullptr) return; // No item selected
     
     SDL_Rect r = {hoverX, hoverY, INV_GRID_SIZE, INV_GRID_SIZE};
-    SDL_RenderCopy(renderer, selected->renderItem.item->texture, NULL, &r);
+    renderWithoutShading(selected->renderItem.item->texture, {}, r);
 }
 
-void Inventory::renderMenu(SDL_Renderer *renderer) {}
+void Inventory::drawBackground()
+{
+    // Set to white...
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Inventory::renderMenu()
+{
+    
+}
 
 void Inventory::updateMenu(const uint8_t *keys)
 {
@@ -41,7 +51,6 @@ void Inventory::updateMenu(const uint8_t *keys)
 void Inventory::onOpen() {}
 void Inventory::onClose()
 {
-    window->paused = false;
     if(selected != nullptr)
     {
         // Place selected item in correct spot

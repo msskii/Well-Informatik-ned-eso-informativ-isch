@@ -26,30 +26,19 @@ Slider::Slider(int min, int max, int current, int _x, int _y, int _w, int _h, in
     elementID = id;
 }
 
-void Slider::render(SDL_Renderer *renderer)
+void Slider::render()
 {
     SDL_Rect r = { x + (int) ((float) (currentValue - minValue) * (float) w / (float) (maxValue - minValue)), y, 5, h };
-    COLOR(renderer, 0xFFF00000);
-    SDL_RenderFillRect(renderer, &r);
+    fillRect(0xFFF00000, r);
     
-    COLOR(renderer, 0xFF000000);
-
-    if(textCache.texture == nullptr || needsUpdate)
-    {
-        drawTextAspect(renderer, std::to_string(currentValue).c_str(), 0xFF000000, x, y, w, h, textCache);
-        needsUpdate = false;
-    }
-    else
-    {
-        SDL_Rect r = {x, y, textCache.textwidth, textCache.textheight};
-        SDL_RenderCopy(renderer, textCache.texture, NULL, &r);
-    }
+    drawTextAspect(std::to_string(currentValue).c_str(), 0xFF000000, {x, y, w, h}, textCache, needsUpdate);
+    needsUpdate = false;
     
     r = {x + 1, y, w - 1, h - 1};
-    SDL_RenderDrawRect(renderer, &r);
+    fillRect(0xFF000000, r);
     
     r = {x + 2, y + 1, w, h - 2};
-    SDL_RenderDrawRect(renderer, &r);
+    fillRect(0xFF000000, r);
 }
 
 void Slider::processEvent(Menu *menu, SDL_Event e)
