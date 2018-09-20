@@ -57,11 +57,11 @@ void Enemy::renderHP(float xoffset, float yoffset)
     
     //COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
     //SDL_RenderFillRect(renderer, &hpbar); // Full background
-    fillRect(0xFFFF00, hpbar);
+    fillRect(0xFFFF0000, hpbar);
     
     hpbar.w = (int)(data.width * animationHealth / data.maxhealth);
     // COLOR(renderer, 0xFF00FF00);
     // SDL_RenderFillRect(renderer, &hpbar); // Draw hp in green
     // Draw box around hp bar
-    fillRect(0xFFFF00, hpbar);
+    fillRect(0xFF00FF00, hpbar);
 }
