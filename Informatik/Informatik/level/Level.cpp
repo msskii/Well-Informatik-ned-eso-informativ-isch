@@ -180,7 +180,7 @@ void Level::render() // and update
     if (clientConnector != nullptr)
     {
         // We connected & arent playing singleplayer
-        clientConnector->render(renderer, xoffset, yoffset);
+        clientConnector->render(xoffset, yoffset);
         clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
     }
 #endif
