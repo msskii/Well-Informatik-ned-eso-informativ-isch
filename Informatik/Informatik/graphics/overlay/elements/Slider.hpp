@@ -19,7 +19,7 @@ protected:
     int minValue, maxValue;
     sliderCallback clbck = nullptr;
     
-    bool needsUpdate = false;
+    bool needsUpdate = true;
     cachedTexture textCache;
     
 public:

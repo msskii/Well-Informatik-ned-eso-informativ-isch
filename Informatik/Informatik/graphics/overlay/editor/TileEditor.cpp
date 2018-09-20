@@ -89,6 +89,8 @@ void TileEditor::onClose()
     level->tiles[tileID].data.variant = variant_slider->currentValue;
     level->tiles[tileID].reloadTexture();
     
+    level->updateTile(tileID);
+    
     // updateVariant(level); // Update the variant based on the stuff around
 }
 

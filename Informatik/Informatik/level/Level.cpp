@@ -39,7 +39,6 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     tiles[281].data.tileNumber = 0;
     tiles[279].data.tileNumber = 0;
     
-    
     tiles[240].data.tileNumber = 0;
     tiles[290].data.tileNumber = 0;
     tiles[340].data.tileNumber = 0;
@@ -48,7 +47,8 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     tiles[439].data.tileNumber = 0;
     tiles[540].data.tileNumber = 0;
     
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++)
+    {
         tiles[50 * 15 + 10 +i].data.tileNumber = 0;
         tiles[50 * 14 + 10 +i].data.tileNumber = 0;
     }
@@ -59,10 +59,27 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
         Building(10, 10, 0)
     };
     
-    for(int i = 0; i < w * h; i++) tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
+    for(int i = 0; i < w * h; i++)
+    {
+        tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
+        tiles[i].reloadTexture(); // Load initial texture...
+    }
+
+    // Create texture
+    srfc = SDL_CreateRGBSurfaceWithFormat(0, TILE_SIZE * width, TILE_SIZE * height, 32, SDL_PIXELFORMAT_ARGB8888);
+    SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
+    for(int i = 0; i < width * height; i++)
+    {
+        dst.x = tiles[i].xcoord * TILE_SIZE;
+        dst.y = tiles[i].ycoord * TILE_SIZE;
+        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+        {
+            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+        }
+    }
+    level_texture = getTexture(srfc);
     
     updateVariant(this); // Update all variants for the tiles
-    for(int i = 0; i < w * h; i++) tiles[i].reloadTexture();
     
     textFile = GET_FILE_PATH(LEVEL_PATH, "test.text"); // Somehow this wasnt initialized on windows but on mac it was...
     text = new Loader::TextLoader(textFile.c_str());
@@ -98,21 +115,6 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
     player->updateMovement(0, 0); // Update player before level loads
-    
-    // Create texture
-    SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, TILE_SIZE * width, TILE_SIZE * height, 32, SDL_PIXELFORMAT_ARGB8888);
-    SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
-    for(int i = 0; i < width * height; i++)
-    {
-        dst.x = tiles[i].xcoord * TILE_SIZE;
-        dst.y = tiles[i].ycoord * TILE_SIZE;
-        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
-        {
-            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
-        }
-    }
-    level_texture = getTexture(srfc);
-    SDL_FreeSurface(srfc);
 }
 
 void Level::addEntity(Entity *e)
@@ -247,6 +249,31 @@ bool Level::getBuildingCollision(float x, float y)
         }
     }
     return false;
+}
+
+void Level::updateTile(int tilenum)
+{
+    printf("Updating tile at %d\n", tilenum);
+    SDL_Rect dst = {tiles[tilenum].xcoord * TILE_SIZE, tiles[tilenum].ycoord * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+    SDL_BlitScaled(tiles[tilenum].Tile_surface, &tiles[tilenum].Tile_surface->clip_rect, srfc, &dst);
+    deleteTexture(level_texture);
+    level_texture = getTexture(srfc);
+}
+
+void Level::updateTiles()
+{
+    deleteTexture(level_texture);
+    SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
+    for(int i = 0; i < width * height; i++)
+    {
+        dst.x = tiles[i].xcoord * TILE_SIZE;
+        dst.y = tiles[i].ycoord * TILE_SIZE;
+        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+        {
+            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+        }
+    }
+    level_texture = getTexture(srfc);
 }
 
 void Level::setLevelMap(uint8_t map)

@@ -28,17 +28,18 @@ Slider::Slider(int min, int max, int current, int _x, int _y, int _w, int _h, in
 
 void Slider::render()
 {
-    SDL_Rect r = { x + (int) ((float) (currentValue - minValue) * (float) w / (float) (maxValue - minValue)), y, 5, h };
-    fillRect(0xFFF00000, r);
-    
-    drawTextAspect(std::to_string(currentValue).c_str(), 0xFF000000, {x, y, w, h}, textCache, needsUpdate);
-    needsUpdate = false;
-    
+    SDL_Rect r;
     r = {x + 1, y, w - 1, h - 1};
     fillRect(0xFF000000, r);
     
     r = {x + 2, y + 1, w, h - 2};
     fillRect(0xFF000000, r);
+    
+    r = { x + (int) ((float) (currentValue - minValue) * (float) w / (float) (maxValue - minValue)), y, 5, h };
+    fillRect(0xFFF00000, r);
+    
+    drawTextAspect(std::to_string(currentValue).c_str(), 0xFFFFFFFF, {x, y, w, h}, textCache, needsUpdate);
+    needsUpdate = false;
 }
 
 void Slider::processEvent(Menu *menu, SDL_Event e)

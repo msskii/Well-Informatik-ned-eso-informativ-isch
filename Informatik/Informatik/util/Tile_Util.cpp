@@ -86,4 +86,5 @@ void updateVariant(Level *level)
             level->tiles[i].reloadTexture(); // Reload the texture now...
         }
     }
+    level->updateTiles();
 }

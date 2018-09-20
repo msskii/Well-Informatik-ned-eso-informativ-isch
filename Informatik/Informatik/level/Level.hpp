@@ -30,6 +30,8 @@ class Window;
 class Level
 {
 private:
+    SDL_Surface *srfc;
+    
 public:
     Player *player; // The player in this level
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
@@ -64,7 +66,9 @@ public:
     
     //Level(int w, int h, SDL_Renderer *renderer);
     Level(int w, int h);
-    
+    void updateTile(int tilenum);
+    void updateTiles();
+
     void reloadFiles();
     void addEntity(Entity *e); // To add an entity
     void removeEntity(Entity *e);
