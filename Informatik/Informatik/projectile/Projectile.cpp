@@ -38,7 +38,7 @@ void Projectile::render(int xoff, int yoff)
     if(max_anim != 1) renderWithShading(texture, src, r); // Animations cant be rotated...
     else renderWithRotation(texture, src, r, -rotationAngle + PI / 4.0f, false);
     
-    level->window->lights.addLight({(float) r.x + data.width / 2.0f, (float) r.y + data.height / 2.0f, 3.0f, 1, 1, 1});
+    level->window->lights.addLight({(float) r.x + data.width / 2.0f, (float) r.y + data.height / 2.0f, 5.0f, 1, 0, 0});
 }
 
 void Projectile::update(const uint8_t *keys)

@@ -25,9 +25,9 @@ void main()
         
         vec4 toAdd = vec4(ext_light_colors[i].x, ext_light_colors[i].y, ext_light_colors[i].z, alpha); // No alpha if there was no alpha...
 
-        float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * 4.0;
+        float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * 3.0;
         d = min(max(0, d), 1.0);
-        toAdd *= (1.0 - d) * ext_light_positions[i].z * 2.0 / NUM_LIGHTS;
+        toAdd *= (1.0 - d) * ext_light_positions[i].z * 3.0 / NUM_LIGHTS;
 
         col += toAdd;
     }
