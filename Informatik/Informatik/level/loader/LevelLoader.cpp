@@ -90,7 +90,7 @@ Loader::LevelLoader::LevelLoader(const char *path)
         
         uint32_t numbuildings = read<int>(levelFile);
         Building *buildings = (Building*) malloc(sizeof(Building) * numbuildings); // Don't call constructor... so no constructor is needed
-        for(int i = 0; i < numbuildings; i++) buildings[i] = Building(read<BuildingData>(levelFile));
+        for(int i = 0; i < numbuildings; i++) buildings[i] = Building(read<BuildingData>(levelFile), level);
         
         level->audioFile = readString(levelFile);
         level->textFile = readString(levelFile);

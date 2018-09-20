@@ -33,7 +33,7 @@ void LightOverlay::startFrame()
     // Reset data
     for(int i = 0; i < 3 * MAX_LIGHTS; i++)
     {
-        positions[i] = -100;
+        positions[i] = 0x414570A3;
         colors[i] = 1.0;
     }
     count = 0;

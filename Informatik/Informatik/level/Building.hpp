@@ -47,7 +47,7 @@ private:
 public:
     BuildingData data;
     Building(int x, int y, uint16_t buildingnumber, Level *level);
-    Building(BuildingData d);
+    Building(BuildingData d, Level *level);
     void render(int xoff, int yoff);
     bool isInside(float x, float y);
     bool isBehind(float x, float y);

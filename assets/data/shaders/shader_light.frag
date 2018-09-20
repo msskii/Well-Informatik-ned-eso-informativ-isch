@@ -16,14 +16,18 @@ uniform vec3 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
 void main()
 {
     col = texture(texture_sampler, uv).bgra;
-    col.a = col.a; // min(initial_alpha, col.a); //1.0 - d;
+    col.a = col.a * initial_alpha; // min(initial_alpha, col.a); //1.0 - d;
     
-    float modifier = initial_alpha;
     for(int i = 0; i < NUM_LIGHTS; i++)
     {
-        float d = distance(vec2(ext_light_positions[i].x * 2 - 1, 1 - ext_light_positions[i].y * 2), vec2(pos.x, pos.y / 16.0 * 9.0));
+        if(ext_light_colors[i].x == 0x414570A3) continue;
         
-        modifier += max(1.0 - d, 0) * ext_light_positions[i].z / 3.0; // Add to old light
+        vec4 toAdd = vec4(ext_light_colors[i].x, ext_light_colors[i].y, ext_light_colors[i].z, 1.0);
+
+        float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * 4.0;
+        d = min(max(0, d), 1.0);
+        toAdd *= (1.0 - d) * ext_light_positions[i].z * 2.0 / NUM_LIGHTS;
+
+        col += toAdd;
     }
-    col.rgb *= modifier / 3.0;
 }

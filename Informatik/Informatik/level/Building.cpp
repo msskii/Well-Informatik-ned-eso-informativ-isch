@@ -38,7 +38,7 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
     texture = getTexture(building_surface);
 }
 
-Building::Building(BuildingData d) : data(d)
+Building::Building(BuildingData d, Level *l) : data(d), level(l)
 {
     switch (data.buildingNumber)
     {
