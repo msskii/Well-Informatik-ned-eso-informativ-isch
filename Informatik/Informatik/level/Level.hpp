@@ -45,7 +45,11 @@ public:
 	inline void connectToServer(const char *address) { clientConnector = new Multiplayer::Client(address);  }
 #endif
     
+<<<<<<< HEAD
     float sunBrightness = 0.5f;
+=======
+    float sunBrightness = 0.0f;
+>>>>>>> ce7474d0cb8924b00eda163093c87f39cd3adb29
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     

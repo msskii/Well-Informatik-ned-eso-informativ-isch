@@ -17,7 +17,11 @@
 
 // #define DEBUG_OVERLAY
 #define DEBUG_RANDOM // Always same random values in the same order if enabled
+<<<<<<< HEAD
 //#define ENABLE_TEST_MULTIPLAYER // Enable the option to join a server in the main menu
+=======
+#define ENABLE_TEST_MULTIPLAYER // Enable the option to join a server in the main menu
+>>>>>>> ce7474d0cb8924b00eda163093c87f39cd3adb29
 
 
 // ======================

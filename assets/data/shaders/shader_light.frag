@@ -2,7 +2,7 @@
 
 #define NUM_LIGHTS 40
 
-#define LIGHT_SPREAD 3.0
+#define LIGHT_SPREAD 2.0
 #define LIGHT_BRIGHTNESS 3.0
 
 uniform sampler2D texture_sampler;
@@ -18,7 +18,7 @@ uniform vec3 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
 void main()
 {
     col = texture(texture_sampler, uv).bgra;
-    float alpha = col.a * initial_alpha;
+    float alpha = initial_alpha;
     float a = col.a;
     
     for(int i = 0; i < NUM_LIGHTS; i++)
