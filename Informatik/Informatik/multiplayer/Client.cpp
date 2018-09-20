@@ -41,9 +41,12 @@ Multiplayer::Client::Client(const char *address)
 	if (socket == NULL)
 	{
 		printf("[ERROR] Couldn't connect to the server '%s' (SDLnet error: %s)\n", address, SDLNet_GetError());
-		exit(0);
+		// exit(0);
+        return;
 	}
 
+    connectionEstablished = true;
+    
 	uint8_t *welcome = new uint8_t[2] { 0x41, 0x46 }; // Send welcoming message? --> Like name or stuff
 	SDLNet_TCP_Send(socket, (char*) welcome, 2);
 

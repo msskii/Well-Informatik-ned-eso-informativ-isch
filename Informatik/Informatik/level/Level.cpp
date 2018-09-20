@@ -177,7 +177,7 @@ void Level::render() // and update
     //render player if he is behind a building
     if (player->isBehind) player->render(xoffset, yoffset);
     
-#ifdef ENABLE_TEST_MULTIPLAYER
+#ifdef ENABLE_TEST_MULTIPLAYER    
     if (clientConnector != nullptr)
     {
         // We connected & arent playing singleplayer

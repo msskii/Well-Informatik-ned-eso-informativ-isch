@@ -27,15 +27,15 @@ void TextBox::render()
     // SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
     renderWithoutShading(gl_textures[TEXTBOX], {}, dst);
     
-    drawTextAspect(currentText.c_str(), 0xFF000000, dst, lastTexture, changed);
+    usedScale = drawTextAspect(currentText.c_str(), 0xFF000000, dst, lastTexture, changed);
     changed = false;
     
     // cursor is after last character --> measure string till
     int tw, th;
     TTF_SizeText(font, currentText.substr(0, currentIndex).c_str(), &tw, &th);
-    int realWidth = (int)((float) tw / SCALE_X * usedScale);
+    int realWidth = (int)((float) tw * usedScale);
     TTF_SizeText(font, currentText.substr(0, selectionStart).c_str(), &tw, &th);
-    int selectionWidth = (int)((float) tw / SCALE_X * usedScale);
+    int selectionWidth = (int)((float) tw * usedScale);
     
     SDL_Rect selection;
     if(selectionStart < currentIndex) selection = {x + selectionWidth, y, realWidth - selectionWidth, h};
@@ -67,7 +67,7 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
             {
                 int tw, th;
                 TTF_SizeText(font, currentText.substr(0, i).c_str(), &tw, &th);
-                int realWidth = (int)((float) tw / SCALE_X * usedScale);
+                int realWidth = (int)((float) tw * usedScale);
                 
                 if(xpos >= realWidth)
                 {
@@ -93,7 +93,7 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
             {
                 int tw, th;
                 TTF_SizeText(font, currentText.substr(0, i).c_str(), &tw, &th);
-                int realWidth = (int)((float) tw / SCALE_X * usedScale);
+                int realWidth = (int)((float) tw / usedScale);
                 
                 if(xpos >= realWidth)
                 {
