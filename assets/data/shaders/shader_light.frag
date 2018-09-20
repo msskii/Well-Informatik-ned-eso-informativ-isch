@@ -9,7 +9,6 @@ out vec4 col;
 in vec2 uv;
 
 uniform float initial_alpha;
-uniform vec2 mousepos;
 uniform vec3 ext_light_positions[NUM_LIGHTS]; // max 40 lights?
 uniform vec3 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
 
@@ -18,7 +17,6 @@ void main()
     col = texture(texture_sampler, uv).bgra;
     float alpha = col.a * initial_alpha;
     float a = col.a;
-    // col.a = alpha; // min(initial_alpha, col.a); //1.0 - d;
     
     for(int i = 0; i < NUM_LIGHTS; i++)
     {

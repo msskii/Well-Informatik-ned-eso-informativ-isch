@@ -45,5 +45,9 @@ void LightOverlay::render()
     glUniform1f(glGetUniformLocation(light_shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     glUniform3fv(glGetUniformLocation(light_shader, "ext_light_positions"), MAX_LIGHTS, positions);
     glUniform3fv(glGetUniformLocation(light_shader, "ext_light_colors"), MAX_LIGHTS, colors);
+    glUseProgram(light_shader_rotation);
+    glUniform1f(glGetUniformLocation(light_shader_rotation, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
+    glUniform3fv(glGetUniformLocation(light_shader_rotation, "ext_light_positions"), MAX_LIGHTS, positions);
+    glUniform3fv(glGetUniformLocation(light_shader_rotation, "ext_light_colors"), MAX_LIGHTS, colors);
     glUseProgram(0);
 }

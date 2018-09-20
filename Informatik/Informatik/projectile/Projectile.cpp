@@ -36,7 +36,7 @@ void Projectile::render(int xoff, int yoff)
     SDL_Rect src = {current_anim * 32, 0, 32, 32};
 
     if(max_anim != 1) renderWithShading(texture, src, r); // Animations cant be rotated...
-    else renderWithRotation(texture, src, r, -rotationAngle + PI / 4.0f, false);
+    else renderWithRotation(texture, src, r, -rotationAngle + PI / 4.0f, true);
     
     level->window->lights.addLight({(float) r.x + data.width / 2.0f, (float) r.y + data.height / 2.0f, 5.0f, 1, 0, 0});
 }
