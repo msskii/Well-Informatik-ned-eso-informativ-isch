@@ -447,8 +447,8 @@
 			children = (
 				9382708D213ED2D10084F967 /* Projectile.cpp */,
 				9382708E213ED2D10084F967 /* Projectile.hpp */,
-				93185F8821465506001A2167 /* ExplodingProjectile.cpp */,
 				93185F8921465506001A2167 /* ExplodingProjectile.hpp */,
+				93185F8821465506001A2167 /* ExplodingProjectile.cpp */,
 				937B001C214D888000BE1EE0 /* Explosion.cpp */,
 				937B001D214D888000BE1EE0 /* Explosion.hpp */,
 			);

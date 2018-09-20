@@ -17,7 +17,9 @@
 
 // #define DEBUG_OVERLAY
 #define DEBUG_RANDOM // Always same random values in the same order if enabled
+
 #define ENABLE_TEST_MULTIPLAYER // Enable the option to join a server in the main menu
+
 
 
 // ======================

@@ -41,11 +41,12 @@ public:
     Building *buildings; //The Buildings .. you guessed
 
 #ifdef ENABLE_TEST_MULTIPLAYER
-	Multiplayer::Client *clientConnector = nullptr;
-	inline void connectToServer(const char *address) { clientConnector = new Multiplayer::Client(address);  }
+    Multiplayer::Client *clientConnector = nullptr;
+    inline void connectToServer(const char *address) { clientConnector = new Multiplayer::Client(address);  }
 #endif
     
-    float sunBrightness = 1.0f;
+
+    float sunBrightness = 0.5f;
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
