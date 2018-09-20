@@ -118,6 +118,8 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
         level->addEntity(new EntityItem(5, i, new Item("test")));
         level->addEntity(new EntityItem(3, i, new Item("test2")));
     }
+    
+    lights.open(this);
 }
 
 Window::~Window()
@@ -185,13 +187,14 @@ void Window::runGameLoop()
     // Init gl
     setupGL();
     setScreenSize(width, height);
-        
-    openMenu(new LightOverlay());
     
     while(running)
     {
         ++frames;
         auto start_time = clock.now(); // Now
+        
+        if(cooldown) --cooldown;
+        lights.startFrame();
         
         while(SDL_PollEvent(&e))
         {
@@ -204,7 +207,7 @@ void Window::runGameLoop()
             
             if(e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP || e.type == SDL_FINGERMOTION)
             {
-                // No touch events...
+                // No touch events... yet
                 continue;
             }
 
@@ -240,11 +243,15 @@ void Window::runGameLoop()
                 if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
                 else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_SHOOT])
                 {
+                    if(cooldown)continue;
+
                     for(int i = 0; i < 5; i++) // Shoot n projectiles
                     {
                         ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->player->x_pos, level->player->y_pos, (float) TO_RAD(rand() % 360));
                         level->addEntity(p);
                     }
+                    
+                    cooldown = 60; // Wait a second
                 }
                 else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->player));
             }
@@ -278,6 +285,8 @@ void Window::runGameLoop()
             printf("[ERROR] GL Error: %d\n", err);
         }
 
+        lights.render();
+        
         SDL_GL_SwapWindow(window);
         
         auto end_time = clock.now();

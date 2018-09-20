@@ -7,9 +7,9 @@
 //
 
 #include "Building.hpp"
+#include "../level/Level.hpp"
 
-
-Building::Building(int x, int y, uint16_t buildingNumber): data({buildingNumber, 0, 0, x, y})
+Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({buildingNumber, 0, 0, x, y}), level(l)
 {
     switch (buildingNumber)
     {
@@ -79,5 +79,6 @@ void Building::render(int xoffset, int yoffset)
     SDL_Rect dst = {(data.xcoord + data.textureOffsetX) * TILE_SIZE + xoffset, (data.ycoord + data.textureOffsetY) * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
     if(dst.x >= (GAME_WIDTH + data.sizeX * TILE_SIZE) || dst.x < (-TILE_SIZE - data.sizeX * TILE_SIZE) || dst.y >= (GAME_HEIGHT + data.sizeY * TILE_SIZE) || dst.y < (-TILE_SIZE - data.sizeY * TILE_SIZE)) return; // Only render the visible ones...
+    if(level != nullptr) level->window->lights.addLight({(float) dst.x, (float) dst.y, 10.0f, 1, 1, 1});
     renderWithShading(texture, src, dst);
 }

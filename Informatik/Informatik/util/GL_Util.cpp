@@ -178,7 +178,7 @@ void renderWithRotation(gl_texture texture, SDL_Rect src, SDL_Rect dst, float ro
 
 void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
 {
-    render(texture, src, dst, const_shader);
+    render(texture, src, dst, light_shader);
 }
 
 void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)

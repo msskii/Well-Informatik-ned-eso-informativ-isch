@@ -8,4 +8,5 @@ in vec2 uv;
 void main()
 {
     col = texture(texture_sampler, uv).bgra;
+    // col = texture(texture_sampler, uv).rrra;
 }

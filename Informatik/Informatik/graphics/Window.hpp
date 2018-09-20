@@ -47,6 +47,9 @@ public:
     SDL_GLContext context;
     int width = WINDOW_WIDTH, height = WINDOW_HEIGHT;
     const uint8_t *keyStates;
+    int cooldown = 0;
+    
+    LightOverlay lights = LightOverlay(); // Initialized
     
     ConfigLoader *loader = nullptr;
     

@@ -56,7 +56,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     
     buildings = new Building[1]
     {
-        Building(10, 10, 0)
+        Building(10, 10, 0, this)
     };
     
     for(int i = 0; i < w * h; i++)

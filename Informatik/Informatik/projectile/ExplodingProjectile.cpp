@@ -27,7 +27,6 @@ void ExplodingProjectile::update(const uint8_t *keys)
 {
     Projectile::update(keys); // Call super class
     
-    
     velocity += acceleration;
     if(velocity.len() <= 0.5)
     {

@@ -7,50 +7,43 @@
 //
 
 #include "LightOverlay.hpp"
+#include "../Window.hpp"
 
-LightOverlay::LightOverlay()
+LightOverlay::LightOverlay() {}
+
+void LightOverlay::addLight(lightSource source)
 {
-    printf("[INFO] Initialized GLEW: \n\tGL   Version: %s\n\tGLSL Version: %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+    if(count >= MAX_LIGHTS) return; // No more lights!
     
-    shouldLevelBeUpdated = true;
+    glUseProgram(light_shader);
+    
+    // Copy data
+    positions[3 * count + 0] = source.x / ((float) GAME_WIDTH);
+    positions[3 * count + 1] = source.y / ((float) GAME_HEIGHT);
+    positions[3 * count + 2] = source.brightness;
+    colors[3 * count + 0] = source.r;
+    colors[3 * count + 1] = source.g;
+    colors[3 * count + 2] = source.b;
+    
+    count++;
 }
 
-bool LightOverlay::shouldWindowClose() { return false; }
-
-void LightOverlay::renderMenu()
-{    
-    int x, y;
-    SDL_GetMouseState(&x, &y);
-    float x_pos_rel = (float) x / (float) GAME_WIDTH;
-    float y_pos_rel = (float) y / (float) GAME_HEIGHT;
-
-    glUseProgram(light_shader);
-    glUniform2f(glGetUniformLocation(light_shader, "mousepos"), x_pos_rel, y_pos_rel);
-
-    glUniform1f(glGetUniformLocation(light_shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
-    
-    for(int i = 0; i < 3 * MAX_LIGHTS; i++) positions[i] = -100;
-    int count = 0;
-    for(int i = 0; i < (int) window->level->entities.size(); i++)
+void LightOverlay::startFrame()
+{
+    // Reset data
+    for(int i = 0; i < 3 * MAX_LIGHTS; i++)
     {
-        Projectile *projectile = dynamic_cast<Projectile*>(window->level->entities[i]);
-        if(projectile != nullptr)
-        {
-            positions[3 * count + 0] = (projectile->data.x_pos + projectile->data.width / 2.0 + PLAYER_OFFSET_X + window->level->player->getOffsetX()) / (float) GAME_WIDTH;
-            positions[3 * count + 1] = (projectile->data.y_pos + projectile->data.height / 2.0 + PLAYER_OFFSET_Y + window->level->player->getOffsetY()) / (float) GAME_HEIGHT;
-            positions[3 * count + 2] = 1.0; // Brightness
-            if(++count == MAX_LIGHTS) break;
-        }
+        positions[i] = -100;
+        colors[i] = 1.0;
     }
-    glUniform3fv(glGetUniformLocation(light_shader, "ext_lights"), MAX_LIGHTS, positions);
-    
+    count = 0;
+}
+
+void LightOverlay::render()
+{
+    glUseProgram(light_shader);
+    glUniform1f(glGetUniformLocation(light_shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
+    glUniform3fv(glGetUniformLocation(light_shader, "ext_light_positions"), MAX_LIGHTS, positions);
+    glUniform3fv(glGetUniformLocation(light_shader, "ext_light_colors"), MAX_LIGHTS, colors);
     glUseProgram(0);
 }
-
-void LightOverlay::updateMenu(const uint8_t *keys)
-{
-    
-}
-
-void LightOverlay::onOpen() {}
-void LightOverlay::onClose() {}

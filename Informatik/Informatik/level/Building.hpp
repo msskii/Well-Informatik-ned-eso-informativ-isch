@@ -32,10 +32,9 @@ typedef struct BuildingData
     float hitboxsizeYBehind;
     int textureOffsetX = 0;
     int textureOffsetY = 0;
+} BuildingData;
 
-    
-}BuildingData;
-
+class Level;
 
 class Building
 {
@@ -43,10 +42,11 @@ private:
     SDL_Surface *building_surface = nullptr;
     gl_texture texture;
     char brightness_modifier = 0;
+    Level *level;
     
 public:
     BuildingData data;
-    Building(int x, int y, uint16_t buildingnumber);
+    Building(int x, int y, uint16_t buildingnumber, Level *level);
     Building(BuildingData d);
     void render(int xoff, int yoff);
     bool isInside(float x, float y);
