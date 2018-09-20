@@ -46,7 +46,7 @@ public:
 #endif
     
 
-    float sunBrightness = 0.5f;
+    float sunBrightness = 1.0f;
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
@@ -60,7 +60,7 @@ public:
     gl_texture level_texture; // All tiles in one texture?
     
 public:
-    int buildingCount = 1;
+    int buildingCount = 2;
     
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);

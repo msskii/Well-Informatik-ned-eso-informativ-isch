@@ -31,6 +31,20 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
             data.textureOffsetX = -1;
             
             break;
+        case 1:
+            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Character"));
+            data.sizeX = 1;
+            data.sizeY = 2;
+            data.hitboxsizeX = 1;
+            data.hitboxsizeY = 2;
+            data.hitboxX = (float) data.xcoord;
+            data.hitboxY = data.ycoord;
+            data.hitboxXBehind = data.xcoord;
+            data.hitboxYBehind = data.ycoord;
+            data.hitboxsizeXBehind = 1.0f;
+            data.hitboxsizeYBehind = 2.0f;
+            break;
+            
             
         default:
             break;
@@ -48,6 +62,11 @@ Building::Building(BuildingData d, Level *l) : data(d), level(l)
             data.sizeX = 8;
             data.sizeY = 5;
             break;
+            
+        case 1:
+            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Character"));
+            data.sizeX = 1;
+            data.sizeY = 2;
             
         default:
             break;
@@ -79,6 +98,6 @@ void Building::render(int xoffset, int yoffset)
     SDL_Rect dst = {(data.xcoord + data.textureOffsetX) * TILE_SIZE + xoffset, (data.ycoord + data.textureOffsetY) * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
     if(dst.x >= (GAME_WIDTH + data.sizeX * TILE_SIZE) || dst.x < (-TILE_SIZE - data.sizeX * TILE_SIZE) || dst.y >= (GAME_HEIGHT + data.sizeY * TILE_SIZE) || dst.y < (-TILE_SIZE - data.sizeY * TILE_SIZE)) return; // Only render the visible ones...
-    if(level != nullptr) level->window->lights.addLight({(float) dst.x + 40.0f, (float) dst.y + 220.0f, 10.0f, 1, 1, 1});
+    if(level != nullptr) level->window->lights.addLight({(float) dst.x + 40.0f, (float) dst.y + 220.0f, 1.0f, 1, 1, 1});
     renderWithShading(texture, src, dst);
 }
