@@ -53,6 +53,7 @@ static void onButtonPress(Menu *menu, Button *button)
             break;
 		case CONNECT_TO_SERVER:
 			menu->openSubMenu(new Multiplayer::ServerSelector(menu));
+            menu->window->level->remoteLevel = true; // Connected to a server
 			break;
 #endif
         default:

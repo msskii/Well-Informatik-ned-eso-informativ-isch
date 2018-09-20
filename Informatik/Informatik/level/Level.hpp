@@ -41,8 +41,13 @@ public:
     Building *buildings; //The Buildings .. you guessed
 
 #ifdef ENABLE_TEST_MULTIPLAYER
+    bool remoteLevel = false;
     Multiplayer::Client *clientConnector = nullptr;
-    inline void connectToServer(const char *address) { clientConnector = new Multiplayer::Client(address);  }
+    inline bool connectToServer(const char *address)
+    {
+        clientConnector = new Multiplayer::Client(address);
+        return clientConnector->connectionEstablished;
+    }
 #endif
     
 

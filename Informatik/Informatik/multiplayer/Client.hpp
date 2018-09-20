@@ -27,6 +27,7 @@ namespace Multiplayer
 		friend int clientReceive(void *data);
 
 	public:
+        bool connectionEstablished = false;
 		Client(const char *address); // Set up stuff & start receiver
 
 		void updatePlayerPos(int x, int y);

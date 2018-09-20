@@ -20,7 +20,7 @@ void Multiplayer::ServerSelector::updateMenu(const uint8_t *keys)
 	if (keys[SDL_SCANCODE_RETURN])
 	{
 #ifdef ENABLE_TEST_MULTIPLAYER
-		window->level->connectToServer(tb->currentText.c_str());
+		if(!window->level->connectToServer(tb->currentText.c_str())) return; // Dont close yet
 #endif
 		close();
 		this->mainMenu->close();
