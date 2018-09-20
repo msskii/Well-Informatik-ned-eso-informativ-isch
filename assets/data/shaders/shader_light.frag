@@ -17,7 +17,8 @@ void main()
 {
     col = texture(texture_sampler, uv).bgra;
     float alpha = col.a * initial_alpha;
-    col.a = alpha; // min(initial_alpha, col.a); //1.0 - d;
+    float a = col.a;
+    // col.a = alpha; // min(initial_alpha, col.a); //1.0 - d;
     
     for(int i = 0; i < NUM_LIGHTS; i++)
     {
@@ -31,4 +32,7 @@ void main()
 
         col += toAdd;
     }
+    
+    col *= alpha;
+    col.a = a;
 }
