@@ -208,7 +208,15 @@ void Window::runGameLoop()
                 continue;
             }
 
-            for(int i = (int) menus.size() - 1; i >= 0; i--) menus[i]->updateElements(e);
+            for(int i = (int) menus.size() - 1; i >= 0; i--)
+            {
+                menus[i]->updateElements(e);
+                if(menus[i]->consumeEvent)
+                {
+                    menus[i]->consumeEvent = false;
+                    break;
+                }
+            }
             
             // Handle events of the window
             if(e.type == SDL_WINDOWEVENT)

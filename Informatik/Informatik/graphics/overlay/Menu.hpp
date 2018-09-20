@@ -27,6 +27,7 @@ public:
     bool active = false; // Currently active?
     Menu *under = nullptr; // The menu that is under this one, so we can close one menu and go back to the last
     bool menuShouldBeClosed = false; // Used to close menus apart from the shouldwindowclose method
+    bool consumeEvent = false;
     Window *window;
     
     gl_texture background_texture;

@@ -39,7 +39,7 @@ bool PauseMenu::shouldWindowClose() { return false; }
 void PauseMenu::updateElements(SDL_Event e)
 {
     Menu::updateElements(e);
-
+    
     if(e.type == SDL_KEYDOWN)
     {
         if(e.key.keysym.sym == SDLK_ESCAPE)
@@ -47,6 +47,8 @@ void PauseMenu::updateElements(SDL_Event e)
             exitGame(window);
         }
     }
+
+    consumeEvent = true;
 }
 
 void PauseMenu::renderMenu()
