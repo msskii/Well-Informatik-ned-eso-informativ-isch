@@ -11,7 +11,7 @@
 
 Player::Player(Level *l) : level(l)
 {
-    player_surface = IMG_Load(GET_TEXTURE_PATH("player_boy"));
+    player_surface = IMG_Load(GET_TEXTURE_PATH("Character_Animation"));
     texture = getTexture(player_surface);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
@@ -184,17 +184,19 @@ void Player::render(int x, int y)
     //animation speed scales with player speed
     if(walking && (timer++ * SPEED) >= 50)
     {
+        animSet = 1;
         timer = 0;
         anim = (anim + 1) % 4;
     }
-    else if(!walking)
+    else if(!walking && timer++ >= 10)
     {
+        animSet = 0;
         timer = 0;
-        anim = 0;
+        anim = (anim + 1) % 4;
     }
 
-    SDL_Rect src = {32 * anim, 32 * direction, 32, 32};
-    SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, PLAYER_HEIGHT};
+    SDL_Rect src = {32 * anim, (animSet * 4 + direction) * 64, 32, 64};
+    SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, 128};
     renderWithShading(texture, src, dst);
     renderStats(xoff, yoff);
 }

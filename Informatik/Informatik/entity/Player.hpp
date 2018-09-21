@@ -51,7 +51,7 @@ public:
     
     // Animation stuff
     bool walking = false;
-    int anim = 0, timer = 0;
+    int anim = 0, timer = 0, animSet = 0;
     
     inline int getOffsetX() { return -(int)_x; }
     inline int getOffsetY() { return -(int)_y; }
