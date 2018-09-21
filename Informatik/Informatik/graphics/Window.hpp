@@ -52,6 +52,8 @@ public:
     LightOverlay lights = LightOverlay(); // Initialized
     
     ConfigLoader *loader = nullptr;
+    std::chrono::high_resolution_clock clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
+    bool mousePressed = false;
     
     // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus
@@ -68,6 +70,8 @@ public:
     
     Window();
     ~Window();
+    
+    void nextFrame();
     void runGameLoop();
     
     void openMenu(Menu *menu);

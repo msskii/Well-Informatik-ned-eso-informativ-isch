@@ -15,6 +15,8 @@
 #define SERVER_PORT 5543
 #define BUFFER_SIZE 1024
 
+class Window;
+
 namespace Multiplayer
 {
     
@@ -33,6 +35,7 @@ namespace Multiplayer
         friend int handleSocket(void *data);
         std::vector<ServerClient*> clients;
         bool serverRunning = false;
+        Window *window;
 
     public:
         TCPsocket serversocket;
@@ -43,7 +46,7 @@ namespace Multiplayer
         void broadcast(ServerClient *sender, const unsigned char* data, int length);
         
     public:
-        Server();
+        Server(Window *window);
     };
     
 }

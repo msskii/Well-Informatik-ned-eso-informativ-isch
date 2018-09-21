@@ -7,6 +7,7 @@
 //
 
 #include "Server.hpp"
+#include "../graphics/Window.hpp"
 
 void Multiplayer::ServerClient::sendTo(const unsigned char *toSend, int length)
 {
@@ -44,7 +45,7 @@ int Multiplayer::handleSocket(void *data)
     return 0;
 }
 
-Multiplayer::Server::Server()
+Multiplayer::Server::Server(Window *w) : window(w)
 {
     SDL_Init(SDL_INIT_TIMER);
     SDLNet_Init(); // Init networking
@@ -55,7 +56,7 @@ Multiplayer::Server::Server()
     
     printf("[INFO] Started server on port: %d\n", SERVER_PORT);
     
-    SDL_Event e;
+    // SDL_Event e;
     
     serverRunning = true;
     while(serverRunning)
@@ -74,6 +75,7 @@ Multiplayer::Server::Server()
             SDL_CreateThread(Multiplayer::handleSocket, "ClientThread", t);
         }
         
+        /**
         while(SDL_PollEvent(&e))
         {
             if(e.type == SDL_WINDOWEVENT)
@@ -84,12 +86,12 @@ Multiplayer::Server::Server()
             {
                 if(e.key.keysym.sym == SDLK_ESCAPE) stopServer();
             }
-        }
+        }*/
         
         
         // Also: Send data to the correct clients...
         
-        SDL_Delay(100); // Sleep 100ms
+        window->nextFrame();
     }
 }
 

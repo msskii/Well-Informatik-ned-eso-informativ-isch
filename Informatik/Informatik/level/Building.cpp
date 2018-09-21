@@ -79,6 +79,6 @@ void Building::render(int xoffset, int yoffset)
     SDL_Rect dst = {(data.xcoord + data.textureOffsetX) * TILE_SIZE + xoffset, (data.ycoord + data.textureOffsetY) * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
     if(dst.x >= (GAME_WIDTH + data.sizeX * TILE_SIZE) || dst.x < (-TILE_SIZE - data.sizeX * TILE_SIZE) || dst.y >= (GAME_HEIGHT + data.sizeY * TILE_SIZE) || dst.y < (-TILE_SIZE - data.sizeY * TILE_SIZE)) return; // Only render the visible ones...
-    if(level != nullptr) level->window->lights.addLight({(float) dst.x + 40.0f, (float) dst.y + 220.0f, 10.0f, 1, 1, 1});
+    if(level != nullptr && level->window != nullptr) level->window->lights.addLight({(float) dst.x + 40.0f, (float) dst.y + 220.0f, 10.0f, 1, 1, 1});
     renderWithShading(texture, src, dst);
 }

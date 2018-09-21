@@ -177,124 +177,125 @@ uint32_t secondCallback(uint32_t delay, void *args)
 void Window::runGameLoop()
 {
     running = true;
-    SDL_Event e;
     SDL_AddTimer(1000, secondCallback, this);
-    
-    auto clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
-    
-    bool mousePressed = false;
-    
+        
     // Init gl
     setupGL();
     setScreenSize(width, height);
     
     while(running)
     {
-        ++frames;
-        auto start_time = clock.now(); // Now
-        
-        if(cooldown) --cooldown;
-        lights.startFrame();
-        
-        while(SDL_PollEvent(&e))
-        {
-            if((e.type == SDL_MOUSEBUTTONDOWN && mousePressed) || (e.type == SDL_MOUSEBUTTONUP && !mousePressed))
-            {
-                continue;
-            }
-            if(e.type == SDL_MOUSEBUTTONDOWN) mousePressed = true;
-            if(e.type == SDL_MOUSEBUTTONUP) mousePressed = false;
-            
-            if(e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP || e.type == SDL_FINGERMOTION)
-            {
-                // No touch events... yet
-                continue;
-            }
-
-            for(int i = (int) menus.size() - 1; i >= 0; i--)
-            {
-                menus[i]->updateElements(e);
-                if(menus[i]->consumeEvent)
-                {
-                    menus[i]->consumeEvent = false;
-                    break;
-                }
-            }
-            
-            // Handle events of the window
-            if(e.type == SDL_WINDOWEVENT)
-            {
-                if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
-				else if (e.window.event == SDL_WINDOWEVENT_RESIZED)
-				{
-					SDL_GetWindowSize(window, &width, &height);
-                    setScreenSize(width, height);
-					SCALE_X = (float)width / (float)GAME_WIDTH;
-					SCALE_Y = (float)height / (float)GAME_HEIGHT;
-				}
-            }
-            else if(e.type == SDL_QUIT) exitGame(this); // Just close the whole thing...
-            
-            // Player & Level control:
-            if(!toUpdate) continue; // We're paused...
-            
-            if(e.type == SDL_KEYDOWN)
-            {                
-                if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
-                else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_SHOOT])
-                {
-                    if(cooldown)continue;
-
-                    for(int i = 0; i < 5; i++) // Shoot n projectiles
-                    {
-                        ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->player->x_pos, level->player->y_pos, (float) TO_RAD(rand() % 360));
-                        level->addEntity(p);
-                    }
-                    
-                    cooldown = 60; // Wait a second
-                }
-                else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->player));
-            }
-            else if(e.type == SDL_MOUSEBUTTONDOWN)
-            {
-                if(e.button.button == SDL_BUTTON_RIGHT)
-                {
-                    int xdif = (int) (e.button.x / SCALE_X) - PLAYER_OFFSET_X + level->player->xoff;
-                    int ydif = (int) (e.button.y / SCALE_Y) - PLAYER_OFFSET_Y + level->player->yoff;
-                    float angle = -(float) atan2(ydif, xdif);
-                    
-                    Projectile *p = new Projectile(level->player->x_pos, level->player->y_pos, angle);
-                    level->addEntity(p);
-                }
-            }
-        }
-        
-        // Set black as background
-        glClearColor(0, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        // Update & render
-        toUpdate = true;
-        for(int i = 0; i < (int) menus.size(); i++) if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
-        if(toUpdate) update();
-        render();
-        
-        GLenum err = glGetError();
-        if(err != GL_NO_ERROR)
-        {
-            printf("[ERROR] GL Error: %d\n", err);
-        }
-
-        lights.render();
-        
-        SDL_GL_SwapWindow(window);
-        
-        auto end_time = clock.now();
-        auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
-        std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
+        nextFrame();
     }
     
     exitGame(this);
+}
+
+void Window::nextFrame()
+{
+    ++frames;
+    auto start_time = clock.now(); // Now
+    
+    if(cooldown) --cooldown;
+    lights.startFrame();
+    
+    SDL_Event e;
+    while(SDL_PollEvent(&e))
+    {
+        if((e.type == SDL_MOUSEBUTTONDOWN && mousePressed) || (e.type == SDL_MOUSEBUTTONUP && !mousePressed))
+        {
+            continue;
+        }
+        if(e.type == SDL_MOUSEBUTTONDOWN) mousePressed = true;
+        if(e.type == SDL_MOUSEBUTTONUP) mousePressed = false;
+        
+        if(e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP || e.type == SDL_FINGERMOTION)
+        {
+            // No touch events... yet
+            continue;
+        }
+        
+        for(int i = (int) menus.size() - 1; i >= 0; i--)
+        {
+            menus[i]->updateElements(e);
+            if(menus[i]->consumeEvent)
+            {
+                menus[i]->consumeEvent = false;
+                break;
+            }
+        }
+        
+        // Handle events of the window
+        if(e.type == SDL_WINDOWEVENT)
+        {
+            if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
+            else if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+            {
+                SDL_GetWindowSize(window, &width, &height);
+                setScreenSize(width, height);
+                SCALE_X = (float)width / (float)GAME_WIDTH;
+                SCALE_Y = (float)height / (float)GAME_HEIGHT;
+            }
+        }
+        else if(e.type == SDL_QUIT) exitGame(this); // Just close the whole thing...
+        
+        // Player & Level control:
+        if(!toUpdate) continue; // We're paused...
+        
+        if(e.type == SDL_KEYDOWN)
+        {
+            if(e.key.keysym.sym == SDLK_ESCAPE) openMenu(new PauseMenu());
+            else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_SHOOT])
+            {
+                if(cooldown)continue;
+                
+                for(int i = 0; i < 5; i++) // Shoot n projectiles
+                {
+                    ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->player->x_pos, level->player->y_pos, (float) TO_RAD(rand() % 360));
+                    level->addEntity(p);
+                }
+                
+                cooldown = 60; // Wait a second
+            }
+            else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->player));
+        }
+        else if(e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if(e.button.button == SDL_BUTTON_RIGHT)
+            {
+                int xdif = (int) (e.button.x / SCALE_X) - PLAYER_OFFSET_X + level->player->xoff;
+                int ydif = (int) (e.button.y / SCALE_Y) - PLAYER_OFFSET_Y + level->player->yoff;
+                float angle = -(float) atan2(ydif, xdif);
+                
+                Projectile *p = new Projectile(level->player->x_pos, level->player->y_pos, angle);
+                level->addEntity(p);
+            }
+        }
+    }
+    
+    // Set black as background
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    // Update & render
+    toUpdate = true;
+    for(int i = 0; i < (int) menus.size(); i++) if(!menus[i]->shouldLevelBeUpdated) toUpdate = false;
+    if(toUpdate) update();
+    render();
+    
+    GLenum err = glGetError();
+    if(err != GL_NO_ERROR)
+    {
+        printf("[ERROR] GL Error: %d\n", err);
+    }
+    
+    lights.render();
+    
+    SDL_GL_SwapWindow(window);
+    
+    auto end_time = clock.now();
+    auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+    std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
 }
 
 void Window::reloadConfig()

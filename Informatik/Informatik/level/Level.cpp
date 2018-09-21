@@ -208,6 +208,9 @@ void Level::render() // and update
 void Level::update()
 {
     // Update events & (soon) entities
+#ifdef ENABLE_TEST_MULTIPLAYER
+    if(remoteLevel) return; // Don't update here, it's on the server
+#endif
     
     for(int i = 0; i < (int) events.size(); i++)
     {

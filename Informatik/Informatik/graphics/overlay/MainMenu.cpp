@@ -47,7 +47,7 @@ static void onButtonPress(Menu *menu, Button *button)
 #ifdef ENABLE_TEST_MULTIPLAYER
         case START_SERVER:
         {
-            Multiplayer::Server s; // Start a server
+            Multiplayer::Server s = Multiplayer::Server(menu->window); // Start a server
         }
             menu->close();
             break;
