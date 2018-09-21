@@ -14,7 +14,14 @@ uniform vec3 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
 
 void main()
 {
-    col = texture(texture_sampler, uv).bgra;
+    if(uv.x < 0 || uv.y < 0 || uv.x >= 1.0 || uv.y >= 1.0)
+    {
+        col = vec4(0, 0, 0, 0);
+    }
+    else
+    {
+        col = texture(texture_sampler, uv).bgra;
+    }
     float alpha = col.a * initial_alpha;
     float a = col.a;
     
