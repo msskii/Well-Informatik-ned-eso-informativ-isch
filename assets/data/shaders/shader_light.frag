@@ -41,6 +41,8 @@ void main()
         col += toAdd;
     }
     
+    if(alpha >= 1.0) alpha = 1.0;
+    
     col *= alpha;
     col.a = a;
 }
