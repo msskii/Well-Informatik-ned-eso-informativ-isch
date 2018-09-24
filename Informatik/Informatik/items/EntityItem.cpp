@@ -31,21 +31,22 @@ void EntityItem::update(const uint8_t *keys) {}
 
 void EntityItem::pickUp()
 {
+    Player *player = level->getPlayer(data.x_pos, data.y_pos);
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
-        if(level->getPlayer()->playerItems[i].item != nullptr && *item == level->getPlayer()->playerItems[i].item)
+        if(player->playerItems[i].item != nullptr && *item == player->playerItems[i].item)
         {
-            level->getPlayer()->playerItems[i].item = item;
-            ++level->getPlayer()->playerItems[i].amountItems; // Increase amount of items in that slot
+            player->playerItems[i].item = item;
+            ++player->playerItems[i].amountItems; // Increase amount of items in that slot
             return;
         }
     }
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
-        if(level->getPlayer()->playerItems[i].item == nullptr)
+        if(player->playerItems[i].item == nullptr)
         {
-            level->getPlayer()->playerItems[i].item = item;
-            ++level->getPlayer()->playerItems[i].amountItems; // Increase amount of items in that slot
+            player->playerItems[i].item = item;
+            ++player->playerItems[i].amountItems; // Increase amount of items in that slot
             return;
         }
     }

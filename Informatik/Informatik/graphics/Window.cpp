@@ -85,7 +85,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Set up keystates & level
     keyStates = SDL_GetKeyboardState(NULL);
     level->window = this;
-    openMenu(new PlayerOverlay(level->getPlayer()));
+    openMenu(new PlayerOverlay(level->getLocalPlayer()));
     
     // Set up random stuff ( Debug & initial stuff on screen)
     
@@ -137,8 +137,8 @@ void Window::update()
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_RIGHT])]) x += SPEED;
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
     
-    level->getPlayer()->updateMovement(x, y); // Update player movement
-    level->getPlayer()->actionPressed = keyStates[GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]];
+    level->getLocalPlayer()->updateMovement(x, y); // Update player movement
+    level->getLocalPlayer()->actionPressed = keyStates[GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]];
     
     level->update(); // Update rest of level according to player
 }
@@ -251,23 +251,23 @@ void Window::nextFrame()
                 
                 for(int i = 0; i < 5; i++) // Shoot n projectiles
                 {
-                    ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->getPlayer()->data.x_pos, level->getPlayer()->data.y_pos, (float) TO_RAD(rand() % 360));
+                    ExplodingProjectile *p = new ExplodingProjectile(NORMAL, level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, (float) TO_RAD(rand() % 360));
                     level->addEntity(p);
                 }
                 
                 cooldown = 60; // Wait a second
             }
-            else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->getPlayer()));
+            else if(e.key.keysym.sym == GLOBAL_KEY_CONFIG[BUTTON_INVENTORY]) openMenu(new Inventory(level->getLocalPlayer()));
         }
         else if(e.type == SDL_MOUSEBUTTONDOWN)
         {
             if(e.button.button == SDL_BUTTON_RIGHT)
             {
-                int xdif = (int) (e.button.x / SCALE_X) - PLAYER_OFFSET_X + level->getPlayer()->xoff;
-                int ydif = (int) (e.button.y / SCALE_Y) - PLAYER_OFFSET_Y + level->getPlayer()->yoff;
+                int xdif = (int) (e.button.x / SCALE_X) - PLAYER_OFFSET_X + level->getLocalPlayer()->xoff;
+                int ydif = (int) (e.button.y / SCALE_Y) - PLAYER_OFFSET_Y + level->getLocalPlayer()->yoff;
                 float angle = -(float) atan2(ydif, xdif);
                 
-                Projectile *p = new Projectile(level->getPlayer()->data.x_pos, level->getPlayer()->data.y_pos, angle);
+                Projectile *p = new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle);
                 level->addEntity(p);
             }
         }

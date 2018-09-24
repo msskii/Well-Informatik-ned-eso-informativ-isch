@@ -37,10 +37,12 @@ void NPC::onInteractWith()
 {
     bool isFacingMe = false;
     
-    isFacingMe |= level->getPlayer()->data.x_pos + PLAYER_WIDTH / 2 < data.x_pos + data.width / 2 && level->getPlayer()->direction == RIGHT;
-    isFacingMe |= level->getPlayer()->data.x_pos + PLAYER_WIDTH / 2 > data.x_pos + data.width / 2  && level->getPlayer()->direction == LEFT;
-    isFacingMe |= level->getPlayer()->data.y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && level->getPlayer()->direction == DOWN;
-    isFacingMe |= level->getPlayer()->data.y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && level->getPlayer()->direction == UP;
+    Player *player = level->getPlayer(data.x_pos, data.y_pos);
+    
+    isFacingMe |= player->data.x_pos + PLAYER_WIDTH / 2 < data.x_pos + data.width / 2 && player->direction == RIGHT;
+    isFacingMe |= player->data.x_pos + PLAYER_WIDTH / 2 > data.x_pos + data.width / 2  && player->direction == LEFT;
+    isFacingMe |= player->data.y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && player->direction == DOWN;
+    isFacingMe |= player->data.y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && player->direction == UP;
 
     if(isFacingMe && currentText < (int) texts.size())
     {

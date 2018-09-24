@@ -75,8 +75,8 @@ Multiplayer::Server::Server(Window *w) : window(w)
     
     if(!tcp_server)
     {
-        printf("Couldn't create server... %s\n", SDLNet_GetError());
-        printf("Is something already running on that port?\n");
+        printf("[ERROR] Couldn't create server... %s\n", SDLNet_GetError());
+        printf("[ERROR] Is something already running on that port?\n");
         exit(0);
     }
     
@@ -85,8 +85,10 @@ Multiplayer::Server::Server(Window *w) : window(w)
     printf("[INFO] Started server on port: %d\n", SERVER_PORT);
     
     window->menus.clear(); // No open menus...
-    window->level->getPlayer()->inControl = false;
-    
+    window->level->getLocalPlayer()->inControl = false;
+    window->level->onServer = true; // This is the level on the server
+    window->level->remoteLevel = true; // This is the level on the server
+
     while(serverRunning)
     {
         TCPsocket client = SDLNet_TCP_Accept(tcp_server);

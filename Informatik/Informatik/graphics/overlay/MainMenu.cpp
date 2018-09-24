@@ -9,9 +9,7 @@
 #include "MainMenu.hpp"
 #include "../../config.h"
 
-#ifdef ENABLE_TEST_MULTIPLAYER
-#  include "../../multiplayer/ServerSelector.hpp"
-#endif
+#include "../../multiplayer/ServerSelector.hpp"
 
 enum MenuOptions
 {
@@ -19,11 +17,8 @@ enum MenuOptions
     START_LEVELEDITOR,
     START_OPTIONS,
     QUIT_GAME,
-    
-#ifdef ENABLE_TEST_MULTIPLAYER
     START_SERVER, // Testing only
 	CONNECT_TO_SERVER
-#endif
 };
 
 static void onButtonPress(Menu *menu, Button *button)
@@ -44,7 +39,6 @@ static void onButtonPress(Menu *menu, Button *button)
         case QUIT_GAME:
             exitGame(menu->window);
             break;
-#ifdef ENABLE_TEST_MULTIPLAYER
         case START_SERVER:
         {
             Multiplayer::Server s = Multiplayer::Server(menu->window); // Start a server
@@ -55,7 +49,6 @@ static void onButtonPress(Menu *menu, Button *button)
 			menu->openSubMenu(new Multiplayer::ServerSelector(menu));
             menu->window->level->remoteLevel = true; // Connected to a server
 			break;
-#endif
         default:
             break;
     }
@@ -69,10 +62,8 @@ MainMenu::MainMenu()
     addElement(new Button(onButtonPress, "Options", 100, 400, 400, 100, START_OPTIONS));
     addElement(new Button(onButtonPress, "Quit", 100, 500, 400, 100, QUIT_GAME));
     
-#ifdef ENABLE_TEST_MULTIPLAYER
     addElement(new Button(onButtonPress, "Start Server", 100, 700, 400, 100, START_SERVER));
 	addElement(new Button(onButtonPress, "Connect", 100, 800, 400, 100, CONNECT_TO_SERVER));
-#endif
 }
 
 bool MainMenu::shouldWindowClose()

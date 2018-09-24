@@ -20,9 +20,7 @@
 
 #include "loader/TextLoader.hpp"
 
-#ifdef ENABLE_TEST_MULTIPLAYER
-#  include "../multiplayer/Client.hpp"
-#endif
+#include "../multiplayer/Client.hpp"
 
 class Player;
 class Window;
@@ -40,18 +38,27 @@ public:
     Tile *tiles; // The tiles
     Building *buildings; //The Buildings .. you guessed
     
-#ifdef ENABLE_TEST_MULTIPLAYER
     bool remoteLevel = false;
+    bool onServer = false;
     Multiplayer::Client *clientConnector = nullptr;
     inline bool connectToServer(const char *address, std::string name)
     {
         clientConnector = new Multiplayer::Client(window, address, name);
         return clientConnector->connectionEstablished;
     }
-    inline Player *getPlayer() { return player; }
-#else
-    inline Player *getPlayer() { return player; }
-#endif
+    
+    std::vector<Multiplayer::RemotePlayer*> activePlayers;
+    inline Player *getPlayer(float xcoord, float ycoord)
+    {
+        if(!remoteLevel) return player;
+        else if(onServer) return nullptr; // TODO: find closest player
+        return player;
+    }
+    
+    inline Player *getLocalPlayer() { return player; }
+    
+    inline int getOffsetX() { return player->getOffsetX(); }
+    inline int getOffsetY() { return player->getOffsetY(); }
 
     float sunBrightness = 0.6f;
     int xoffset, yoffset;

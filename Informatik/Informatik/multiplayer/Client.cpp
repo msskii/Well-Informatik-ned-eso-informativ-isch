@@ -3,6 +3,7 @@
 
 std::mutex playerLock;
 std::vector<Multiplayer::RemotePlayer*> playersToAdd;
+std::vector<Multiplayer::RemotePlayer*> playersToRemove;
 
 int Multiplayer::clientReceive(void *data)
 {
@@ -67,6 +68,10 @@ int Multiplayer::clientReceive(void *data)
         else if(!strcmp(cmd, CMD_PLAYER_LEAVE))
         {
             if(c->otherPlayers[uuid] != nullptr) c->otherPlayers[uuid]->connected = false;
+            playerLock.lock();
+            printf("[INFO] Player %d Left\n", uuid);
+            playersToRemove.push_back(c->otherPlayers[uuid]);
+            playerLock.unlock();
         }
 	}
 
@@ -121,8 +126,22 @@ void Multiplayer::Client::addRemotePlayers(Level *level)
     for(int i = 0; i < (int) playersToAdd.size(); i++)
     {
         level->addEntity(playersToAdd[i]);
+        level->activePlayers.push_back(playersToAdd[i]);
     }
     playersToAdd.clear();
+    for(int i = 0; i < (int) playersToRemove.size(); i++)
+    {
+        level->removeEntity(playersToRemove[i]);
+        for(int index = 0; index < level->activePlayers.size(); index++)
+        {
+            if(level->activePlayers[i] == playersToRemove[i])
+            {
+                level->activePlayers.erase(level->activePlayers.begin() + index);
+                break;
+            }
+        }
+    }
+    playersToRemove.clear();
     playerLock.unlock();
 }
 
