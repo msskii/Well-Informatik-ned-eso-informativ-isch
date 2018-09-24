@@ -23,7 +23,6 @@ class Player
 {
 private:
     SDL_Surface *player_surface = nullptr;
-    gl_texture texture;
     
     float _x = 0, _y = 0; // Coordinates
 
@@ -52,7 +51,8 @@ public:
     // Animation stuff
     bool walking = false;
     int anim = 0, timer = 0, animSet = 0;
-    
+    gl_texture texture;
+
     inline int getOffsetX() { return -(int)_x; }
     inline int getOffsetY() { return -(int)_y; }
 

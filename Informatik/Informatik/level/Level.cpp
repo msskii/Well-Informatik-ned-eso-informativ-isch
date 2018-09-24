@@ -120,6 +120,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
 
 void Level::addEntity(Entity *e)
 {
+    if(e == nullptr) return;
     e->addedToLevel(this);
     entities.push_back(e);
 }
@@ -181,7 +182,8 @@ void Level::render() // and update
     if (clientConnector != nullptr)
     {
         // We connected & arent playing singleplayer
-        clientConnector->render(xoffset, yoffset);
+        // clientConnector->render(xoffset, yoffset); // RemotePlayers are normal entities
+        clientConnector->addRemotePlayers(this);
         clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos, player->animSet, player->anim, player->direction);
     }
 #endif

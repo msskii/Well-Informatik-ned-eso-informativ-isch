@@ -45,7 +45,7 @@ public:
     Multiplayer::Client *clientConnector = nullptr;
     inline bool connectToServer(const char *address, std::string name)
     {
-        clientConnector = new Multiplayer::Client(address, name);
+        clientConnector = new Multiplayer::Client(window, address, name);
         return clientConnector->connectionEstablished;
     }
 #endif

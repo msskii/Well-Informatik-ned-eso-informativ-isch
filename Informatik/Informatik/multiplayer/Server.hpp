@@ -62,7 +62,7 @@ namespace Multiplayer
         Window *window;
         
         friend void cmd_player(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
-
+        TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
     public:
         TCPsocket tcp_server;
         

@@ -20,7 +20,7 @@ void Multiplayer::cmd_player(Server *server, ServerClient *client, uint8_t *buff
 {
     if(buffer[5] == 'm')
     {
-        printf("Player moved to position: %d, %d\n", *((uint32_t*) (data + 0)), *((uint32_t*) (data + 4)));
+        // printf("Player moved to position: %d, %d\n", *((uint32_t*) (data + 0)), *((uint32_t*) (data + 4)));
         server->broadcast(client, {(char*) buffer, dataLength});
     }
 }
@@ -89,7 +89,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
         {
             //SDLNet_TCP_Recv(client, greetings, HEADER_SIZE);
             TCP_Packet joinmsg = receivePacket(client, HEADER_SIZE);
-            printBuffer((uint8_t*) joinmsg.data, joinmsg.dataLen);
+            // printBuffer((uint8_t*) joinmsg.data, joinmsg.dataLen);
 
             // PJAF____
             if(joinmsg.data[2] != 'A' || joinmsg.data[3] != 'F')
@@ -103,7 +103,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
             uint32_t namelen = *((uint32_t*)(joinmsg.data + 4));
             TCP_Packet n = receivePacket(client, namelen + 1);
             n.data[n.dataLen - 1] = 0;
-            printBuffer((uint8_t*) n.data, n.dataLen);
+            // printBuffer((uint8_t*) n.data, n.dataLen);
             
             c->namelen = namelen;
             c->name = (char*) (n.data + 2);
@@ -115,19 +115,32 @@ Multiplayer::Server::Server(Window *w) : window(w)
             printf("Client %s connected\n", c->name);
 
             int len = 0;
-            for(size_t i = 0; i < clients.size(); i++) len += 3 * 4 + clients[i]->namelen;
+            for(size_t i = 0; i < clients.size(); i++) len += 4 * 4 + clients[i]->namelen;
             uint8_t* clientData = (uint8_t*) malloc(len);
             int off = 0;
             for(size_t i = 0; i < clients.size(); i++)
             {
-                ((uint32_t*)(clientData + off))[0] = clients[i]->x; // X
-                ((uint32_t*)(clientData + off))[1] = clients[i]->y; // Y
-                ((uint32_t*)(clientData + off))[2] = clients[i]->namelen; // Y
-                memcpy(clientData + off + 12, clients[i]->name, clients[i]->namelen);
-                off += 3 * 4 + clients[i]->namelen;
+                ((uint32_t*)(clientData + off))[0] = clients[i]->clientID; // ID
+                ((uint32_t*)(clientData + off))[1] = clients[i]->x; // X
+                ((uint32_t*)(clientData + off))[2] = clients[i]->y; // Y
+                ((uint32_t*)(clientData + off))[3] = clients[i]->namelen; // len
+                memcpy(clientData + off + 16, clients[i]->name, clients[i]->namelen);
+                off += 4 * 4 + clients[i]->namelen;
             }
 
-            sendToAll(createPacket(CMD_PLAYER_JOIN, (char*) clientData, len));
+            TCP_Packet p = (createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, len));
+            SDLNet_TCP_Send(client, p.data, p.dataLen);
+            free(p.data);
+            
+            clientData = (uint8_t*) realloc(clientData, 4 * 4 + c->namelen);
+            ((uint32_t*)(clientData))[0] = c->clientID; // ID
+            ((uint32_t*)(clientData))[1] = c->x; // X
+            ((uint32_t*)(clientData))[2] = c->y; // Y
+            ((uint32_t*)(clientData))[3] = c->namelen; // len
+            memcpy(clientData + 16, c->name, c->namelen);
+            p = createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, 16 + c->namelen);
+            sendToAll(p);
+            free(p.data);
             
             clients.push_back(c);
             void ** t = new void*[2]{ (void*) this, (void*) clients[clients.size() - 1] };
@@ -168,10 +181,22 @@ Multiplayer::TCP_Packet Multiplayer::createPacket(const char *cmd, const char *d
     uint8_t* d = (uint8_t*) malloc(dataLen + 2);
     memcpy(d, cmd, 2);
     memcpy(d + 2, data, dataLen);
-    printBuffer((uint8_t*) d, dataLen + 2);
     Multiplayer::TCP_Packet packet;
     packet.data = (char*) d;
     packet.dataLen = dataLen + 2;
+    
+    return packet;
+}
+
+Multiplayer::TCP_Packet Multiplayer::Server::createServerPacket(const char *cmd, const char *data, int dataLen)
+{
+    uint8_t* d = (uint8_t*) malloc(dataLen + 6);
+    memset(d, 0, 4);
+    memcpy(d + 4, cmd, 2);
+    memcpy(d + 6, data, dataLen);
+    Multiplayer::TCP_Packet packet;
+    packet.data = (char*) d;
+    packet.dataLen = dataLen + 6;
     
     return packet;
 }

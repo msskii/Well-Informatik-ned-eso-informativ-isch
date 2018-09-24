@@ -1,4 +1,8 @@
 #include "Client.hpp"
+#include "../graphics/Window.hpp"
+
+std::mutex playerLock;
+std::vector<Multiplayer::RemotePlayer*> playersToAdd;
 
 int Multiplayer::clientReceive(void *data)
 {
@@ -22,26 +26,50 @@ int Multiplayer::clientReceive(void *data)
         uint32_t uuid = *((uint32_t*)buffer);
         cmd[0] = buffer[4];
         cmd[1] = buffer[5];
+        uint8_t *data = buffer + 6;
 
+        // printf("CMD to execute: %s\n", cmd);
         if(!strcmp(cmd, CMD_PLAYER_MOVE))
         {
-            if(!c->otherPlayers[uuid].connected) continue; // This player is not connected!?
-            printf("Moving player\n");
-            c->otherPlayers[uuid].data.x_pos = ((uint32_t*) (buffer + 6))[0];
-            c->otherPlayers[uuid].data.y_pos = ((uint32_t*) (buffer + 6))[1];
+            if(!c->otherPlayers[uuid] || !c->otherPlayers[uuid]->connected) continue; // This player is not connected!?
+            c->otherPlayers[uuid]->data.x_pos = ((uint32_t*) (data))[0];
+            c->otherPlayers[uuid]->data.y_pos = ((uint32_t*) (data))[1];
             
-            c->otherPlayers[uuid].walking = ((uint8_t*) (buffer + 14))[0];
-            c->otherPlayers[uuid].anim = ((uint8_t*) (buffer + 14))[1];
-            c->otherPlayers[uuid].direction = ((uint8_t*) (buffer + 14))[2];
-
+            c->otherPlayers[uuid]->walking = ((uint8_t*) (data + 8))[0];
+            c->otherPlayers[uuid]->anim = ((uint8_t*) (data + 8))[1];
+            c->otherPlayers[uuid]->direction = ((uint8_t*) (data + 8))[2];
+        }
+        else if(!strcmp(cmd, CMD_PLAYER_JOIN))
+        {
+            int off = 0;
+            while(off < amount - 6)
+            {
+                uint32_t id = read<uint32_t>(data);
+                c->otherPlayers[id] = new RemotePlayer();
+                c->otherPlayers[id]->connected = true;
+                c->otherPlayers[id]->data.x_pos = (float) read<uint32_t>(data);
+                c->otherPlayers[id]->data.y_pos = (float) read<uint32_t>(data);
+                c->otherPlayers[id]->nameLen = (float) read<uint32_t>(data);
+                c->otherPlayers[id]->name = (char*) malloc(c->otherPlayers[id]->nameLen + 1);
+                memcpy(c->otherPlayers[id]->name, data, c->otherPlayers[id]->nameLen);
+                c->otherPlayers[id]->name[c->otherPlayers[id]->nameLen] = 0;
+                data += c->otherPlayers[id]->nameLen;
+                
+                off += 4 * 4 + c->otherPlayers[id]->nameLen;
+                
+                playerLock.lock();
+                playersToAdd.push_back(c->otherPlayers[id]);
+                playerLock.unlock();
+            }
         }
 	}
 
 	return 0;
 }
 
-Multiplayer::Client::Client(const char *address, std::string name)
+Multiplayer::Client::Client(Window *w, const char *address, std::string name)
 {
+    window = w;
 	SDLNet_Init();
 
 	IPaddress ip;
@@ -75,17 +103,21 @@ void Multiplayer::Client::updatePlayerPos(int xpos, int ypos, uint8_t animationS
     
     write<uint8_t>(dataBuffer, animationSet); // Walking or not
     write<uint8_t>(dataBuffer, anim); // Animation
-    write<uint8_t>(dataBuffer, ypos);
+    write<uint8_t>(dataBuffer, direction);
 
     sendToServer(createPacket(CMD_PLAYER_MOVE, (char*) (dataBuffer - 11), 11));
 }
 
-void Multiplayer::Client::render(int xoff, int yoff)
+
+void Multiplayer::Client::addRemotePlayers(Level *level)
 {
-	for (auto it = otherPlayers.begin(); it != otherPlayers.end(); it++)
-	{
-		it->second.render(xoff, yoff);
-	}
+    playerLock.lock();
+    for(int i = 0; i < (int) playersToAdd.size(); i++)
+    {
+        level->addEntity(playersToAdd[i]);
+    }
+    playersToAdd.clear();
+    playerLock.unlock();
 }
 
 void Multiplayer::Client::sendToServer(TCP_Packet packet)

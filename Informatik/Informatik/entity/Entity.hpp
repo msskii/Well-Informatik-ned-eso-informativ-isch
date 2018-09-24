@@ -39,6 +39,7 @@ typedef struct EntityData
     float dx = 0;
     float dy = 0;
     float speed = 0;
+    bool collisionEnabled = true;
 } EntityData;
 
 

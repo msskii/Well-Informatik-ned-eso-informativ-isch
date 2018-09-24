@@ -49,6 +49,8 @@ bool Player::isInside(float dx, float dy)
         {
             auto *entity = level->entities[i];
             
+            if(!entity->data.collisionEnabled) continue; // No collision for this entity
+            
             auto *enemy = dynamic_cast<Enemy*>(entity);
             auto *projectile = dynamic_cast<Projectile*>(entity);
             auto *item = dynamic_cast<EntityItem*>(entity);
