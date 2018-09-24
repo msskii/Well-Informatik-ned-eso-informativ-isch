@@ -182,7 +182,7 @@ void Player::render(int x, int y)
     if(graceLeft > 0) graceLeft = graceLeft - 1;
 
     //animation speed scales with player speed
-    if(walking && (timer++ * SPEED) >= 50)
+    if(walking && (timer++ * SPEED) >= 55)
     {
         animSet = 1;
         timer = 0;
