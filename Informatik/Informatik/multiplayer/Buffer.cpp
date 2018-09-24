@@ -8,21 +8,6 @@
 
 #include "Buffer.hpp"
 
-template <typename T>
-T Multiplayer::read(uint8_t *&buffer)
-{
-    T a = ((T*) buffer)[0];
-    buffer += sizeof(T);
-    return a;
-}
-
-template <typename T>
-void Multiplayer::write(uint8_t *&buffer, T value)
-{
-    *((T*) buffer) = value;
-    buffer += sizeof(T);
-}
-
 char *Multiplayer::readString(uint8_t *&buffer)
 {
     int length = read<int>(buffer);

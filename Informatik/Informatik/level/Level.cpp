@@ -182,7 +182,7 @@ void Level::render() // and update
     {
         // We connected & arent playing singleplayer
         clientConnector->render(xoffset, yoffset);
-        clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
+        clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos, player->animSet, player->anim, player->direction);
     }
 #endif
     

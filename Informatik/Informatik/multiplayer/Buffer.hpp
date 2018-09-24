@@ -16,10 +16,19 @@
 namespace Multiplayer
 {
     template <typename T>
-    extern T read(uint8_t *&buffer);
+    static T read(uint8_t *&buffer)
+    {
+        T a = ((T*) buffer)[0];
+        buffer += sizeof(T);
+        return a;
+    }
     
     template <typename T>
-    extern void write(uint8_t *&buffer, T value);
+    static void write(uint8_t *&buffer, T value)
+    {
+        *((T*) buffer) = value;
+        buffer += sizeof(T);
+    }
     
     extern char *readString(uint8_t *&buffer);
     extern void writeString(uint8_t *&buffer, const char *str, int len);

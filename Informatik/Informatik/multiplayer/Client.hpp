@@ -33,7 +33,7 @@ namespace Multiplayer
         bool connectionEstablished = false;
         Client(const char *address, std::string name); // Set up stuff & start receiver
 
-		void updatePlayerPos(int x, int y);
+        void updatePlayerPos(int xpos, int ypos, uint8_t animationSet, uint8_t anim, uint8_t direction);
 		void render(int xoff, int yoff);
         void sendToServer(TCP_Packet packet);
 	};

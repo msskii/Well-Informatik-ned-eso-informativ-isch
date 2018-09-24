@@ -17,9 +17,13 @@ namespace Multiplayer
 	class RemotePlayer : public Entity
 	{
 	private:
-
+        SDL_Surface *surface;
+        gl_texture texture;
+        
 	public:
 		RemotePlayer();
+        bool connected = false;
+        int direction = 0, anim = 0, walking = 0;
 
 		void onAddToLevel(Level *level);
 		void render(int xoff, int yoff);

@@ -25,9 +25,15 @@ int Multiplayer::clientReceive(void *data)
 
         if(!strcmp(cmd, CMD_PLAYER_MOVE))
         {
+            if(!c->otherPlayers[uuid].connected) continue; // This player is not connected!?
             printf("Moving player\n");
             c->otherPlayers[uuid].data.x_pos = ((uint32_t*) (buffer + 6))[0];
             c->otherPlayers[uuid].data.y_pos = ((uint32_t*) (buffer + 6))[1];
+            
+            c->otherPlayers[uuid].walking = ((uint8_t*) (buffer + 14))[0];
+            c->otherPlayers[uuid].anim = ((uint8_t*) (buffer + 14))[1];
+            c->otherPlayers[uuid].direction = ((uint8_t*) (buffer + 14))[2];
+
         }
 	}
 
@@ -61,12 +67,17 @@ Multiplayer::Client::Client(const char *address, std::string name)
 	SDL_CreateThread(clientReceive, "ClientReceiverTCP", this);
 }
 
-void Multiplayer::Client::updatePlayerPos(int xpos, int ypos)
+void Multiplayer::Client::updatePlayerPos(int xpos, int ypos, uint8_t animationSet, uint8_t anim, uint8_t direction)
 {	    
-    uint8_t *dataBuffer = (uint8_t*) malloc(8);
+    uint8_t *dataBuffer = (uint8_t*) malloc(11);
     write<int>(dataBuffer, xpos);
     write<int>(dataBuffer, ypos);
-    sendToServer(createPacket(CMD_PLAYER_MOVE, (char*) (dataBuffer - 8), 8));
+    
+    write<uint8_t>(dataBuffer, animationSet); // Walking or not
+    write<uint8_t>(dataBuffer, anim); // Animation
+    write<uint8_t>(dataBuffer, ypos);
+
+    sendToServer(createPacket(CMD_PLAYER_MOVE, (char*) (dataBuffer - 11), 11));
 }
 
 void Multiplayer::Client::render(int xoff, int yoff)
