@@ -43,15 +43,14 @@ public:
 #ifdef ENABLE_TEST_MULTIPLAYER
     bool remoteLevel = false;
     Multiplayer::Client *clientConnector = nullptr;
-    inline bool connectToServer(const char *address)
+    inline bool connectToServer(const char *address, std::string name)
     {
-        clientConnector = new Multiplayer::Client(address);
+        clientConnector = new Multiplayer::Client(address, name);
         return clientConnector->connectionEstablished;
     }
 #endif
-    
 
-    float sunBrightness = 1.0f;
+    float sunBrightness = 0.6f;
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     

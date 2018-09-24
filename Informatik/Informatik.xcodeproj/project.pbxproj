@@ -73,6 +73,7 @@
 		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
 		93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788B214146AA00F5EC35 /* Inventory.cpp */; };
 		93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */; };
+		93FEEB192155477400EF507C /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93FEEB172155477400EF507C /* Buffer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -226,6 +227,8 @@
 		93E2788C214146AA00F5EC35 /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ItemSlot.cpp; sourceTree = "<group>"; };
 		93E278902143AB1C00F5EC35 /* ItemSlot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ItemSlot.hpp; sourceTree = "<group>"; };
+		93FEEB172155477400EF507C /* Buffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
+		93FEEB182155477400EF507C /* Buffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +386,8 @@
 				9382707E213A5C050084F967 /* ServerSelector.hpp */,
 				936C12EE2135941800404679 /* Server.cpp */,
 				936C12EF2135941800404679 /* Server.hpp */,
+				93FEEB172155477400EF507C /* Buffer.cpp */,
+				93FEEB182155477400EF507C /* Buffer.hpp */,
 			);
 			path = multiplayer;
 			sourceTree = "<group>";
@@ -596,6 +601,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93FEEB192155477400EF507C /* Buffer.cpp in Sources */,
 				937B0039215230CD00BE1EE0 /* GL_Util.cpp in Sources */,
 				936C12D92133E3A900404679 /* TextLoader.cpp in Sources */,
 				936C12E221353A4000404679 /* NPCLoader.cpp in Sources */,

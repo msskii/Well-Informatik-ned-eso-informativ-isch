@@ -10,6 +10,7 @@
 #define RemotePlayer_hpp
 
 #include "../entity/Entity.hpp"
+#include "Buffer.hpp"
 
 namespace Multiplayer
 {

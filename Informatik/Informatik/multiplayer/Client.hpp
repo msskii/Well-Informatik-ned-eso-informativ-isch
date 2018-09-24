@@ -12,6 +12,7 @@
 #include "../util/SDL_Util.hpp"
 #include "RemotePlayer.hpp"
 #include "Server.hpp"
+#include "Buffer.hpp"
 #include <map>
 
 namespace Multiplayer
@@ -22,16 +23,19 @@ namespace Multiplayer
 	class Client
 	{
 	private:
-		TCPsocket socket; // Socket which is connected to the server
-		std::map<int, RemotePlayer> otherPlayers;
+        SDLNet_SocketSet sockets = SDLNet_AllocSocketSet(2); // One tcp, one udp
+		TCPsocket tcp_socket; // Socket which is connected to the server
+        
+        std::map<int, RemotePlayer> otherPlayers;
 		friend int clientReceive(void *data);
 
 	public:
         bool connectionEstablished = false;
-		Client(const char *address); // Set up stuff & start receiver
+        Client(const char *address, std::string name); // Set up stuff & start receiver
 
 		void updatePlayerPos(int x, int y);
 		void render(int xoff, int yoff);
+        void sendToServer(TCP_Packet packet);
 	};
 }
 

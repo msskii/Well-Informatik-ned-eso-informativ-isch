@@ -16,7 +16,7 @@ namespace Multiplayer
 	class ServerSelector : public Menu
 	{
 		Menu *mainMenu;
-		TextBox *tb = nullptr;
+		TextBox *tb = nullptr, *name = nullptr;
 
 	public:
 		ServerSelector(Menu *mainMenu);
