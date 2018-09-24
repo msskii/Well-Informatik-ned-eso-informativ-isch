@@ -48,7 +48,7 @@ void Projectile::update(const uint8_t *keys)
     data.y_pos += velocity.y;
     
     SDL_Rect r = getBoundingBox();
-    TRANSFORM_LEVEL_POS(r, level->player->getOffsetX(), level->player->getOffsetY());
+    TRANSFORM_LEVEL_POS(r, level->getPlayer()->getOffsetX(), level->getPlayer()->getOffsetY());
     
     if(++anim_timer >= 7)
     {

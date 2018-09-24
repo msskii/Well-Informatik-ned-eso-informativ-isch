@@ -67,7 +67,7 @@ public:
 };
 
 #define ENTITY_DIST(e1, e2) LENGTH(e1->data.x_pos - e2->data.x_pos, e1->data.y_pos - e2->data.y_pos)
-#define PLAYER_DIST(e1, p) LENGTH(e1->data.x_pos - p->x_pos, e1->data.y_pos - p->y_pos)
+#define PLAYER_DIST(e1, p) LENGTH(e1->data.x_pos - p->data.x_pos, e1->data.y_pos - p->data.y_pos)
 #define ENTITY_DIAGONAL(e) LENGTH(e->data.width, e->data.height)
 
 #endif /* Entity_hpp */

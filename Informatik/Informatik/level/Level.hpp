@@ -31,15 +31,15 @@ class Level
 {
 private:
     SDL_Surface *srfc;
+    Player *player; // The player in this level
     
 public:
-    Player *player; // The player in this level
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
     std::vector<Event*> events; // The events in this level
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
     Building *buildings; //The Buildings .. you guessed
-
+    
 #ifdef ENABLE_TEST_MULTIPLAYER
     bool remoteLevel = false;
     Multiplayer::Client *clientConnector = nullptr;
@@ -48,6 +48,9 @@ public:
         clientConnector = new Multiplayer::Client(window, address, name);
         return clientConnector->connectionEstablished;
     }
+    inline Player *getPlayer() { return player; }
+#else
+    inline Player *getPlayer() { return player; }
 #endif
 
     float sunBrightness = 0.6f;

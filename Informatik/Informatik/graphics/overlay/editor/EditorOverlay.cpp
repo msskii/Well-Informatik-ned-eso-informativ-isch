@@ -22,7 +22,7 @@ void EditorClickHandler::render()
     x = (int)(x / SCALE_X);
     y = (int)(y / SCALE_Y);
     
-    selectedID = (int) ((x - menu->window->level->player->getOffsetX() - PLAYER_OFFSET_X) / TILE_SIZE) + (int) ((y - menu->window->level->player->getOffsetY() - PLAYER_OFFSET_Y) / TILE_SIZE) * menu->window->level->width;
+    selectedID = (int) ((x - menu->window->level->getPlayer()->getOffsetX() - PLAYER_OFFSET_X) / TILE_SIZE) + (int) ((y - menu->window->level->getPlayer()->getOffsetY() - PLAYER_OFFSET_Y) / TILE_SIZE) * menu->window->level->width;
 }
 
 
@@ -49,8 +49,8 @@ void EditorOverlay::renderMenu()
         for(int i = 0; i < (int) window->level->events.size(); i++)
         {
             Event *evt = window->level->events[i];
-            int xpos = evt->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
-            int ypos = evt->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
+            int xpos = evt->event_data.event_x - window->level->getPlayer()->getOffsetX() - PLAYER_OFFSET_X;
+            int ypos = evt->event_data.event_y - window->level->getPlayer()->getOffsetY() - PLAYER_OFFSET_Y;
             // printf("%i: xd: (%d - %d), yd: %d\n", i, xpos, clickhandler->x, ypos - clickhandler->y);
             if(xpos <= clickhandler->x && xpos + evt->event_data.event_w >= clickhandler->x && ypos <= clickhandler->y && ypos + evt->event_data.event_h >= clickhandler->y)
             {
@@ -60,8 +60,8 @@ void EditorOverlay::renderMenu()
         }
         if(e == nullptr) return;
         
-        int xpos = e->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
-        int ypos = e->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
+        int xpos = e->event_data.event_x - window->level->getPlayer()->getOffsetX() - PLAYER_OFFSET_X;
+        int ypos = e->event_data.event_y - window->level->getPlayer()->getOffsetY() - PLAYER_OFFSET_Y;
         SDL_Rect dst = {xpos, ypos, e->event_data.event_w, e->event_data.event_h};
         fillRect(0xAFFFFFF, dst);
     }
@@ -72,7 +72,7 @@ void EditorOverlay::renderMenu()
         
         // printf("X: %d, Y: %d\n", tileX, tileY);
         
-        SDL_Rect dst = { tileX * TILE_SIZE + window->level->player->getOffsetX() + PLAYER_OFFSET_X, tileY * TILE_SIZE + window->level->player->getOffsetY() + PLAYER_OFFSET_Y, TILE_SIZE, TILE_SIZE };
+        SDL_Rect dst = { tileX * TILE_SIZE + window->level->getPlayer()->getOffsetX() + PLAYER_OFFSET_X, tileY * TILE_SIZE + window->level->getPlayer()->getOffsetY() + PLAYER_OFFSET_Y, TILE_SIZE, TILE_SIZE };
         fillRect(0xAFFFFFF, dst);
     }
 }
@@ -104,8 +104,8 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
             for(int i = 0; i < (int) window->level->events.size(); i++)
             {
                 Event *evt = window->level->events[i];
-                int xpos = evt->event_data.event_x - window->level->player->getOffsetX() - PLAYER_OFFSET_X;
-                int ypos = evt->event_data.event_y - window->level->player->getOffsetY() - PLAYER_OFFSET_Y;
+                int xpos = evt->event_data.event_x - window->level->getPlayer()->getOffsetX() - PLAYER_OFFSET_X;
+                int ypos = evt->event_data.event_y - window->level->getPlayer()->getOffsetY() - PLAYER_OFFSET_Y;
                 if(xpos <= clickhandler->x && xpos + evt->event_data.event_w >= clickhandler->x && ypos <= clickhandler->y && ypos + evt->event_data.event_h >= clickhandler->y)
                 {
                     e = evt;

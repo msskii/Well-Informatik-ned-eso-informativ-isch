@@ -10,13 +10,16 @@
 #define RemotePlayer_hpp
 
 #include "../entity/Entity.hpp"
+#include "../entity/Player.hpp"
 #include "Buffer.hpp"
 
 namespace Multiplayer
 {
-	class RemotePlayer : public Entity
+	class RemotePlayer : public Player // Player and entity...
 	{
 	private:
+        SDL_Surface *surface;
+        gl_texture texture;
         
 	public:
 		RemotePlayer();

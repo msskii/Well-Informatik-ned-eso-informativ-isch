@@ -98,15 +98,15 @@ void Slime::update(const uint8_t *keys)
     
     if(!isAlive) return; // Dont move when dead
     
-    float l = PLAYER_DIST(this, level->player);
+    float l = PLAYER_DIST(this, level->getPlayer());
     if(l < agroRadius && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
     {
         attackState = ATTACKING;
         set = 1;
         if(anim > 2 && anim < 7)
         {
-            xdirection = (level->player->x_pos - this->data.x_pos)/l;
-            ydirection = (level->player->y_pos - this->data.y_pos)/l;
+            xdirection = (level->getPlayer()->data.x_pos - this->data.x_pos)/l;
+            ydirection = (level->getPlayer()->data.y_pos - this->data.y_pos)/l;
             data.dx = xdirection * data.speed * 2;
             data.dy = ydirection * data.speed * 2;
             correctMovement(data.dx, data.dy);

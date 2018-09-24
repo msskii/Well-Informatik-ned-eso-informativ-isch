@@ -7,7 +7,7 @@
 //
 
 #include "NPC.hpp"
-
+#include "../level/Level.hpp"
 
 NPC::NPC(float xPos, float yPos, int level)
 {
@@ -37,10 +37,10 @@ void NPC::onInteractWith()
 {
     bool isFacingMe = false;
     
-    isFacingMe |= level->player->x_pos + PLAYER_WIDTH / 2 < data.x_pos + data.width / 2 && level->player->direction == RIGHT;
-    isFacingMe |= level->player->x_pos + PLAYER_WIDTH / 2 > data.x_pos + data.width / 2  && level->player->direction == LEFT;
-    isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && level->player->direction == DOWN;
-    isFacingMe |= level->player->y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && level->player->direction == UP;
+    isFacingMe |= level->getPlayer()->data.x_pos + PLAYER_WIDTH / 2 < data.x_pos + data.width / 2 && level->getPlayer()->direction == RIGHT;
+    isFacingMe |= level->getPlayer()->data.x_pos + PLAYER_WIDTH / 2 > data.x_pos + data.width / 2  && level->getPlayer()->direction == LEFT;
+    isFacingMe |= level->getPlayer()->data.y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && level->getPlayer()->direction == DOWN;
+    isFacingMe |= level->getPlayer()->data.y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && level->getPlayer()->direction == UP;
 
     if(isFacingMe && currentText < (int) texts.size())
     {

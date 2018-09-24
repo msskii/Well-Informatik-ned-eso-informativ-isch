@@ -55,7 +55,7 @@ bool TileEditor::shouldWindowClose() { return false; }
 
 void TileEditor::renderMenu()
 {
-    SDL_Rect dst = { (int)(tileID % window->level->width) * TILE_SIZE - PLAYER_OFFSET_X + window->level->player->getOffsetX(), (int)(tileID / window->level->width) * TILE_SIZE , TILE_SIZE, TILE_SIZE };
+    SDL_Rect dst = { (int)(tileID % window->level->width) * TILE_SIZE - PLAYER_OFFSET_X + window->level->getPlayer()->getOffsetX(), (int)(tileID / window->level->width) * TILE_SIZE , TILE_SIZE, TILE_SIZE };
     fillRect(0xAFFF0000, dst);
     
     SDL_Rect background = {isOnLeftSide ? 0 : GAME_WIDTH - 500, 0, 500, GAME_HEIGHT};

@@ -45,6 +45,7 @@ int Multiplayer::clientReceive(void *data)
             while(off < amount - 6)
             {
                 uint32_t id = read<uint32_t>(data);
+                if(id == 0) break; // Server id... Restricted
                 c->otherPlayers[id] = new RemotePlayer();
                 c->otherPlayers[id]->connected = true;
                 c->otherPlayers[id]->data.x_pos = (float) read<uint32_t>(data);
@@ -58,9 +59,14 @@ int Multiplayer::clientReceive(void *data)
                 off += 4 * 4 + c->otherPlayers[id]->nameLen;
                 
                 playerLock.lock();
+                printf("[INFO] Player %d joined\n", id);
                 playersToAdd.push_back(c->otherPlayers[id]);
                 playerLock.unlock();
             }
+        }
+        else if(!strcmp(cmd, CMD_PLAYER_LEAVE))
+        {
+            if(c->otherPlayers[uuid] != nullptr) c->otherPlayers[uuid]->connected = false;
         }
 	}
 

@@ -115,7 +115,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     tileMapFile = std::string(GET_FILE_PATH(LEVEL_PATH, "default.tilemap"));
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
-    player->updateMovement(0, 0); // Update player before level loads
+    getPlayer()->updateMovement(0, 0); // Update player before level loads
 }
 
 void Level::addEntity(Entity *e)
@@ -149,8 +149,8 @@ int Level::getLevelSize()
 
 void Level::render() // and update
 {
-    xoffset = player->getOffsetX();
-    yoffset = player->getOffsetY();
+    xoffset = getPlayer()->getOffsetX();
+    yoffset = getPlayer()->getOffsetY();
 
     renderWithShading(level_texture, {-xoffset-PLAYER_OFFSET_X, -yoffset-PLAYER_OFFSET_Y, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
@@ -160,7 +160,7 @@ void Level::render() // and update
         for(int j = 0; j < buildingCount; j++)
         {
             entities[i]->isBehind = buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
-            player->isBehind = buildings[j].isBehind(player->x_pos, player->y_pos);
+            getPlayer()->isBehind = buildings[j].isBehind(getPlayer()->data.x_pos, getPlayer()->data.y_pos);
         }
         if (entities[i]->isBehind)
         {
@@ -176,7 +176,7 @@ void Level::render() // and update
     }
     
     //render player if he is behind a building
-    if (player->isBehind) player->render(xoffset, yoffset);
+    if (getPlayer()->isBehind) getPlayer()->render(xoffset, yoffset);
     
 #ifdef ENABLE_TEST_MULTIPLAYER    
     if (clientConnector != nullptr)
@@ -184,7 +184,7 @@ void Level::render() // and update
         // We connected & arent playing singleplayer
         // clientConnector->render(xoffset, yoffset); // RemotePlayers are normal entities
         clientConnector->addRemotePlayers(this);
-        clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos, player->animSet, player->anim, player->direction);
+        clientConnector->updatePlayerPos((int) getPlayer()->data.x_pos, (int) getPlayer()->data.y_pos, getPlayer()->animSet, getPlayer()->anim, getPlayer()->direction);
     }
 #endif
     
@@ -196,7 +196,7 @@ void Level::render() // and update
     }
 
     //Render player here if he is infront of building
-    if (player->isBehind == false)  player->render(xoffset, yoffset);
+    if (getPlayer()->isBehind == false)  getPlayer()->render(xoffset, yoffset);
     
     //render enteties here if they are infrong of a building
     for(int i = 0; i < (int) entities.size(); i++)
@@ -219,12 +219,12 @@ void Level::update()
     {
         if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == GAME_LOOP) events[i]->trigger(GAME_LOOP, this);
 
-        if(events[i]->event_data.event_x + events[i]->event_data.event_w > player->x_pos && events[i]->event_data.event_x < player->x_pos + PLAYER_WIDTH && events[i]->event_data.event_y + events[i]->event_data.event_h > player->y_pos && events[i]->event_data.event_y < player->y_pos + PLAYER_HEIGHT)
+        if(events[i]->event_data.event_x + events[i]->event_data.event_w > getPlayer()->data.x_pos && events[i]->event_data.event_x < getPlayer()->data.x_pos + PLAYER_WIDTH && events[i]->event_data.event_y + events[i]->event_data.event_h > getPlayer()->data.y_pos && events[i]->event_data.event_y < getPlayer()->data.y_pos + PLAYER_HEIGHT)
         {
             // Player inside event
             if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == STEP_ON) events[i]->trigger(STEP_ON, this);
                         
-            if(player->actionPressed)
+            if(getPlayer()->actionPressed)
             {
                 if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == PLAYER_INTERACT) events[i]->trigger(PLAYER_INTERACT, this);
             }

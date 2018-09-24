@@ -42,7 +42,8 @@ int Multiplayer::handleSocket(void *data)
         if(amount <= 0)
         {
             client->active = false;
-            printf("Client disconnected... (Error of SDLnet: %s)\n", SDLNet_GetError());
+            server->sendToAll(server->createClientPacket(CMD_PLAYER_LEAVE, client->clientID, NULL, 0));
+            printf("[INFO] Client disconnected... (Error of SDLnet: %s)\n", SDLNet_GetError());
             return 0;
         }
         
@@ -55,11 +56,9 @@ int Multiplayer::handleSocket(void *data)
                 cmd_player(server, client, buffer, msg_data, amount + 4);
                 break;
             default:
-                printf("Unknown command: %s\n", buffer);
+                printf("[WARNING] Unknown command: %s\n", buffer);
                 break;
-        }
-        
-        //server->broadcastTCP(client, newData, amount + 4); // Send to everybody
+        }        
     }
     
     return 0;
@@ -74,12 +73,19 @@ Multiplayer::Server::Server(Window *w) : window(w)
     SDLNet_ResolveHost(&address, NULL, SERVER_PORT);
     tcp_server = SDLNet_TCP_Open(&address);
     
+    if(!tcp_server)
+    {
+        printf("Couldn't create server... %s\n", SDLNet_GetError());
+        printf("Is something already running on that port?\n");
+        exit(0);
+    }
+    
     serverRunning = true;
 
     printf("[INFO] Started server on port: %d\n", SERVER_PORT);
     
     window->menus.clear(); // No open menus...
-    window->level->player->inControl = false;
+    window->level->getPlayer()->inControl = false;
     
     while(serverRunning)
     {
@@ -94,7 +100,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
             // PJAF____
             if(joinmsg.data[2] != 'A' || joinmsg.data[3] != 'F')
             {
-                printf("Wrong header... rejected\n");
+                printf("[WARNING] Wrong header... rejected\n");
                 continue;
             }
             
@@ -110,16 +116,18 @@ Multiplayer::Server::Server(Window *w) : window(w)
             c->socket = client;
             c->clientID = clientID++;
             c->active = true;
-            
             free(joinmsg.data);
-            printf("Client %s connected\n", c->name);
 
+            clients.push_back(c);
+
+            // Sync players on server & on clients
             int len = 0;
-            for(size_t i = 0; i < clients.size(); i++) len += 4 * 4 + clients[i]->namelen;
+            for(size_t i = 0; i < clients.size(); i++) if(clients[i]->active && clients[i]->clientID != c->clientID) len += 4 * 4 + clients[i]->namelen;
             uint8_t* clientData = (uint8_t*) malloc(len);
             int off = 0;
             for(size_t i = 0; i < clients.size(); i++)
             {
+                if(!clients[i]->active || clients[i]->clientID == c->clientID) continue;
                 ((uint32_t*)(clientData + off))[0] = clients[i]->clientID; // ID
                 ((uint32_t*)(clientData + off))[1] = clients[i]->x; // X
                 ((uint32_t*)(clientData + off))[2] = clients[i]->y; // Y
@@ -127,7 +135,9 @@ Multiplayer::Server::Server(Window *w) : window(w)
                 memcpy(clientData + off + 16, clients[i]->name, clients[i]->namelen);
                 off += 4 * 4 + clients[i]->namelen;
             }
+            printf("Sending %d bytes of client data\n", off);
 
+            // Send all players to the one just connected
             TCP_Packet p = (createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, len));
             SDLNet_TCP_Send(client, p.data, p.dataLen);
             free(p.data);
@@ -139,12 +149,16 @@ Multiplayer::Server::Server(Window *w) : window(w)
             ((uint32_t*)(clientData))[3] = c->namelen; // len
             memcpy(clientData + 16, c->name, c->namelen);
             p = createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, 16 + c->namelen);
-            sendToAll(p);
+            broadcast(c, p);
             free(p.data);
             
-            clients.push_back(c);
             void ** t = new void*[2]{ (void*) this, (void*) clients[clients.size() - 1] };
             SDL_CreateThread(Multiplayer::handleSocket, "ClientThread", t);
+        }
+        
+        for(int i = 0; i < (int) clients.size(); i++)
+        {
+            if(!clients[i]->active) clients.erase(clients.begin() + i); // Remove clients who've disconnected... (Thread should be done anyway)
         }
         
         window->nextFrame(); // Render & update & events
@@ -164,14 +178,14 @@ Multiplayer::TCP_Packet Multiplayer::Server::receivePacket(TCPsocket client, int
 
 void Multiplayer::Server::sendToAll(TCP_Packet packet)
 {
-    for(int i = 0; i < (int) clients.size(); i++) SDLNet_TCP_Send(clients[i]->socket, packet.data, packet.dataLen);
+    for(int i = 0; i < (int) clients.size(); i++) if(clients[i]->active) SDLNet_TCP_Send(clients[i]->socket, packet.data, packet.dataLen);
 }
 
 void Multiplayer::Server::broadcast(ServerClient *sender, TCP_Packet packet)
 {
     for(int i = 0; i < (int) clients.size(); i++)
     {
-        if(clients[i]->socket == sender->socket) continue; // Skip the sender
+        if(clients[i]->socket == sender->socket || !clients[i]->active) continue; // Skip the sender
         SDLNet_TCP_Send(clients[i]->socket, packet.data, packet.dataLen);
     }
 }
@@ -180,10 +194,23 @@ Multiplayer::TCP_Packet Multiplayer::createPacket(const char *cmd, const char *d
 {
     uint8_t* d = (uint8_t*) malloc(dataLen + 2);
     memcpy(d, cmd, 2);
-    memcpy(d + 2, data, dataLen);
+    if(dataLen) memcpy(d + 2, data, dataLen);
     Multiplayer::TCP_Packet packet;
     packet.data = (char*) d;
     packet.dataLen = dataLen + 2;
+    
+    return packet;
+}
+
+Multiplayer::TCP_Packet Multiplayer::Server::createClientPacket(const char *cmd, int clientID, const char *data, int dataLen)
+{
+    uint8_t* d = (uint8_t*) malloc(dataLen + 6);
+    *((uint32_t*)(d)) = clientID;
+    memcpy(d + 4, cmd, 2);
+    if(dataLen) memcpy(d + 6, data, dataLen);
+    Multiplayer::TCP_Packet packet;
+    packet.data = (char*) d;
+    packet.dataLen = dataLen + 6;
     
     return packet;
 }
@@ -193,7 +220,7 @@ Multiplayer::TCP_Packet Multiplayer::Server::createServerPacket(const char *cmd,
     uint8_t* d = (uint8_t*) malloc(dataLen + 6);
     memset(d, 0, 4);
     memcpy(d + 4, cmd, 2);
-    memcpy(d + 6, data, dataLen);
+    if(dataLen) memcpy(d + 6, data, dataLen);
     Multiplayer::TCP_Packet packet;
     packet.data = (char*) d;
     packet.dataLen = dataLen + 6;
