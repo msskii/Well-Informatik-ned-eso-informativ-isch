@@ -10,6 +10,7 @@
 #include "../graphics/Window.hpp"
 
 int clientID = 1; // 0 is the server
+std::map<int, Multiplayer::RemotePlayer*> activePlayers;
 
 Multiplayer::MultiplayerEntities getEntityType(Entity *e)
 {
@@ -53,7 +54,22 @@ void Multiplayer::cmd_player(Server *server, ServerClient *client, uint8_t *buff
     if(buffer[5] == 'm')
     {
         // printf("Player moved to position: %d, %d\n", *((uint32_t*) (data + 0)), *((uint32_t*) (data + 4)));
+        server->window->level->activePlayerLock.lock();
+        activePlayers[client->clientID]->data.x_pos = (float) *((uint32_t*) (data + 0));
+        activePlayers[client->clientID]->data.y_pos = (float) *((uint32_t*) (data + 4));
+        activePlayers[client->clientID]->walking = *((uint8_t*) (data + 8));
+        activePlayers[client->clientID]->anim = *((uint8_t*) (data + 9));
+        activePlayers[client->clientID]->direction = *((uint8_t*) (data + 10));
+        server->window->level->activePlayerLock.unlock();
         server->broadcast(client, {(char*) buffer, dataLength});
+    }
+}
+
+void Multiplayer::cmd_entity(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int dataLength)
+{
+    if(buffer[5] == 'm')
+    {
+        server->broadcast(client, {(char*) buffer, dataLength}); // Send the data to all
     }
 }
 
@@ -87,6 +103,9 @@ int Multiplayer::handleSocket(void *data)
                 // Player stuff...
                 cmd_player(server, client, buffer, msg_data, amount + 4);
                 break;
+            case 'e':
+                cmd_entity(server, client, buffer, msg_data, amount + 4);
+                break;
             default:
                 printf("[WARNING] Unknown command: %s\n", buffer);
                 break;
@@ -117,6 +136,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
     printf("[INFO] Started server on port: %d\n", SERVER_PORT);
     
     window->menus.clear(); // No open menus...
+    window->level->server = this;
     window->level->getLocalPlayer()->inControl = false;
     window->level->onServer = true; // This is the level on the server
     window->level->remoteLevel = true; // This is the level on the server
@@ -153,6 +173,12 @@ Multiplayer::Server::Server(Window *w) : window(w)
             free(joinmsg.data);
 
             clients.push_back(c);
+            activePlayers[c->clientID] = new RemotePlayer();
+            // We're on the main thread
+            window->level->activePlayerLock.lock();
+            window->level->addEntity(activePlayers[c->clientID]); // Same pointer
+            window->level->activePlayers.push_back(activePlayers[c->clientID]); // Same pointer
+            window->level->activePlayerLock.unlock();
 
             // Sync players on server & on clients
             int len = 0;

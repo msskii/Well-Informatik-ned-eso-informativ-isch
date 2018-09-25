@@ -100,6 +100,7 @@ void Slime::update(const uint8_t *keys)
     if(!isAlive) return; // Dont move when dead
     
     Player *player = level->getPlayer(data.x_pos, data.y_pos);
+    if(player == nullptr) return; // No player on server
     
     float l = PLAYER_DIST(this, player);
     if(l < agroRadius && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))

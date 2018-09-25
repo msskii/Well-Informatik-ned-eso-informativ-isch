@@ -73,13 +73,14 @@ namespace Multiplayer
         Window *window;
         
         friend void cmd_player(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
-        TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
+        friend void cmd_entity(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
         TCP_Packet createClientPacket(const char *cmd, int clientID, const char* data, int dataLen);
     public:
         TCPsocket tcp_server;
         
         void stopServer();
-        
+        TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
+
         void sendToAll(TCP_Packet packet);
         void broadcast(ServerClient *sender, TCP_Packet packet);
         TCP_Packet receivePacket(TCPsocket client, int size);

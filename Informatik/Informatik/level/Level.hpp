@@ -17,13 +17,15 @@
 #include "Building.hpp"
 
 #include "../entity/Player.hpp"
-
 #include "loader/TextLoader.hpp"
-
 #include "../multiplayer/Client.hpp"
 
 class Player;
 class Window;
+namespace Multiplayer
+{
+    class Server;
+}
 
 class Level
 {
@@ -41,18 +43,33 @@ public:
     
     bool remoteLevel = false;
     bool onServer = false;
+
+    Multiplayer::Server *server = nullptr;
     Multiplayer::Client *clientConnector = nullptr;
+
     inline bool connectToServer(const char *address, std::string name)
     {
         clientConnector = new Multiplayer::Client(window, address, name);
         return clientConnector->connectionEstablished;
     }
     
+    std::mutex activePlayerLock;
     std::vector<Multiplayer::RemotePlayer*> activePlayers;
     inline Player *getPlayer(float xcoord, float ycoord)
     {
         if(!remoteLevel) return player;
-        else if(onServer) return nullptr; // TODO: find closest player
+        else if(onServer)
+        {
+            Player *closest = nullptr;
+            activePlayerLock.lock();
+            for(int i = 0; i < (int) activePlayers.size(); i++)
+            {
+                if(closest == nullptr) closest = activePlayers[i];
+                else if(LENGTH(xcoord - activePlayers[i]->data.x_pos, ycoord - activePlayers[i]->data.y_pos) < LENGTH(xcoord - closest->data.x_pos, ycoord - closest->data.y_pos)) closest = activePlayers[i];
+            }
+            activePlayerLock.unlock();
+            return closest;
+        }
         return player;
     }
     
@@ -85,6 +102,7 @@ public:
 
     void reloadFiles();
     void addEntity(Entity *e); // To add an entity
+    void addEntity(Entity *e, int id);
     void removeEntity(Entity *e);
     
     // Multiplayer stuff

@@ -80,28 +80,26 @@ int Multiplayer::clientReceive(void *data)
             {
                 int entityNum = read<int>(data);
                 int entityID = read<int>(data);
-                printf("Entity with type: %d and id %d spawned\n", entityNum, entityID);
+                // printf("[INFO] Entity with type: %d and id %d spawned\n", entityNum, entityID);
                 
-                switch(entityNum)
-                {
-                    case SLIME:
-                    {
-                        Entity *e = Multiplayer::createEntityFromData((Multiplayer::MultiplayerEntities) entityNum, data);
-                        c->window->level->addEntity(e);
-                        data += 3 * 4;
-                    }
-                        break;
-                    default:
-                    {
-                        float x = read<float>(data);
-                        float y = read<float>(data);
-                        float ra = read<float>(data);
-                    }
-                        break;
-                }
-                
+                Entity *e = Multiplayer::createEntityFromData((Multiplayer::MultiplayerEntities) entityNum, data);
+                c->window->level->addEntity(e, entityID);
+
+                data += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityNum) - 8;
                 off += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityNum);
             }
+        }
+        else if(!strcmp(cmd, CMD_ENTITY_MOVE))
+        {
+            int entityID = read<int>(data);
+            Entity *e = c->window->level->getEntity(entityID);
+            if(e == nullptr) continue; // Entity not found...
+            e->data.x_pos = (float) read<int>(data);
+            e->data.y_pos = (float) read<int>(data);
+        }
+        else
+        {
+            printf("Couldn't find command: %s\n", cmd);
         }
 	}
 
@@ -153,6 +151,7 @@ void Multiplayer::Client::updatePlayerPos(int xpos, int ypos, uint8_t animationS
 void Multiplayer::Client::addRemotePlayers(Level *level)
 {
     playerLock.lock();
+    level->activePlayerLock.lock();
     for(int i = 0; i < (int) playersToAdd.size(); i++)
     {
         level->addEntity(playersToAdd[i]);
@@ -173,6 +172,7 @@ void Multiplayer::Client::addRemotePlayers(Level *level)
     }
     playersToRemove.clear();
     playerLock.unlock();
+    level->activePlayerLock.unlock();
 }
 
 void Multiplayer::Client::sendToServer(TCP_Packet packet)

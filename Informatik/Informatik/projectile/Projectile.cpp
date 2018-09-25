@@ -18,7 +18,6 @@ Projectile::Projectile(float x, float y, float ra) : rotationAngle(ra)
     data.height = 64;
     
     surface = IMG_Load(GET_TEXTURE_PATH("projectiles/arrow_ur"));
-    texture = getTexture(surface);
     
     velocity.x = cos(ra) * PROJECTILE_SPEED;
     velocity.y = -sin(ra) * PROJECTILE_SPEED;
@@ -30,6 +29,8 @@ void Projectile::onAddToLevel(Level *level) {}
 
 void Projectile::render(int xoff, int yoff)
 {
+    if(texture.id == 0) texture = getTexture(surface);
+    
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
     

@@ -9,6 +9,7 @@
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
+#include "../multiplayer/Server.hpp"
 
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
@@ -124,8 +125,13 @@ void Level::resetLevel()
 
 void Level::addEntity(Entity *e)
 {
+    addEntity(e, entityIDCounter++);
+}
+
+void Level::addEntity(Entity *e, int id)
+{
     if(e == nullptr) return;
-    e->entityID = entityIDCounter++;
+    e->entityID = id;
     e->addedToLevel(this);
     entities.push_back(e);
     
@@ -189,7 +195,7 @@ void Level::render() // and update
     }
     
     //render player if he is behind a building
-    if (player->isBehind) player->render(xoffset, yoffset);
+    if (player->isBehind && !onServer) player->render(xoffset, yoffset);
     
     // Update & render other clients
     if (clientConnector != nullptr)
@@ -206,7 +212,7 @@ void Level::render() // and update
     }
 
     //Render player here if he is infront of building
-    if (!player->isBehind) player->render(xoffset, yoffset);
+    if (!player->isBehind && !onServer) player->render(xoffset, yoffset);
     
     //render entities here if they are infront of a building
     for(int i = 0; i < (int) entities.size(); i++)
@@ -220,7 +226,7 @@ void Level::render() // and update
 
 void Level::update()
 {
-    if(remoteLevel) return; // Don't update here, it's on the server
+    if(remoteLevel && !onServer) return; // Don't update here, it's on the server
 
     for(int i = 0; i < (int) events.size(); i++)
     {
@@ -238,7 +244,20 @@ void Level::update()
         }
     }
     
-    for(int i = 0; i < (int) entities.size(); i++) entities[i]->update(window->keyStates);
+    uint8_t* data = (uint8_t*) malloc(3 * 4);
+    for(int i = 0; i < (int) entities.size(); i++)
+    {
+        entities[i]->update(window->keyStates);
+        if(onServer)
+        {
+            ((uint32_t*) data)[0] = entities[i]->entityID;
+            ((uint32_t*) data)[1] = (int) entities[i]->data.x_pos;
+            ((uint32_t*) data)[2] = (int) entities[i]->data.y_pos;
+            Multiplayer::TCP_Packet packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 3 * 4);
+            server->sendToAll(packet);
+            free(packet.data);
+        }
+    }
 }
 
 void Level::reloadFiles()
