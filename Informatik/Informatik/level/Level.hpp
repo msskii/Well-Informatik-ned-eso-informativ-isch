@@ -80,11 +80,9 @@ public:
     inline int getOffsetX() { return player->getOffsetX(); }
     inline int getOffsetY() { return player->getOffsetY(); }
 
-<<<<<<< HEAD
-    float sunBrightness = 0.5f;
-=======
-    float sunBrightness = 0.6f;
->>>>>>> 0957a74351e4cbfe48efaf7af8acaa4f1356b13f
+
+    float sunBrightness = 1.0f;
+
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
@@ -97,13 +95,8 @@ public:
     Window *window = nullptr;
     gl_texture level_texture; // All tiles in one texture?
     
-<<<<<<< HEAD
-public:
-    int buildingCount = 1;
-    
-=======
+
 public:    
->>>>>>> 0957a74351e4cbfe48efaf7af8acaa4f1356b13f
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
     

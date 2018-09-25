@@ -54,19 +54,9 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
         tiles[50 * 14 + 10 +i].data.tileNumber = 0;
     }
     
-<<<<<<< HEAD
-    
-    buildings = new Building[1]
-    {
-        Building(10, 10, 0, this)
-    };
 
-    
-=======
     buildings.push_back(new Building(10, 10, 0, this));
-    buildings.push_back(new Building(30, 10, 1, this));
 
->>>>>>> 0957a74351e4cbfe48efaf7af8acaa4f1356b13f
     for(int i = 0; i < w * h; i++)
     {
         tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
