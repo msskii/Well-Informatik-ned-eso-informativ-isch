@@ -104,7 +104,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     Slime *slimeg = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE, 1);
     Slime *slimeb = new Slime(10 * TILE_SIZE, 15 * TILE_SIZE, 10);
     Slime *slimeo = new Slime(10 * TILE_SIZE, 25 * TILE_SIZE, 20);
-    Slime *slimer = new Slime(10 * TILE_SIZE, 35 * TILE_SIZE, 30);
+    Fireflies *slimer = new Fireflies(5 * TILE_SIZE, 10 * TILE_SIZE);
     level->addEntity(slimeg);
     level->addEntity(slimeb);
     level->addEntity(slimeo);

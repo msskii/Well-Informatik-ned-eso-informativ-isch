@@ -15,6 +15,7 @@
 #include "Tile.hpp"
 #include "Event.hpp"
 #include "Building.hpp"
+#include "../entity//decorativeEntities/Fireflies.hpp"
 
 #include "../entity/Player.hpp"
 
@@ -51,7 +52,7 @@ public:
 #endif
     
 
-    float sunBrightness = 1.0f;
+    float sunBrightness = 0.5f;
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
@@ -65,7 +66,7 @@ public:
     gl_texture level_texture; // All tiles in one texture?
     
 public:
-    int buildingCount = 2;
+    int buildingCount = 1;
     
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
