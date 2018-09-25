@@ -28,10 +28,10 @@
 
 
 class Window;
+class Entity;
 
 namespace Multiplayer
 {
-    
     typedef struct ServerClient
     {
         TCPsocket socket = NULL; // The socket to receive data from & send it to
@@ -45,6 +45,15 @@ namespace Multiplayer
         char *name;
     } ServerClient;
     
+    // Ints
+    enum MultiplayerEntities
+    {
+        SLIME = 0,
+        PROJECTILE,
+        EXPLOSIVE_PROJECTILE,
+        EXPLOSION
+    };
+    
     typedef struct TCP_Packet
     {
         char *data;
@@ -52,6 +61,8 @@ namespace Multiplayer
     } TCP_Packet;
     
     extern TCP_Packet createPacket(const char *cmd, const char* data, int dataLen);
+    extern int getEntitySize(MultiplayerEntities entity);
+    extern Entity *createEntityFromData(MultiplayerEntities type, uint8_t *data);
     
     class Server
     {

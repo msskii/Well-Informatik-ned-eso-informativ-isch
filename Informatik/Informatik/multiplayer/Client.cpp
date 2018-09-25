@@ -73,6 +73,36 @@ int Multiplayer::clientReceive(void *data)
             playersToRemove.push_back(c->otherPlayers[uuid]);
             playerLock.unlock();
         }
+        else if(!strcmp(cmd, CMD_ENTITY_SPAWN))
+        {
+            int off = 0;
+            while(off < amount)
+            {
+                int entityNum = read<int>(data);
+                int entityID = read<int>(data);
+                printf("Entity with type: %d and id %d spawned\n", entityNum, entityID);
+                
+                switch(entityNum)
+                {
+                    case SLIME:
+                    {
+                        Entity *e = Multiplayer::createEntityFromData((Multiplayer::MultiplayerEntities) entityNum, data);
+                        c->window->level->addEntity(e);
+                        data += 3 * 4;
+                    }
+                        break;
+                    default:
+                    {
+                        float x = read<float>(data);
+                        float y = read<float>(data);
+                        float ra = read<float>(data);
+                    }
+                        break;
+                }
+                
+                off += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityNum);
+            }
+        }
 	}
 
 	return 0;

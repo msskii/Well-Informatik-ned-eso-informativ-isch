@@ -30,13 +30,14 @@ class Level
 private:
     SDL_Surface *srfc;
     Player *player; // The player in this level
+    int entityIDCounter = 0;
     
 public:
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
     std::vector<Event*> events; // The events in this level
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
-    Building *buildings; //The Buildings .. you guessed
+    std::vector<Building*> buildings;
     
     bool remoteLevel = false;
     bool onServer = false;
@@ -55,6 +56,7 @@ public:
         return player;
     }
     
+    void resetLevel();
     inline Player *getLocalPlayer() { return player; }
     
     inline int getOffsetX() { return player->getOffsetX(); }
@@ -73,13 +75,10 @@ public:
     Window *window = nullptr;
     gl_texture level_texture; // All tiles in one texture?
     
-public:
-    int buildingCount = 2;
-    
+public:    
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
     
-    //Level(int w, int h, SDL_Renderer *renderer);
     Level(int w, int h);
     void updateTile(int tilenum);
     void updateTiles();
@@ -88,9 +87,24 @@ public:
     void addEntity(Entity *e); // To add an entity
     void removeEntity(Entity *e);
     
+    // Multiplayer stuff
+    inline void setEntity(int id, Entity *e)
+    {
+        for(int i = 0; i < (int) entities.size(); i++) if(entities[i]->entityID == id) {entities[i] = e; return; }
+        entities.push_back(e); // Not found, create it
+    }
+    
+    inline Entity *getEntity(int id)
+    {
+        for(int i = 0; i < (int) entities.size(); i++) if(entities[i]->entityID == id) return entities[i];
+        return nullptr;
+    }
+    
+    // Saving stuff
     int getLevelSize();
     int getEventSize();
     
+    // Game stuff
     void update();
     void render();
 };

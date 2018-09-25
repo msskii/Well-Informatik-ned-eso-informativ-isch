@@ -50,6 +50,7 @@ protected:
 public:
     bool isBehind = false;
     Level *level;
+    int entityID;
     
     ~Entity();
     

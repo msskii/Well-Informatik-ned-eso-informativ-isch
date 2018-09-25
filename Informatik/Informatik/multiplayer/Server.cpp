@@ -11,6 +11,38 @@
 
 int clientID = 1; // 0 is the server
 
+Multiplayer::MultiplayerEntities getEntityType(Entity *e)
+{
+    if(dynamic_cast<Slime*>(e) != nullptr) return Multiplayer::SLIME;
+    else if(dynamic_cast<Projectile*>(e) != nullptr) return Multiplayer::PROJECTILE;
+    else if(dynamic_cast<ExplodingProjectile*>(e) != nullptr) return Multiplayer::EXPLOSIVE_PROJECTILE;
+    else if(dynamic_cast<Explosion*>(e) != nullptr) return Multiplayer::EXPLOSION;
+
+    printf("Entity type not found... Perhaps the archives are incomplete\n");
+    return Multiplayer::PROJECTILE;
+}
+
+int Multiplayer::getEntitySize(MultiplayerEntities e)
+{
+   switch(e)
+    {
+        case SLIME: return 5 * 4;
+        default: return 5 * 4;
+    }
+}
+
+Entity *Multiplayer::createEntityFromData(Multiplayer::MultiplayerEntities type, uint8_t *data)
+{
+    switch(type)
+    {
+        case Multiplayer::SLIME:
+            return new Slime((float) ((uint32_t*) data)[0], (float) ((uint32_t*) data)[1], ((uint32_t*) data)[2]);
+        default:
+            printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);
+            return new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
+    }
+}
+
 void Multiplayer::ServerClient::sendTo(const unsigned char *toSend, int length)
 {
     SDLNet_TCP_Send(socket, toSend, length);
@@ -144,6 +176,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
             SDLNet_TCP_Send(client, p.data, p.dataLen);
             free(p.data);
             
+            // Send all players that one connected
             clientData = (uint8_t*) realloc(clientData, 4 * 4 + c->namelen);
             ((uint32_t*)(clientData))[0] = c->clientID; // ID
             ((uint32_t*)(clientData))[1] = c->x; // X
@@ -152,6 +185,40 @@ Multiplayer::Server::Server(Window *w) : window(w)
             memcpy(clientData + 16, c->name, c->namelen);
             p = createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, 16 + c->namelen);
             broadcast(c, p);
+            free(p.data);
+            
+            // Send entity data..
+            int entityLen = 0;
+            for(int i = 0; i < (int) window->level->entities.size(); i++) entityLen += getEntitySize(getEntityType(window->level->entities[i]));
+            uint8_t* entityData = (uint8_t*) malloc(entityLen);
+            
+            off = 0;
+            for(int i = 0; i < (int) window->level->entities.size(); i++)
+            {
+                MultiplayerEntities e = getEntityType(window->level->entities[i]);
+                ((uint32_t*) (entityData + off))[0] = (int) e;
+                ((uint32_t*) (entityData + off))[1] = window->level->entities[i]->entityID;
+                off += 2 * 4;
+
+                switch(e)
+                {
+                    case SLIME:
+                        ((uint32_t*) (entityData + off))[0] = (int) window->level->entities[i]->data.x_pos;
+                        ((uint32_t*) (entityData + off))[1] = (int) window->level->entities[i]->data.y_pos;
+                        ((uint32_t*) (entityData + off))[2] = (int) ((Slime*) window->level->entities[i])->enemy_level;
+                        off += 3 * 4; // 3 floats
+                        break;
+                    default:
+                        ((float*) (entityData + off))[0] = window->level->entities[i]->data.x_pos;
+                        ((float*) (entityData + off))[1] = window->level->entities[i]->data.y_pos;
+                        ((float*) (entityData + off))[2] = 0;
+                        off += 3 * 4; // 3 floats
+                        break;
+                }
+            }
+            
+            p = createServerPacket(CMD_ENTITY_SPAWN, (char*) entityData, entityLen);
+            SDLNet_TCP_Send(client, p.data, p.dataLen);
             free(p.data);
             
             void ** t = new void*[2]{ (void*) this, (void*) clients[clients.size() - 1] };

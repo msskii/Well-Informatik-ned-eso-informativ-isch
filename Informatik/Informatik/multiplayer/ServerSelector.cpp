@@ -22,6 +22,7 @@ void Multiplayer::ServerSelector::updateMenu(const uint8_t *keys)
 	{
 		if(!window->level->connectToServer(tb->currentText.c_str(), name->currentText)) return; // Dont close yet
 		close();
+        window->level->resetLevel();
 		this->mainMenu->close();
 	}
 }

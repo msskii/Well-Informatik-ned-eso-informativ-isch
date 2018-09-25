@@ -53,13 +53,9 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
         tiles[50 * 14 + 10 +i].data.tileNumber = 0;
     }
     
-    
-    buildings = new Building[2]
-    {
-        Building(10, 10, 0, this),
-        Building(30, 10, 1, this)
-    };
-    
+    buildings.push_back(new Building(10, 10, 0, this));
+    buildings.push_back(new Building(30, 10, 1, this));
+
     for(int i = 0; i < w * h; i++)
     {
         tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
@@ -118,11 +114,26 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     player->updateMovement(0, 0); // Update player before level loads
 }
 
+void Level::resetLevel()
+{
+    // Delete all data, for multiplayer
+    entities.clear();
+    buildings.clear();
+    events.clear();
+}
+
 void Level::addEntity(Entity *e)
 {
     if(e == nullptr) return;
+    e->entityID = entityIDCounter++;
     e->addedToLevel(this);
     entities.push_back(e);
+    
+    if(onServer)
+    {
+        // Send to clients
+        
+    }
 }
 
 void Level::removeEntity(Entity *e)
@@ -144,7 +155,7 @@ int Level::getEventSize()
 
 int Level::getLevelSize()
 {
-    return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * buildingCount + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
+    return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * (int) buildings.size() + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
 }
 
 void Level::render() // and update
@@ -156,13 +167,13 @@ void Level::render() // and update
     
     //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
     
-    for(int j = 0; j < buildingCount; j++)
+    for(int j = 0; j < (int) buildings.size(); j++)
     {
-        player->isBehind = buildings[j].isBehind(player->data.x_pos, player->data.y_pos);
+        player->isBehind = buildings[j]->isBehind(player->data.x_pos, player->data.y_pos);
         
         for(int i = 0; i < (int) entities.size(); i++)
         {
-            entities[i]->isBehind = buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
+            entities[i]->isBehind = buildings[j]->isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
             if (entities[i]->isBehind)
             {
                 entities[i]->render(xoffset, yoffset);
@@ -189,9 +200,9 @@ void Level::render() // and update
     }    
     
     //rendering Buildings
-    for(int i = 0; i < buildingCount; i++)
+    for(int i = 0; i < (int) buildings.size(); i++)
     {
-        buildings[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+        buildings[i]->render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
 
     //Render player here if he is infront of building
@@ -242,10 +253,9 @@ Tile Level::getTile(int screenX, int screenY)
 
 bool Level::getBuildingCollision(float x, float y)
 {
-    
-    for (int i = 0; i < buildingCount; i++)
+    for (int i = 0; i < (int) buildings.size(); i++)
     {
-        if(buildings[i].isInside(x, y))
+        if(buildings[i]->isInside(x, y))
         {
             return true;
         }
