@@ -7,9 +7,10 @@
 //
 
 #include "Player.hpp"
+#include "../level/Level.hpp"
 #define MAX_STEP 1
 
-Player::Player(Level *l) : level(l)
+Player::Player(Level *l) : current_level(l)
 {
     player_surface = IMG_Load(GET_TEXTURE_PATH("Character_Animation"));
     texture = getTexture(player_surface);
@@ -34,20 +35,22 @@ bool intersectWith(int xpos1, int ypos1, int x, int y, int w, int h)
 
 bool Player::isInside(float dx, float dy)
 {
-    if(x_pos + dx < 0 || x_pos + dx >= TILE_SIZE * level->width || y_pos + dy < 0 || y_pos + dy >= TILE_SIZE * level->height) return true; // Out of bounds = you cant walk
+    if(data.x_pos + dx < 0 || data.x_pos + dx >= TILE_SIZE * current_level->width || data.y_pos + dy < 0 || data.y_pos + dy >= TILE_SIZE * current_level->height) return true; // Out of bounds = you cant walk
 
     for(int point_index = 0; point_index < 4; point_index++)
     {
         float player_x_offset = dx + MARGIN + (PLAYER_WIDTH - 2 * MARGIN) * (point_index % 2);
         float player_y_offset = dy + MARGIN + (PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
         
-        if(level->getTile((int)((x_pos + player_x_offset) / TILE_SIZE), (int)((y_pos + player_y_offset) / TILE_SIZE)).data.tileZ != _z) return true;
-        if(level->getBuildingCollision(x_pos + player_x_offset, y_pos + player_y_offset)) return true;
+        if(current_level->getTile((int)((data.x_pos + player_x_offset) / TILE_SIZE), (int)((data.y_pos + player_y_offset) / TILE_SIZE)).data.tileZ != _z) return true;
+        if(current_level->getBuildingCollision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
 
         // Test point at index point_index
-        for(size_t i = 0; i < level->entities.size(); i++)
+        for(size_t i = 0; i < current_level->entities.size(); i++)
         {
-            auto *entity = level->entities[i];
+            auto *entity = current_level->entities[i];
+            
+            if(!entity->data.collisionEnabled) continue; // No collision for this entity
             
             auto *enemy = dynamic_cast<Enemy*>(entity);
             auto *projectile = dynamic_cast<Projectile*>(entity);
@@ -56,7 +59,7 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                if(enemy->isInside(x_pos + player_x_offset, y_pos + player_y_offset))
+                if(enemy->isInside(data.x_pos + player_x_offset, data.y_pos + player_y_offset))
                 {
                     takeDamage(enemy->onDamaging());
                     
@@ -68,13 +71,13 @@ bool Player::isInside(float dx, float dy)
             }
             else if(item != nullptr)
             {
-                if(x_pos + player_x_offset >= item->data.x_pos && x_pos + player_x_offset <= item->data.x_pos + item->data.width && y_pos + player_y_offset >= item->data.y_pos && y_pos + player_y_offset <= item->data.y_pos + item->data.height)
+                if(data.x_pos + player_x_offset >= item->data.x_pos && data.x_pos + player_x_offset <= item->data.x_pos + item->data.width && data.y_pos + player_y_offset >= item->data.y_pos && data.y_pos + player_y_offset <= item->data.y_pos + item->data.height)
                 {
                     item->pickUp(); // Send the item the message we picked it up
-                    level->removeEntity(item);
+                    current_level->removeEntity(item);
                 }
             }
-            else if(intersectWith((int)(x_pos + player_x_offset), (int)(y_pos + player_y_offset), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
+            else if(intersectWith((int)(data.x_pos + player_x_offset), (int)(data.y_pos + player_y_offset), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
         }
     }
     
@@ -143,37 +146,37 @@ void Player::updateMovement(float dx, float dy)
         dy /= movement_amount / (float) SPEED;
     }
     
-    x_pos += dx;
-    y_pos += dy;
+    data.x_pos += dx;
+    data.y_pos += dy;
     
-    if(x_pos < 0) x_pos = 0;
-    if(y_pos < 0) y_pos = 0;
-    if(x_pos >= (level->width - 1) * TILE_SIZE) x_pos = (float)((level->width - 1) * TILE_SIZE);
-    if(y_pos >= (level->height - 1) * TILE_SIZE) y_pos = (float)((level->height - 1) * TILE_SIZE);
+    if(data.x_pos < 0) data.x_pos = 0;
+    if(data.y_pos < 0) data.y_pos = 0;
+    if(data.x_pos >= (current_level->width - 1) * TILE_SIZE) data.x_pos = (float)((current_level->width - 1) * TILE_SIZE);
+    if(data.y_pos >= (current_level->height - 1) * TILE_SIZE) data.y_pos = (float)((current_level->height - 1) * TILE_SIZE);
     
-    _x = x_pos;
-    _y = y_pos;
+    _x = data.x_pos;
+    _y = data.y_pos;
     
     if(_x <= ((GAME_WIDTH + PLAYER_WIDTH) / 2))
     {
         _x = ((GAME_WIDTH + PLAYER_WIDTH) / 2);
-        xoff = (int)(((GAME_WIDTH + PLAYER_WIDTH) / 2) - x_pos);
+        xoff = (int)(((GAME_WIDTH + PLAYER_WIDTH) / 2) - data.x_pos);
     }
-    else if(_x >= level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2))
+    else if(_x >= current_level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2))
     {
-        _x = (float) level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2.0f);
-        xoff = (int)(level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - x_pos);
+        _x = (float) current_level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2.0f);
+        xoff = (int)(current_level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - data.x_pos);
     }
     
     if(_y < ((GAME_HEIGHT + PLAYER_HEIGHT) / 2))
     {
         _y = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2);
-        yoff = (int)(((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - y_pos);
+        yoff = (int)(((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - data.y_pos);
     }
-    else if(_y >= level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2))
+    else if(_y >= current_level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2))
     {
-        _y = (float) level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2.0f);
-        yoff = (int)(level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - y_pos);
+        _y = (float) current_level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2.0f);
+        yoff = (int)(current_level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - data.y_pos);
     }
 }
 

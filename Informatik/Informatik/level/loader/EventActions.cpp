@@ -36,16 +36,16 @@ void move_player(Event *event, EVENT_TYPE type, Level* level, uint8_t *args)
     switch(args[0])
     {
         case UP:
-            level->player->y_pos -= args[1];
+            level->getLocalPlayer()->data.y_pos -= args[1];
             break;
         case DOWN:
-            level->player->y_pos += args[1];
+            level->getLocalPlayer()->data.y_pos += args[1];
             break;
         case LEFT:
-            level->player->x_pos -= args[1];
+            level->getLocalPlayer()->data.x_pos -= args[1];
             break;
         case RIGHT:
-            level->player->x_pos += args[1];
+            level->getLocalPlayer()->data.x_pos += args[1];
             break;
     }
 }
@@ -57,9 +57,9 @@ void teleport_player(Event *event, EVENT_TYPE type, Level* level, uint8_t *args)
     uint8_t mapnum = args[8];
     
     level->setLevelMap(mapnum);
-    level->player->x_pos = xpos;
-    level->player->y_pos = ypos;
-    level->player->updateMovement(0, 0);
+    level->getLocalPlayer()->data.x_pos = xpos;
+    level->getLocalPlayer()->data.y_pos = ypos;
+    level->getLocalPlayer()->updateMovement(0, 0);
 }
 
 void npc_interact(Event *event, EVENT_TYPE type, Level *level, uint8_t *args)

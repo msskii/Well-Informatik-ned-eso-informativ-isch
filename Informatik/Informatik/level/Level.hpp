@@ -18,41 +18,73 @@
 #include "../entity//decorativeEntities/Fireflies.hpp"
 
 #include "../entity/Player.hpp"
-
 #include "loader/TextLoader.hpp"
-
-#ifdef ENABLE_TEST_MULTIPLAYER
-#  include "../multiplayer/Client.hpp"
-#endif
+#include "../multiplayer/Client.hpp"
 
 class Player;
 class Window;
+namespace Multiplayer
+{
+    class Server;
+}
 
 class Level
 {
 private:
     SDL_Surface *srfc;
+    Player *player; // The player in this level
+    int entityIDCounter = 0;
     
 public:
-    Player *player; // The player in this level
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
     std::vector<Event*> events; // The events in this level
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
-    Building *buildings; //The Buildings .. you guessed
-
-#ifdef ENABLE_TEST_MULTIPLAYER
+    std::vector<Building*> buildings;
+    
     bool remoteLevel = false;
+    bool onServer = false;
+
+    Multiplayer::Server *server = nullptr;
     Multiplayer::Client *clientConnector = nullptr;
-    inline bool connectToServer(const char *address)
+
+    inline bool connectToServer(const char *address, std::string name)
     {
-        clientConnector = new Multiplayer::Client(address);
+        clientConnector = new Multiplayer::Client(window, address, name);
         return clientConnector->connectionEstablished;
     }
-#endif
     
+    std::mutex activePlayerLock;
+    std::vector<Multiplayer::RemotePlayer*> activePlayers;
+    inline Player *getPlayer(float xcoord, float ycoord)
+    {
+        if(!remoteLevel) return player;
+        else if(onServer)
+        {
+            Player *closest = nullptr;
+            activePlayerLock.lock();
+            for(int i = 0; i < (int) activePlayers.size(); i++)
+            {
+                if(closest == nullptr) closest = activePlayers[i];
+                else if(LENGTH(xcoord - activePlayers[i]->data.x_pos, ycoord - activePlayers[i]->data.y_pos) < LENGTH(xcoord - closest->data.x_pos, ycoord - closest->data.y_pos)) closest = activePlayers[i];
+            }
+            activePlayerLock.unlock();
+            return closest;
+        }
+        return player;
+    }
+    
+    void resetLevel();
+    inline Player *getLocalPlayer() { return player; }
+    
+    inline int getOffsetX() { return player->getOffsetX(); }
+    inline int getOffsetY() { return player->getOffsetY(); }
 
+<<<<<<< HEAD
     float sunBrightness = 0.5f;
+=======
+    float sunBrightness = 0.6f;
+>>>>>>> 0957a74351e4cbfe48efaf7af8acaa4f1356b13f
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
@@ -65,24 +97,43 @@ public:
     Window *window = nullptr;
     gl_texture level_texture; // All tiles in one texture?
     
+<<<<<<< HEAD
 public:
     int buildingCount = 1;
     
+=======
+public:    
+>>>>>>> 0957a74351e4cbfe48efaf7af8acaa4f1356b13f
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
     
-    //Level(int w, int h, SDL_Renderer *renderer);
     Level(int w, int h);
     void updateTile(int tilenum);
     void updateTiles();
 
     void reloadFiles();
     void addEntity(Entity *e); // To add an entity
+    void addEntity(Entity *e, int id);
     void removeEntity(Entity *e);
     
+    // Multiplayer stuff
+    inline void setEntity(int id, Entity *e)
+    {
+        for(int i = 0; i < (int) entities.size(); i++) if(entities[i]->entityID == id) {entities[i] = e; return; }
+        entities.push_back(e); // Not found, create it
+    }
+    
+    inline Entity *getEntity(int id)
+    {
+        for(int i = 0; i < (int) entities.size(); i++) if(entities[i]->entityID == id) return entities[i];
+        return nullptr;
+    }
+    
+    // Saving stuff
     int getLevelSize();
     int getEventSize();
     
+    // Game stuff
     void update();
     void render();
 };

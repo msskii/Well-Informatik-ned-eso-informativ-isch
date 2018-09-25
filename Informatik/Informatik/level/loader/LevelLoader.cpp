@@ -126,8 +126,8 @@ void Loader::LevelLoader::saveFile(const char *path)
     write<int>(levelFile, level->height);    
     for(int i = 0; i < (int)(level->width * level->height); i++) write<TileData>(levelFile, level->tiles[i].data);
     
-    write<int>(levelFile, level->buildingCount);
-    for(int i = 0; i < level->buildingCount; i++) write<BuildingData>(levelFile, level->buildings[i].data);
+    write<int>(levelFile, (int) level->buildings.size());
+    for(int i = 0; i < level->buildings.size(); i++) write<BuildingData>(levelFile, level->buildings[i]->data);
     
     // Paths
     writeString(levelFile, level->audioFile.c_str(), (int) level->audioFile.size());

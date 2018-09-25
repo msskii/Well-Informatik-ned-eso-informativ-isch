@@ -9,6 +9,7 @@
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
+#include "../multiplayer/Server.hpp"
 
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
@@ -53,6 +54,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
         tiles[50 * 14 + 10 +i].data.tileNumber = 0;
     }
     
+<<<<<<< HEAD
     
     buildings = new Building[1]
     {
@@ -60,6 +62,11 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     };
 
     
+=======
+    buildings.push_back(new Building(10, 10, 0, this));
+    buildings.push_back(new Building(30, 10, 1, this));
+
+>>>>>>> 0957a74351e4cbfe48efaf7af8acaa4f1356b13f
     for(int i = 0; i < w * h; i++)
     {
         tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
@@ -118,10 +125,31 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     player->updateMovement(0, 0); // Update player before level loads
 }
 
+void Level::resetLevel()
+{
+    // Delete all data, for multiplayer
+    entities.clear();
+    buildings.clear();
+    events.clear();
+}
+
 void Level::addEntity(Entity *e)
 {
+    addEntity(e, entityIDCounter++);
+}
+
+void Level::addEntity(Entity *e, int id)
+{
+    if(e == nullptr) return;
+    e->entityID = id;
     e->addedToLevel(this);
     entities.push_back(e);
+    
+    if(onServer)
+    {
+        // Send to clients
+        
+    }
 }
 
 void Level::removeEntity(Entity *e)
@@ -143,7 +171,7 @@ int Level::getEventSize()
 
 int Level::getLevelSize()
 {
-    return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * buildingCount + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
+    return 8 + width * height * sizeof(TileData) + 4 + sizeof(BuildingData) * (int) buildings.size() + 12 + (int) audioFile.size() + (int) tileMapFile.size() + (int) textFile.size();
 }
 
 void Level::render() // and update
@@ -154,16 +182,18 @@ void Level::render() // and update
     renderWithShading(level_texture, {-xoffset-PLAYER_OFFSET_X, -yoffset-PLAYER_OFFSET_Y, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
     
     //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
-    for(int i = 0; i < (int) entities.size(); i++)
+    
+    for(int j = 0; j < (int) buildings.size(); j++)
     {
-        for(int j = 0; j < buildingCount; j++)
+        player->isBehind = buildings[j]->isBehind(player->data.x_pos, player->data.y_pos);
+        
+        for(int i = 0; i < (int) entities.size(); i++)
         {
-            entities[i]->isBehind = buildings[j].isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
-            player->isBehind = buildings[j].isBehind(player->x_pos, player->y_pos);
-        }
-        if (entities[i]->isBehind)
-        {
-            entities[i]->render(xoffset, yoffset);
+            entities[i]->isBehind = buildings[j]->isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
+            if (entities[i]->isBehind)
+            {
+                entities[i]->render(xoffset, yoffset);
+            }
         }
     }
     
@@ -175,28 +205,26 @@ void Level::render() // and update
     }
     
     //render player if he is behind a building
-    if (player->isBehind) player->render(xoffset, yoffset);
+    if (player->isBehind && !onServer) player->render(xoffset, yoffset);
     
-#ifdef ENABLE_TEST_MULTIPLAYER    
+    // Update & render other clients
     if (clientConnector != nullptr)
     {
         // We connected & arent playing singleplayer
-        clientConnector->render(xoffset, yoffset);
-        clientConnector->updatePlayerPos((int) player->x_pos, (int) player->y_pos);
-    }
-#endif
-    
+        clientConnector->addRemotePlayers(this);
+        clientConnector->updatePlayerPos((int) player->data.x_pos, (int) player->data.y_pos, player->animSet, player->anim, player->direction);
+    }    
     
     //rendering Buildings
-    for(int i = 0; i < buildingCount; i++)
+    for(int i = 0; i < (int) buildings.size(); i++)
     {
-        buildings[i].render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
+        buildings[i]->render(xoffset + PLAYER_OFFSET_X, yoffset + PLAYER_OFFSET_Y);
     }
 
     //Render player here if he is infront of building
-    if (player->isBehind == false)  player->render(xoffset, yoffset);
+    if (!player->isBehind && !onServer) player->render(xoffset, yoffset);
     
-    //render enteties here if they are infrong of a building
+    //render entities here if they are infront of a building
     for(int i = 0; i < (int) entities.size(); i++)
     {
         if (!entities[i]->isBehind)
@@ -208,16 +236,13 @@ void Level::render() // and update
 
 void Level::update()
 {
-    // Update events & (soon) entities
-#ifdef ENABLE_TEST_MULTIPLAYER
-    if(remoteLevel) return; // Don't update here, it's on the server
-#endif
-    
+    if(remoteLevel && !onServer) return; // Don't update here, it's on the server
+
     for(int i = 0; i < (int) events.size(); i++)
     {
         if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == GAME_LOOP) events[i]->trigger(GAME_LOOP, this);
 
-        if(events[i]->event_data.event_x + events[i]->event_data.event_w > player->x_pos && events[i]->event_data.event_x < player->x_pos + PLAYER_WIDTH && events[i]->event_data.event_y + events[i]->event_data.event_h > player->y_pos && events[i]->event_data.event_y < player->y_pos + PLAYER_HEIGHT)
+        if(events[i]->event_data.event_x + events[i]->event_data.event_w > player->data.x_pos && events[i]->event_data.event_x < player->data.x_pos + PLAYER_WIDTH && events[i]->event_data.event_y + events[i]->event_data.event_h > player->data.y_pos && events[i]->event_data.event_y < player->data.y_pos + PLAYER_HEIGHT)
         {
             // Player inside event
             if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == STEP_ON) events[i]->trigger(STEP_ON, this);
@@ -229,7 +254,20 @@ void Level::update()
         }
     }
     
-    for(int i = 0; i < (int) entities.size(); i++) entities[i]->update(window->keyStates);
+    uint8_t* data = (uint8_t*) malloc(3 * 4);
+    for(int i = 0; i < (int) entities.size(); i++)
+    {
+        entities[i]->update(window->keyStates);
+        if(onServer)
+        {
+            ((uint32_t*) data)[0] = entities[i]->entityID;
+            ((uint32_t*) data)[1] = (int) entities[i]->data.x_pos;
+            ((uint32_t*) data)[2] = (int) entities[i]->data.y_pos;
+            Multiplayer::TCP_Packet packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 3 * 4);
+            server->sendToAll(packet);
+            free(packet.data);
+        }
+    }
 }
 
 void Level::reloadFiles()
@@ -244,10 +282,9 @@ Tile Level::getTile(int screenX, int screenY)
 
 bool Level::getBuildingCollision(float x, float y)
 {
-    
-    for (int i = 0; i < buildingCount; i++)
+    for (int i = 0; i < (int) buildings.size(); i++)
     {
-        if(buildings[i].isInside(x, y))
+        if(buildings[i]->isInside(x, y))
         {
             return true;
         }

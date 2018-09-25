@@ -10,20 +10,20 @@
 #define Player_hpp
 
 #include "Entity.hpp"
+#include <map>
 #include "../config.h"
-#include "../level/Level.hpp"
-
 #include "../items/Item.hpp"
-
 #include "../util/SDL_Util.hpp"
 
 class Level;
 
-class Player
+class Player : public Entity
 {
+protected:
+    Player() {}
+    
 private:
     SDL_Surface *player_surface = nullptr;
-    gl_texture texture;
     
     float _x = 0, _y = 0; // Coordinates
 
@@ -39,7 +39,6 @@ public:
     std::map<int, InventoryElement> playerItems;
     
     // Position
-    float x_pos = 0, y_pos = 0;
     int xoff = 0, yoff = 0;
     uint8_t _z = 0; // Height level
     bool isBehind = false; //Is behind a building?
@@ -52,7 +51,8 @@ public:
     // Animation stuff
     bool walking = false;
     int anim = 0, timer = 0, animSet = 0;
-    
+    gl_texture texture;
+
     inline int getOffsetX() { return -(int)_x; }
     inline int getOffsetY() { return -(int)_y; }
 
@@ -61,13 +61,15 @@ public:
     bool isInside(float dx, float dy);
     void takeDamage(float amount);
     
-    Level *level;
+    Level *current_level;
     
     Player(Level *level);
     
-    void render(int xoff, int yoff);
+    virtual void render(int xoff, int yoff) override; // Override base class's function for this
     void renderStats(int xoff, int yoff);
-    
+    void onAddToLevel(Level *level) override {}
+    void update(const uint8_t *keys) override {}
+
 };
 
 

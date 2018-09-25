@@ -18,9 +18,10 @@ static const char* updateDebugText(Menu *menu, DebugText *text)
 {
     DebugOverlay *m = (DebugOverlay*) menu;
     
-    if(text->y == 000) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->x_pos);
-    else if(text->y == 100) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->y_pos);
-    else if(text->y == 200) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->player->_z);
+    Player *player = menu->window->level->getLocalPlayer(); // Single player only, no coordinates necessary
+    if(text->y == 000) snprintf(text->buffer, text->maxLength + 1, text->format, player->data.x_pos);
+    else if(text->y == 100) snprintf(text->buffer, text->maxLength + 1, text->format, player->data.y_pos);
+    else if(text->y == 200) snprintf(text->buffer, text->maxLength + 1, text->format, player->_z);
     else if(text->y == 300) snprintf(text->buffer, text->maxLength + 1, text->format, m->eventIdCounter);
     else if(text->y == 400) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->level->events[m->eventIdCounter]->event_data.event_action);
     else if(text->y == 700) snprintf(text->buffer, text->maxLength + 1, text->format, menu->window->fps);

@@ -18,7 +18,6 @@ Projectile::Projectile(float x, float y, float ra) : rotationAngle(ra)
     data.height = 64;
     
     surface = IMG_Load(GET_TEXTURE_PATH("projectiles/arrow_ur"));
-    texture = getTexture(surface);
     
     velocity.x = cos(ra) * PROJECTILE_SPEED;
     velocity.y = -sin(ra) * PROJECTILE_SPEED;
@@ -30,6 +29,8 @@ void Projectile::onAddToLevel(Level *level) {}
 
 void Projectile::render(int xoff, int yoff)
 {
+    if(texture.id == 0) texture = getTexture(surface);
+    
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
     
@@ -38,7 +39,8 @@ void Projectile::render(int xoff, int yoff)
     if(max_anim != 1) renderWithShading(texture, src, r); // Animations cant be rotated...
     else renderWithRotation(texture, src, r, -rotationAngle + PI / 4.0f, true);
     
-    level->window->lights.addLight({(float) r.x + data.width / 2.0f, (float) r.y + data.height / 2.0f, 5.0f, 1, 0, 0});
+    //level->window->lights.addLight({(float) r.x + data.width / 2.0f, (float) r.y + data.height / 2.0f, 5.0f, 1, 0, 0});
+    level->window->lights.addLight((float) r.x + data.width / 2.0f, (float) r.y + data.height / 2.0f, 5.0f, 0xFF0000, 0.1);
 }
 
 void Projectile::update(const uint8_t *keys)
@@ -47,7 +49,8 @@ void Projectile::update(const uint8_t *keys)
     data.y_pos += velocity.y;
     
     SDL_Rect r = getBoundingBox();
-    TRANSFORM_LEVEL_POS(r, level->player->getOffsetX(), level->player->getOffsetY());
+    Player *player = level->getLocalPlayer();
+    TRANSFORM_LEVEL_POS(r, player->getOffsetX(), player->getOffsetY());
     
     if(++anim_timer >= 7)
     {

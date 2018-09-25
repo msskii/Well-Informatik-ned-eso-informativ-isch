@@ -12,8 +12,8 @@ out vec4 col;
 in vec2 uv;
 
 uniform float initial_alpha;
-uniform vec3 ext_light_positions[NUM_LIGHTS]; // max 40 lights?
-uniform vec3 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
+uniform vec4 ext_light_positions[NUM_LIGHTS]; // max 40 lights? : x, y, brightness, radius
+uniform vec4 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
 
 void main()
 {
@@ -30,16 +30,18 @@ void main()
     
     for(int i = 0; i < NUM_LIGHTS; i++)
     {
-        if(ext_light_colors[i].x == 0x414570A3) continue;
-        
+        if(ext_light_positions[i].x == 0x414570A3) continue;
+
         vec4 toAdd = vec4(ext_light_colors[i].x, ext_light_colors[i].y, ext_light_colors[i].z, alpha); // No alpha if there was no alpha...
 
-        float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * LIGHT_SPREAD;
+        float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * LIGHT_SPREAD / ext_light_positions[i].w;
         d = min(max(0, d), 1.0);
         toAdd *= (1.0 - d) * ext_light_positions[i].z * LIGHT_BRIGHTNESS / NUM_LIGHTS;
 
         col += toAdd;
     }
+    
+    if(alpha >= 1.0) alpha = 1.0;
     
     col *= alpha;
     col.a = a;

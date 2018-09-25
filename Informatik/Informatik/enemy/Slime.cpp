@@ -18,6 +18,7 @@ Slime::Slime(float x, float y, int level)
     data.currentHealth = 1.0f * level;
     animationHealth = 1.0f * level;
     agroRadius = 15 * TILE_SIZE;
+    enemy_level = level;
     
     if(level < 10)
     {
@@ -35,10 +36,8 @@ Slime::Slime(float x, float y, int level)
     {
         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_RedSlime"));
     }
-   
-    texture = getTexture(enemy_surface);
     
-    SDL_Surface *hurt_surface = SDL_CreateRGBSurfaceWithFormatFrom(enemy_surface->pixels, enemy_surface->w, enemy_surface->h, 32, enemy_surface->pitch, SDL_PIXELFORMAT_ARGB8888);
+    hurt_surface = SDL_CreateRGBSurfaceWithFormatFrom(enemy_surface->pixels, enemy_surface->w, enemy_surface->h, 32, enemy_surface->pitch, SDL_PIXELFORMAT_ARGB8888);
     
     uint32_t *pixels = (uint32_t*) hurt_surface->pixels;
     for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
@@ -47,7 +46,6 @@ Slime::Slime(float x, float y, int level)
         pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
     }
     
-    texture_hurt = getTexture(hurt_surface);
 }
 
 bool Slime::isInside(float x, float y)
@@ -59,6 +57,9 @@ void Slime::onAddToLevel(Level *level) {}
 
 void Slime::render(int xoff, int yoff)
 {
+    if(texture.id == 0) texture = getTexture(enemy_surface); // On main thread...
+    if(texture_hurt.id == 0) texture_hurt = getTexture(hurt_surface);
+    
     renderHP((float) xoff, (float)yoff); // Render the hp of the enemy
     
     // TODO implement death animation
@@ -98,15 +99,18 @@ void Slime::update(const uint8_t *keys)
     
     if(!isAlive) return; // Dont move when dead
     
-    float l = PLAYER_DIST(this, level->player);
+    Player *player = level->getPlayer(data.x_pos, data.y_pos);
+    if(player == nullptr) return; // No player on server
+    
+    float l = PLAYER_DIST(this, player);
     if(l < agroRadius && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
     {
         attackState = ATTACKING;
         set = 1;
         if(anim > 2 && anim < 7)
         {
-            xdirection = (level->player->x_pos - this->data.x_pos)/l;
-            ydirection = (level->player->y_pos - this->data.y_pos)/l;
+            xdirection = (player->data.x_pos - this->data.x_pos)/l;
+            ydirection = (player->data.y_pos - this->data.y_pos)/l;
             data.dx = xdirection * data.speed * 2;
             data.dy = ydirection * data.speed * 2;
             correctMovement(data.dx, data.dy);

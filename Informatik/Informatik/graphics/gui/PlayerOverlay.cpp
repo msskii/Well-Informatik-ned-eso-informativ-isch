@@ -28,7 +28,7 @@ bool PlayerOverlay::shouldWindowClose() { return false; }
 void PlayerOverlay::renderMenu()
 {
     int color = 0xFF000000;
-    if(player->y_pos > 100)
+    if(player->data.y_pos > 100)
     {
         //SDL_RenderCopy(renderer, backtexture, NULL, &window->render_surface->clip_rect);
         renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
