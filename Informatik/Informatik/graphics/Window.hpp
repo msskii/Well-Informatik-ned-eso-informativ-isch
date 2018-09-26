@@ -15,6 +15,7 @@
 
 #include "../entity/Player.hpp"
 #include "../entity/NPC.hpp"
+#include "../entity/decorativeEntities/Fireflies.hpp"
 
 #include "../enemy/Slime.hpp"
 

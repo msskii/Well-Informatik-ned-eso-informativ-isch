@@ -185,7 +185,7 @@ void Player::render(int x, int y)
     if(graceLeft > 0) graceLeft = graceLeft - 1;
 
     //animation speed scales with player speed
-    if(walking && (timer++ * SPEED) >= 55)
+    if(walking && (timer++ * SPEED) >= 45)
     {
         animSet = 1;
         timer = 0;
@@ -198,8 +198,8 @@ void Player::render(int x, int y)
         anim = (anim + 1) % 4;
     }
 
-    SDL_Rect src = {32 * anim, (animSet * 4 + direction) * 64, 32, 64};
-    SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff, PLAYER_WIDTH, 128};
+    SDL_Rect src = {32 * anim, (animSet * 4 + direction) * 64 + 1, 32, 64};
+    SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff - PLAYER_HEIGHT, PLAYER_WIDTH, 128};
     renderWithShading(texture, src, dst);
     renderStats(xoff, yoff);
 }

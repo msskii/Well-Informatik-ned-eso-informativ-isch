@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4D4276512133F636003F6411 /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D42764F2133F636003F6411 /* NPC.cpp */; };
 		4D6A79C82147F57C003F31B5 /* Building.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79C62147F57C003F31B5 /* Building.cpp */; };
+		4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */; };
 		93185F8A21465506001A2167 /* ExplodingProjectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8821465506001A2167 /* ExplodingProjectile.cpp */; };
 		93185F8E21465F31001A2167 /* ConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8C21465F31001A2167 /* ConfigLoader.cpp */; };
 		93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8F2146A699001A2167 /* ConfigMenu.cpp */; };
@@ -111,6 +112,8 @@
 		4D4276502133F636003F6411 /* NPC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPC.hpp; sourceTree = "<group>"; };
 		4D6A79C62147F57C003F31B5 /* Building.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Building.cpp; sourceTree = "<group>"; };
 		4D6A79C72147F57C003F31B5 /* Building.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Building.hpp; sourceTree = "<group>"; };
+		4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Fireflies.cpp; sourceTree = "<group>"; };
+		4D6A79CB2158E14D003F31B5 /* Fireflies.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Fireflies.hpp; sourceTree = "<group>"; };
 		93185F8821465506001A2167 /* ExplodingProjectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExplodingProjectile.cpp; sourceTree = "<group>"; };
 		93185F8921465506001A2167 /* ExplodingProjectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExplodingProjectile.hpp; sourceTree = "<group>"; };
 		93185F8C21465F31001A2167 /* ConfigLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigLoader.cpp; sourceTree = "<group>"; };
@@ -248,6 +251,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D6A79C92158E0F6003F31B5 /* decorativeEntities */ = {
+			isa = PBXGroup;
+			children = (
+				4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */,
+				4D6A79CB2158E14D003F31B5 /* Fireflies.hpp */,
+			);
+			path = decorativeEntities;
+			sourceTree = "<group>";
+		};
 		93185F8B21465F1F001A2167 /* config */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,6 +475,7 @@
 		93D1C7CD212ADCBE004AACD1 /* entity */ = {
 			isa = PBXGroup;
 			children = (
+				4D6A79C92158E0F6003F31B5 /* decorativeEntities */,
 				936C12DE21353A2F00404679 /* loader */,
 				93D1C7CF212ADCCE004AACD1 /* Player.cpp */,
 				93D1C7D0212ADCCE004AACD1 /* Player.hpp */,
@@ -608,6 +621,7 @@
 				936C12F72135DBD800404679 /* Dropdown.cpp in Sources */,
 				937B0021214F9C4F00BE1EE0 /* LightOverlay.cpp in Sources */,
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
+				4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */,
 				93827084213BAE3A0084F967 /* PauseMenu.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
 				937B0D6221301D1000C2051B /* TextBox.cpp in Sources */,

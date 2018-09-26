@@ -15,6 +15,7 @@
 #include "Tile.hpp"
 #include "Event.hpp"
 #include "Building.hpp"
+#include "../entity//decorativeEntities/Fireflies.hpp"
 
 #include "../entity/Player.hpp"
 #include "loader/TextLoader.hpp"
@@ -79,7 +80,9 @@ public:
     inline int getOffsetX() { return player->getOffsetX(); }
     inline int getOffsetY() { return player->getOffsetY(); }
 
-    float sunBrightness = 0.1f;
+
+    float sunBrightness = 1.0f;
+
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     
@@ -92,6 +95,7 @@ public:
     Window *window = nullptr;
     gl_texture level_texture; // All tiles in one texture?
     
+
 public:    
     Tile getTile(int xcoord, int ycoord);
     bool getBuildingCollision(float x, float y);
