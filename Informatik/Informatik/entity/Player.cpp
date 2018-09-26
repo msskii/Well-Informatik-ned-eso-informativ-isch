@@ -24,6 +24,7 @@ Player::Player(Level *l) : current_level(l)
 // Helper function for intersections with other things (xpos & ypos are the players position while the rest are the parameters of the thing trying to compare to)
 bool intersectWith(int xpos1, int ypos1, int x, int y, int w, int h)
 {
+    // Check all corners
     if((xpos1) >= x && (xpos1) <= x + w && (ypos1) >= y && (ypos1) <= y + h) return true;
     if((xpos1 + PLAYER_WIDTH) > x && (xpos1 + PLAYER_WIDTH) < x + w && (ypos1) > y && (ypos1) <= y + h) return true;
     if((xpos1) >= x && (xpos1) <= x + w && (ypos1 + PLAYER_HEIGHT) > y && (ypos1 + PLAYER_HEIGHT) < y + h) return true;
@@ -31,30 +32,33 @@ bool intersectWith(int xpos1, int ypos1, int x, int y, int w, int h)
     return false;
 }
 
-#define MARGIN 4
+#define MARGIN 4 // Player is that much smaller in all directions
 
 bool Player::isInside(float dx, float dy)
 {
     if(data.x_pos + dx < 0 || data.x_pos + dx >= TILE_SIZE * current_level->width || data.y_pos + dy < 0 || data.y_pos + dy >= TILE_SIZE * current_level->height) return true; // Out of bounds = you cant walk
 
+    // Check all points of interest
     for(int point_index = 0; point_index < 4; point_index++)
     {
+        // Get the position to check based on the point index
         float player_x_offset = dx + MARGIN + (PLAYER_WIDTH - 2 * MARGIN) * (point_index % 2);
         float player_y_offset = dy + MARGIN + (PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
         
+        // Check collision with tiles and buildings
         if(current_level->getTile((int)((data.x_pos + player_x_offset) / TILE_SIZE), (int)((data.y_pos + player_y_offset) / TILE_SIZE)).data.tileZ != _z) return true;
         if(current_level->getBuildingCollision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
 
-        // Test point at index point_index
+        // Test point at index point_index with all entities
         for(size_t i = 0; i < current_level->entities.size(); i++)
         {
-            auto *entity = current_level->entities[i];
+            auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
             
-            if(!entity->data.collisionEnabled) continue; // No collision for this entity
+            if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
             
-            auto *enemy = dynamic_cast<Enemy*>(entity);
-            auto *projectile = dynamic_cast<Projectile*>(entity);
-            auto *item = dynamic_cast<EntityItem*>(entity);
+            Enemy *enemy = dynamic_cast<Enemy*>(entity);
+            Projectile *projectile = dynamic_cast<Projectile*>(entity);
+            EntityItem *item = dynamic_cast<EntityItem*>(entity);
             
             if(enemy != nullptr && enemy->isAlive)
             {

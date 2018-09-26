@@ -21,14 +21,12 @@ Fireflies::Fireflies(float x, float y)
 
 void Fireflies::render(int xoff, int yoff)
 {
-    
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
-    for(int i = 0; i<Flycount; i++)
+    for(int i = 0; i < Flycount; i++)
     {
-        level->window->lights.addLight({(float) r.x + flypos[4*i], (float) r.y + flypos[(4*i)+1], 5.0f, 0, 0.2, 0.8, 0.1});
+        level->window->lights.addLight((float) r.x + flypos[4*i], (float) r.y + flypos[(4*i)+1], 10.0f, 0xFF0035D0, 0.1);
     }
-    
 }
 
 void Fireflies::update(const uint8_t *keys)
@@ -41,25 +39,24 @@ void Fireflies::update(const uint8_t *keys)
         flypos[4*i] += flypos[(4*i)+2];
         flypos[4*i+1] += flypos[4*i+3];
     }
-    printf("xpos %f\n", flypos[0]);
-    printf("xpos2 %f\n", flypos[4]);
-    
+    //printf("xpos %f\n", flypos[0]);
+    //printf("xpos2 %f\n", flypos[4]);
 }
 
 void Fireflies::onAddToLevel(Level *level)
 {
-    srand((uint)time(NULL));
+    //srand((uint)time(NULL));
     for(int i = 0; i<Flycount; i++)
     {
         //x
         flypos[4*i] = rand() % 64;
-        srand((uint)time(NULL));
+        //srand((uint)time(NULL));
         //y
         flypos[(4*i)+1] = rand() % 64;
         //dx
-        flypos[(4*i)+2] = (rand() % 100) / 10;
+        flypos[(4*i)+2] = (rand() % 100) / 10.0f;
         //dy
-        flypos[(4*i)+3] = (rand() % 100) / 10;
+        flypos[(4*i)+3] = (rand() % 100) / 10.0f;
     }
 }
 

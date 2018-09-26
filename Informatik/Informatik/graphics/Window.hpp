@@ -44,45 +44,41 @@
 class Window
 {
 public:
-    SDL_Window *window;
-    SDL_GLContext context;
-    int width = WINDOW_WIDTH, height = WINDOW_HEIGHT;
-    const uint8_t *keyStates;
-    int cooldown = 0;
+    SDL_Window *window; // The actual window
+    SDL_GLContext context; // The gl context
+    int width = WINDOW_WIDTH, height = WINDOW_HEIGHT; // The size of the window
+    const uint8_t *keyStates; // A pointer to all the keys and their current state (Pressed or not)
+    int cooldown = 0; // The cooldown of the player until he can shoot again
     
-    LightOverlay lights = LightOverlay(); // Initialized
+    LightOverlay lights = LightOverlay(); // The handler for the lights
     
-    ConfigLoader *loader = nullptr;
+    ConfigLoader *loader = nullptr; // Configloader to load the config file
     std::chrono::high_resolution_clock clock = std::chrono::high_resolution_clock(); // Create high accuracy clock
-    bool mousePressed = false;
+    bool mousePressed = false; // If the mouse is currently pressed or not
     
-    // Menu *menu = new MainMenu();
     std::vector<Menu*> menus; // All open menus
-    Level *level;
-    bool toUpdate = true;
-    GLuint shaderProgramID = 0;
+    Level *level; // The current level we're in
+    bool toUpdate = true; // If we have to update the level or not
     
-    int frames = 0, fps = 0;
-    uint64_t lastTime = time(NULL);
+    int frames = 0, fps = 0; // The current frames and the last measured FPS
     
-    bool running = false;
-    //bool paused = false;
+    bool running = false; // If we're running or not (Window will be closed if false)
 public:
     
-    Window();
-    ~Window();
+    Window(); // Constructor: Sets up all the things!
+    ~Window(); // Destructor: Clears all the things?
     
-    void nextFrame();
-    void runGameLoop();
+    void nextFrame(); // Draw the next frame
+    void runGameLoop(); // Function that calls nextFrame contiously and checks if we're still running
     
-    void openMenu(Menu *menu);
+    void openMenu(Menu *menu); // Open a new menu
     
-    void update();
-    void render();
+    void update(); // Updates the player
+    void render(); // Renders the menus & level
     
-    void reloadConfig();
+    void reloadConfig(); // Reloads the config file
     
-    inline void stopGameLoop() { running = false; }
+    inline void stopGameLoop() { running = false; } // Stop the game from running (Equivalent to just setting running to false)
 };
 
 extern void exitGame(Window *window);
