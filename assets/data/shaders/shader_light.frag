@@ -33,7 +33,7 @@ void main()
         else col += toAdd * (1.0 - d) * ext_light_positions[i].z * LIGHT_BRIGHTNESS;
     }
     
-    
+    if(alpha >= 1.0) alpha = 1.0;
     float a = backcol.a;
     col = (alpha * backcol) + (col * (1.0 - alpha));
     col.a = a;
