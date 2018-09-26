@@ -15,19 +15,20 @@ int Multiplayer::clientReceive(void *data)
 	while (true)
 	{
 		int amount = SDLNet_TCP_Recv(c->tcp_socket, buffer, BUFFER_SIZE);
-		if (amount <= 0)
+
+        if (amount <= 0)
 		{
 			// Some error occured, exit
 			printf("[ERROR] Connection to server lost!\n");
 			exit(0);
 		}
-        
+                
         buffer[amount] = 0;
         
         uint32_t uuid = *((uint32_t*)buffer);
         cmd[0] = buffer[4];
         cmd[1] = buffer[5];
-        uint8_t *data = buffer + 6;
+        uint8_t *data = buffer + 6; // 4 for uuid + 2 for cmd
 
         // printf("CMD to execute: %s\n", cmd);
         if(!strcmp(cmd, CMD_PLAYER_MOVE))
@@ -75,18 +76,19 @@ int Multiplayer::clientReceive(void *data)
         }
         else if(!strcmp(cmd, CMD_ENTITY_SPAWN))
         {
-            int off = 0;
-            while(off < amount)
+            printBuffer(buffer, amount);
+            int offset = 0;
+            while(offset < amount)
             {
                 int entityNum = read<int>(data);
                 int entityID = read<int>(data);
-                // printf("[INFO] Entity with type: %d and id %d spawned\n", entityNum, entityID);
+                printf("[INFO] Entity with type: %d and id %d spawned\n", entityNum, entityID);
+                
                 
                 Entity *e = Multiplayer::createEntityFromData((Multiplayer::MultiplayerEntities) entityNum, data);
                 c->window->level->addEntity(e, entityID);
-
-                data += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityNum) - 8;
-                off += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityNum);
+                data += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityID) - 8;
+                offset += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityID);
             }
         }
         else if(!strcmp(cmd, CMD_ENTITY_MOVE))
@@ -96,9 +98,17 @@ int Multiplayer::clientReceive(void *data)
             if(e == nullptr) continue; // Entity not found...
             e->data.x_pos = (float) read<int>(data);
             e->data.y_pos = (float) read<int>(data);
+            
+            if(dynamic_cast<Slime*>(e) != nullptr) ((Slime*) e)->anim = read<int>(data);
+        }
+        else if(!strcmp(cmd, CMD_BUILDING_ADD))
+        {
+            printf("Adding building...\n");
+            c->window->level->buildings.push_back(new Building(read<int>(data), read<int>(data), read<uint16_t>(data), c->window->level));
         }
         else
         {
+            printBuffer(buffer, 8);
             printf("Couldn't find command: %s\n", cmd);
         }
 	}

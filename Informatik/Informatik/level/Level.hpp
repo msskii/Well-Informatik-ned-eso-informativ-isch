@@ -79,7 +79,7 @@ public:
     inline int getOffsetX() { return player->getOffsetX(); }
     inline int getOffsetY() { return player->getOffsetY(); }
 
-    float sunBrightness = 0.6f;
+    float sunBrightness = 0.1f;
     int xoffset, yoffset;
     void setLevelMap(uint8_t map);
     

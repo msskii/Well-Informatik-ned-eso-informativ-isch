@@ -16,7 +16,7 @@ typedef struct lightSource
 {
     float x = 0.0, y = 0.0;
     float brightness = 1.0f;
-    float r = 1.0f, g = 1.0f, b = 1.0f;
+    float r = 1.0f, g = 1.0f, b = 1.0f, a = 1.0f;
     float radius = 1.0f;
 } lightSource;
 
@@ -26,7 +26,7 @@ class LightOverlay
 {
 private:
     GLfloat *positions = new float[4 * MAX_LIGHTS]; // x, y, brightness, radius
-    GLfloat *colors = new float[4 * MAX_LIGHTS]; // r, g, b, Not used
+    GLfloat *colors = new float[4 * MAX_LIGHTS]; // r, g, b, a
     Window *window;
     int count = 0;
     

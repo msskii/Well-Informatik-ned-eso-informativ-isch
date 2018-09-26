@@ -18,8 +18,9 @@ Multiplayer::MultiplayerEntities getEntityType(Entity *e)
     else if(dynamic_cast<Projectile*>(e) != nullptr) return Multiplayer::PROJECTILE;
     else if(dynamic_cast<ExplodingProjectile*>(e) != nullptr) return Multiplayer::EXPLOSIVE_PROJECTILE;
     else if(dynamic_cast<Explosion*>(e) != nullptr) return Multiplayer::EXPLOSION;
+    else if(dynamic_cast<Player*>(e) != nullptr) return Multiplayer::PLAYER;
 
-    printf("Entity type not found... Perhaps the archives are incomplete\n");
+    //printf("Entity type not found... Perhaps the archives are incomplete\n");
     return Multiplayer::PROJECTILE;
 }
 
@@ -27,7 +28,8 @@ int Multiplayer::getEntitySize(MultiplayerEntities e)
 {
    switch(e)
     {
-        case SLIME: return 5 * 4;
+        case SLIME: return 6 * 4;
+        case PROJECTILE: return 5 * 4;
         default: return 5 * 4;
     }
 }
@@ -38,8 +40,12 @@ Entity *Multiplayer::createEntityFromData(Multiplayer::MultiplayerEntities type,
     {
         case Multiplayer::SLIME:
             return new Slime((float) ((uint32_t*) data)[0], (float) ((uint32_t*) data)[1], ((uint32_t*) data)[2]);
+        case Multiplayer::PROJECTILE:
+            return new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
+        case Multiplayer::PLAYER:
+            return nullptr;
         default:
-            printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);
+            //printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);
             return new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
     }
 }
@@ -69,6 +75,15 @@ void Multiplayer::cmd_entity(Server *server, ServerClient *client, uint8_t *buff
 {
     if(buffer[5] == 'm')
     {
+        server->broadcast(client, {(char*) buffer, dataLength}); // Send the data to all
+    }
+}
+
+void Multiplayer::cmd_building(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int dataLength)
+{
+    if(buffer[5] == 'a')
+    {
+        // Shouldnt happen
         server->broadcast(client, {(char*) buffer, dataLength}); // Send the data to all
     }
 }
@@ -105,6 +120,9 @@ int Multiplayer::handleSocket(void *data)
                 break;
             case 'e':
                 cmd_entity(server, client, buffer, msg_data, amount + 4);
+                break;
+            case 'b':
+                cmd_building(server, client, buffer, msg_data, amount + 4);
                 break;
             default:
                 printf("[WARNING] Unknown command: %s\n", buffer);
@@ -201,7 +219,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
             TCP_Packet p = (createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, len));
             SDLNet_TCP_Send(client, p.data, p.dataLen);
             free(p.data);
-            
+
             // Send all players that one connected
             clientData = (uint8_t*) realloc(clientData, 4 * 4 + c->namelen);
             ((uint32_t*)(clientData))[0] = c->clientID; // ID
@@ -217,35 +235,51 @@ Multiplayer::Server::Server(Window *w) : window(w)
             int entityLen = 0;
             for(int i = 0; i < (int) window->level->entities.size(); i++) entityLen += getEntitySize(getEntityType(window->level->entities[i]));
             uint8_t* entityData = (uint8_t*) malloc(entityLen);
-            
             off = 0;
             for(int i = 0; i < (int) window->level->entities.size(); i++)
             {
                 MultiplayerEntities e = getEntityType(window->level->entities[i]);
                 ((uint32_t*) (entityData + off))[0] = (int) e;
                 ((uint32_t*) (entityData + off))[1] = window->level->entities[i]->entityID;
-                off += 2 * 4;
-
+                off += 8;
+                
                 switch(e)
                 {
                     case SLIME:
                         ((uint32_t*) (entityData + off))[0] = (int) window->level->entities[i]->data.x_pos;
                         ((uint32_t*) (entityData + off))[1] = (int) window->level->entities[i]->data.y_pos;
                         ((uint32_t*) (entityData + off))[2] = (int) ((Slime*) window->level->entities[i])->enemy_level;
-                        off += 3 * 4; // 3 floats
+                        ((uint32_t*) (entityData + off))[3] = (int) ((Slime*) window->level->entities[i])->anim;
+                        off += 4 * 4;
                         break;
                     default:
                         ((float*) (entityData + off))[0] = window->level->entities[i]->data.x_pos;
                         ((float*) (entityData + off))[1] = window->level->entities[i]->data.y_pos;
                         ((float*) (entityData + off))[2] = 0;
-                        off += 3 * 4; // 3 floats
+                        off += 3 * 4;
                         break;
                 }
             }
-            
+
             p = createServerPacket(CMD_ENTITY_SPAWN, (char*) entityData, entityLen);
             SDLNet_TCP_Send(client, p.data, p.dataLen);
             free(p.data);
+
+            uint8_t* buildingData = (uint8_t*) malloc(2 * 4 + 1 * 2);
+            for(int i = 0; i < (int) window->level->buildings.size(); i++)
+            {
+                ((uint32_t*) buildingData)[0] = window->level->buildings[i]->data.xcoord;
+                ((uint32_t*) buildingData)[1] = window->level->buildings[i]->data.ycoord;
+                ((uint16_t*) (buildingData + 8))[0] = window->level->buildings[i]->data.buildingNumber;
+                p = createServerPacket(CMD_BUILDING_ADD, (char*) buildingData, 2 * 4 + 1 * 2);
+                int sent = SDLNet_TCP_Send(client, p.data, p.dataLen);
+                if(sent != p.dataLen)
+                {
+                    printf("[WARN] Couldnt send building data... Just %d out of %d bytes were sent\n", sent, p.dataLen);
+                }
+                free(p.data);
+            }
+            free(buildingData);
             
             void ** t = new void*[2]{ (void*) this, (void*) clients[clients.size() - 1] };
             SDL_CreateThread(Multiplayer::handleSocket, "ClientThread", t);

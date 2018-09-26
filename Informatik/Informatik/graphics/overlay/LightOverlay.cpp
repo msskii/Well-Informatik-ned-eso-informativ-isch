@@ -25,7 +25,8 @@ void LightOverlay::addLight(lightSource source)
     colors[4 * count + 0] = source.r;
     colors[4 * count + 1] = source.g;
     colors[4 * count + 2] = source.b;
-    
+    colors[4 * count + 3] = source.a;
+
     count++;
 }
 
@@ -40,7 +41,7 @@ void LightOverlay::addLight(float x, float y, float brightness, int color, float
     ls.r = (float)((color >> 16) & 0xFF) / 255.0f;
     ls.g = (float)((color >> 8) & 0xFF) / 255.0f;
     ls.b = (float)((color >> 0) & 0xFF) / 255.0f;
-
+    ls.a = (float)((color >> 24) & 0xFF) / 255.0f;
     addLight(ls);
 }
 

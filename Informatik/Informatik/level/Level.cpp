@@ -244,7 +244,7 @@ void Level::update()
         }
     }
     
-    uint8_t* data = (uint8_t*) malloc(3 * 4);
+    uint8_t* data = (uint8_t*) malloc(3 * 10); // Just alloc too much
     for(int i = 0; i < (int) entities.size(); i++)
     {
         entities[i]->update(window->keyStates);
@@ -253,11 +253,21 @@ void Level::update()
             ((uint32_t*) data)[0] = entities[i]->entityID;
             ((uint32_t*) data)[1] = (int) entities[i]->data.x_pos;
             ((uint32_t*) data)[2] = (int) entities[i]->data.y_pos;
-            Multiplayer::TCP_Packet packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 3 * 4);
+            Multiplayer::TCP_Packet packet;
+            if(dynamic_cast<Slime*>(entities[i]) != nullptr)
+            {
+                ((uint32_t*) data)[3] = (int) ((Slime*) entities[i])->anim;
+                packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 4 * 4);
+            }
+            else
+            {
+                packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 3 * 4);
+            }
             server->sendToAll(packet);
             free(packet.data);
         }
     }
+    free(data);
 }
 
 void Level::reloadFiles()
