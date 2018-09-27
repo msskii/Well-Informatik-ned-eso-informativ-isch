@@ -18,8 +18,8 @@ class Fireflies : public Entity
 protected:
     
 public:
-    int Flycount = 2;
-    float flypos[8];
+    int Flycount = 4;
+    float flypos[16];
    
     Fireflies(float x, float y);
     
