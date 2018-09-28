@@ -15,7 +15,7 @@
 #include "Tile.hpp"
 #include "Event.hpp"
 #include "Building.hpp"
-#include "../entity//decorativeEntities/Fireflies.hpp"
+#include "../entity/decorativeEntities/Fireflies.hpp"
 
 #include "../entity/Player.hpp"
 #include "loader/TextLoader.hpp"

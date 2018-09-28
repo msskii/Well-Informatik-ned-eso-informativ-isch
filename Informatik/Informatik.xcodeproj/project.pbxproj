@@ -277,11 +277,6 @@
 				93185F992146E318001A2167 /* textures */,
 				936C12E9213550F700404679 /* data */,
 				936C12E8213550F700404679 /* fonts */,
-				9368D31A2132A7A8005D6756 /* SDL2_image.framework */,
-				9368D3122131A0B5005D6756 /* SDL2_mixer.framework */,
-				937B0D6321317D3100C2051B /* SDL2_net.framework */,
-				93D47BB4212D91D7007853BC /* SDL2_ttf.framework */,
-				93D1C7D9212C390F004AACD1 /* SDL2.framework */,
 				932D320E212AB6E500DA45BD /* Informatik */,
 				932D320D212AB6E500DA45BD /* Products */,
 				932D321D212AB81200DA45BD /* Frameworks */,
@@ -330,6 +325,11 @@
 		932D321D212AB81200DA45BD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9368D31A2132A7A8005D6756 /* SDL2_image.framework */,
+				9368D3122131A0B5005D6756 /* SDL2_mixer.framework */,
+				937B0D6321317D3100C2051B /* SDL2_net.framework */,
+				93D47BB4212D91D7007853BC /* SDL2_ttf.framework */,
+				93D1C7D9212C390F004AACD1 /* SDL2.framework */,
 				937B0022214FA02200BE1EE0 /* OpenGL.framework */,
 			);
 			name = Frameworks;
