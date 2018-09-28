@@ -4,6 +4,7 @@
 
 #define LIGHT_SPREAD 2.0
 #define LIGHT_BRIGHTNESS 3.0
+#define LIGHT_EMIT_TO_REFLECT_RATIO 0.3
 
 uniform sampler2D texture_sampler;
 
@@ -22,19 +23,24 @@ void main()
     else backcol = texture(texture_sampler, uv).bgra;
     
     float alpha = initial_alpha;
-    
+    col = vec4(0,0,0,0);
     for(int i = 0; i < NUM_LIGHTS; i++)
     {
         if(ext_light_positions[i].x == 0x414570A3) continue;
         float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * LIGHT_SPREAD / ext_light_positions[i].w;
         d = min(max(0, d), 1.0);
         vec4 toAdd = ext_light_colors[i] * ext_light_colors[i].a / NUM_LIGHTS;
+        
         if(toAdd.xyz == vec3(0, 0, 0)) alpha += (1.0 - d) * ext_light_colors[i].a / NUM_LIGHTS * ext_light_positions[i].z * LIGHT_BRIGHTNESS;
         else col += toAdd * (1.0 - d) * ext_light_positions[i].z * LIGHT_BRIGHTNESS;
     }
     
     if(alpha >= 1.0) alpha = 1.0;
     float a = backcol.a;
-    col = (alpha * backcol) + (col * (1.0 - alpha));
+    
+    //consists of sunlight hitting background + colored light hitting background + shine
+    
+    col = (alpha * backcol) + (1 -LIGHT_EMIT_TO_REFLECT_RATIO) * backcol * (col * (1.0 - alpha)) + (LIGHT_EMIT_TO_REFLECT_RATIO) * (col * (1.0 - alpha));
+
     col.a = a;
 }
