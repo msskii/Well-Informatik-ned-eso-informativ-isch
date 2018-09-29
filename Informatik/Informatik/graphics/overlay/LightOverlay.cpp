@@ -22,6 +22,7 @@ void LightOverlay::addLight(lightSource source)
     positions[4 * count + 1] = source.y / ((float) GAME_HEIGHT);
     positions[4 * count + 2] = source.brightness;
     positions[4 * count + 3] = source.radius;
+    glowRatio = source.glowRatio;
     colors[4 * count + 0] = source.r;
     colors[4 * count + 1] = source.g;
     colors[4 * count + 2] = source.b;
@@ -30,7 +31,7 @@ void LightOverlay::addLight(lightSource source)
     count++;
 }
 
-void LightOverlay::addLight(float x, float y, float brightness, int color, float radius)
+void LightOverlay::addLight(float x, float y, float brightness, int color, float radius, float glowRatio)
 {
     lightSource ls;
     
@@ -38,6 +39,7 @@ void LightOverlay::addLight(float x, float y, float brightness, int color, float
     ls.x = x;
     ls.y = y;
     ls.radius = radius;
+    ls.glowRatio = glowRatio;
     ls.r = (float)((color >> 16) & 0xFF) / 255.0f;
     ls.g = (float)((color >> 8) & 0xFF) / 255.0f;
     ls.b = (float)((color >> 0) & 0xFF) / 255.0f;
@@ -62,6 +64,7 @@ void LightOverlay::render()
     glUniform1f(glGetUniformLocation(light_shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     glUniform4fv(glGetUniformLocation(light_shader, "ext_light_positions"), MAX_LIGHTS, positions);
     glUniform4fv(glGetUniformLocation(light_shader, "ext_light_colors"), MAX_LIGHTS, colors);
+    glUniform1f(glGetUniformLocation(light_shader, "light_emit_to_reflect_ratio"), glowRatio);
     glUseProgram(light_shader_rotation);
     glUniform1f(glGetUniformLocation(light_shader_rotation, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     glUniform4fv(glGetUniformLocation(light_shader_rotation, "ext_light_positions"), MAX_LIGHTS, positions);

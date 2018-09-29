@@ -15,6 +15,7 @@ in vec2 uv;
 uniform float initial_alpha;
 uniform vec4 ext_light_positions[NUM_LIGHTS]; // max 40 lights? : x, y, brightness, radius
 uniform vec4 ext_light_colors[NUM_LIGHTS]; // max 40 lights? r, g, b, a
+uniform float light_emit_to_reflect_ratio; //does it glow or more light the surface
 
 void main()
 {
@@ -38,9 +39,11 @@ void main()
     if(alpha >= 1.0) alpha = 1.0;
     float a = backcol.a;
     
-    //consists of sunlight hitting background + colored light hitting background + shine
+    //consists of sunlight hitting background + colored light hitting background + shine, the shine is not impacted by background brightness
     
-    col = (alpha * backcol) + (1 -LIGHT_EMIT_TO_REFLECT_RATIO) * backcol * (col * (1.0 - alpha)) + (LIGHT_EMIT_TO_REFLECT_RATIO) * (col * (1.0 - alpha));
+    //TO DO: glow / reflect ratio must somehow be added in the for loop , as it is unique for a light
+    
+    col = (alpha * backcol) + (1 - light_emit_to_reflect_ratio) * backcol * (col * (1.0 - alpha)) + (light_emit_to_reflect_ratio * col * (1.0 - alpha));
 
     col.a = a;
 }
