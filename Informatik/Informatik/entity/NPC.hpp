@@ -12,7 +12,17 @@
 #include "Entity.hpp"
 #include "../level/Event.hpp"
 #include "Player.hpp"
+#include "../util/SDL_Util.hpp"
 #include <vector>
+typedef struct NPCAnimation
+{
+    bool canWalk;
+    int frameCount;
+    int anim = 0;
+    int timer = 0;
+    int set = 0;
+    int timePerFrame;
+}NPCAnimation;
 
 typedef struct NPCText
 {
@@ -33,6 +43,7 @@ public:
     int currentText = 0;
     
     float walking_speed = SPEED;
+    NPCAnimation animation;
     
     void onInteractWith(); // Facing this npc & pressed a / space (or whatever)
 
@@ -40,8 +51,14 @@ public:
     void onAddToLevel(Level *level) override;
     void render(int xoff, int yoff) override;
     void update(const uint8_t *keys) override;
+    void setTexture();
     
-    NPC(float xPos, float yPos, int level);
+    NPC(float xPos, float yPos, int ID, int level);
+    
+private:
+    
+    SDL_Surface *NPC_surface = nullptr;
+    gl_texture texture;
 };
 
 #endif /* NPC_hpp */

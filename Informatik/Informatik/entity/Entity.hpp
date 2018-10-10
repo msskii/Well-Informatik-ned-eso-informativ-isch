@@ -28,6 +28,7 @@ typedef struct EntityData
     float x_pos = 0;
     float y_pos = 0;
     uint8_t z_pos = 0;
+    int ID = 0;
     
     float width = TILE_SIZE;
     float height = TILE_SIZE;

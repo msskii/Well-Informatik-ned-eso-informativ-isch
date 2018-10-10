@@ -91,11 +91,14 @@ gl_texture getTexture(SDL_Surface *srfc)
     tex.height = surface->h;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    
 
     return tex;
 }
@@ -117,6 +120,10 @@ void setScreenSize(int w, int h)
 
 void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
 {
+    
+    
+    
+    
     verticies[0]  = (float)((dst.x) / (GAME_WIDTH / 2.0f) - 1.0f); // upper left x transformed to -1 to 1
     verticies[1]  = -(float)((dst.y) / (GAME_HEIGHT / 2.0f) - 1.0f); // upper left x transformed to -1 to 1
     verticies[2]  = (float)((dst.x + dst.w) / (GAME_WIDTH / 2.0f) - 1.0f);

@@ -56,6 +56,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     
 
     buildings.push_back(new Building(10, 10, 0, this));
+    buildings.push_back(new Building(10, 20, 1, this));
 
     for(int i = 0; i < w * h; i++)
     {
@@ -173,13 +174,21 @@ void Level::render() // and update
     
     //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
     
+    //first set all to false
+    for(int i = 0; i < (int) entities.size(); i++)
+    {
+        entities[i]->isBehind = false;
+    }
+    player->isBehind = false;
+    
+    //then check
     for(int j = 0; j < (int) buildings.size(); j++)
     {
-        player->isBehind = buildings[j]->isBehind(player->data.x_pos, player->data.y_pos);
+        player->isBehind |= buildings[j]->isBehind(player->data.x_pos, player->data.y_pos);
         
         for(int i = 0; i < (int) entities.size(); i++)
         {
-            entities[i]->isBehind = buildings[j]->isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
+            entities[i]->isBehind |= buildings[j]->isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
             if (entities[i]->isBehind)
             {
                 entities[i]->render(xoffset, yoffset);

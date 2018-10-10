@@ -110,6 +110,7 @@
 /* Begin PBXFileReference section */
 		4D42764F2133F636003F6411 /* NPC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
 		4D4276502133F636003F6411 /* NPC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPC.hpp; sourceTree = "<group>"; };
+		4D50104E216CC39000E2E4E0 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		4D6A79C62147F57C003F31B5 /* Building.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Building.cpp; sourceTree = "<group>"; };
 		4D6A79C72147F57C003F31B5 /* Building.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Building.hpp; sourceTree = "<group>"; };
 		4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Fireflies.cpp; sourceTree = "<group>"; };
@@ -274,6 +275,7 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				4D50104E216CC39000E2E4E0 /* TODO.md */,
 				93185F992146E318001A2167 /* textures */,
 				936C12E9213550F700404679 /* data */,
 				936C12E8213550F700404679 /* fonts */,

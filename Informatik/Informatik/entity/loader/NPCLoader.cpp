@@ -64,7 +64,7 @@ Entity* Loader::loadNPC(uint8_t *&data)
         texts.push_back({timesDisplayed, event_to_trigger, text});
     }
     
-    NPC *npc = new NPC(x, y, z);
+    NPC *npc = new NPC(x, y, 0, z);
     
     if(flags)
     {

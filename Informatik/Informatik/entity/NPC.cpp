@@ -9,18 +9,23 @@
 #include "NPC.hpp"
 #include "../level/Level.hpp"
 
-NPC::NPC(float xPos, float yPos, int level)
+NPC::NPC(float xPos, float yPos, int ID, int level)
 {
     printf("[INFO] Created new NPC at %.8f %.8f\n", xPos, yPos);
     
     data.x_pos = xPos;
     data.y_pos = yPos;
+    data.ID = ID;
+    data.height = 2 * TILE_SIZE;
+    data.width = TILE_SIZE;
+    
+    setTexture();
     
     EventData evt;
-    evt.event_x = (int)(xPos - PLAYER_WIDTH);
-    evt.event_y = (int)(yPos - PLAYER_HEIGHT);
-    evt.event_w = 3 * PLAYER_WIDTH;
-    evt.event_h = 3 * PLAYER_HEIGHT;
+    evt.event_x = (int)(xPos);
+    evt.event_y = (int)(yPos);
+    evt.event_w = 1 * PLAYER_WIDTH;
+    evt.event_h = 1 * PLAYER_HEIGHT;
     
     evt.event_id_dependency = 0; // No dependency
     evt.triggerAmount = 0; // Infinite amounts
@@ -67,24 +72,46 @@ void NPC::onInteractWith()
 
 void NPC::render(int xoff, int yoff)
 {
-    // Simulate random movement. Doesn't check collision --> very buggy, just to test that the event moves with the entity
-    //data.x_pos += (rand() % 3) - 1;
-    //data.y_pos += (rand() % 3) - 1;
-
-    //COLOR(renderer, 0xFF000000);
-    SDL_Rect r = getBoundingBox();
-    TRANSFORM_LEVEL_POS(r, xoff, yoff);
-    //SDL_RenderFillRect(renderer, &r);
-    fillRect(0xFF000000, r);
+    
+    if(texture.id == 0) texture = getTexture(NPC_surface);
+    
+    
+    SDL_Rect src = {32 * animation.anim, 0, (int) data.width / 2, (int) data.height / 2};
+    SDL_Rect dst = {(int) data.x_pos, (int) data.y_pos, TILE_SIZE, 2 * TILE_SIZE};
+    TRANSFORM_LEVEL_POS(dst, xoff, yoff);
+    if(dst.x >= (GAME_WIDTH + TILE_SIZE) || dst.x < (-TILE_SIZE - TILE_SIZE) || dst.y >= (GAME_HEIGHT + 2 * TILE_SIZE) || dst.y < (-TILE_SIZE - 2 * TILE_SIZE)) return; // Only render the visible ones...
+    renderWithShading(texture, src, dst);
+    
 }
 
 void NPC::update(const uint8_t *keys)
 {
     event->event_data.event_x = (int)(data.x_pos - PLAYER_WIDTH);
     event->event_data.event_y = (int)(data.y_pos - PLAYER_HEIGHT);
+    
+    if((animation.timer++) >= animation.timePerFrame)
+    {
+        animation.timer = 0;
+        animation.anim = (animation.anim + 1) % animation.frameCount;
+    }
 }
 
 void NPC::onAddToLevel(Level *l)
 {
     level->events.push_back(event); // Add the event to the level
+}
+
+void NPC::setTexture(){
+    switch (data.ID) {
+        case 0:
+            NPC_surface = IMG_Load(GET_TEXTURE_PATH("NPCs/OldMan"));
+            animation.canWalk = false;
+            animation.frameCount = 4;
+            animation.timePerFrame = 20;
+            break;
+            
+        default:
+            break;
+    }
+
 }

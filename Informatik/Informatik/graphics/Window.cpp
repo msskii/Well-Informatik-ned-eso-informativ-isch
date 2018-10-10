@@ -100,7 +100,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     openMenu(new MainMenu()); // Skip main menu
 
     // Add a npc and add text to it
-    NPC *npc = new NPC(TILE_SIZE * 8, TILE_SIZE * 1, 0);
+    NPC *npc = new NPC(TILE_SIZE * 10, TILE_SIZE * 17, 0, 0);
     npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
     npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
     level->addEntity(npc);

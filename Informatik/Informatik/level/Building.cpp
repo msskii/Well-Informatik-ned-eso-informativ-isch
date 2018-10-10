@@ -21,18 +21,35 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
             data.hitboxsizeX = 6;
             data.hitboxsizeY = 3;
             data.hitboxX = (float) data.xcoord;
-            data.hitboxY = data.ycoord + 1.5f;
+            data.hitboxY = data.ycoord + 2.0f;
             
 
             data.hitboxXBehind = data.xcoord - 2.0f;
             data.hitboxYBehind = data.ycoord - 1.0f;
-            data.hitboxsizeXBehind = 8.0f;
+            data.hitboxsizeXBehind = 10.0f;
             data.hitboxsizeYBehind = 5.0f;
             data.textureOffsetX = -1;
             
             break;
             
+        case 1:
+            //The Tavern
+            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Building_Tavern"));
+            data.sizeX = 12;
+            data.sizeY = 9;
+            data.hitboxsizeX = 8;
+            data.hitboxsizeY = 5;
+            data.hitboxX = (float) data.xcoord;
+            data.hitboxY = data.ycoord + 4.0f;
             
+            
+            data.hitboxXBehind = data.xcoord - 3.0f;
+            data.hitboxYBehind = data.ycoord - 1.0f;
+            data.hitboxsizeXBehind = 12.0f;
+            data.hitboxsizeYBehind = 8.0f;
+            data.textureOffsetX = -2;
+            
+            break;
         default:
             break;
     }
@@ -77,15 +94,23 @@ void Building::render(int xoffset, int yoffset)
 {
     if(texture.id == 0) texture = getTexture(building_surface);
     
-    SDL_Rect src = {0, 0, data.sizeX * TILE_SIZE / 2, data.sizeY * TILE_SIZE / 2}; // For individual 32 by 32 tiles
+    SDL_Rect src = {0, 0, data.sizeX * TILE_SIZE / 2, data.sizeY * TILE_SIZE / 2};
     SDL_Rect dst = {(data.xcoord + data.textureOffsetX) * TILE_SIZE + xoffset, (data.ycoord + data.textureOffsetY) * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
     if(dst.x >= (GAME_WIDTH + data.sizeX * TILE_SIZE) || dst.x < (-TILE_SIZE - data.sizeX * TILE_SIZE) || dst.y >= (GAME_HEIGHT + data.sizeY * TILE_SIZE) || dst.y < (-TILE_SIZE - data.sizeY * TILE_SIZE)) return; // Only render the visible ones...
-    if(level != nullptr && level->window != nullptr)
-    {
-        level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 210.0f, 10.0f, 0xFF000000, 1.0f, 0.0);
-        level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 210.0f, 40.0f, 0xFFFFFF00, 0.04f, 1.0);
+    switch (data.buildingNumber) {
+        case 0:
+            if(level != nullptr && level->window != nullptr)
+            {
+                level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 210.0f, 10.0f, 0xFF000000, 1.0f, 0.0);
+                level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 206.0f, 5.0f, 0xFFFFFF00, 0.04f, 1.0);
+            }
+            break;
+            
+        default:
+            break;
     }
+    
     
     renderWithShading(texture, src, dst);
 }

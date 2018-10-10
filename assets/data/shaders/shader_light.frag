@@ -43,7 +43,7 @@ void main()
     
     //TO DO: glow / reflect ratio must somehow be added in the for loop , as it is unique for a light
     
-    col = (alpha * backcol) + (1 - light_emit_to_reflect_ratio) * backcol * (col * (1.0 - alpha)) + (light_emit_to_reflect_ratio * col * (1.0 - alpha));
+    col = (alpha * backcol) + (1 - light_emit_to_reflect_ratio) * backcol * (col * (1.0 - alpha)) + (light_emit_to_reflect_ratio * col * (1.0 - (alpha / 10)));
 
     col.a = a;
 }
