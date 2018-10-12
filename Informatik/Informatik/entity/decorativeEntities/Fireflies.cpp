@@ -55,7 +55,7 @@ void Fireflies::update(const uint8_t *keys)
 
 void Fireflies::onAddToLevel(Level *level)
 {
-    srand((uint)time(NULL));
+    srand((uint64_t)time(NULL));
     for(int i = 0; i<Flycount; i++)
     {
         int fly = i * 4;

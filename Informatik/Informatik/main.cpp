@@ -29,6 +29,8 @@ void startGame()
 
 int main(int argc, char **args)
 {
+	printf("[INFO] Starting application in %s\n", *args);
+
     // Tests::testLevelLoader();
 	// Tests::testSockets();
     // Tests::testPNG();

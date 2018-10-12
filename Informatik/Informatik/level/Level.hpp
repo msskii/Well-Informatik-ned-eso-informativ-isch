@@ -10,6 +10,7 @@
 #define Level_hpp
 
 #include <stdint.h>
+#include <mutex>
 #include <vector>
 
 #include "Tile.hpp"

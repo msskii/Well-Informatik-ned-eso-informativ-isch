@@ -154,6 +154,7 @@
     <ClCompile Include="config\ConfigMenu.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\Slime.cpp" />
+    <ClCompile Include="entity\decorativeEntities\Fireflies.cpp" />
     <ClCompile Include="entity\Entity.cpp" />
     <ClCompile Include="entity\loader\NPCLoader.cpp" />
     <ClCompile Include="entity\NPC.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="level\loader\TextLoader.cpp" />
     <ClCompile Include="level\Tile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="multiplayer\Buffer.cpp" />
     <ClCompile Include="multiplayer\Client.cpp" />
     <ClCompile Include="multiplayer\RemotePlayer.cpp" />
     <ClCompile Include="multiplayer\Server.cpp" />
@@ -214,6 +216,7 @@
     <ClInclude Include="config\ConfigMenu.hpp" />
     <ClInclude Include="enemy\Enemy.hpp" />
     <ClInclude Include="enemy\Slime.hpp" />
+    <ClInclude Include="entity\decorativeEntities\Fireflies.hpp" />
     <ClInclude Include="entity\Entity.hpp" />
     <ClInclude Include="entity\loader\NPCLoader.hpp" />
     <ClInclude Include="entity\NPC.h" />
@@ -254,6 +257,7 @@
     <ClInclude Include="level\loader\LevelLoader.hpp" />
     <ClInclude Include="level\loader\TextLoader.hpp" />
     <ClInclude Include="level\Tile.hpp" />
+    <ClInclude Include="multiplayer\Buffer.hpp" />
     <ClInclude Include="multiplayer\Client.hpp" />
     <ClInclude Include="multiplayer\RemotePlayer.hpp" />
     <ClInclude Include="multiplayer\Server.hpp" />
