@@ -17,7 +17,7 @@ Slime::Slime(float x, float y, int level)
     data.maxhealth = 1.0f * level;
     data.currentHealth = 1.0f * level;
     animationHealth = 1.0f * level;
-    agroRadius = 15 * TILE_SIZE;
+    agroRadius = 10 * TILE_SIZE;
     enemy_level = level;
     
     if(level < 10)
@@ -42,10 +42,10 @@ Slime::Slime(float x, float y, int level)
     uint32_t *pixels = (uint32_t*) hurt_surface->pixels;
     for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
     {
-        uint32_t cp = ((uint32_t*) enemy_surface->pixels)[i];
+        uint32_t cp = ((uint32_t*) hurt_surface->pixels)[i];
         pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
     }
-    
+ 
 }
 
 bool Slime::isInside(float x, float y)
@@ -58,7 +58,7 @@ void Slime::onAddToLevel(Level *level) {}
 void Slime::render(int xoff, int yoff)
 {
     if(texture.id == 0) texture = getTexture(enemy_surface); // On main thread...
-    if(texture_hurt.id == 0) texture_hurt = getTexture(hurt_surface);
+    if(texture_hurt.id == 0) texture_hurt = getTexture(enemy_surface);
     
     renderHP((float) xoff, (float)yoff); // Render the hp of the enemy
     

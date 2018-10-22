@@ -18,6 +18,8 @@ Fireflies::Fireflies(float x, float y)
 {
     data.x_pos = x;
     data.y_pos = y;
+    data.width = 0;
+    data.height = 0;
     
     
 }
@@ -55,7 +57,7 @@ void Fireflies::update(const uint8_t *keys)
 
 void Fireflies::onAddToLevel(Level *level)
 {
-    srand((uint64_t)time(NULL));
+    srand((uint16_t)time(NULL));
     for(int i = 0; i<Flycount; i++)
     {
         int fly = i * 4;
