@@ -18,6 +18,7 @@ void LightOverlay::addLight(lightSource source)
     glUseProgram(light_shader);
     
     // Copy data
+    /**
     positions[4 * count + 0] = source.x / ((float) GAME_WIDTH);
     positions[4 * count + 1] = source.y / ((float) GAME_HEIGHT);
     positions[4 * count + 2] = source.brightness;
@@ -26,7 +27,9 @@ void LightOverlay::addLight(lightSource source)
     colors[4 * count + 0] = source.r;
     colors[4 * count + 1] = source.g;
     colors[4 * count + 2] = source.b;
-    colors[4 * count + 3] = source.a;
+    colors[4 * count + 3] = source.a;*/
+    
+    sources[count] = source;
 
     count++;
 }
@@ -40,10 +43,12 @@ void LightOverlay::addLight(float x, float y, float brightness, int color, float
     ls.y = y;
     ls.radius = radius;
     ls.glowRatio = glowRatio;
+    
     ls.r = (float)((color >> 16) & 0xFF) / 255.0f;
     ls.g = (float)((color >> 8) & 0xFF) / 255.0f;
     ls.b = (float)((color >> 0) & 0xFF) / 255.0f;
     ls.a = (float)((color >> 24) & 0xFF) / 255.0f;
+    
     addLight(ls);
 }
 
@@ -61,6 +66,14 @@ void LightOverlay::startFrame()
 void LightOverlay::render()
 {
     glUseProgram(light_shader);
+    
+    glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+    glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(lightSource), sources, GL_DYNAMIC_DRAW);
+    glBindBufferRange(GL_UNIFORM_BUFFER, 0, lightBuffer, 0, MAX_LIGHTS * sizeof(lightSource));
+    glUniformBlockBinding(light_shader, glGetUniformBlockIndex(light_shader, "lightSources"), 0); // Send buffer?
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    /**
     glUniform1f(glGetUniformLocation(light_shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     glUniform4fv(glGetUniformLocation(light_shader, "ext_light_positions"), MAX_LIGHTS, positions);
     glUniform4fv(glGetUniformLocation(light_shader, "ext_light_colors"), MAX_LIGHTS, colors);
@@ -69,5 +82,7 @@ void LightOverlay::render()
     glUniform1f(glGetUniformLocation(light_shader_rotation, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     glUniform4fv(glGetUniformLocation(light_shader_rotation, "ext_light_positions"), MAX_LIGHTS, positions);
     glUniform4fv(glGetUniformLocation(light_shader_rotation, "ext_light_colors"), MAX_LIGHTS, colors);
+    */
+    
     glUseProgram(0);
 }

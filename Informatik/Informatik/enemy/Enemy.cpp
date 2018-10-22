@@ -51,9 +51,9 @@ void Enemy::renderHP(float xoffset, float yoffset)
     
     // If it ever does not work: add ceil() around those four lines
     hpbar.x += (int) ceil(1.0 / SCALE_X);
-    hpbar.y += (int)ceil(1.0 / SCALE_Y);
-    hpbar.w -= (int)ceil(2.0 / SCALE_X);
-    hpbar.h -= (int)ceil(2.0 / SCALE_Y);
+    hpbar.y += (int) ceil(1.0 / SCALE_Y);
+    hpbar.w -= (int) ceil(2.0 / SCALE_X);
+    hpbar.h -= (int) ceil(2.0 / SCALE_Y);
     
     //COLOR(renderer, 0xFFFF0000); // Color red for depleted hp
     //SDL_RenderFillRect(renderer, &hpbar); // Full background
