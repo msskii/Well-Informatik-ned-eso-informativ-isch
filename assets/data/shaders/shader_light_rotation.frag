@@ -2,6 +2,13 @@
 
 #define NUM_LIGHTS 40
 
+struct lightSource
+{
+    vec4 position; // Position on screen + brightness & radius
+    vec4 color;
+    float glowRatio; // Sunlight reflection
+};
+
 uniform sampler2D texture_sampler;
 
 in vec2 pos;
@@ -9,8 +16,10 @@ out vec4 col;
 in vec2 uv;
 
 uniform float initial_alpha;
-uniform vec4 ext_light_positions[NUM_LIGHTS]; // max 40 lights?
-uniform vec4 ext_light_colors[NUM_LIGHTS]; // max 40 lights?
+layout (std140) uniform lightSources
+{
+    lightSource lights[NUM_LIGHTS]; // All the lights!
+};
 
 void main()
 {
@@ -27,13 +36,13 @@ void main()
     
     for(int i = 0; i < NUM_LIGHTS; i++)
     {
-        if(ext_light_positions[i].x == 0x414570A3) continue;
+        if(lights[i].position.x == 0x414570A3) continue;
         
-        vec4 toAdd = vec4(ext_light_colors[i].x, ext_light_colors[i].y, ext_light_colors[i].z, alpha); // No alpha if there was no alpha...
+        vec4 toAdd = vec4(lights[i].color.x, lights[i].color.y, lights[i].color.z, alpha); // No alpha if there was no alpha...
         
-        float d = distance(vec2(ext_light_positions[i].x * 2.0 - 1.0, (1.0 - ext_light_positions[i].y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * 3.0 / ext_light_positions[i].w;
+        float d = distance(vec2(lights[i].position.x * 2.0 - 1.0, (1.0 - lights[i].position.y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * 3.0 / lights[i].position.w;
         d = min(max(0, d), 1.0);
-        toAdd *= (1.0 - d) * ext_light_positions[i].z * 3.0 / NUM_LIGHTS;
+        toAdd *= (1.0 - d) * lights[i].position.z * 3.0 / NUM_LIGHTS;
         
         col += toAdd;
     }
