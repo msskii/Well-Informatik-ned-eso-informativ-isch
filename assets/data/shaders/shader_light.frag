@@ -23,7 +23,6 @@ layout (std140) uniform lightSources
 {
     lightSource lights[NUM_LIGHTS]; // All the lights!
 };
-
 uniform float initial_alpha;
 
 void main()

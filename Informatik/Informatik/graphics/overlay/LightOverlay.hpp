@@ -28,8 +28,6 @@ class Window;
 class LightOverlay
 {
 private:
-    GLfloat *positions = new float[4 * MAX_LIGHTS]; // x, y, brightness, radius
-    GLfloat *colors = new float[4 * MAX_LIGHTS]; // r, g, b, a
     GLfloat glowRatio = 0.0f;
     
     GLuint lightBuffer;
@@ -41,6 +39,7 @@ private:
 public:
     LightOverlay();
     
+    void sendStuff(GLuint shader);
     inline void open(Window *w) { window = w; glGenBuffers(1, &lightBuffer); }
     void startFrame();
     void addLight(lightSource ns);

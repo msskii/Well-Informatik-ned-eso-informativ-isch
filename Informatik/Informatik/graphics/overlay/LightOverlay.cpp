@@ -48,9 +48,10 @@ void LightOverlay::startFrame()
     count = 0;
 }
 
-void sendStuff(GLuint shader, lightSource *sources, GLuint lightBuffer)
+void LightOverlay::sendStuff(GLuint shader)
 {
     glUseProgram(shader);
+    glUniform1f(glGetUniformLocation(shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
     glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
     glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(lightSource), sources, GL_DYNAMIC_DRAW); // Store data
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, lightBuffer, 0, MAX_LIGHTS * sizeof(lightSource)); // Bind the whole range of it
@@ -62,6 +63,6 @@ void sendStuff(GLuint shader, lightSource *sources, GLuint lightBuffer)
 
 void LightOverlay::render()
 {
-    sendStuff(light_shader, sources, lightBuffer);
-    sendStuff(light_shader_rotation, sources, lightBuffer);
+    sendStuff(light_shader);
+    sendStuff(light_shader_rotation);
 }
