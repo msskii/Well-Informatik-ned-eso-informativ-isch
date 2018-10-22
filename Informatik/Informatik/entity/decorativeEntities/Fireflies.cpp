@@ -18,6 +18,8 @@ Fireflies::Fireflies(float x, float y)
 {
     data.x_pos = x;
     data.y_pos = y;
+    data.width = 0;
+    data.height = 0;
     
     
 }

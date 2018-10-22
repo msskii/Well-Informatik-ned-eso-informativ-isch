@@ -106,14 +106,16 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     level->addEntity(npc);
     
     // Add various slimes
-    Slime *slimeg = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE, 1);
-    Slime *slimeb = new Slime(10 * TILE_SIZE, 15 * TILE_SIZE, 10);
-    Slime *slimeo = new Slime(10 * TILE_SIZE, 25 * TILE_SIZE, 20);
-    Fireflies *slimer = new Fireflies(5 * TILE_SIZE, 10 * TILE_SIZE); // Add fireflies
+    Slime *slimeg = new Slime(10 * TILE_SIZE, 3 * TILE_SIZE, 1);
+    Slime *slimeb = new Slime(10 * TILE_SIZE, 4 * TILE_SIZE, 10);
+    Slime *slimeo = new Slime(10 * TILE_SIZE, 5 * TILE_SIZE, 20);
+    Slime *slimer = new Slime(10 * TILE_SIZE, 6 * TILE_SIZE, 30);
+    Fireflies *fire = new Fireflies(5 * TILE_SIZE, 10 * TILE_SIZE); // Add fireflies
     level->addEntity(slimeg);
     level->addEntity(slimeb);
     level->addEntity(slimeo);
     level->addEntity(slimer);
+    level->addEntity(fire);
     
     // Add a projectile that will hit the slime #1
     Projectile *projectile = new Projectile(0, 0, (float) PI * 15.0f / 8.0f);
