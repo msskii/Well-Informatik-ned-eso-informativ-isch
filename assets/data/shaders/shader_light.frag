@@ -40,7 +40,7 @@ void main()
         d = min(max(0, d), 1.0);
         vec4 toAdd = lights[i].color * lights[i].color.a / NUM_LIGHTS;
         
-        toAdd = (lights[i].glowRatio * toAdd * (1.0 - alpha)) + ((1.0 - lights[i].glowRatio) * toAdd * (1.0 - alpha / 10.0));
+        toAdd = (lights[i].glowRatio * toAdd * (1.0 - alpha)) + (backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - alpha / 10.0));
         
         if(toAdd.xyz == vec3(0, 0, 0)) alpha += (1.0 - d) * lights[i].color.a / NUM_LIGHTS * lights[i].position.z * LIGHT_BRIGHTNESS;
         else col += toAdd * (1.0 - d) * lights[i].position.z * LIGHT_BRIGHTNESS;
@@ -51,6 +51,6 @@ void main()
     
     //consists of sunlight hitting background + colored light hitting background + shine, the shine is not impacted by background brightness
     
-    col = (alpha * backcol) + col * (1.0 - alpha);
+    col = (alpha * backcol) + col;
     col.a = a;
 }
