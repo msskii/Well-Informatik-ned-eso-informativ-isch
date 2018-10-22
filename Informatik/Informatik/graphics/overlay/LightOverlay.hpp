@@ -12,14 +12,16 @@
 #include "../../util/GL_Util.hpp"
 
 #define MAX_LIGHTS 40
+
 typedef struct lightSource
 {
-    float x = 0.0, y = 0.0;
-    float brightness = 1.0f;
-    float r = 1.0f, g = 1.0f, b = 1.0f, a = 1.0f;
-    float radius = 1.0f;
-    float glowRatio = 1.0f;
-}lightSource;
+    float x = 0.0, y = 0.0; // Position
+    float brightness = 1.0f; // The brightness of this light
+    float radius = 1.0f; // The radius
+    float r = 1.0f, g = 1.0f, b = 1.0f, a = 1.0f; // The color modifier (Black for no change)
+    float glowRatio = 1.0f; // Sunlight reflection
+    float _a, _b, _c; // To fill stuff up
+} lightSource;
 
 class Window;
 
@@ -29,13 +31,17 @@ private:
     GLfloat *positions = new float[4 * MAX_LIGHTS]; // x, y, brightness, radius
     GLfloat *colors = new float[4 * MAX_LIGHTS]; // r, g, b, a
     GLfloat glowRatio = 0.0f;
+    
+    GLuint lightBuffer;
+    lightSource *sources = new lightSource[MAX_LIGHTS]; // Testing to pass a whole array with all information to the shader for easy modification
+    
     Window *window;
     int count = 0;
     
 public:
     LightOverlay();
     
-    inline void open(Window *w) { window = w; }
+    inline void open(Window *w) { window = w; glGenBuffers(1, &lightBuffer); }
     void startFrame();
     void addLight(lightSource ns);
     void addLight(float x, float y, float brightness, int color, float radius, float glowRatio);

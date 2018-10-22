@@ -120,10 +120,6 @@ void setScreenSize(int w, int h)
 
 void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader)
 {
-    
-    
-    
-    
     verticies[0]  = (float)((dst.x) / (GAME_WIDTH / 2.0f) - 1.0f); // upper left x transformed to -1 to 1
     verticies[1]  = -(float)((dst.y) / (GAME_HEIGHT / 2.0f) - 1.0f); // upper left x transformed to -1 to 1
     verticies[2]  = (float)((dst.x + dst.w) / (GAME_WIDTH / 2.0f) - 1.0f);
