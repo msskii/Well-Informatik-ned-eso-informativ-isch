@@ -4,7 +4,6 @@
 
 #define LIGHT_SPREAD 2.0
 #define LIGHT_BRIGHTNESS 3.0
-#define LIGHT_EMIT_TO_REFLECT_RATIO 0.3
 
 struct lightSource
 {
@@ -40,9 +39,10 @@ void main()
         d = min(max(0, d), 1.0);
         vec4 toAdd = lights[i].color * lights[i].color.a / NUM_LIGHTS;
         
+        //SOMEHOW THE INITIAL ALPHA IS NOT DEFINED THUS LEADING TO BLACK LIGHTS IF THE BRIGHTNESS EXEEDS A CERTAIN LEVEL
         
         //left of the Summ is the glow part, right is the lightning of the background
-        toAdd = (lights[i].glowRatio * toAdd * (1.0 - alpha)) + (backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - alpha / 10.0));
+        toAdd =  lights[i].glowRatio * toAdd * (1.0 - alpha) + backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - alpha);
         
         if(toAdd.xyz == vec3(0, 0, 0)) alpha += (1.0 - d) * lights[i].color.a / NUM_LIGHTS * lights[i].position.z * LIGHT_BRIGHTNESS;
         else col += toAdd * (1.0 - d) * lights[i].position.z * LIGHT_BRIGHTNESS;

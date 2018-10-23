@@ -9,6 +9,6 @@
 Textures:
 
 1: OldMansHut and NPC - DONE
-2: Tavern - wip
-3: Smithery
+2: Tavern - DONE
+3: Smithery - DONE
 4: Trainstation
