@@ -40,6 +40,8 @@ void main()
         d = min(max(0, d), 1.0);
         vec4 toAdd = lights[i].color * lights[i].color.a / NUM_LIGHTS;
         
+        
+        //left of the Summ is the glow part, right is the lightning of the background
         toAdd = (lights[i].glowRatio * toAdd * (1.0 - alpha)) + (backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - alpha / 10.0));
         
         if(toAdd.xyz == vec3(0, 0, 0)) alpha += (1.0 - d) * lights[i].color.a / NUM_LIGHTS * lights[i].position.z * LIGHT_BRIGHTNESS;
