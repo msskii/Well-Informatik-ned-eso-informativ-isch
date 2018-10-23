@@ -14,6 +14,7 @@
 #include "Player.hpp"
 #include "../util/SDL_Util.hpp"
 #include <vector>
+
 typedef struct NPCAnimation
 {
     bool canWalk;
@@ -22,7 +23,7 @@ typedef struct NPCAnimation
     int timer = 0;
     int set = 0;
     int timePerFrame;
-}NPCAnimation;
+} NPCAnimation;
 
 typedef struct NPCText
 {
@@ -53,7 +54,13 @@ public:
     void update(const uint8_t *keys) override;
     void setTexture();
     
+    uint32_t getEntitySize() override; // Calculate the size of the entity in bytes
+    uint8_t *getSerializedEntity(uint8_t* buffer) override; // Serialize the entity to send it to the server
+
+    NPC(uint8_t *serializeddata);
     NPC(float xPos, float yPos, int ID, int level);
+    
+    void createEvent();
     
 private:
     

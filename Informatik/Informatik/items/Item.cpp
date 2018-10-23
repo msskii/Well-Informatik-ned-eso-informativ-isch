@@ -11,5 +11,4 @@
 Item::Item(const char *itemname) : name(itemname)
 {
     surface = IMG_Load(GET_TEXTURE_PATH("items/" + itemname));
-    texture = getTexture(surface);
 }

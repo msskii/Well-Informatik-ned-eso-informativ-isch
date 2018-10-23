@@ -59,6 +59,7 @@ public:
     std::vector<Menu*> menus; // All open menus
     Level *level; // The current level we're in
     bool toUpdate = true; // If we have to update the level or not
+    bool establishingConnection = false;
     
     int frames = 0, fps = 0; // The current frames and the last measured FPS
     

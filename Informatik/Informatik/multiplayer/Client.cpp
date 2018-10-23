@@ -1,9 +1,143 @@
 #include "Client.hpp"
 #include "../graphics/Window.hpp"
+#include "../level/loader/LevelLoader.hpp"
 
 std::mutex playerLock;
 std::vector<Multiplayer::RemotePlayer*> playersToAdd;
 std::vector<Multiplayer::RemotePlayer*> playersToRemove;
+
+int Multiplayer::checkCommand(Multiplayer::Client *c, int amount, uint8_t* buffer, char *cmd, uint32_t uuid, uint8_t *data)
+{
+    // printf("Executing cmd: %s\n", cmd);
+    int consumed = 0;
+    
+    if(!strcmp(cmd, CMD_PLAYER_MOVE))
+    {
+        if(!c->otherPlayers[uuid] || !c->otherPlayers[uuid]->connected) return consumed; // This player is not connected!?
+        c->otherPlayers[uuid]->data.x_pos = ((uint32_t*) (data))[0];
+        c->otherPlayers[uuid]->data.y_pos = ((uint32_t*) (data))[1];
+        
+        c->otherPlayers[uuid]->walking = ((uint8_t*) (data + 8))[0];
+        c->otherPlayers[uuid]->anim = ((uint8_t*) (data + 8))[1];
+        c->otherPlayers[uuid]->direction = ((uint8_t*) (data + 8))[2];
+        
+        consumed += 11;
+    }
+    else if(!strcmp(cmd, CMD_PLAYER_JOIN))
+    {
+        int off = 0;
+        while(off < amount - 6)
+        {
+            uint32_t id = read<uint32_t>(data);
+            if(id == 0) break; // Server id... Restricted
+            c->otherPlayers[id] = new RemotePlayer();
+            c->otherPlayers[id]->connected = true;
+            c->otherPlayers[id]->data.x_pos = (float) read<uint32_t>(data);
+            c->otherPlayers[id]->data.y_pos = (float) read<uint32_t>(data);
+            c->otherPlayers[id]->nameLen = (float) read<uint32_t>(data);
+            c->otherPlayers[id]->name = (char*) malloc(c->otherPlayers[id]->nameLen + 1);
+            memcpy(c->otherPlayers[id]->name, data, c->otherPlayers[id]->nameLen);
+            c->otherPlayers[id]->name[c->otherPlayers[id]->nameLen] = 0;
+            data += c->otherPlayers[id]->nameLen;
+            
+            off += 4 * 4 + c->otherPlayers[id]->nameLen;
+            
+            playerLock.lock();
+            printf("[INFO] Player %d joined\n", id);
+            playersToAdd.push_back(c->otherPlayers[id]);
+            playerLock.unlock();
+        }
+        consumed += off;
+    }
+    else if(!strcmp(cmd, CMD_PLAYER_LEAVE))
+    {
+        if(c->otherPlayers[uuid] != nullptr) c->otherPlayers[uuid]->connected = false;
+        playerLock.lock();
+        printf("[INFO] Player %d Left\n", uuid);
+        playersToRemove.push_back(c->otherPlayers[uuid]);
+        playerLock.unlock();
+        consumed += 0; // No data consumed
+    }
+    else if(!strcmp(cmd, CMD_ENTITY_SPAWN))
+    {
+        // printBuffer(buffer, amount);
+        Multiplayer::MultiplayerEntities entityNum = (Multiplayer::MultiplayerEntities) read<int>(data); // The type
+        int entityID = read<int>(data); // Entity ID
+        int entitySize = read<int>(data); // Size in bytes of this entity
+        printf("[INFO] Entity with type: %d and id %d and Size %d spawned\n", entityNum, entityID, entitySize);
+        
+        Entity *e = nullptr;
+        EntityData d = read<EntityData>(data);
+        
+        switch(entityNum)
+        {
+            case Multiplayer::SLIME:
+                e = new Slime(d.x_pos, d.y_pos, (int) d.maxhealth);
+                break;
+            case Multiplayer::PROJECTILE:
+                e = new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
+                break;
+            case Multiplayer::PLAYER:
+                e = nullptr;
+                break;
+            case Multiplayer::NPCE:
+                printf("Constructing new NPC...\n");
+                e = new NPC(data - sizeof(EntityData));
+                break;
+            case Multiplayer::ITEM:
+                e = new EntityItem(d.x_pos, d.y_pos, new Item(readString(data)));
+                break;
+            default:
+                //printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);
+                e = new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
+                break;
+        }
+        
+        c->window->level->addEntity(e, entityID);
+        c->sendToServer(createPacket(CMD_PACKET_RECEIVED, "", 0));
+        
+        consumed += 12 + entitySize;
+    }
+    else if(!strcmp(cmd, CMD_ENTITY_MOVE))
+    {
+        int entityID = read<int>(data);
+        Entity *e = c->window->level->getEntity(entityID);
+        if(e == nullptr) return consumed; // Entity not found...
+        e->data.x_pos = (float) read<int>(data);
+        e->data.y_pos = (float) read<int>(data);
+        
+        if(dynamic_cast<Slime*>(e) != nullptr)
+        {
+            ((Slime*) e)->anim = read<int>(data);
+            consumed += 4;
+        }
+        
+        consumed += 12;
+    }
+    else if(!strcmp(cmd, CMD_LEVEL_INIT))
+    {
+        Loader::LevelLoader *loader = new Loader::LevelLoader(data); // uint8_t*!!!!
+        c->window->level = loader->buildLevel();
+        c->window->level->window = c->window;
+        c->window->level->reloadFiles();
+        c->window->level->clientConnector = c;
+        printf("[INFO] Loaded level... You should see buildings now\n");
+        c->sendToServer(createPacket(CMD_PACKET_RECEIVED, "", 0)); // Send empty ack
+        // No consumed data (Comes from big packet service)
+    }
+    else if(!strcmp(cmd, CMD_SETUP_COMPLETE))
+    {
+        c->window->establishingConnection = false;
+    }
+    else
+    {
+        printBuffer(buffer, 16);
+        printf("[WARN] Couldn't find command: %s\n", cmd);
+        consumed -= 5; // Skip one byte
+    }
+    
+    return consumed;
+}
 
 int Multiplayer::clientReceive(void *data)
 {
@@ -15,101 +149,57 @@ int Multiplayer::clientReceive(void *data)
 	while (true)
 	{
 		int amount = SDLNet_TCP_Recv(c->tcp_socket, buffer, BUFFER_SIZE);
-
+        int consumed = 0;
+        
         if (amount <= 0)
 		{
 			// Some error occured, exit
 			printf("[ERROR] Connection to server lost!\n");
 			exit(0);
 		}
-                
         buffer[amount] = 0;
-        
-        uint32_t uuid = *((uint32_t*)buffer);
-        cmd[0] = buffer[4];
-        cmd[1] = buffer[5];
-        uint8_t *data = buffer + 6; // 4 for uuid + 2 for cmd
 
-        // printf("CMD to execute: %s\n", cmd);
-        if(!strcmp(cmd, CMD_PLAYER_MOVE))
+        while(consumed < amount)
         {
-            if(!c->otherPlayers[uuid] || !c->otherPlayers[uuid]->connected) continue; // This player is not connected!?
-            c->otherPlayers[uuid]->data.x_pos = ((uint32_t*) (data))[0];
-            c->otherPlayers[uuid]->data.y_pos = ((uint32_t*) (data))[1];
-            
-            c->otherPlayers[uuid]->walking = ((uint8_t*) (data + 8))[0];
-            c->otherPlayers[uuid]->anim = ((uint8_t*) (data + 8))[1];
-            c->otherPlayers[uuid]->direction = ((uint8_t*) (data + 8))[2];
-        }
-        else if(!strcmp(cmd, CMD_PLAYER_JOIN))
-        {
-            int off = 0;
-            while(off < amount - 6)
+            while(memcmp(buffer + consumed, HEADER, 4))
             {
-                uint32_t id = read<uint32_t>(data);
-                if(id == 0) break; // Server id... Restricted
-                c->otherPlayers[id] = new RemotePlayer();
-                c->otherPlayers[id]->connected = true;
-                c->otherPlayers[id]->data.x_pos = (float) read<uint32_t>(data);
-                c->otherPlayers[id]->data.y_pos = (float) read<uint32_t>(data);
-                c->otherPlayers[id]->nameLen = (float) read<uint32_t>(data);
-                c->otherPlayers[id]->name = (char*) malloc(c->otherPlayers[id]->nameLen + 1);
-                memcpy(c->otherPlayers[id]->name, data, c->otherPlayers[id]->nameLen);
-                c->otherPlayers[id]->name[c->otherPlayers[id]->nameLen] = 0;
-                data += c->otherPlayers[id]->nameLen;
-                
-                off += 4 * 4 + c->otherPlayers[id]->nameLen;
-                
-                playerLock.lock();
-                printf("[INFO] Player %d joined\n", id);
-                playersToAdd.push_back(c->otherPlayers[id]);
-                playerLock.unlock();
+                if(++consumed >= BUFFER_SIZE) break; // Wait for header
             }
-        }
-        else if(!strcmp(cmd, CMD_PLAYER_LEAVE))
-        {
-            if(c->otherPlayers[uuid] != nullptr) c->otherPlayers[uuid]->connected = false;
-            playerLock.lock();
-            printf("[INFO] Player %d Left\n", uuid);
-            playersToRemove.push_back(c->otherPlayers[uuid]);
-            playerLock.unlock();
-        }
-        else if(!strcmp(cmd, CMD_ENTITY_SPAWN))
-        {
-            printBuffer(buffer, amount);
-            int offset = 0;
-            while(offset < amount)
-            {
-                int entityNum = read<int>(data);
-                int entityID = read<int>(data);
-                printf("[INFO] Entity with type: %d and id %d spawned\n", entityNum, entityID);
-                
-                
-                Entity *e = Multiplayer::createEntityFromData((Multiplayer::MultiplayerEntities) entityNum, data);
-                c->window->level->addEntity(e, entityID);
-                data += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityID) - 8;
-                offset += Multiplayer::getEntitySize((Multiplayer::MultiplayerEntities) entityID);
-            }
-        }
-        else if(!strcmp(cmd, CMD_ENTITY_MOVE))
-        {
-            int entityID = read<int>(data);
-            Entity *e = c->window->level->getEntity(entityID);
-            if(e == nullptr) continue; // Entity not found...
-            e->data.x_pos = (float) read<int>(data);
-            e->data.y_pos = (float) read<int>(data);
+            if(memcmp(buffer + consumed, HEADER, 4)) break;
             
-            if(dynamic_cast<Slime*>(e) != nullptr) ((Slime*) e)->anim = read<int>(data);
-        }
-        else if(!strcmp(cmd, CMD_BUILDING_ADD))
-        {
-            printf("Adding building...\n");
-            c->window->level->buildings.push_back(new Building(read<int>(data), read<int>(data), read<uint16_t>(data), c->window->level));
-        }
-        else
-        {
-            printBuffer(buffer, 8);
-            printf("Couldn't find command: %s\n", cmd);
+            int len = consumed;
+            while(memcmp(buffer + consumed, FOOTER, 4))
+            {
+                if(++consumed >= BUFFER_SIZE)
+                {
+                    memmove(buffer, buffer + len, consumed - len);
+                    len = 0;
+                    consumed = consumed - len;
+                    if(consumed >= BUFFER_SIZE)
+                    {
+                        printf("[WARN] You are using more buffer space than you have!!!!\n");
+                        break;
+                    }
+                    SDLNet_TCP_Recv(c->tcp_socket, buffer + consumed, BUFFER_SIZE - consumed);
+                }
+            }
+            if(memcmp(buffer + consumed, FOOTER, 4)) break;
+            
+            len = consumed - len - 4; // difference between currently consumed and consumed at the header
+            consumed -= len;
+            
+            int c1 = consumed;
+            buffer += c1;
+            uint32_t uuid = *((uint32_t*)buffer);
+            cmd[0] = buffer[4];
+            cmd[1] = buffer[5];
+            uint8_t *data = buffer + 6; // 4 for uuid + 2 for cmd
+            
+            // checkCommand(c, BUFFER_SIZE - amount + consumed + len, buffer, cmd, uuid, data);
+            checkCommand(c, len, buffer, cmd, uuid, data);
+
+            buffer -= c1;
+            consumed += len;
         }
 	}
 
@@ -118,34 +208,42 @@ int Multiplayer::clientReceive(void *data)
 
 Multiplayer::Client::Client(Window *w, const char *address, std::string name)
 {
+    // Setup
     window = w;
 	SDLNet_Init();
 
+    // Connect to specified server
 	IPaddress ip;
 	SDLNet_ResolveHost(&ip, address, SERVER_PORT);
 	tcp_socket = SDLNet_TCP_Open(&ip); // Connect to server...
     
+    // No connection could be established
 	if (tcp_socket == NULL)
 	{
 		printf("[ERROR] Couldn't connect to the server '%s' (SDLnet error: %s)\n", address, SDLNet_GetError());
-		// exit(0);
         return;
 	}
     
+    // Add server to socket list
     SDLNet_TCP_AddSocket(sockets, tcp_socket);
 
+    // We are connected!
+    w->establishingConnection = true; // Server is not yet done with the setup
     connectionEstablished = true;
     
+    // Send join message
 	uint8_t *welcome = new uint8_t[6] { 0x41, 0x46 }; // Send welcoming message? --> Like name or stuff
     *((uint32_t*) (welcome + 2)) = (uint32_t) name.size();
     sendToServer(createPacket(CMD_PLAYER_JOIN, (char*) welcome, HEADER_SIZE));
     sendToServer(createPacket(CMD_PLAYER_NAME, name.c_str(), (int) name.size()));
 
+    // Start receiver of the client
 	SDL_CreateThread(clientReceive, "ClientReceiverTCP", this);
 }
 
+// Send the position updates of this player
 void Multiplayer::Client::updatePlayerPos(int xpos, int ypos, uint8_t animationSet, uint8_t anim, uint8_t direction)
-{	    
+{
     uint8_t *dataBuffer = (uint8_t*) malloc(11);
     write<int>(dataBuffer, xpos);
     write<int>(dataBuffer, ypos);
@@ -157,7 +255,7 @@ void Multiplayer::Client::updatePlayerPos(int xpos, int ypos, uint8_t animationS
     sendToServer(createPacket(CMD_PLAYER_MOVE, (char*) (dataBuffer - 11), 11));
 }
 
-
+// Add a new remote player
 void Multiplayer::Client::addRemotePlayers(Level *level)
 {
     playerLock.lock();
@@ -185,6 +283,7 @@ void Multiplayer::Client::addRemotePlayers(Level *level)
     level->activePlayerLock.unlock();
 }
 
+// Wrapper for a sender
 void Multiplayer::Client::sendToServer(TCP_Packet packet)
 {
     SDLNet_TCP_Send(tcp_socket, packet.data, packet.dataLen);

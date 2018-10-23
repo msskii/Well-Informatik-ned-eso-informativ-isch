@@ -76,7 +76,6 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
             printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
         }
     }
-    level_texture = getTexture(srfc);
     
     updateVariant(this); // Update all variants for the tiles
     
@@ -132,6 +131,7 @@ void Level::addEntity(Entity *e)
 void Level::addEntity(Entity *e, int id)
 {
     if(e == nullptr) return;
+    if(typeid(*e) == typeid(NPC)) printf("Spawned NPC with id: %d\n", id);
     e->entityID = id;
     e->addedToLevel(this);
     entities.push_back(e);
@@ -167,6 +167,8 @@ int Level::getLevelSize()
 
 void Level::render() // and update
 {
+    if(!level_texture.id) level_texture = getTexture(srfc);
+    
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
 
@@ -323,7 +325,7 @@ void Level::updateTiles()
             printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
         }
     }
-    level_texture = getTexture(srfc);
+    level_texture.id = 0;
 }
 
 void Level::setLevelMap(uint8_t map)

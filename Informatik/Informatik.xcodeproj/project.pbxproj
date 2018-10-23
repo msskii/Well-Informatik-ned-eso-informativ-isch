@@ -74,6 +74,7 @@
 		93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D47BBD212DE69C007853BC /* SDL_Util.cpp */; };
 		93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788B214146AA00F5EC35 /* Inventory.cpp */; };
 		93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */; };
+		93EE1373217EF42800262829 /* ServerCommandHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93EE1371217EF42800262829 /* ServerCommandHandlers.cpp */; };
 		93FEEB192155477400EF507C /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93FEEB172155477400EF507C /* Buffer.cpp */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +232,8 @@
 		93E2788C214146AA00F5EC35 /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		93E2788F2143AB1C00F5EC35 /* ItemSlot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ItemSlot.cpp; sourceTree = "<group>"; };
 		93E278902143AB1C00F5EC35 /* ItemSlot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ItemSlot.hpp; sourceTree = "<group>"; };
+		93EE1371217EF42800262829 /* ServerCommandHandlers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ServerCommandHandlers.cpp; sourceTree = "<group>"; };
+		93EE1372217EF42800262829 /* ServerCommandHandlers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ServerCommandHandlers.hpp; sourceTree = "<group>"; };
 		93FEEB172155477400EF507C /* Buffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
 		93FEEB182155477400EF507C /* Buffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -402,6 +405,8 @@
 				936C12EF2135941800404679 /* Server.hpp */,
 				93FEEB172155477400EF507C /* Buffer.cpp */,
 				93FEEB182155477400EF507C /* Buffer.hpp */,
+				93EE1371217EF42800262829 /* ServerCommandHandlers.cpp */,
+				93EE1372217EF42800262829 /* ServerCommandHandlers.hpp */,
 			);
 			path = multiplayer;
 			sourceTree = "<group>";
@@ -665,6 +670,7 @@
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 				937B0036215013A100BE1EE0 /* glew.c in Sources */,
 				93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */,
+				93EE1373217EF42800262829 /* ServerCommandHandlers.cpp in Sources */,
 				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
 				93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,

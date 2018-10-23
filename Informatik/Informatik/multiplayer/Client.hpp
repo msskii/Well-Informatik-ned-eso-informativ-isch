@@ -20,6 +20,8 @@ class Level;
 
 namespace Multiplayer
 {
+    class Client;
+    
 	extern int clientReceive(void *data); // Client receive handler
     class RemotePlayer;
 
@@ -37,6 +39,8 @@ namespace Multiplayer
         bool connectionEstablished = false;
         Client(Window *window, const char *address, std::string name); // Set up stuff & start receiver
 
+        friend int checkCommand(Client *c, int amount, uint8_t* buffer, char *cmd, uint32_t uuid, uint8_t *data);
+        
         void updatePlayerPos(int xpos, int ypos, uint8_t animationSet, uint8_t anim, uint8_t direction);
 		//void render(int xoff, int yoff);
         void addRemotePlayers(Level *level);

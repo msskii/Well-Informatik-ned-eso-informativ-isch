@@ -195,7 +195,7 @@ void Window::runGameLoop()
     
     while(running)
     {
-        nextFrame(); // Draw next frame
+        if(!establishingConnection) nextFrame(); // Draw next frame
     }
     
     exitGame(this); // Game has finished... Exit

@@ -8,6 +8,28 @@
 
 #include "NPC.hpp"
 #include "../level/Level.hpp"
+#include "../multiplayer/Buffer.hpp"
+
+NPC::NPC(uint8_t *serialized)
+{
+    data = Multiplayer::read<EntityData>(serialized);
+    int len = Multiplayer::read<uint32_t>(serialized);
+    for(int i = 0; i < len; i++)
+    {
+        NPCText nt;
+        nt.timesDisplayed = Multiplayer::read<uint32_t>(serialized);
+        nt.eventTriggered = Multiplayer::read<uint32_t>(serialized);
+        nt.text = Multiplayer::readString(serialized);
+        texts.push_back(nt);
+    }
+    animation = Multiplayer::read<NPCAnimation>(serialized);
+    
+    printf("[INFO] Created new NPC from serialized data at %.8f %.8f\n", data.x_pos, data.y_pos);
+
+    setTexture();
+    
+    createEvent();
+}
 
 NPC::NPC(float xPos, float yPos, int ID, int level)
 {
@@ -21,9 +43,14 @@ NPC::NPC(float xPos, float yPos, int ID, int level)
     
     setTexture();
     
+    createEvent();
+}
+
+void NPC::createEvent()
+{
     EventData evt;
-    evt.event_x = (int)(xPos);
-    evt.event_y = (int)(yPos);
+    evt.event_x = (int)(data.x_pos);
+    evt.event_y = (int)(data.y_pos);
     evt.event_w = 1 * PLAYER_WIDTH;
     evt.event_h = 1 * PLAYER_HEIGHT;
     
@@ -37,6 +64,28 @@ NPC::NPC(float xPos, float yPos, int ID, int level)
     event = new Event(evt, (uint8_t*) this);
     event->isStored = false; // Don't store it in the level file
 }
+
+uint32_t NPC::getEntitySize()
+{
+    int textsize = 4; // Amount of texts
+    for(int i = 0; i < texts.size(); i++) textsize += 12 + strlen(texts[i].text);
+    return sizeof(EntityData) + textsize + sizeof(NPCAnimation);
+}
+
+uint8_t *NPC::getSerializedEntity(uint8_t* buffer)
+{
+    Multiplayer::write<EntityData>(buffer, data);
+    Multiplayer::write<uint32_t>(buffer, (uint32_t) texts.size());
+    for(int i = 0; i < texts.size(); i++)
+    {
+        Multiplayer::write<uint32_t>(buffer, texts[i].timesDisplayed);
+        Multiplayer::write<uint32_t>(buffer, texts[i].eventTriggered);
+        Multiplayer::writeString(buffer, texts[i].text, (uint32_t) strlen(texts[i].text));
+    }
+    Multiplayer::write<NPCAnimation>(buffer, animation);
+    return buffer;
+}
+
 
 void NPC::onInteractWith()
 {
@@ -72,9 +121,7 @@ void NPC::onInteractWith()
 
 void NPC::render(int xoff, int yoff)
 {
-    
     if(texture.id == 0) texture = getTexture(NPC_surface);
-    
     
     SDL_Rect src = {32 * animation.anim, 0, (int) data.width / 2, (int) data.height / 2};
     SDL_Rect dst = {(int) data.x_pos, (int) data.y_pos, TILE_SIZE, 2 * TILE_SIZE};

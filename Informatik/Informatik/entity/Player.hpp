@@ -44,7 +44,7 @@ public:
     bool isBehind = false; //Is behind a building?
     
     // Movement & control
-    bool inControl = true; // Player can control himself by default
+    bool inControl = true, serverPlayer = false; // Player can control himself by default
     bool actionPressed = false; // If the action key was pressed
     DIRECTION direction = DOWN;
     

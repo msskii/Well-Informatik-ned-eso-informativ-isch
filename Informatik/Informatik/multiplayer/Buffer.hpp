@@ -18,7 +18,7 @@ namespace Multiplayer
     template <typename T>
     static T read(uint8_t *&buffer)
     {
-        T a = ((T*) buffer)[0];
+        T a = *((T*) buffer);
         buffer += sizeof(T);
         return a;
     }

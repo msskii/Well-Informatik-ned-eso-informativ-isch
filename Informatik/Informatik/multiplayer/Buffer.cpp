@@ -21,7 +21,7 @@ char *Multiplayer::readString(uint8_t *&buffer)
 void Multiplayer::writeString(uint8_t *&buffer, const char *text, int length)
 {
     write<int>(buffer, length);
-    memcpy(buffer, text, length);
+    if(length) memcpy(buffer, text, length);
     buffer += length;
 }
 

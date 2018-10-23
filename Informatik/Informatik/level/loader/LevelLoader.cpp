@@ -73,6 +73,16 @@ Loader::LevelLoader::LevelLoader(const char *path)
     uint8_t *levelFile = readFile(path).data;
     if(levelFile == nullptr) return;
     
+    
+}
+
+Loader::LevelLoader::LevelLoader(uint8_t *data)
+{
+    deserializeLevel(data);
+}
+
+void Loader::LevelLoader::deserializeLevel(uint8_t *levelFile)
+{
     uint32_t loader_version = read<int>(levelFile);
     
     // First major version is version 3 (1 & 2 not supported)
@@ -110,7 +120,7 @@ Level *Loader::LevelLoader::buildLevel()
     return level;
 }
 
-void Loader::LevelLoader::saveFile(const char *path)
+filedata Loader::LevelLoader::serializeLevel()
 {
     // 4: width
     // 4: height
@@ -120,10 +130,8 @@ void Loader::LevelLoader::saveFile(const char *path)
     uint8_t *levelFile = (uint8_t *) malloc(size);
     write<int>(levelFile, (int) LOADER_VERSION);
     
-    printf("[INFO] Saving Level to %s (Version of loader: %d)\n", path, (int) LOADER_VERSION);
-    
     write<int>(levelFile, level->width);
-    write<int>(levelFile, level->height);    
+    write<int>(levelFile, level->height);
     for(int i = 0; i < (int)(level->width * level->height); i++) write<TileData>(levelFile, level->tiles[i].data);
     
     write<int>(levelFile, (int) level->buildings.size());
@@ -133,11 +141,22 @@ void Loader::LevelLoader::saveFile(const char *path)
     writeString(levelFile, level->audioFile.c_str(), (int) level->audioFile.size());
     writeString(levelFile, level->textFile.c_str(), (int) level->textFile.size());
     writeString(levelFile, level->tileMapFile.c_str(), (int) level->tileMapFile.size());
-
+    
     // Events
     saveEventData(levelFile, level->events); // Save events
     levelFile += level->getEventSize(); // End of current data
-    
+
     levelFile -= size; // Back to start
-    writeFile(path, levelFile, size);
+    
+    filedata data;
+    data.data = levelFile;
+    data.filesize = size;
+    return data;
+}
+
+void Loader::LevelLoader::saveFile(const char *path)
+{
+    printf("[INFO] Saving Level to %s (Version of loader: %d)\n", path, (int) LOADER_VERSION);
+    filedata data = serializeLevel();
+    writeFile(path, data.data, (int) data.filesize);
 }

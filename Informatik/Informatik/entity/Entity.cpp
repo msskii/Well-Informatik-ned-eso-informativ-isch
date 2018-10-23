@@ -13,6 +13,8 @@ void Entity::addedToLevel(Level *l)
 {
     level = l;
     onAddToLevel(l);
+    
+    //printf("[DEBUG] Entity name is: %s\n", typeid(*this).name());
 }
 
 Entity::~Entity()
@@ -59,5 +61,16 @@ void Entity::correctMovement(float &dx, float &dy)
         dx *= xmax / STEP_ACCURACY;
         dy *= ymax / STEP_ACCURACY;
     }
+}
+
+uint32_t Entity::getEntitySize()
+{
+    return sizeof(EntityData);
+}
+
+uint8_t* Entity::getSerializedEntity(uint8_t *buffer)
+{
+    Multiplayer::write<EntityData>(buffer, data);
+    return buffer;
 }
 

@@ -13,7 +13,6 @@
 Player::Player(Level *l) : current_level(l)
 {
     player_surface = IMG_Load(GET_TEXTURE_PATH("Character_Animation"));
-    texture = getTexture(player_surface);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -136,7 +135,7 @@ void Player::updateMovement(float dx, float dy)
     else if(dy < 0) direction = UP;
     
     walking = dx != 0 || dy != 0;
-    if(walking) correctMovement(dx, dy);
+    if(walking && !serverPlayer) correctMovement(dx, dy);
     
     if(dx > 0) direction = RIGHT;
     else if(dx < 0) direction = LEFT;
@@ -186,6 +185,8 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(int x, int y)
 {
+    if(!texture.id) texture = getTexture(player_surface);
+    
     if(graceLeft > 0) graceLeft = graceLeft - 1;
 
     //animation speed scales with player speed

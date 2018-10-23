@@ -26,6 +26,9 @@ public:
     void onAddToLevel(Level *level) override;
     void render(int xoff, int yoff) override;
     void update(const uint8_t *keys) override;
+    
+    uint32_t getEntitySize() override;
+    uint8_t *getSerializedEntity(uint8_t *buffer) override;
 };
 
 #endif /* EntityItem_hpp */

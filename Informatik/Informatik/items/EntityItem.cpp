@@ -9,18 +9,19 @@
 #include "EntityItem.hpp"
 #include "../level/Level.hpp"
 
-EntityItem::EntityItem(int x, int y, Item *i)
+EntityItem::EntityItem(int x, int y, Item *i) : item(i)
 {
     data.x_pos = (float) TILE_SIZE * x;
     data.y_pos = (float) TILE_SIZE * y;
-    
-    item = i;
 }
 
 void EntityItem::onAddToLevel(Level *level) {}
 
 void EntityItem::render(int xoff, int yoff)
 {
+    if(item == nullptr || item->surface == nullptr) return;
+    if(item->texture.id == 0) item->texture = getTexture(item->surface);
+    
     SDL_Rect r = getBoundingBox();
     TRANSFORM_LEVEL_POS(r, xoff, yoff);
     //SDL_RenderCopy(renderer, item->texture, NULL, &r);
@@ -51,4 +52,24 @@ void EntityItem::pickUp()
         }
     }
     printf("Couldnt pick up item. Inventory is full\n");
+}
+
+uint32_t EntityItem::getEntitySize()
+{
+    if(item == nullptr) return sizeof(EntityData) + 4 + 5;
+    return sizeof(EntityData) + 4 + (int) strlen(item->name);
+}
+
+uint8_t *EntityItem::getSerializedEntity(uint8_t *buffer)
+{
+    Multiplayer::write<EntityData>(buffer, data);
+    if(item == nullptr || item->name == nullptr)
+    {
+        Multiplayer::writeString(buffer, "test", 4);
+    }
+    else
+    {
+        Multiplayer::writeString(buffer, item->name, (int) strlen(item->name));
+    }
+    return buffer;
 }

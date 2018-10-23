@@ -36,7 +36,7 @@ Slime::Slime(float x, float y, int level)
     {
         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_RedSlime"));
     }
-        
+            
     hurt_surface = SDL_CreateRGBSurfaceWithFormat(0, enemy_surface->w, enemy_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
     SDL_BlitSurface(enemy_surface, NULL, hurt_surface, NULL);
     

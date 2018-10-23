@@ -18,7 +18,7 @@ public:
 
 public:
     SDL_Surface *surface = nullptr;
-    gl_texture texture;    
+    gl_texture texture;
     
     inline bool operator==(Item *other) { return other == nullptr ? false : strcmp(name, other->name) == 0; };
     

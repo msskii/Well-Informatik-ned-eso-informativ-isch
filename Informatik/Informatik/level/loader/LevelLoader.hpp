@@ -32,9 +32,12 @@ namespace Loader
         
     public:
         LevelLoader(const char *path);
+        LevelLoader(uint8_t *data);
         LevelLoader(Level *level);
         
         Level *buildLevel();
+        filedata serializeLevel();
+        void deserializeLevel(uint8_t *data);
         void saveFile(const char *path);
     };
     

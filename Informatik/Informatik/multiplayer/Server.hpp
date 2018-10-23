@@ -14,20 +14,29 @@
 #include <vector>
 
 #define SERVER_PORT 5543
-#define BUFFER_SIZE 1024 * 8
 #define HEADER_SIZE 6
+#define BUFFER_SIZE 1024 * 32
 
 #define CMD_PLAYER_JOIN "pj"
 #define CMD_PLAYER_NAME "pn"
 #define CMD_PLAYER_LEAVE "pl"
 #define CMD_PLAYER_MOVE "pm"
+#define CMD_PLAYER_ACTION "pa"
+#define CMD_PLAYER_CHAT "pc" // TODO...
 
 #define CMD_ENTITY_SPAWN "ej"
-#define CMD_PLAYER_DIE "el"
+#define CMD_ENTITY_DIE "el"
 #define CMD_ENTITY_MOVE "em"
+#define CMD_ENTITY_ACTION "ea"
 
-#define CMD_BUILDING_ADD "ba"
+#define CMD_LEVEL_INIT "li"
+#define CMD_LEVEL_CHANGE "lc"
 
+#define CMD_PACKET_RECEIVED "co"
+#define CMD_SETUP_COMPLETE "cs"
+
+#define HEADER "SONM" // Start of new message
+#define FOOTER "WADH" // We are done here
 
 class Window;
 class Entity;
@@ -51,12 +60,15 @@ namespace Multiplayer
     enum MultiplayerEntities
     {
         SLIME = 0,
-        PROJECTILE,
-        EXPLOSIVE_PROJECTILE,
-        EXPLOSION,
-        PLAYER
+        PROJECTILE = 1,
+        EXPLOSIVE_PROJECTILE = 2,
+        EXPLOSION = 3,
+        PLAYER = 4,
+        NPCE = 5,
+        ITEM = 6
     };
     
+    // A basic tcp packet with the length and the data stored
     typedef struct TCP_Packet
     {
         char *data;
@@ -64,25 +76,25 @@ namespace Multiplayer
     } TCP_Packet;
     
     extern TCP_Packet createPacket(const char *cmd, const char* data, int dataLen);
-    extern int getEntitySize(MultiplayerEntities entity);
-    extern Entity *createEntityFromData(MultiplayerEntities type, uint8_t *data);
     
     class Server
     {
     private:
-        friend int handleSocket(void *data);
-        std::vector<ServerClient*> clients;
-        bool serverRunning = false;
-        Window *window;
+        friend int handleSocket(void *data); // 
+        std::vector<ServerClient*> clients; // All connected clients
+        bool serverRunning = false; // If the server is running
+        Window *window; // Local pointer to the window
         
+        // All the handler functions for the different commands
         friend void cmd_player(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
         friend void cmd_building(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
         friend void cmd_entity(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
-        TCP_Packet createClientPacket(const char *cmd, int clientID, const char* data, int dataLen);
+        
     public:
         TCPsocket tcp_server;
         
         void stopServer();
+        TCP_Packet createClientPacket(const char *cmd, int clientID, const char* data, int dataLen);
         TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
 
         void sendToAll(TCP_Packet packet);
