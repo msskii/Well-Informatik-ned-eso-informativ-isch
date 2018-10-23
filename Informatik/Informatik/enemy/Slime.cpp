@@ -13,7 +13,7 @@ Slime::Slime(float x, float y, int level)
     data.x_pos = x;
     data.y_pos = y;
     data.speed = 2 + level / 20.0f;
-    data.damage = 5.0f * level;
+    data.damage = 1.0 + 0.5f * level;
     data.maxhealth = 1.0f * level;
     data.currentHealth = 1.0f * level;
     animationHealth = 1.0f * level;
@@ -81,6 +81,7 @@ void Slime::render(int xoff, int yoff)
 void Slime::onDamage(float amount)
 {
     hurt = 10;
+    underAttack = 600;
     
 }
 
@@ -104,7 +105,7 @@ void Slime::update(const uint8_t *keys)
     if(player == nullptr) return; // No player on server
     
     float l = PLAYER_DIST(this, player);
-    if(l < agroRadius && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
+    if((l < agroRadius || (underAttack-- > 0)) && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
     {
         attackState = ATTACKING;
         set = 1;

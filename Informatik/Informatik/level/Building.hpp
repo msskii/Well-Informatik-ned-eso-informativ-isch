@@ -30,8 +30,6 @@ typedef struct BuildingData
     float hitboxYBehind;
     float hitboxsizeXBehind;
     float hitboxsizeYBehind;
-    int textureOffsetX = 0;
-    int textureOffsetY = 0;
 } BuildingData;
 
 class Level;
