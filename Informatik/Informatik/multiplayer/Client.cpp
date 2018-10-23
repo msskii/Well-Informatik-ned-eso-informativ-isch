@@ -85,7 +85,12 @@ int Multiplayer::checkCommand(Multiplayer::Client *c, int amount, uint8_t* buffe
                 e = new NPC(data - sizeof(EntityData));
                 break;
             case Multiplayer::ITEM:
-                e = new EntityItem(d.x_pos, d.y_pos, new Item(readString(data)));
+            {
+                printBuffer(data, 0x20);
+                char *name = readString(data);
+                printf("Itemname: %s\n", name);
+                e = new EntityItem(d.x_pos / TILE_SIZE, d.y_pos / TILE_SIZE, new Item(name));
+            }
                 break;
             default:
                 //printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);

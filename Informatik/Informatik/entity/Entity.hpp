@@ -21,7 +21,7 @@ enum DIRECTION
     RIGHT
 };
 
-#pragma pack(push)
+#pragma pack(push, 1)
 typedef struct EntityData
 {
     float x_pos = 0;

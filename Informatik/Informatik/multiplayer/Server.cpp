@@ -252,7 +252,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
                 window->level->entities[i]->getSerializedEntity(entityData + 12); // Store entity stuff
                 
                 // Send entity
-                p = createServerPacket(CMD_ENTITY_SPAWN, (char*) entityData, entSize);
+                p = createServerPacket(CMD_ENTITY_SPAWN, (char*) entityData, entSize + 12);
                 SDLNet_TCP_Send(client, p.data, p.dataLen);
                 
                 TCP_Packet p2 = receivePacket(c->socket, BUFFER_SIZE);

@@ -20,7 +20,8 @@ ItemSlot::ItemSlot(InventoryElement element) : renderItem(element)
 
 void ItemSlot::render()
 {
-    if(renderItem.item->texture.id == 0 && renderItem.item->surface != nullptr) renderItem.item->texture = getTexture(renderItem.item->surface);
+    if(renderItem.item == nullptr || renderItem.item->surface == nullptr) return;
+    if(renderItem.item->texture.id == 0) renderItem.item->texture = getTexture(renderItem.item->surface);
     
     SDL_Rect bck = {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER};
     fillRect(hoverOver ? 0xFFAAAAAA : 0xFFFFFFFF, bck);
