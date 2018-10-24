@@ -117,22 +117,22 @@ void Building::render(int xoffset, int yoffset)
         case 0:
             if(level != nullptr && level->window != nullptr)
             {
-                level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 210.0f, 10.0f, 0xFF000000, 1.0f, 0.0);
-                level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 206.0f, 20.0f, 0xFFFFFF00, 0.2f, 1.0);
+                level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 210.0f, 10.0f, 0xFF000000, 1.0f, 0.0f);
+                level->window->lights.addLight((float) dst.x + 40.0f, (float) dst.y + 206.0f, 20.0f, 0xFFFFFF00, 0.2f, 1.0f);
             }
             break;
         case 1:
             if(level != nullptr && level->window != nullptr)
             {
-                level->window->lights.addLight((float) dst.x + (1.15 * 64.0), (float) dst.y + (5.8 * 64.0), 10.0f, 0xFF000000, 1.0f, 0.0);
-                level->window->lights.addLight((float) dst.x + (1.15 * 64.0), (float) dst.y + (5.8 * 64.0), 20.0f, 0xFFFFFF00, 0.2f, 1.0);
+                level->window->lights.addLight((float) dst.x + (1.15f * 64.0f), (float) dst.y + (5.8f * 64.0f), 10.0f, 0xFF000000, 1.0f, 0.0f);
+                level->window->lights.addLight((float) dst.x + (1.15f * 64.0f), (float) dst.y + (5.8f * 64.0f), 20.0f, 0xFFFFFF00, 0.2f, 1.0f);
             }
             break;
         case 2:
             if(level != nullptr && level->window != nullptr)
             {
-                level->window->lights.addLight((float) dst.x + (8.7 * 64.0), (float) dst.y + (5.45 * 64.0), 10.0f, 0xFF000000, 1.0f, 0.0);
-                level->window->lights.addLight((float) dst.x + (8.7 * 64.0), (float) dst.y + (5.45 * 64.0), 200.0f, 0xFFFFFF00, 0.2f, 1.0);
+                level->window->lights.addLight((float) dst.x + (8.7f * 64.0f), (float) dst.y + (5.45f * 64.0f), 10.0f, 0xFF000000, 1.0f, 0.0f);
+                level->window->lights.addLight((float) dst.x + (8.7f * 64.0f), (float) dst.y + (5.45f * 64.0f), 200.0f, 0xFFFFFF00, 0.2f, 1.0f);
             }
             break;
             

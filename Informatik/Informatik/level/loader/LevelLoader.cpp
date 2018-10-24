@@ -73,7 +73,7 @@ Loader::LevelLoader::LevelLoader(const char *path)
     uint8_t *levelFile = readFile(path).data;
     if(levelFile == nullptr) return;
     
-    
+	deserializeLevel(levelFile);
 }
 
 Loader::LevelLoader::LevelLoader(uint8_t *data)
@@ -100,7 +100,7 @@ void Loader::LevelLoader::deserializeLevel(uint8_t *levelFile)
         
         uint32_t numbuildings = read<int>(levelFile);
         Building *buildings = (Building*) malloc(sizeof(Building) * numbuildings); // Don't call constructor... so no constructor is needed
-        for(int i = 0; i < numbuildings; i++) buildings[i] = Building(read<BuildingData>(levelFile), level);
+        for(uint64_t i = 0; i < numbuildings; i++) buildings[i] = Building(read<BuildingData>(levelFile), level);
         
         level->audioFile = readString(levelFile);
         level->textFile = readString(levelFile);
@@ -128,14 +128,14 @@ filedata Loader::LevelLoader::serializeLevel()
     int size = level->getLevelSize() + level->getEventSize() + 4; // level tiles
     
     uint8_t *levelFile = (uint8_t *) malloc(size);
-    write<int>(levelFile, (int) LOADER_VERSION);
+    write<int32_t>(levelFile, (int) LOADER_VERSION);
     
-    write<int>(levelFile, level->width);
-    write<int>(levelFile, level->height);
+    write<int32_t>(levelFile, level->width);
+    write<int32_t>(levelFile, level->height);
     for(int i = 0; i < (int)(level->width * level->height); i++) write<TileData>(levelFile, level->tiles[i].data);
     
-    write<int>(levelFile, (int) level->buildings.size());
-    for(int i = 0; i < level->buildings.size(); i++) write<BuildingData>(levelFile, level->buildings[i]->data);
+    write<int32_t>(levelFile, (int) level->buildings.size());
+    for(uint32_t i = 0; i < level->buildings.size(); i++) write<BuildingData>(levelFile, level->buildings[i]->data);
     
     // Paths
     writeString(levelFile, level->audioFile.c_str(), (int) level->audioFile.size());

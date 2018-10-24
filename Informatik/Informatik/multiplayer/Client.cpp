@@ -14,8 +14,8 @@ void Multiplayer::checkCommand(Multiplayer::Client *c, int amount, uint8_t* buff
     if(!strcmp(cmd, CMD_PLAYER_MOVE))
     {
         if(!c->otherPlayers[uuid] || !c->otherPlayers[uuid]->connected) return; // This player is not connected!?
-        c->otherPlayers[uuid]->data.x_pos = ((uint32_t*) (data))[0];
-        c->otherPlayers[uuid]->data.y_pos = ((uint32_t*) (data))[1];
+        c->otherPlayers[uuid]->data.x_pos = (float) ((uint32_t*) (data))[0];
+        c->otherPlayers[uuid]->data.y_pos = (float) ((uint32_t*) (data))[1];
         
         c->otherPlayers[uuid]->walking = ((uint8_t*) (data + 8))[0];
         c->otherPlayers[uuid]->anim = ((uint8_t*) (data + 8))[1];
@@ -32,7 +32,7 @@ void Multiplayer::checkCommand(Multiplayer::Client *c, int amount, uint8_t* buff
             c->otherPlayers[id]->connected = true;
             c->otherPlayers[id]->data.x_pos = (float) read<uint32_t>(data);
             c->otherPlayers[id]->data.y_pos = (float) read<uint32_t>(data);
-            c->otherPlayers[id]->nameLen = (float) read<uint32_t>(data);
+            c->otherPlayers[id]->nameLen = read<uint32_t>(data);
             c->otherPlayers[id]->name = (char*) malloc(c->otherPlayers[id]->nameLen + 1);
             memcpy(c->otherPlayers[id]->name, data, c->otherPlayers[id]->nameLen);
             c->otherPlayers[id]->name[c->otherPlayers[id]->nameLen] = 0;
@@ -241,7 +241,7 @@ void Multiplayer::Client::addRemotePlayers(Level *level)
     for(int i = 0; i < (int) playersToRemove.size(); i++)
     {
         level->removeEntity(playersToRemove[i]);
-        for(int index = 0; index < level->activePlayers.size(); index++)
+        for(uint32_t index = 0; index < level->activePlayers.size(); index++)
         {
             if(level->activePlayers[i] == playersToRemove[i])
             {

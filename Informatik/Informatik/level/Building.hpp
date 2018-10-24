@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 
+#pragma pack(push, 1)
 typedef struct BuildingData
 {
     uint16_t buildingNumber;
@@ -31,6 +32,7 @@ typedef struct BuildingData
     float hitboxsizeXBehind;
     float hitboxsizeYBehind;
 } BuildingData;
+#pragma pack(pop)
 
 class Level;
 

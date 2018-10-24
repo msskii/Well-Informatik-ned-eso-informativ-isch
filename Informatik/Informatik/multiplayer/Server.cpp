@@ -190,22 +190,15 @@ Multiplayer::Server::Server(Window *w) : window(w)
             // Pack the level into a packet
             TCP_Packet levelPacket = createServerPacket(CMD_LEVEL_INIT, (const char*) level.data, (uint32_t) level.filesize);
 
-            int sent = 0;
-            while(sent < levelPacket.dataLen)
+            SDLNet_TCP_Send(client, (const char*) levelPacket.data, (int) fmin(BUFFER_SIZE, (uint32_t) levelPacket.dataLen)); // Finally send the level
+            TCP_Packet p = receivePacket(c->socket, BUFFER_SIZE);
+            while(memcmp(p.data + 4, CMD_PACKET_RECEIVED, 2)) // Control OK
             {
-                sent += SDLNet_TCP_Send(client, (const char*) (levelPacket.data + sent), (int) fmin(BUFFER_SIZE, (uint32_t) levelPacket.dataLen - sent)); // Finally send the level
-                printf("[INFO] Sending data... %d done\n", sent);
-                
-                TCP_Packet p = receivePacket(c->socket, BUFFER_SIZE);
-                while(memcmp(p.data + 4, CMD_PACKET_RECEIVED, 2)) // Control OK
-                {
-                    // The client didn't ack???
-                    printf("[WARN] No ack (%s)! This might be a lost packet!\n", p.data + 4);
-                    p = receivePacket(c->socket, BUFFER_SIZE);
-                }
-                free(p.data);
+                // The client didn't ack???
+                printf("[WARN] No ack (%s)! This might be a lost packet!\n", p.data + 4);
+				p = receivePacket(c->socket, BUFFER_SIZE);
             }
-            
+            free(p.data);
             free(levelPacket.data);
             
             // Sync players on server & on clients
@@ -226,9 +219,9 @@ Multiplayer::Server::Server(Window *w) : window(w)
             printf("[INFO] Sending %d bytes of client data\n", off);
 
             // Send all players to the one just connected
-            TCP_Packet p = (createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, len));
-            SDLNet_TCP_Send(client, p.data, p.dataLen);
-            free(p.data);
+            TCP_Packet jp = (createServerPacket(CMD_PLAYER_JOIN, (char*) clientData, len));
+            SDLNet_TCP_Send(client, jp.data, jp.dataLen);
+            free(jp.data);
 
             // Send all players that one that connected
             clientData = (uint8_t*) realloc(clientData, 4 * 4 + c->namelen);

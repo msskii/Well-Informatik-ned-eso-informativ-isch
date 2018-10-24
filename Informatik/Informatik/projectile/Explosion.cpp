@@ -9,7 +9,7 @@
 #include "Explosion.hpp"
 #include "../level/Level.hpp"
 
-Explosion::Explosion(float x, float y, float explosionStrength) : Projectile(x, y, PI / 4.0f), strength(explosionStrength)
+Explosion::Explosion(float x, float y, float explosionStrength) : Projectile(x, y, (float) PI / 4.0f), strength(explosionStrength)
 {
     maxRadius = explosionStrength;
     surface = IMG_Load(GET_TEXTURE_PATH("projectiles/flame_anim")); // Same as other arrow

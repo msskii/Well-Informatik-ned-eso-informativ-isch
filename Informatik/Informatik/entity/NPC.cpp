@@ -68,7 +68,7 @@ void NPC::createEvent()
 uint32_t NPC::getEntitySize()
 {
     int textsize = 4; // Amount of texts
-    for(int i = 0; i < texts.size(); i++) textsize += 12 + strlen(texts[i].text);
+    for(uint32_t i = 0; i < texts.size(); i++) textsize += 12 + strlen(texts[i].text);
     return sizeof(EntityData) + textsize + sizeof(NPCAnimation);
 }
 
@@ -76,7 +76,7 @@ uint8_t *NPC::getSerializedEntity(uint8_t* buffer)
 {
     Multiplayer::write<EntityData>(buffer, data);
     Multiplayer::write<uint32_t>(buffer, (uint32_t) texts.size());
-    for(int i = 0; i < texts.size(); i++)
+    for(uint32_t i = 0; i < texts.size(); i++)
     {
         Multiplayer::write<uint32_t>(buffer, texts[i].timesDisplayed);
         Multiplayer::write<uint32_t>(buffer, texts[i].eventTriggered);

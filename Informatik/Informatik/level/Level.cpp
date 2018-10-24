@@ -6,7 +6,24 @@
 //  Copyright © 2018 Aaron Hodel. All rights reserved.
 //
 
-#include <unistd.h>
+#if defined(_WIN32) || defined(_WIN64)
+#  include <Windows.h>
+void usleep(__int64 usec)
+{
+	HANDLE timer;
+	LARGE_INTEGER ft;
+
+	ft.QuadPart = -(10 * usec); // Convert to 100 nanosecond interval, negative value indicates relative time
+
+	timer = CreateWaitableTimer(NULL, TRUE, NULL);
+	SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0);
+	WaitForSingleObject(timer, INFINITE);
+	CloseHandle(timer);
+}
+#else
+#  include <unistd.h>
+#endif
+
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
@@ -69,7 +86,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     // Create texture
     srfc = SDL_CreateRGBSurfaceWithFormat(0, TILE_SIZE * width, TILE_SIZE * height, 32, SDL_PIXELFORMAT_ARGB8888);
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
-    for(int i = 0; i < width * height; i++)
+    for(uint64_t i = 0; i < width * height; i++)
     {
         dst.x = tiles[i].xcoord * TILE_SIZE;
         dst.y = tiles[i].ycoord * TILE_SIZE;
@@ -271,7 +288,7 @@ void Level::update()
             serverAdded.pop_back();
         }
         size = (int) serverRemoved.size();
-        for(int j = 0; j < entities.size(); j++)
+        for(uint32_t j = 0; j < entities.size(); j++)
         {
             for(int i = 0; i < size; i++)
             {
@@ -279,6 +296,8 @@ void Level::update()
                 {
                     entities.erase(entities.begin() + j);
                     serverRemoved.pop_back();
+					--j; // Skip this entity in the range
+					--size; // We need to check one less
                     break;
                 }
             }
@@ -365,7 +384,7 @@ void Level::updateTiles()
 {
     deleteTexture(level_texture);
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
-    for(int i = 0; i < width * height; i++)
+    for(uint64_t i = 0; i < width * height; i++)
     {
         dst.x = tiles[i].xcoord * TILE_SIZE;
         dst.y = tiles[i].ycoord * TILE_SIZE;

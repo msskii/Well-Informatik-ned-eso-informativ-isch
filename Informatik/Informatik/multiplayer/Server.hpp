@@ -35,8 +35,8 @@
 #define CMD_PACKET_RECEIVED "co"
 #define CMD_SETUP_COMPLETE "cs"
 
-#define HEADER "SONM" // Start of new message
-#define FOOTER "WADH" // We are done here
+#define HEADER "SOM\xF1" // Start of message
+#define FOOTER "WAD\xF2" // We are done
 
 class Window;
 class Entity;

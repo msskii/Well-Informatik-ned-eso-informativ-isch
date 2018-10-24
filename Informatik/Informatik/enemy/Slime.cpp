@@ -13,7 +13,7 @@ Slime::Slime(float x, float y, int level)
     data.x_pos = x;
     data.y_pos = y;
     data.speed = 2 + level / 20.0f;
-    data.damage = 1.0 + 0.5f * level;
+    data.damage = 1.0f + 0.5f * level;
     data.maxhealth = 1.0f * level;
     data.currentHealth = 1.0f * level;
     animationHealth = 1.0f * level;

@@ -199,6 +199,7 @@
     <ClCompile Include="multiplayer\Client.cpp" />
     <ClCompile Include="multiplayer\RemotePlayer.cpp" />
     <ClCompile Include="multiplayer\Server.cpp" />
+    <ClCompile Include="multiplayer\ServerCommandHandlers.cpp" />
     <ClCompile Include="multiplayer\ServerSelector.cpp" />
     <ClCompile Include="projectile\ExplodingProjectile.cpp" />
     <ClCompile Include="projectile\Explosion.cpp" />
@@ -261,6 +262,7 @@
     <ClInclude Include="multiplayer\Client.hpp" />
     <ClInclude Include="multiplayer\RemotePlayer.hpp" />
     <ClInclude Include="multiplayer\Server.hpp" />
+    <ClInclude Include="multiplayer\ServerCommandHandlers.hpp" />
     <ClInclude Include="multiplayer\ServerSelector.hpp" />
     <ClInclude Include="projectile\ExplodingProjectile.hpp" />
     <ClInclude Include="projectile\Explosion.hpp" />

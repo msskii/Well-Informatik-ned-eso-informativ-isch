@@ -12,7 +12,7 @@
 #include <math.h>
 #include "../../level/Level.hpp"
 
-#define MAX_SPEED 0.6
+#define MAX_SPEED 0.6f
 
 Fireflies::Fireflies(float x, float y)
 {
@@ -31,7 +31,7 @@ void Fireflies::render(int xoff, int yoff)
     for(int i = 0; i < Flycount; i++)
     {
         int fly = i * 4;
-        level->window->lights.addLight((float) r.x + flypos[fly], (float) r.y + flypos[fly+1], 10.0f, 0xFF00A0FF, 0.03, 1.0);
+        level->window->lights.addLight((float) r.x + flypos[fly], (float) r.y + flypos[fly+1], 10.0f, 0xFF00A0FF, 0.03f, 1.0f);
     }
 }
 
@@ -62,13 +62,13 @@ void Fireflies::onAddToLevel(Level *level)
     {
         int fly = i * 4;
         //x
-        flypos[fly] = (rand() % 32) + 16;
+        flypos[fly] = (float) (rand() % 32) + 16.0f;
         //y
-        flypos[fly+1] = (rand() % 32) + 16;
+        flypos[fly+1] = (float) (rand() % 32) + 16.0f;
         //dx
-        flypos[fly+2] = (rand() % 100) / 100.0f;
+        flypos[fly+2] = (float) (rand() % 100) / 100.0f;
         //dy
-        flypos[fly+3] = (rand() % 100) / 100.0f;
+        flypos[fly+3] = (float) (rand() % 100) / 100.0f;
     }
 }
 
