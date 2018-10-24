@@ -6,6 +6,7 @@
 //  Copyright © 2018 Aaron Hodel. All rights reserved.
 //
 
+#include <unistd.h>
 #include "Level.hpp"
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
@@ -137,9 +138,9 @@ void Level::addEntity(Entity *e, int id)
     e->addedToLevel(this);
     entities.push_back(e);
     
-    if(onServer)
+    if(!onServer && remoteLevel)
     {
-        // Send to clients
+        // Send to server
         
     }
 }
@@ -147,6 +148,28 @@ void Level::addEntity(Entity *e, int id)
 void Level::removeEntity(Entity *e)
 {
     for(int i = 0; i < (int) entities.size(); i++) if(entities[i] == e) entities.erase(entities.begin() + i);
+    
+    if(!onServer && remoteLevel) // Inform server about this!
+    {
+        uint8_t *idbuf = (uint8_t*) malloc(4);
+        Multiplayer::write(idbuf, e->entityID);
+        idbuf -= 4; // Go back to start
+        
+        clientConnector->sendToServer(Multiplayer::createPacket(CMD_ENTITY_DIE, (char*) idbuf, 4));
+        clientConnector->timeout = true;
+        while(clientConnector->timeout)
+        {
+            usleep(100); // Sleep 100 microseconds
+        }
+    }
+    else if(onServer)
+    {
+        // Send stuff to all clients
+        uint8_t *idbuf = (uint8_t*) malloc(4);
+        Multiplayer::write(idbuf, e->entityID);
+        idbuf -= 4; // Go back to start
+        server->sendToAll(Multiplayer::createServerPacket(CMD_ENTITY_DIE, (char*) idbuf, 4));
+    }
 }
 
 int Level::getEventSize()
@@ -238,8 +261,33 @@ void Level::render() // and update
 
 void Level::update()
 {
+    if(remoteLevel)
+    {
+        entityLock.lock();
+        int size = (int) serverAdded.size();
+        for(int i = 0; i < size; i++)
+        {
+            entities.push_back(serverAdded.back());
+            serverAdded.pop_back();
+        }
+        size = (int) serverRemoved.size();
+        for(int j = 0; j < entities.size(); j++)
+        {
+            for(int i = 0; i < size; i++)
+            {
+                if(entities[j]->entityID == serverRemoved[i])
+                {
+                    entities.erase(entities.begin() + j);
+                    serverRemoved.pop_back();
+                    break;
+                }
+            }
+        }
+        entityLock.unlock();
+    }
+    
     if(remoteLevel && !onServer) return; // Don't update here, it's on the server
-
+    
     for(int i = 0; i < (int) events.size(); i++)
     {
         if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == GAME_LOOP) events[i]->trigger(GAME_LOOP, this);
@@ -269,11 +317,11 @@ void Level::update()
             if(dynamic_cast<Slime*>(entities[i]) != nullptr)
             {
                 ((uint32_t*) data)[3] = (int) ((Slime*) entities[i])->anim;
-                packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 4 * 4);
+                packet = Multiplayer::createServerPacket(CMD_ENTITY_MOVE, (char*) data, 4 * 4);
             }
             else
             {
-                packet = server->createServerPacket(CMD_ENTITY_MOVE, (char*) data, 3 * 4);
+                packet = Multiplayer::createServerPacket(CMD_ENTITY_MOVE, (char*) data, 3 * 4);
             }
             server->sendToAll(packet);
             free(packet.data);

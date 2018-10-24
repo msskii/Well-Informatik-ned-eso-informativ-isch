@@ -39,12 +39,16 @@ private:
 public:
     uint32_t width, height; // 4 byte integers --> normal ints on most platforms
     std::vector<Event*> events; // The events in this level
+    std::mutex entityLock; // Locks the entities because the server might interfere with them
+    std::vector<Entity*> serverAdded; // The entites clients have spawned
+    std::vector<int> serverRemoved; // The entities clients have removed
+    
     std::vector<Entity*> entities; // The entities in the level
     Tile *tiles; // The tiles
     std::vector<Building*> buildings;
     
-    bool remoteLevel = false;
-    bool onServer = false;
+    bool remoteLevel = false; // If the level is on a remote host (Server)
+    bool onServer = false; // If this level is run on the server
 
     Multiplayer::Server *server = nullptr;
     Multiplayer::Client *clientConnector = nullptr;

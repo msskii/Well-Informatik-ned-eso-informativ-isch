@@ -14,7 +14,7 @@
 #include <vector>
 
 #define SERVER_PORT 5543
-#define HEADER_SIZE 6
+#define HEADER_SIZE 16
 #define BUFFER_SIZE 1024 * 32
 
 #define CMD_PLAYER_JOIN "pj"
@@ -52,8 +52,8 @@ namespace Multiplayer
         // Other stuff will go here like name, id and such
         
         int x = 0, y = 0;
-        int namelen;
-        char *name;
+        int namelen = 4;
+        char *name = (char*) "abc";
     } ServerClient;
     
     // Ints
@@ -65,7 +65,8 @@ namespace Multiplayer
         EXPLOSION = 3,
         PLAYER = 4,
         NPCE = 5,
-        ITEM = 6
+        ITEM = 6,
+        FIREFLY = 7
     };
     
     // A basic tcp packet with the length and the data stored
@@ -76,7 +77,11 @@ namespace Multiplayer
     } TCP_Packet;
     
     extern TCP_Packet createPacket(const char *cmd, const char* data, int dataLen);
-    
+    extern TCP_Packet createClientPacket(const char *cmd, int clientID, const char* data, int dataLen);
+    extern TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
+
+    extern TCP_Packet ACK_PKG;
+
     class Server
     {
     private:
@@ -94,8 +99,6 @@ namespace Multiplayer
         TCPsocket tcp_server;
         
         void stopServer();
-        TCP_Packet createClientPacket(const char *cmd, int clientID, const char* data, int dataLen);
-        TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
 
         void sendToAll(TCP_Packet packet);
         void broadcast(ServerClient *sender, TCP_Packet packet);

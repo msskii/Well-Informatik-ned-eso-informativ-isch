@@ -17,6 +17,8 @@ namespace Multiplayer
 {
     extern int clientID; // 0 is the server
     extern std::map<int, Multiplayer::RemotePlayer*> activePlayers;
+    extern Entity *deserializeEntity(uint8_t *data);
+    extern void waitForAck(TCPsocket socket, Server *server);
     
     extern void cmd_player(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);
     extern void cmd_building(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int len);

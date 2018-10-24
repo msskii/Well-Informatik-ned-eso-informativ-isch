@@ -37,9 +37,10 @@ namespace Multiplayer
 
 	public:
         bool connectionEstablished = false;
+        bool timeout = false; // Waiting for ack
         Client(Window *window, const char *address, std::string name); // Set up stuff & start receiver
 
-        friend int checkCommand(Client *c, int amount, uint8_t* buffer, char *cmd, uint32_t uuid, uint8_t *data);
+        friend void checkCommand(Client *c, int amount, uint8_t* buffer, char *cmd, uint32_t uuid, uint8_t *data);
         
         void updatePlayerPos(int xpos, int ypos, uint8_t animationSet, uint8_t anim, uint8_t direction);
 		//void render(int xoff, int yoff);

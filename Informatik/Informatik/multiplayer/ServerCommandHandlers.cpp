@@ -8,9 +8,66 @@
 
 #include "ServerCommandHandlers.hpp"
 #include "../graphics/Window.hpp"
+#include "Server.hpp"
 
 int Multiplayer::clientID = 1; // 0 is the server
 std::map<int, Multiplayer::RemotePlayer*> Multiplayer::activePlayers; // All the active players on the server
+
+Entity *Multiplayer::deserializeEntity(uint8_t *data)
+{
+    Multiplayer::MultiplayerEntities entityNum = (Multiplayer::MultiplayerEntities) read<int>(data); // The type
+    int entityID = read<int>(data); // Entity ID
+    int entitySize = read<int>(data); // Size in bytes of this entity
+    printf("[INFO] Entity with type: %d and id %d and Size %d spawned\n", entityNum, entityID, entitySize);
+    
+    Entity *e = nullptr;
+    EntityData d = read<EntityData>(data);
+    
+    switch(entityNum)
+    {
+        case Multiplayer::SLIME:
+            e = new Slime(d.x_pos, d.y_pos, (int) d.maxhealth);
+            break;
+        case Multiplayer::PROJECTILE:
+            e = new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
+            break;
+        case Multiplayer::PLAYER:
+            e = nullptr;
+            break;
+        case Multiplayer::NPCE:
+            printf("Constructing new NPC...\n");
+            e = new NPC(data - sizeof(EntityData));
+            break;
+        case Multiplayer::ITEM:
+        {
+            //printBuffer(data, 0x20);
+            char *name = readString(data);
+            e = new EntityItem(d.x_pos / TILE_SIZE, d.y_pos / TILE_SIZE, new Item(name));
+        }
+            break;
+        case Multiplayer::FIREFLY:
+            e = new Fireflies(d.x_pos, d.y_pos);
+            break;
+        default:
+            //printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);
+            e = new Projectile(d.x_pos, d.y_pos, 0);
+            break;
+    }
+    if(e) e->entityID = entityID;
+    return e;
+}
+
+void Multiplayer::waitForAck(TCPsocket socket, Server *server)
+{
+    
+    TCP_Packet p2 = server->receivePacket(socket, BUFFER_SIZE);
+    while(p2.data[4] != 'c' || p2.data[5] != 'o') // Control OK
+    {
+        // THe client didn't ack???
+        printf("[WARN] No ack (%s)! This might be a lost packet!\n", p2.data + 4);
+    }
+    free(p2.data);
+}
 
 // The handler for player commands
 void Multiplayer::cmd_player(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int dataLength)
@@ -24,16 +81,33 @@ void Multiplayer::cmd_player(Server *server, ServerClient *client, uint8_t *buff
         activePlayers[client->clientID]->anim = *((uint8_t*) (data + 9));
         activePlayers[client->clientID]->direction = *((uint8_t*) (data + 10));
         server->window->level->activePlayerLock.unlock();
-        server->broadcast(client, {(char*) buffer, dataLength});
+        server->broadcast(client, Multiplayer::createClientPacket(CMD_PLAYER_MOVE, client->clientID, (char*) data, 11));
     }
 }
 
 // Handler for entity commands
 void Multiplayer::cmd_entity(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int dataLength)
 {
-    if(buffer[5] == 'm')
+    if(buffer[5] == 'm') // Move Entity
     {
         server->broadcast(client, {(char*) buffer, dataLength}); // Send the data to all
+    }
+    else if(buffer[5] == 'j') // Spawn Entity
+    {
+        server->window->level->entityLock.lock();
+        server->window->level->serverAdded.push_back(deserializeEntity(buffer + 6));
+        server->window->level->entityLock.unlock();
+        server->broadcast(client, Multiplayer::createClientPacket(CMD_ENTITY_SPAWN, client->clientID, (char*) data, dataLength));
+    }
+    else if(buffer[5] == 'l') // Delete entity (Leave)
+    {
+        buffer += 6;
+        server->window->level->entityLock.lock();
+        int eid = read<int>(buffer);
+        server->window->level->serverRemoved.push_back(eid);
+        server->window->level->entityLock.unlock();
+        server->broadcast(client, Multiplayer::createClientPacket(CMD_ENTITY_DIE, client->clientID, (char*) data, dataLength));
+        client->sendTo((uint8_t*) ACK_PKG.data, ACK_PKG.dataLen);
     }
 }
 

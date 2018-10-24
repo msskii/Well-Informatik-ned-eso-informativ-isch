@@ -11,6 +11,8 @@
 #include "../level/Level.hpp"
 #include "ServerCommandHandlers.hpp"
 
+Multiplayer::TCP_Packet Multiplayer::ACK_PKG = Multiplayer::createServerPacket(CMD_PACKET_RECEIVED, "coco", 0);
+
 Multiplayer::MultiplayerEntities getEntityType(Entity *e)
 {
     if(dynamic_cast<Slime*>(e) != nullptr) return Multiplayer::SLIME;
@@ -20,6 +22,7 @@ Multiplayer::MultiplayerEntities getEntityType(Entity *e)
     else if(dynamic_cast<Player*>(e) != nullptr) return Multiplayer::PLAYER;
     else if(dynamic_cast<NPC*>(e) != nullptr) return Multiplayer::NPCE;
     else if(dynamic_cast<EntityItem*>(e) != nullptr) return Multiplayer::ITEM;
+    else if(dynamic_cast<Fireflies*>(e) != nullptr) return Multiplayer::FIREFLY;
 
     //printf("Entity type not found... Perhaps the archives are incomplete\n");
     return Multiplayer::PROJECTILE;
@@ -45,7 +48,7 @@ int Multiplayer::handleSocket(void *data)
         if(amount <= 0)
         {
             client->active = false;
-            server->sendToAll(server->createClientPacket(CMD_PLAYER_LEAVE, client->clientID, NULL, 0));
+            server->sendToAll(Multiplayer::createClientPacket(CMD_PLAYER_LEAVE, client->clientID, NULL, 0));
             printf("[INFO] Client disconnected... (Error of SDLnet: %s)\n", SDLNet_GetError());
             return 0;
         }
@@ -61,8 +64,6 @@ int Multiplayer::handleSocket(void *data)
                 if(++consumed >= BUFFER_SIZE) break; // Wait for header
             }
             if(memcmp(buffer + consumed, HEADER, 4)) break;
-            
-            ((uint32_t*) (buffer + consumed))[0] = client->clientID;
             
             int len = consumed;
             while(memcmp(buffer + consumed, FOOTER, 4))
@@ -87,8 +88,10 @@ int Multiplayer::handleSocket(void *data)
             
             int c1 = consumed;
             buffer += c1;
-            cmd[0] = buffer[4];
-            cmd[1] = buffer[5];
+            cmd[0] = buffer[4 + consumed];
+            cmd[1] = buffer[5 + consumed];
+            
+            ((uint32_t*) (buffer + consumed))[0] = client->clientID;
             
             switch(cmd[0])
             {
@@ -160,12 +163,13 @@ Multiplayer::Server::Server(Window *w) : window(w)
             
             Multiplayer::ServerClient *c = new Multiplayer::ServerClient();
             
-            uint32_t namelen = *((uint32_t*)(joinmsg.data + 4));
-            TCP_Packet n = receivePacket(client, namelen + 1); // Receive next packet with name
+            uint32_t namelen = *((uint32_t*)(joinmsg.data + 8));
+            TCP_Packet n = receivePacket(client, namelen + 17); // Receive next packet with name
             n.data[n.dataLen - 1] = 0; // Null terminator
             
             c->namelen = namelen;
-            c->name = (char*) (n.data + 2);
+            c->name = (char*) (n.data + 14);
+            c->name[c->namelen] = 0;
             c->socket = client;
             c->clientID = clientID++;
             c->active = true;
@@ -190,13 +194,14 @@ Multiplayer::Server::Server(Window *w) : window(w)
             while(sent < levelPacket.dataLen)
             {
                 sent += SDLNet_TCP_Send(client, (const char*) (levelPacket.data + sent), (int) fmin(BUFFER_SIZE, (uint32_t) levelPacket.dataLen - sent)); // Finally send the level
-                printf("Sending data... %d done\n", sent);
+                printf("[INFO] Sending data... %d done\n", sent);
                 
                 TCP_Packet p = receivePacket(c->socket, BUFFER_SIZE);
                 while(memcmp(p.data + 4, CMD_PACKET_RECEIVED, 2)) // Control OK
                 {
                     // The client didn't ack???
                     printf("[WARN] No ack (%s)! This might be a lost packet!\n", p.data + 4);
+                    p = receivePacket(c->socket, BUFFER_SIZE);
                 }
                 free(p.data);
             }
@@ -259,7 +264,7 @@ Multiplayer::Server::Server(Window *w) : window(w)
                 while(p2.data[4] != 'c' || p2.data[5] != 'o') // Control OK
                 {
                     // THe client didn't ack???
-                    printf("[WARN] No ack (%s)! This might be a lost packet!\n", p.data + 4);
+                    printf("[WARN] No ack (%s)! This might be a lost packet!\n", p2.data + 4);
                 }
                 free(p2.data);
                 
@@ -326,7 +331,7 @@ Multiplayer::TCP_Packet Multiplayer::createPacket(const char *cmd, const char *d
     return packet;
 }
 
-Multiplayer::TCP_Packet Multiplayer::Server::createClientPacket(const char *cmd, int clientID, const char *data, int dataLen)
+Multiplayer::TCP_Packet Multiplayer::createClientPacket(const char *cmd, int clientID, const char *data, int dataLen)
 {
     uint8_t* d = (uint8_t*) malloc(dataLen + 14);
     memcpy(d, HEADER, 4);
@@ -341,7 +346,7 @@ Multiplayer::TCP_Packet Multiplayer::Server::createClientPacket(const char *cmd,
     return packet;
 }
 
-Multiplayer::TCP_Packet Multiplayer::Server::createServerPacket(const char *cmd, const char *data, int dataLen)
+Multiplayer::TCP_Packet Multiplayer::createServerPacket(const char *cmd, const char *data, int dataLen)
 {
     uint8_t* d = (uint8_t*) malloc(dataLen + 14);
     memcpy(d, HEADER, 4);
