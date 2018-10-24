@@ -88,10 +88,10 @@ int Multiplayer::handleSocket(void *data)
             
             int c1 = consumed;
             buffer += c1;
-            cmd[0] = buffer[4 + consumed];
-            cmd[1] = buffer[5 + consumed];
+            cmd[0] = buffer[4];
+            cmd[1] = buffer[5];
             
-            ((uint32_t*) (buffer + consumed))[0] = client->clientID;
+            ((uint32_t*) (buffer))[0] = client->clientID;
             
             switch(cmd[0])
             {
@@ -106,7 +106,7 @@ int Multiplayer::handleSocket(void *data)
                     cmd_building(server, client, buffer, buffer + 6, len);
                     break;
                 default:
-                    printf("[WARNING] Unknown command: %s\n", buffer);
+                    printf("[WARNING] Unknown command: %s\n", cmd);
                     break;
             }
             
