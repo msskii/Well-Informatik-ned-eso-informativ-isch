@@ -193,6 +193,11 @@ void Window::runGameLoop()
     setupGL();
     setScreenSize(width, height);
     
+    // Macos 10.14 fix
+    nextFrame();
+    SDL_SetWindowPosition(window, 0, 0);
+    SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+
     while(running)
     {
         if(!establishingConnection) nextFrame(); // Draw next frame
