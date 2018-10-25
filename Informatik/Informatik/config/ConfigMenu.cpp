@@ -18,7 +18,11 @@ void buttonHandler(Menu *menu, Button* button)
     
     ConfigMenu *m = (ConfigMenu*) menu;
     
-    for(unsigned int i = 0; i < m->keys.size(); i++) m->loader->set(m->keys[i]->text, m->values[i]->currentText.c_str());
+    for(unsigned int i = 0; i < m->keys.size(); i++)
+    {
+        if(!memcmp(m->keys[i]->text, "button.", 7)) m->loader->set(m->keys[i]->text, ((KeyConfigBox*)(m->values[i]))->toStore.c_str());
+        else m->loader->set(m->keys[i]->text, m->values[i]->currentText.c_str());
+    }
     m->loader->save();
     m->window->reloadConfig();
     menu->close();
@@ -31,7 +35,11 @@ ConfigMenu::ConfigMenu(ConfigLoader *loader)
     for(auto it = loader->values.begin(); it != loader->values.end(); it++)
     {
         keys.push_back((Text*) addElement(new Text(it->first.c_str(), 0, y * 100, 400, 100)));
-        TextBox* tb = (TextBox*) addElement(new TextBox(it->second.c_str(), 500, y * 100, GAME_WIDTH - 500, 100, 0));
+
+        TextBox *tb;
+        if(!memcmp(it->first.c_str(), "button.", 7)) tb = (TextBox*) addElement(new KeyConfigBox((SDL_Keycode) std::stoi(it->second.c_str()), 500, y * 100, GAME_WIDTH - 500, 100, 0));
+        else tb = (TextBox*) addElement(new TextBox(it->second.c_str(), 500, y * 100, GAME_WIDTH - 500, 100, 0));
+
         tb->defaultText = false;
         values.push_back(tb);
         ++y;

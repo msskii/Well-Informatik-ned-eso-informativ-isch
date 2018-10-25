@@ -10,6 +10,7 @@
 #define ConfigMenu_hpp
 
 #include "../graphics/overlay/Menu.hpp"
+#include "KeyConfigBox.hpp"
 #include "ConfigLoader.hpp"
 #include <vector>
 
