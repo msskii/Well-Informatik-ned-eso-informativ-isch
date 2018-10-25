@@ -18,7 +18,8 @@ std::map<std::string, std::string> generateDefaultValues()
     
     values["button.inventory"] = std::to_string(SDLK_i);
     values["button.shoot"] = std::to_string(SDLK_e);
-    
+    values["button.chat"] = std::to_string(SDLK_t);
+
     values["button.left"] = std::to_string(SDLK_LEFT);
     values["button.right"] = std::to_string(SDLK_RIGHT);
     values["button.up"] = std::to_string(SDLK_UP);
@@ -56,6 +57,7 @@ void ConfigLoader::testValues()
     GLOBAL_KEY_CONFIG[BUTTON_INVENTORY] = getInt("button.inventory");
     GLOBAL_KEY_CONFIG[BUTTON_SHOOT] = getInt("button.shoot");
     GLOBAL_KEY_CONFIG[BUTTON_INTERACT] = getInt("button.interact");
+    GLOBAL_KEY_CONFIG[BUTTON_CHAT] = getInt("button.chat");
 
     if(needsSaving)
     {

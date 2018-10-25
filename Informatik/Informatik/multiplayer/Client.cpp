@@ -1,6 +1,7 @@
 #include "Client.hpp"
 #include "../graphics/Window.hpp"
 #include "../level/loader/LevelLoader.hpp"
+#include "ClientOverlay.hpp"
 #include "ServerCommandHandlers.hpp"
 
 std::mutex playerLock;
@@ -208,6 +209,9 @@ Multiplayer::Client::Client(Window *w, const char *address, std::string name)
     *((uint32_t*) (welcome + 2)) = (uint32_t) name.size();
     sendToServer(createPacket(CMD_PLAYER_JOIN, (char*) welcome, HEADER_SIZE));
     sendToServer(createPacket(CMD_PLAYER_NAME, name.c_str(), (int) name.size()));
+    
+    clientoverlay = new ClientOverlay();
+    w->openMenu(clientoverlay);
 
     // Start receiver of the client
 	SDL_CreateThread(clientReceive, "ClientReceiverTCP", this);

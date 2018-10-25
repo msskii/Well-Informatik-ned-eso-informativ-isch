@@ -56,6 +56,7 @@
 		9382708B213ECD8C0084F967 /* Slime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827089213ECD8C0084F967 /* Slime.cpp */; };
 		9382708F213ED2D10084F967 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382708D213ED2D10084F967 /* Projectile.cpp */; };
 		93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */; };
+		93A8C4492181E9FC00507DF7 /* ClientOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
@@ -202,6 +203,8 @@
 		9382708E213ED2D10084F967 /* Projectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Projectile.hpp; sourceTree = "<group>"; };
 		93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyConfigBox.cpp; sourceTree = "<group>"; };
 		93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyConfigBox.hpp; sourceTree = "<group>"; };
+		93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientOverlay.cpp; sourceTree = "<group>"; };
+		93A8C4482181E9FC00507DF7 /* ClientOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ClientOverlay.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
 		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -412,6 +415,8 @@
 				93FEEB182155477400EF507C /* Buffer.hpp */,
 				93EE1371217EF42800262829 /* ServerCommandHandlers.cpp */,
 				93EE1372217EF42800262829 /* ServerCommandHandlers.hpp */,
+				93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */,
+				93A8C4482181E9FC00507DF7 /* ClientOverlay.hpp */,
 			);
 			path = multiplayer;
 			sourceTree = "<group>";
@@ -679,6 +684,7 @@
 				93EE1373217EF42800262829 /* ServerCommandHandlers.cpp in Sources */,
 				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
 				93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */,
+				93A8C4492181E9FC00507DF7 /* ClientOverlay.cpp in Sources */,
 				93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */,
 				93E2788D214146AA00F5EC35 /* Inventory.cpp in Sources */,
 				93827080213A5C050084F967 /* ServerSelector.cpp in Sources */,

@@ -17,6 +17,7 @@
 
 class Window;
 class Level;
+class ClientOverlay;
 
 namespace Multiplayer
 {
@@ -31,6 +32,7 @@ namespace Multiplayer
         SDLNet_SocketSet sockets = SDLNet_AllocSocketSet(2); // One tcp, one udp
 		TCPsocket tcp_socket; // Socket which is connected to the server
         Window *window = nullptr;
+        ClientOverlay *clientoverlay = nullptr;
         
         std::map<int, RemotePlayer*> otherPlayers;
 		friend int clientReceive(void *data);
