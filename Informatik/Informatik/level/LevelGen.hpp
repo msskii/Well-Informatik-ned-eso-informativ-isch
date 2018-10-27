@@ -18,12 +18,17 @@ class LevelGen{
     int width, height, birthLimit, deathLimit;
     int chanceToStartAlive, numberOfSteps;
     int *map;
+    int *mapEdge;
     
-    LevelGen();
+    //creates a cave map and saves it to the array
+    LevelGen(int widthN, int heightN, int *mapN);
     int countAliveNeighbours(int *Oldmap, int x);
     void doSimulationStep();
     void mapInitialise();
     void printTest();
+    bool isAWall(int direction, int x);
+    int nextDirection(int direction, int x);
+    void deleteBody(int x);
     
 };
 #endif /* LevelGen_hpp */
