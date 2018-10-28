@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 
-class LevelGen{
-    
-    public:
+class LevelGen
+{
+public:
         
     int width, height, birthLimit, deathLimit;
     int chanceToStartAlive, numberOfSteps;
@@ -31,4 +31,5 @@ class LevelGen{
     void deleteBody(int x);
     
 };
+
 #endif /* LevelGen_hpp */
