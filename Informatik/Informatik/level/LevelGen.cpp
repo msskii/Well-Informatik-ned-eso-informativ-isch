@@ -13,7 +13,7 @@
 
 LevelGen::LevelGen(int widthN, int heightN, int *mapN)
 {
-    birthLimit = 4;
+    birthLimit = 5;
     deathLimit = 4;
     
     width = widthN;
