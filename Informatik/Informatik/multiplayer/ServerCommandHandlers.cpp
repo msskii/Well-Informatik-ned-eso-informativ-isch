@@ -72,7 +72,7 @@ void Multiplayer::waitForAck(TCPsocket socket, Server *server)
 // The handler for player commands
 void Multiplayer::cmd_player(Server *server, ServerClient *client, uint8_t *buffer, uint8_t *data, int dataLength)
 {
-    if(buffer[5] == 'm')
+    if(buffer[5] == 'm') // move
     {
         server->window->level->activePlayerLock.lock();
         activePlayers[client->clientID]->data.x_pos = (float) *((uint32_t*) (data + 0));
@@ -82,6 +82,11 @@ void Multiplayer::cmd_player(Server *server, ServerClient *client, uint8_t *buff
         activePlayers[client->clientID]->direction = *((uint8_t*) (data + 10));
         server->window->level->activePlayerLock.unlock();
         server->broadcast(client, Multiplayer::createClientPacket(CMD_PLAYER_MOVE, client->clientID, (char*) data, 11));
+    }
+    else if(buffer[5] == 'c') // Chat
+    {
+        // const char *str = readString(data);
+        server->sendToAll(Multiplayer::createClientPacket(CMD_PLAYER_CHAT, client->clientID, (char*) (buffer + 6), dataLength));
     }
 }
 

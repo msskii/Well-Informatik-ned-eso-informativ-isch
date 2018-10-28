@@ -23,13 +23,14 @@ protected:
     int currentIndex = 0;
     
     cachedTexture lastTexture;
-    bool changed = true;
     
 public:
+    bool changed = true;
     bool defaultText = true;
 
     TextBox(const char *defaultText, int x, int y, int w, int h, int id);
     std::string currentText;
+    inline void getFocus() { focus = true; }
 
     void render() override;
     void processEvent(Menu *menu, SDL_Event e) override;

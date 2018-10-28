@@ -55,6 +55,10 @@ void Multiplayer::checkCommand(Multiplayer::Client *c, int amount, uint8_t* buff
         playersToRemove.push_back(c->otherPlayers[uuid]);
         playerLock.unlock();
     }
+    else if(!strcmp(cmd, CMD_PLAYER_CHAT))
+    {
+        c->clientoverlay->addMessage(std::string(readString(data)));
+    }
     else if(!strcmp(cmd, CMD_ENTITY_SPAWN))
     {
         // printBuffer(buffer, amount);

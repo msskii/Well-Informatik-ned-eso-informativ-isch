@@ -24,6 +24,8 @@
 
 #include "../items/EntityItem.hpp"
 
+#include "../multiplayer/ClientOverlay.hpp"
+
 #include "overlay/Menu.hpp"
 #include "overlay/MainMenu.hpp"
 #include "overlay/DebugOverlay.hpp"

@@ -18,7 +18,9 @@ Text::Text(const char* t, int _x, int _y, int _w, int _h) : text(t)
 
 void Text::render()
 {
-    drawTextAspect(text, 0xFFFF00FF, {x, y, w, h}, texture, false);
+    fillRect(0xFFFFFFFF, {x, y, w, h});
+    if(texture.id == 0) drawTextAspect(text, 0xFFFF00FF, {x, y, w, h}, texture, false);
+    else renderWithoutShading(texture.getGL(), {}, {x, y, w, h});
 }
 
 void Text::processEvent(Menu *menu, SDL_Event e)

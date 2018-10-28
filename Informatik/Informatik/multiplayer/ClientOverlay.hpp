@@ -11,6 +11,8 @@
 
 #include "../graphics/overlay/Menu.hpp"
 
+#define CHAT_WIDTH 600
+
 typedef struct ChatElement
 {
     Text *text = nullptr; // Text element for the menu, with the text itself
@@ -28,6 +30,8 @@ public:
     ClientOverlay();
     
     std::vector<ChatElement> messages;
+    
+    void addMessage(std::string text);
     
     bool shouldWindowClose();
     void renderMenu(); // Render background of menu

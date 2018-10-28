@@ -54,6 +54,11 @@ void TextBox::render()
 
 void TextBox::processEvent(Menu *menu, SDL_Event e)
 {
+    if(currentIndex < 0) currentIndex = 0;
+    if(currentIndex > (int) currentText.size()) currentIndex = (int) currentText.size();
+    if(selectionStart < 0) selectionStart = 0;
+    if(selectionStart > (int) currentText.size()) selectionStart = (int) currentText.size();
+
     if(e.type == SDL_MOUSEMOTION)
     {
         hoverOver = menu->active && e.button.x / SCALE_X >= x && e.button.x / SCALE_X <= x + w && e.button.y / SCALE_Y >= y && e.button.y / SCALE_Y <= y + h;
