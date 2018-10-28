@@ -64,13 +64,9 @@ void LevelGen::doSimulationStep()
         //First, if a cell is alive but has too few neighbours, kill it.
         if(oldMap[x] == 1) // == 1 is theoretically unnecessary, if the only other value is 0 (And you could make it bool[] instead of int[])
         {
-            //map[x] = nbs >= deathLimit; // This is how you wrote it, shouldn't it be < (or <=) deathLimit?
-            map[x] = nbs < deathLimit; // How I think it should be: Survive if there are less than deathlimit neighbours
-            
-            /**
-            if(nbs < deathLimit) map[x] = 0;
-            else map[x] = 1;*/
-            //Otherwise, if the cell is dead now, check if it has the right number of neighbours to be 'born'
+            //deathLimit: The amount of cells necessary to survive
+            map[x] = nbs >= deathLimit;
+
         }
         else map[x] = nbs >= birthLimit; // Cell comes to live if we have enough neighbours
     }
