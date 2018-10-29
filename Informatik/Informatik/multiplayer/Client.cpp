@@ -134,6 +134,17 @@ int Multiplayer::clientReceive(void *data)
 			printf("[ERROR] Connection to server lost!\n");
 			exit(0);
 		}
+        
+        while(memcmp(buffer + amount - 4, FOOTER, 4)) // As long as it is not the end, receive more
+        {
+            if(BUFFER_SIZE - amount <= 0)
+            {
+                printf("[WARN] More buffer than you can handle\n");
+                break;
+            }
+            amount += SDLNet_TCP_Recv(c->tcp_socket, buffer + amount, BUFFER_SIZE - amount);
+        }
+        
         buffer[amount] = 0;
 
         while(consumed < amount)

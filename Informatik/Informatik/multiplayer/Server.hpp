@@ -13,7 +13,7 @@
 #include "Buffer.hpp"
 #include <vector>
 
-#define SERVER_PORT 5543
+#define SERVER_PORT 25565 //5543
 #define HEADER_SIZE 16
 #define BUFFER_SIZE 1024 * 32
 
