@@ -19,6 +19,18 @@ enum Direction
     LEFT = 3
 };
 
+enum Tiles
+{
+    DIRT = 0,
+    WALL = 1
+};
+
+const char **tileNames = new const char*[2]
+{
+    "I",
+    "O"
+};
+
 class LevelGen
 {
 public:

@@ -72,13 +72,13 @@ bool LevelGen::isAWall(int direction, int x)
     switch (direction)
     {
         case UP: // UP
-            return (x < width || map[x-width] == 1);
+            return (x < width || map[x-width] == WALL);
         case RIGHT: // RIGHT
-            return ((x+1) % width == 0 || map[x+1] == 1);
+            return ((x+1) % width == 0 || map[x+1] == WALL);
         case DOWN: // DOWN
-            return ((x+width) >= height * width  || map[x+width] == 1);
+            return ((x+width) >= height * width  || map[x+width] == WALL);
         case LEFT: // LEFT
-            return (x % width == 0 || map[x-1] == 1);
+            return (x % width == 0 || map[x-1] == WALL);
         default:
             return false;
     }
@@ -99,17 +99,17 @@ int LevelGen::nextDirection(int direction, int x)
 
 void LevelGen::deleteBody(int x)
 {
-    map[x] = 1; // Clear current cell
+    map[x] = WALL; // Clear current cell
     
     //recusivly delete all Bodies
     //first check if left is a Tile (0)
-    if (x % width != 0 && map[x-1] == 0) deleteBody(x-1);
+    if (x % width != 0 && map[x-1] == DIRT) deleteBody(x-1);
     //then check under
-    if (x + width < width * height && map[x+width] == 0) deleteBody(x+width);
+    if (x + width < width * height && map[x+width] == DIRT) deleteBody(x+width);
     //check up
-    if (x >= width && map[x-width] == 0) deleteBody(x-width);
+    if (x >= width && map[x-width] == DIRT) deleteBody(x-width);
     //check right
-    if ((x+1) % width != 0 && map[x+1] == 0) deleteBody(x+1);
+    if ((x+1) % width != 0 && map[x+1] == DIRT) deleteBody(x+1);
 }
 
 void LevelGen::mapInitialise()
@@ -121,7 +121,7 @@ void LevelGen::mapInitialise()
     for(int x = 0; x < width * height; x++)
     {
         mapEdge[x] = 0;
-        map[x] = (rand() % 100 <= chanceToStartAlive);
+        map[x] = (rand() % 100 <= chanceToStartAlive); // Maybe add ? WALL : DIRT;
     }
     
     //Generator
@@ -131,12 +131,12 @@ void LevelGen::mapInitialise()
     for (int x = 0; x < height * width; x++)
     {
         //Find a Body
-        if(map[x] == 0)
+        if(map[x] == DIRT)
         {
             //if already marked search for the end of the body
             if(mapEdge[x] == 1)
             {
-                while(map[x] == 0 || mapEdge[x-1] == 0) ++x;
+                while(map[x] == DIRT || mapEdge[x-1] == 0) ++x;
             }
             else
             {
@@ -158,7 +158,7 @@ void LevelGen::mapInitialise()
                         if(!isAWall(checkDirection, checkingX))
                         {
                             direction = checkDirection;
-                            break; // ??? k = 5?
+                            break;
                         }
                     }
                     
@@ -179,11 +179,12 @@ void LevelGen::mapInitialise()
                         default:
                             break;
                     }
-                } while (checkingX != x); // WTF !(a == b)
+                } while (checkingX != x);
                 bodySize.push_back(count);
                 bodyCoord.push_back(x);
+                
                 //goo out of the current body
-                while(map[x] != 1) ++x;
+                while(map[x] != WALL) ++x;
             }
         }
     }
@@ -216,7 +217,7 @@ void LevelGen::printTest()
     {
         for (int j = 0; j < width; j++)
         {
-            outstring = map[i * width + j] ? "I" : "O";
+            outstring = tileNames[map[i * width + j]];
         }
         outstring += "\n";
     }
