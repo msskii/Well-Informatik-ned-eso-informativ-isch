@@ -200,9 +200,11 @@ void Window::runGameLoop()
     SDL_SetWindowPosition(window, 0, 0);
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
+    int maxSetupTime = 60 * 20; // 20 seconds
     while(running)
     {
         if(!establishingConnection) nextFrame(); // Draw next frame
+        else if(!--maxSetupTime) return; // Connection failed
     }
     
     exitGame(this); // Game has finished... Exit
@@ -246,6 +248,8 @@ void Window::nextFrame()
             if(e.window.event == SDL_WINDOWEVENT_CLOSE) running = false; // Close the game
             else if (e.window.event == SDL_WINDOWEVENT_RESIZED) // Update sizes & scales according to the window size
             {
+                printf("Resized...\n");
+                //return;
                 SDL_GetWindowSize(window, &width, &height);
                 setScreenSize(width, height);
                 SCALE_X = (float)width / (float)GAME_WIDTH;
@@ -313,7 +317,7 @@ void Window::nextFrame()
     // Calculate time difference and wait for the rest of the 1/60th of a second
     auto end_time = clock.now();
     auto difference = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
-    std::this_thread::sleep_for(std::chrono::microseconds(16666) - difference);
+    if(difference.count() > 0) std::this_thread::sleep_for(std::chrono::microseconds(16000) - difference);
 }
 
 // Reload the config file

@@ -140,6 +140,7 @@ int Multiplayer::clientReceive(void *data)
             if(BUFFER_SIZE - amount <= 0)
             {
                 printf("[WARN] More buffer than you can handle\n");
+                for(;amount > 0 && memcmp(buffer + amount - 4, FOOTER, 4); amount--) ; // Empty statement, just let it search for the last full packet
                 break;
             }
             amount += SDLNet_TCP_Recv(c->tcp_socket, buffer + amount, BUFFER_SIZE - amount);
