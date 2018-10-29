@@ -11,6 +11,26 @@
 
 #include <stdio.h>
 
+enum Direction
+{
+    UP = 0,
+    RIGHT = 1,
+    DOWN = 2,
+    LEFT = 3
+};
+
+enum Tiles
+{
+    DIRT = 0,
+    WALL = 1
+};
+
+const char **tileNames = new const char*[2]
+{
+    "I",
+    "O"
+};
+
 class LevelGen
 {
 public:
