@@ -13,7 +13,9 @@
 
 LevelGen::LevelGen(int widthN, int heightN, int *mapN)
 {
+    //dead cells need so many cells around it to revive
     birthLimit = 5;
+    //if a cell has less that somany cells around it, it dies
     deathLimit = 4;
     
     width = widthN;
