@@ -112,6 +112,7 @@ void deleteTexture(gl_texture texture)
 void setScreenSize(int w, int h)
 {
     glViewport(0, 0, w, h);
+    //glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     glUseProgram(const_shader_rotation);
     glUniform2f(glGetUniformLocation(const_shader_rotation, "screenSize"), (float) w, (float) h);
     glUseProgram(light_shader_rotation);

@@ -18,8 +18,13 @@ Text::Text(const char* t, int _x, int _y, int _w, int _h) : text(t)
 
 void Text::render()
 {
-    fillRect(0xFFFFFFFF, {x, y, w, h});
-    if(texture.id == 0) drawTextAspect(text, 0xFFFF00FF, {x, y, w, h}, texture, false);
+    if(texture.id == 0)
+    {
+        float a = drawTextAspect(text, 0xFF000000, {x, y, w, h}, texture, false);
+        TTF_SizeText(font, text, &w, &h);
+        w *= a;
+        h *= a;
+    }
     else renderWithoutShading(texture.getGL(), {}, {x, y, w, h});
 }
 

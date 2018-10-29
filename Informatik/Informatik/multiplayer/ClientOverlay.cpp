@@ -11,7 +11,7 @@
 ClientOverlay::ClientOverlay()
 {
     shouldLevelBeUpdated = true;
-    textBox = new TextBox("", 0, GAME_HEIGHT - 200, GAME_WIDTH, 200, 0);
+    textBox = new TextBox("", 0, GAME_HEIGHT - 100, GAME_WIDTH / 2, 100, 0);
     textBox->getFocus();
 }
 
@@ -21,6 +21,7 @@ void ClientOverlay::renderMenu()
 {
     // TODO: Render the chat messages...
     // fillRect(0xFFFFFFFF, {0, 0, CHAT_WIDTH, GAME_HEIGHT}); // 500 width?
+    fillRect(0x7F7F7F7F, {0, GAME_HEIGHT - 100 - 100 * (int) messages.size(), CHAT_WIDTH, 100 * (int) messages.size()});
 }
 
 
@@ -33,6 +34,7 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
         {
             removeElement(messages[i].text);
             messages.erase(messages.begin() + i--);
+            // for(unsigned int j = 0; j < messages.size(); j++) messages[j].text->y -= 200;
         }
     }
     
@@ -41,7 +43,7 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
     {
         // New pressed... Open a textbox
         addElement(textBox);
-        shouldLevelBeUpdated = false;
+        //shouldLevelBeUpdated = false;
         opened = true;
         printf("[INFO] You have opened the chat\n");
     }
@@ -49,7 +51,7 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
     if(keys[SDL_SCANCODE_ESCAPE] && opened)
     {
         removeElement(textBox);
-        shouldLevelBeUpdated = true;
+        //shouldLevelBeUpdated = true;
         textBox->currentText = "";
         opened = false;
     }
@@ -65,7 +67,7 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
         textBox->currentText = "";
         textBox->changed = true;
         removeElement(textBox);
-        shouldLevelBeUpdated = true;
+        //shouldLevelBeUpdated = true;
         opened = false;
     }
     
@@ -74,9 +76,9 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
 
 void ClientOverlay::addMessage(std::string text)
 {
+    for(int i = 0; i < messages.size(); i++) messages[i].text->y -= 100;
     printf("Text from chat: %s\n", text.c_str());
-    int msgnum = 2 + (int) messages.size();
-    Text *elmnt = new Text(text.c_str(), 0, GAME_HEIGHT - msgnum * 100, CHAT_WIDTH, 100);
+    Text *elmnt = new Text(text.c_str(), 0, GAME_HEIGHT - 200, CHAT_WIDTH, 100);
     addElement(elmnt);
     messages.push_back({ elmnt });
 }
