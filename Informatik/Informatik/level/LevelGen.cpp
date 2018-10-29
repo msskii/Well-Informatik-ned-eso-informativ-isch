@@ -11,10 +11,10 @@
 #include <iostream>
 #include <vector>
 
-LevelGen::LevelGen(int widthN, int heightN, int *mapN)
+LevelGen::LevelGen(int widthN, int heightN)
 {
     //dead cells need so many cells around it to revive
-    birthLimit = 5;
+    birthLimit = 4;
     //if a cell has less that somany cells around it, it dies
     deathLimit = 4;
     
@@ -22,19 +22,21 @@ LevelGen::LevelGen(int widthN, int heightN, int *mapN)
     height = heightN;
     
     //in %
-    chanceToStartAlive = 40;
-    numberOfSteps = 100;
+    chanceToStartAlive = 55;
+    numberOfSteps = 10;
     
     map = new int[width * height];
     mapEdge = new int[width * height];
     
     mapInitialise();
     
+    if (debugging) {
+        printTest();
+    }
     printTest();
-    mapN = map;
 }
 
-int LevelGen::countAliveNeighbours(int *Oldmap, int x)
+int LevelGen::countAliveNeighbours(int *oldmap, int x)
 {
     int count = 0;
     //left and right
@@ -48,7 +50,7 @@ int LevelGen::countAliveNeighbours(int *Oldmap, int x)
             int neighbour = x + i + (j * width);
             //If we're looking at the middle point
             if((x % width == 0 && i == -1) || ((x+1) % width == 0 && i == 1) || (neighbour < 0) || (neighbour >= width * height)) count += 1; // Check if out of bounds --> if yes, alive!
-            else if(Oldmap[neighbour] == 1) count += 1; // Else check actual cell
+            else if(oldmap[neighbour] == WALL) count += 1; // Else check actual cell
         }
     }
     return count;
@@ -64,8 +66,10 @@ void LevelGen::doSimulationStep()
         int nbs = countAliveNeighbours(oldMap, x);
         //The new value is based on our simulation rules
         //First, if a cell is alive but has too few neighbours, kill it.
-        if(oldMap[x] == 1) map[x] = nbs >= deathLimit; // If not enough neighbours, cell dies of loneliness :(
-        else map[x] = nbs >= birthLimit; // Cell comes to live if we have enough neighbours
+        if(oldMap[x] == WALL)
+        {
+            if(nbs < deathLimit) map[x] = DIRT; // If not enough neighbours, cell dies of loneliness :(
+        }else if(nbs > birthLimit) map[x] = WALL;  // Cell comes to live if we have enough neighbours
     }
 }
 
@@ -128,7 +132,6 @@ void LevelGen::mapInitialise()
     
     //Generator
     for (int i = 0; i < numberOfSteps; i++) doSimulationStep();
-    
     //clean empty spaces
     for (int x = 0; x < height * width; x++)
     {
@@ -145,7 +148,7 @@ void LevelGen::mapInitialise()
                 //Trace the Outline of the Found body
                 //Direction 0 = Up, 1 = Right, 2 = Down, Left = 3
                 int direction = 0;
-                int checkingX = x; // Why name it x if it actually the index?
+                int checkingX = x;
                 int count = 0;
                 
                 do
@@ -179,6 +182,7 @@ void LevelGen::mapInitialise()
                             checkingX--;
                             break;
                         default:
+                            checkingX = x;
                             break;
                     }
                 } while (checkingX != x);
@@ -208,8 +212,28 @@ void LevelGen::mapInitialise()
             deleteBody(bodyCoord[i]);
         }
     }
+    //Invert the map so 0 is a wall and 1 is a Tile
+    //finaly set the entrance
+    //search a pattern off 3 Tiles next to a wall
+    for (int i = 0;  i < width * height; i++)
+    {
+        if ((i % width < (width - 6)) && ((i + width + 6) < width * height) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
+        {
+            map[i+width+1] = ENTRANCE;
+            break;
+        }
+    }
 }
 
+void LevelGen::addGrasspatch(int *mapN, int strength)
+{
+    return;
+}
+
+void LevelGen::returnMap(int *mapN)
+{
+    mapN = map;
+}
 
 
 void LevelGen::printTest()
@@ -219,10 +243,20 @@ void LevelGen::printTest()
     {
         for (int j = 0; j < width; j++)
         {
-            outstring = tileNames[map[i * width + j]];
+            outstring+= (char) map[i * width + j] + '0';
         }
         outstring += "\n";
     }
     std::cout << "Map: \n" << outstring;
+    outstring = "";
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            outstring+= (char) mapEdge[i * width + j] + '0';
+        }
+        outstring += "\n";
+    }
+    std::cout << "Edge: \n" << outstring;
 }
 
