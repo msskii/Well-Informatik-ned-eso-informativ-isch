@@ -83,7 +83,20 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     }
     
     // Set up level
-    level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
+    switch (currentLevel) {
+        case 0:
+            //this means in the cave
+            LevelCave cave(level);
+            break;
+            
+        case 1:
+            //first map
+            level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
+            break;
+            
+        default:
+            break;
+    }
     
     // Reload elements of the menu
     reloadElementTextures();

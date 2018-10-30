@@ -132,7 +132,7 @@ void Building::render(int xoffset, int yoffset)
             if(level != nullptr && level->window != nullptr)
             {
                 level->window->lights.addLight((float) dst.x + (8.7f * 64.0f), (float) dst.y + (5.45f * 64.0f), 10.0f, 0xFF000000, 1.0f, 0.0f);
-                level->window->lights.addLight((float) dst.x + (8.7f * 64.0f), (float) dst.y + (5.45f * 64.0f), 200.0f, 0xFFFFFF00, 0.2f, 1.0f);
+                level->window->lights.addLight((float) dst.x + (8.7f * 64.0f), (float) dst.y + (5.45f * 64.0f), 20.0f, 0xFFFFFF00, 0.2f, 1.0f);
             }
             break;
             
