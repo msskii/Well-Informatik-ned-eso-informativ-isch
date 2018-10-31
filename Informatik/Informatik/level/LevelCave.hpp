@@ -11,16 +11,17 @@
 
 #include <stdio.h>
 #include "Level.hpp"
+#include "LevelGen.hpp"
 
 //this class will manage the level
 
 class LevelCave {
-    int floor = 1;
+    int floor = 0;
     int width = 50, height = 50;
     
 public:
     LevelCave(Level *level);
-    Level nextLevel();
+    void nextLevel(Level *oldLevel);
 };
 
 

@@ -10,12 +10,23 @@
 
 LevelCave::LevelCave(Level *level)
 {
-    
+    nextLevel(level);
 }
 
-*Level LevelCave::nextLevel()
+void LevelCave::nextLevel(Level *oldLevel)
 {
     floor++;
-    Level level = new Level(width, height);
-    return level;
+    
+    //create a new layer with the cave Gen
+    Level *level = new Level(width, height);
+    LevelGen levelGen(width, height);
+    int mapLayout[width * height];
+    levelGen.returnMap(mapLayout);
+    
+    //translate the int array from the cave gen to level
+    for (int i = 0; i < height * width; i++)
+    {
+        level->tiles[i].data.tileNumber = mapLayout[i];
+    }
+    oldLevel = level;
 }

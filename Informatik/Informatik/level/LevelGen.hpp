@@ -11,26 +11,29 @@
 
 #include <stdio.h>
 
-#define debugging 0
+#define debugging 1
 
-enum Direction
-{
-    UP = 0,
-    RIGHT = 1,
-    DOWN = 2,
-    LEFT = 3
-};
 
-enum Tiles
-{
-    WALL = 0,
-    DIRT = 1,
-    ENTRANCE = 2
-};
 
 
 class LevelGen
 {
+private:
+    enum Direction
+    {
+        UP = 0,
+        RIGHT = 1,
+        DOWN = 2,
+        LEFT = 3
+    };
+    
+    enum Tiles
+    {
+        WALL = 0,
+        DIRT = 1,
+        ENTRANCE = 2
+    };
+
 public:
     
     int width, height, birthLimit, deathLimit;

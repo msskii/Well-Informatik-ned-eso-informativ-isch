@@ -81,21 +81,30 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
         printf("%s\n", TTF_GetError());
         exit(0);
     }
-    
     // Set up level
-    switch (currentLevel) {
-        case 0:
-            //this means in the cave
-            LevelCave cave(level);
-            break;
-            
-        case 1:
-            //first map
-            level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
-            break;
-            
-        default:
-            break;
+    //check if its the cave
+    if (!currentLevel)
+    {
+        LevelCave cave(level);
+    }else
+    {
+        //else switch from the levels
+        switch (currentLevel)
+            {
+            case 1:
+                //this is map 1
+                level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
+
+                break;
+                
+            case 2:
+                //map 2 etc
+                level = Loader::loadLevel(GET_FILE_PATH(LEVEL_PATH, "/testlevel.level"), 50, 50);
+                break;
+                
+            default:
+                break;
+            }
     }
     
     // Reload elements of the menu

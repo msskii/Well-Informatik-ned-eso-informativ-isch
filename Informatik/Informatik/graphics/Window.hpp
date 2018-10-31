@@ -63,7 +63,7 @@ public:
     Level *level; // The current level we're in
     bool toUpdate = true; // If we have to update the level or not
     bool establishingConnection = false;
-    int currentLevel = 1;
+    int currentLevel = 0;
     
     int frames = 0, fps = 0; // The current frames and the last measured FPS
     
