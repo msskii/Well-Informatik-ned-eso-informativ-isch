@@ -29,7 +29,7 @@ typedef struct gl_texture
 } gl_texture;
 
 extern GLuint light_shader, const_shader, color_shader; // The shaders
-extern GLuint light_shader_rotation, const_shader_rotation;
+extern GLuint const_shader_rotation;
 
 extern GLuint compileShader(const char *path, GLenum shaderType);
 extern GLuint createShader(const char *vert, const char *frag);

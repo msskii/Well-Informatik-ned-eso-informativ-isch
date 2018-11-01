@@ -42,7 +42,7 @@ void LightOverlay::startFrame()
     // Reset data
     for(int i = 0; i < MAX_LIGHTS; i++)
     {
-        sources[i].x = -100;
+        sources[i].x = 0x414570A3; // Some weird stuff I think
         sources[i].y = -100;
     }
     count = 0;
@@ -64,5 +64,4 @@ void LightOverlay::sendStuff(GLuint shader)
 void LightOverlay::render()
 {
     sendStuff(light_shader);
-    sendStuff(light_shader_rotation);
 }

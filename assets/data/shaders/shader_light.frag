@@ -1,58 +1,58 @@
 #version 330 core
 
 #define NUM_LIGHTS 40
-
-#define LIGHT_SPREAD 2.0
+#define LIGHT_SPREAD 30.0
 #define LIGHT_BRIGHTNESS 3.0
+#define BACKGROUND_BRIGHTNESS 1.0
 
 struct lightSource
 {
     vec4 position; // Position on screen + brightness & radius
-    vec4 color;
+    vec4 color; // How much color is added from the light
     float glowRatio; // Sunlight reflection
 };
 
-uniform sampler2D texture_sampler;
+uniform float displayAspect; // The aspect of the screen (Width / Height)
+uniform sampler2D texture_sampler; // The current texture
 
-in vec2 pos;
-out vec4 col;
-in vec2 uv;
+in vec2 pos; // Current position
+out vec4 col; // The color we calculate for that position
+in vec2 uv; // Where in the texture we are
 
-layout (std140) uniform lightSources
+layout (std140) uniform lightSources // Pass a pointer to the lights and they all get transferred to the gpu
 {
     lightSource lights[NUM_LIGHTS]; // All the lights!
 };
-uniform float initial_alpha;
+uniform float initial_alpha; // The background alpha
 
 void main()
 {
-    vec4 backcol;
-    if(uv.x < 0 || uv.y < 0 || uv.x >= 1.0 || uv.y >= 1.0) backcol = vec4(0, 0, 0, 0);
-    else backcol = texture(texture_sampler, uv).bgra;
+    vec4 backcol; // Start with an empty background color
+    if(uv.x < 0 || uv.y < 0 || uv.x >= 1.0 || uv.y >= 1.0) backcol = vec4(0, 0, 0, 0); // Out of bounds, so set it to black without any alpha
+    else backcol = texture(texture_sampler, uv).bgra; // Load from the texture
     
-    float alpha = initial_alpha;
-    col = vec4(0,0,0,0);
-    for(int i = 0; i < NUM_LIGHTS; i++)
+    vec4 colorMod = backcol * BACKGROUND_BRIGHTNESS * initial_alpha; //Start with an empty color modifier
+    float totalBrightness = backcol.a * BACKGROUND_BRIGHTNESS; // Background has a brightness of 10
+    
+    for(int i = 0; i < NUM_LIGHTS; i++) // For all lights do:
     {
-        if(lights[i].position.x == 0x414570A3) continue;
-        float d = distance(vec2(lights[i].position.x * 2.0 - 1.0, (1.0 - lights[i].position.y * 2.0) * 9.0 / 16.0), vec2(pos.x, pos.y / 16.0 * 9.0)) * LIGHT_SPREAD / lights[i].position.w;
-        d = min(max(0, d), 1.0);
-        vec4 toAdd = lights[i].color * lights[i].color.a / NUM_LIGHTS;
+        if(lights[i].position.x == 0x414570A3) continue; // Skip invalid lights
         
-        //SOMEHOW THE INITIAL ALPHA IS NOT DEFINED THUS LEADING TO BLACK LIGHTS IF THE BRIGHTNESS EXEEDS A CERTAIN LEVEL
+        float d = distance(vec2(lights[i].position.x * 2.0 - 1.0, (1.0 - lights[i].position.y * 2.0) / displayAspect), vec2(pos.x, pos.y / displayAspect)) * LIGHT_SPREAD / lights[i].position.z; // Calculate the distance from light to object, if both things were round
+        d = min(max(0.0, d), 1.0); // Limit distance to range 0 to 1
+        vec4 toAdd = lights[i].color * lights[i].color.a; // Calculate the light we want to add
         
-        //left of the Summ is the glow part, right is the lightning of the background
-        toAdd =  lights[i].glowRatio * toAdd * (1.0 - alpha) + backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - alpha);
+        if(lights[i].color.xyz == vec3(0, 0, 0))
+        {
+            toAdd = vec4(1, 1, 1, 1);
+        }
         
-        if(toAdd.xyz == vec3(0, 0, 0)) alpha += (1.0 - d) * lights[i].color.a / NUM_LIGHTS * lights[i].position.z * LIGHT_BRIGHTNESS;
-        else col += toAdd * (1.0 - d) * lights[i].position.z * LIGHT_BRIGHTNESS;
+        //toAdd = lights[i].glowRatio * toAdd * (1.0 - initial_alpha) + backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - initial_alpha); // Modify the color to add with glow ratios
+        
+        colorMod += lights[i].position.w * toAdd * (1.0 - d); // Add the color modifier as many times as we indicate by brightness
+        totalBrightness += lights[i].position.w * (1.0 - d); // Add the brightness of the light to the total amount
     }
     
-    if(alpha >= 1.0) alpha = 1.0;
-    float a = backcol.a;
-    
-    //consists of sunlight hitting background + colored light hitting background + shine, the shine is not impacted by background brightness
-    
-    col = (alpha * backcol) + col;
-    col.a = a;
+    col = colorMod / totalBrightness;
+    col.a = backcol.a; // If it was transparent, it should still be transparent
 }

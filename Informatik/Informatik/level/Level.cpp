@@ -220,7 +220,7 @@ void Level::render() // and update
     //first set all to false
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        entities[i]->isBehind = false;
+        entities[i]->isBehind = ABOVE_BUILDING;
     }
     player->isBehind = false;
     
@@ -231,10 +231,11 @@ void Level::render() // and update
         
         for(int i = 0; i < (int) entities.size(); i++)
         {
-            entities[i]->isBehind |= buildings[j]->isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos);
-            if (entities[i]->isBehind)
+            entities[i]->isBehind |= buildings[j]->isBehind(entities[i]->data.x_pos, entities[i]->data.y_pos) ? BEHIND_BUILDING : 0;
+            if (entities[i]->isBehind == BEHIND_BUILDING) // Only if bit one is set, but bit 2 is not
             {
                 entities[i]->render(xoffset, yoffset);
+                entities[i]->isBehind |= RENDERED;
             }
         }
     }
@@ -269,7 +270,7 @@ void Level::render() // and update
     //render entities here if they are infront of a building
     for(int i = 0; i < (int) entities.size(); i++)
     {
-        if (!entities[i]->isBehind)
+        if (entities[i]->isBehind == ABOVE_BUILDING)
         {
             entities[i]->render(xoffset, yoffset);
         }

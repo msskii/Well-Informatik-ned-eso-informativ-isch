@@ -43,13 +43,16 @@ typedef struct EntityData
 } EntityData;
 #pragma pack(pop)
 
+#define ABOVE_BUILDING  0x0
+#define BEHIND_BUILDING 0x1
+#define RENDERED        0x2
 
 class Entity
 {
 protected:
     
 public:
-    bool isBehind = false;
+    int isBehind = ABOVE_BUILDING;
     Level *level;
     int entityID;
     
