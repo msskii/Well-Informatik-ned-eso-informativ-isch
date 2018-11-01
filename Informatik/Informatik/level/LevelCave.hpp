@@ -20,8 +20,8 @@ class LevelCave {
     int width = 50, height = 50;
     
 public:
-    LevelCave(Level *level);
-    void nextLevel(Level *oldLevel);
+    LevelCave(Level *&level);
+    void nextLevel(Level *&level);
 };
 
 

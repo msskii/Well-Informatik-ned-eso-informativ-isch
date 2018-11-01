@@ -33,7 +33,6 @@ LevelGen::LevelGen(int widthN, int heightN)
     if (debugging) {
         printTest();
     }
-    printTest();
 }
 
 int LevelGen::countAliveNeighbours(int *oldmap, int x)
@@ -232,7 +231,7 @@ void LevelGen::addGrasspatch(int *mapN, int strength)
 
 void LevelGen::returnMap(int *mapN)
 {
-    mapN = map;
+    memcpy(mapN, map, sizeof(int) * height * width);
 }
 
 
