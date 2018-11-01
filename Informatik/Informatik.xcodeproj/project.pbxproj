@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D0F5C452188627F0012971A /* LevelCave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D0F5C432188627F0012971A /* LevelCave.cpp */; };
 		4D2A835B2182002E00378733 /* LevelGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D2A83592182002E00378733 /* LevelGen.cpp */; };
 		4D4276512133F636003F6411 /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D42764F2133F636003F6411 /* NPC.cpp */; };
 		4D6A79C82147F57C003F31B5 /* Building.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79C62147F57C003F31B5 /* Building.cpp */; };
@@ -112,6 +113,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D0F5C432188627F0012971A /* LevelCave.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LevelCave.cpp; sourceTree = "<group>"; };
+		4D0F5C442188627F0012971A /* LevelCave.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LevelCave.hpp; sourceTree = "<group>"; };
 		4D2A83592182002E00378733 /* LevelGen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LevelGen.cpp; sourceTree = "<group>"; };
 		4D2A835A2182002E00378733 /* LevelGen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LevelGen.hpp; sourceTree = "<group>"; };
 		4D42764F2133F636003F6411 /* NPC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
@@ -365,6 +368,8 @@
 				93D1C7CB212AD12B004AACD1 /* Event.hpp */,
 				4D2A83592182002E00378733 /* LevelGen.cpp */,
 				4D2A835A2182002E00378733 /* LevelGen.hpp */,
+				4D0F5C432188627F0012971A /* LevelCave.cpp */,
+				4D0F5C442188627F0012971A /* LevelCave.hpp */,
 			);
 			path = level;
 			sourceTree = "<group>";
@@ -675,6 +680,7 @@
 				936C12FA213665B300404679 /* EditorOverlay.cpp in Sources */,
 				937B001E214D888000BE1EE0 /* Explosion.cpp in Sources */,
 				937AFC63214046C000F92964 /* EntityItem.cpp in Sources */,
+				4D0F5C452188627F0012971A /* LevelCave.cpp in Sources */,
 				4D2A835B2182002E00378733 /* LevelGen.cpp in Sources */,
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
 				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,

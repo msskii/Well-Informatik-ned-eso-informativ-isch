@@ -35,7 +35,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     
     for(int i = 0; i < w * h; i++)
     {
-        if (i % 50 == 3) 
+        if (i % 50 == 3)
         {
             tiles[i] = Tile(i % w, i / w, 1);
         }
@@ -47,31 +47,8 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
         {
             tiles[i] = Tile(i % w, i / w, 2);
         }
+        tiles[i].data.tileNumber = 0;
     }
-    tiles[230].data.tileNumber = 0;
-    tiles[229].data.tileNumber = 0;
-    tiles[231].data.tileNumber = 0;
-    tiles[179].data.tileNumber = 0;
-    tiles[180].data.tileNumber = 0;
-    tiles[181].data.tileNumber = 0;
-    tiles[280].data.tileNumber = 0;
-    tiles[281].data.tileNumber = 0;
-    tiles[279].data.tileNumber = 0;
-    
-    tiles[240].data.tileNumber = 0;
-    tiles[290].data.tileNumber = 0;
-    tiles[340].data.tileNumber = 0;
-    tiles[440].data.tileNumber = 0;
-    tiles[441].data.tileNumber = 0;
-    tiles[439].data.tileNumber = 0;
-    tiles[540].data.tileNumber = 0;
-    
-    for (int i = 0; i < 10; i++)
-    {
-        tiles[50 * 15 + 10 +i].data.tileNumber = 0;
-        tiles[50 * 14 + 10 +i].data.tileNumber = 0;
-    }
-    
 
     buildings.push_back(new Building(10, 10, 0, this));
     buildings.push_back(new Building(10, 20, 1, this));

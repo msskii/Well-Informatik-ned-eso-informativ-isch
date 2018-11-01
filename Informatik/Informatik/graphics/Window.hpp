@@ -12,6 +12,7 @@
 #include "../config.h"
 #include "../level/Level.hpp"
 #include "../level/loader/LevelLoader.hpp"
+#include "../level/LevelCave.hpp"
 
 #include "../entity/Player.hpp"
 #include "../entity/NPC.hpp"
@@ -62,6 +63,7 @@ public:
     Level *level; // The current level we're in
     bool toUpdate = true; // If we have to update the level or not
     bool establishingConnection = false;
+    int currentLevel = 0;
     
     int frames = 0, fps = 0; // The current frames and the last measured FPS
     

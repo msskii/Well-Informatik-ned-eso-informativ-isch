@@ -11,37 +11,38 @@
 
 #include <stdio.h>
 
-enum Direction
-{
-    UP = 0,
-    RIGHT = 1,
-    DOWN = 2,
-    LEFT = 3
-};
+#define debugging 1
 
-enum Tiles
-{
-    DIRT = 0,
-    WALL = 1
-};
 
-const char **tileNames = new const char*[2]
-{
-    "I",
-    "O"
-};
+
 
 class LevelGen
 {
+private:
+    enum Direction
+    {
+        UP = 0,
+        RIGHT = 1,
+        DOWN = 2,
+        LEFT = 3
+    };
+    
+    enum Tiles
+    {
+        WALL = 0,
+        DIRT = 1,
+        ENTRANCE = 2
+    };
+
 public:
-        
+    
     int width, height, birthLimit, deathLimit;
     int chanceToStartAlive, numberOfSteps;
     int *map;
     int *mapEdge;
     
-    //creates a cave map and saves it to the array
-    LevelGen(int widthN, int heightN, int *mapN);
+    //creates a cave map
+    LevelGen(int widthN, int heightN);
     int countAliveNeighbours(int *Oldmap, int x);
     void doSimulationStep();
     void mapInitialise();
@@ -49,6 +50,13 @@ public:
     bool isAWall(int direction, int x);
     int nextDirection(int direction, int x);
     void deleteBody(int x);
+    //saves the map to the passed array
+    void returnMap(int *mapN);
+    
+    //functions to diversivy level
+    void addGrasspatch(int *mapN, int strength);
+    void addWater(int *mapN, int strength);
+    void addOre(int *mapN, int depthLevel);
     
 };
 

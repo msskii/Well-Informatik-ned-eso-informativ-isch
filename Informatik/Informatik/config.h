@@ -27,8 +27,8 @@
 // #define FULLSCREEN_ENABLED // Comment this line if no fullscreen
 // #define HIGH_RESOLUTION // Comment this line if no high resolution
 
-#define GAME_WIDTH 1920
-#define GAME_HEIGHT 1080
+#define GAME_WIDTH 2304
+#define GAME_HEIGHT 1440
 
 #ifdef HIGH_RESOLUTION
 #  define WINDOW_WIDTH GAME_WIDTH
