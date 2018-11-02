@@ -15,5 +15,4 @@ void main()
     {
         col = texture(texture_sampler, uv).bgra;
     }
-    // col = texture(texture_sampler, uv).rrra;
 }

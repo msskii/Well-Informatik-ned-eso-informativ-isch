@@ -185,7 +185,15 @@ void Player::updateMovement(float dx, float dy)
 
 void Player::render(int x, int y)
 {
-    if(!texture.id) texture = getTexture(player_surface);
+    if(!texture.id)
+    {
+        texture = getTexture(player_surface);
+        
+        glUseProgram(light_shader);
+        glActiveTexture(GL_TEXTURE0 + 1);
+        glUniform1i(glGetUniformLocation(light_shader, "player_texture"), 1);
+        glBindTexture(GL_TEXTURE_2D, texture.id);
+    }
     
     if(graceLeft > 0) graceLeft = graceLeft - 1;
 
