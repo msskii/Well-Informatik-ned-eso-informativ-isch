@@ -92,8 +92,8 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     switch(currentLevel)
     {
         case 0:
-            cave = new LevelCave();
-            cave->startCave(level);
+            cave = new LevelCave(level);
+            cave->startCave();
             break;
         case 1:
             //this is map 1
@@ -108,9 +108,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
             break;
     }
 
-    //reload level
-    level->update();
-    level->updateTiles();
+    
     
     // Reload elements of the menu
     reloadElementTextures();

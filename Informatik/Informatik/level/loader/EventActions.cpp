@@ -71,5 +71,6 @@ void npc_interact(Event *event, EVENT_TYPE type, Level *level, uint8_t *args)
 
 void cave_next_level(Event *event, EVENT_TYPE type, Level *level, uint8_t *args)
 {
-    level->window->cave->nextLevel(level);
+    level->window->cave->nextLevel();
+    level->getLocalPlayer()->moveTo(0, 0);
 }
