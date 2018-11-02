@@ -44,6 +44,7 @@
 
 #include "../util/SDL_Util.hpp"
 
+class LevelCave;
 
 class Window
 {
@@ -62,6 +63,7 @@ public:
     
     std::vector<Menu*> menus; // All open menus
     Level *level; // The current level we're in
+    LevelCave *cave; //cave Object if we're in a cave
     bool toUpdate = true; // If we have to update the level or not
     bool establishingConnection = false;
     int currentLevel = 0;
