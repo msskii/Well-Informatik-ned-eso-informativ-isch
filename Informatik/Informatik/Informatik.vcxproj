@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="config\ConfigLoader.cpp" />
     <ClCompile Include="config\ConfigMenu.cpp" />
+    <ClCompile Include="config\KeyConfigBox.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\Slime.cpp" />
     <ClCompile Include="entity\decorativeEntities\Fireflies.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="graphics\gui\Inventory.cpp" />
     <ClCompile Include="graphics\gui\ItemSlot.cpp" />
     <ClCompile Include="graphics\gui\PlayerOverlay.cpp" />
+    <ClCompile Include="graphics\gui\Shop.cpp" />
     <ClCompile Include="graphics\overlay\DebugOverlay.cpp" />
     <ClCompile Include="graphics\overlay\DialogOverlay.cpp" />
     <ClCompile Include="graphics\overlay\editor\EditorOverlay.cpp" />
@@ -189,6 +191,8 @@
     <ClCompile Include="level\Building.cpp" />
     <ClCompile Include="level\Event.cpp" />
     <ClCompile Include="level\Level.cpp" />
+    <ClCompile Include="level\LevelCave.cpp" />
+    <ClCompile Include="level\LevelGen.cpp" />
     <ClCompile Include="level\loader\EventActions.cpp" />
     <ClCompile Include="level\loader\EventLoader.cpp" />
     <ClCompile Include="level\loader\LevelLoader.cpp" />
@@ -197,6 +201,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="multiplayer\Buffer.cpp" />
     <ClCompile Include="multiplayer\Client.cpp" />
+    <ClCompile Include="multiplayer\ClientOverlay.cpp" />
     <ClCompile Include="multiplayer\RemotePlayer.cpp" />
     <ClCompile Include="multiplayer\Server.cpp" />
     <ClCompile Include="multiplayer\ServerCommandHandlers.cpp" />
@@ -215,6 +220,7 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="config\ConfigLoader.hpp" />
     <ClInclude Include="config\ConfigMenu.hpp" />
+    <ClInclude Include="config\KeyConfigBox.hpp" />
     <ClInclude Include="enemy\Enemy.hpp" />
     <ClInclude Include="enemy\Slime.hpp" />
     <ClInclude Include="entity\decorativeEntities\Fireflies.hpp" />
@@ -230,6 +236,7 @@
     <ClInclude Include="graphics\gui\Inventory.hpp" />
     <ClInclude Include="graphics\gui\ItemSlot.hpp" />
     <ClInclude Include="graphics\gui\PlayerOverlay.hpp" />
+    <ClInclude Include="graphics\gui\Shop.hpp" />
     <ClInclude Include="graphics\overlay\DebugOverlay.hpp" />
     <ClInclude Include="graphics\overlay\DialogOverlay.hpp" />
     <ClInclude Include="graphics\overlay\editor\EditorOverlay.hpp" />
@@ -252,6 +259,8 @@
     <ClInclude Include="level\Building.hpp" />
     <ClInclude Include="level\Event.hpp" />
     <ClInclude Include="level\Level.hpp" />
+    <ClInclude Include="level\LevelCave.hpp" />
+    <ClInclude Include="level\LevelGen.hpp" />
     <ClInclude Include="level\loader\EventActions.hpp" />
     <ClInclude Include="level\loader\EventData.hpp" />
     <ClInclude Include="level\loader\EventLoader.hpp" />
@@ -260,6 +269,7 @@
     <ClInclude Include="level\Tile.hpp" />
     <ClInclude Include="multiplayer\Buffer.hpp" />
     <ClInclude Include="multiplayer\Client.hpp" />
+    <ClInclude Include="multiplayer\ClientOverlay.hpp" />
     <ClInclude Include="multiplayer\RemotePlayer.hpp" />
     <ClInclude Include="multiplayer\Server.hpp" />
     <ClInclude Include="multiplayer\ServerCommandHandlers.hpp" />

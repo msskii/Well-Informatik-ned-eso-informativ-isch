@@ -9,7 +9,7 @@
 #include "LevelCave.hpp"
 #include "Event.hpp"
 
-LevelCave::LevelCave(Level *&plevel) : level(plevel)
+LevelCave::LevelCave(Level *&plevel, Window *w) : level(plevel), window(w)
 {
 }
 
@@ -23,13 +23,12 @@ void LevelCave::nextLevel()
 {
     floor++;
     
-    Window *w = level->window;
     //create a new layer with the cave Gen
     level = new Level(width, height);
     LevelGen levelGen(width, height);
-    int mapLayout[width * height];
+    int *mapLayout = new int[width * height];
     levelGen.returnMap(mapLayout);
-    level->window = w;
+    level->window = window;
 
     
     //translate the int array from the cave gen to level
@@ -50,7 +49,7 @@ void LevelCave::nextLevel()
                 
             case ENTRANCE:
                 level->tiles[i].data.tileNumber = 1;
-                level->getLocalPlayer()->moveTo((i % width) * TILE_SIZE, int(i/width) * TILE_SIZE);
+                level->getLocalPlayer()->moveTo((float) (i % width) * TILE_SIZE, (float) int(i / width) * TILE_SIZE);
                 break;
             case EXIT:
                 eventData.event_x = TILE_SIZE * (i % width);

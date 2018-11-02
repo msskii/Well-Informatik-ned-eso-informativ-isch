@@ -22,8 +22,8 @@ void Text::render()
     {
         float a = drawTextAspect(text, 0xFF000000, {x, y, w, h}, texture, false);
         TTF_SizeText(font, text, &w, &h);
-        w *= a;
-        h *= a;
+        w = (int)(w * a);
+        h = (int)(h * a);
     }
     else renderWithoutShading(texture.getGL(), {}, {x, y, w, h});
 }

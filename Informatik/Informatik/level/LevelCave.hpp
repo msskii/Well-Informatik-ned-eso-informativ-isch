@@ -28,10 +28,11 @@ private:
     int floor = 0;
     int width = 50, height = 50;
     Level *&level;
+	Window *window;
     
 public:
     
-    LevelCave(Level *&plevel);
+    LevelCave(Level *&plevel, Window *window);
     void startCave();
     void nextLevel();
 };

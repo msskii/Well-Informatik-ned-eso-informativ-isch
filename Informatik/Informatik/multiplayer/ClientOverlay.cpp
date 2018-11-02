@@ -28,7 +28,7 @@ void ClientOverlay::renderMenu()
 
 void ClientOverlay::updateMenu(const uint8_t *keys)
 {
-    for(int i = 0; i < messages.size(); i++)
+    for(uint32_t i = 0; i < messages.size(); i++)
     {
         if(messages[i].disappearTimer-- <= 0)
         {
@@ -76,7 +76,7 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
 
 void ClientOverlay::addMessage(std::string text)
 {
-    for(int i = 0; i < messages.size(); i++) messages[i].text->y -= 100;
+    for(uint32_t i = 0; i < messages.size(); i++) messages[i].text->y -= 100;
     printf("Text from chat: %s\n", text.c_str());
     Text *elmnt = new Text(text.c_str(), 0, GAME_HEIGHT - 200, CHAT_WIDTH, 100);
     addElement(elmnt);

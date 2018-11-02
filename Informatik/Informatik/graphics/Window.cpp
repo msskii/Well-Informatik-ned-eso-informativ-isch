@@ -92,7 +92,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     switch(currentLevel)
     {
         case 0:
-            cave = new LevelCave(level);
+            cave = new LevelCave(level, this);
             cave->startCave();
             break;
         case 1:

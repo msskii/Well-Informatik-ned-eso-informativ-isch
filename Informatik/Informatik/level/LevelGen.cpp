@@ -57,9 +57,9 @@ int LevelGen::countAliveNeighbours(int *oldmap, int x)
 
 void LevelGen::doSimulationStep()
 {
-    int oldMap[width * height];
-    std::copy(map, map + (width * height), oldMap);
-    
+    int *oldMap = new int[width * height];    
+	memcpy(oldMap, map, width * height * sizeof(int));
+
     for(int x = 0; x < width * height; x++)
     {
         int nbs = countAliveNeighbours(oldMap, x);
@@ -256,7 +256,7 @@ void LevelGen::printTest()
         }
         outstring += "\n";
     }
-    std::cout << "Map: \n" << outstring;
+    std::cout << "Map: \n" << outstring.c_str();
     outstring = "";
     for (int i = 0; i < height; i++)
     {
@@ -266,6 +266,6 @@ void LevelGen::printTest()
         }
         outstring += "\n";
     }
-    std::cout << "Edge: \n" << outstring;
+    std::cout << "Edge: \n" << outstring.c_str();
 }
 
