@@ -37,6 +37,24 @@ void LightOverlay::addLight(float x, float y, float brightness, int color, float
     addLight(ls);
 }
 
+void LightOverlay::addLight(float x, float y, float brightness, int r, int g, int b, int a, float radius, float glowRatio)
+{
+    lightSource ls;
+    
+    ls.brightness = brightness;
+    ls.x = x;
+    ls.y = y;
+    ls.radius = radius;
+    ls.glowRatio = glowRatio;
+    
+    ls.r = (float)(r / 255.0f);
+    ls.g = (float)(g / 255.0f);
+    ls.b = (float)(b / 255.0f);
+    ls.a = (float)(a / 255.0f);
+    
+    addLight(ls);
+}
+
 void LightOverlay::startFrame()
 {
     // Reset data
@@ -52,6 +70,7 @@ void LightOverlay::sendStuff(GLuint shader)
 {
     glUseProgram(shader);
     glUniform1f(glGetUniformLocation(shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
+    glUniform4f(glGetUniformLocation(shader, "player_animation"), window->level->getLocalPlayer()->xoff / (GAME_WIDTH / 2.0f) - 1.0f, window->level->getLocalPlayer()->yoff / (GAME_HEIGHT / 2.0f) - 1.0f, window->level->getLocalPlayer()->direction + window->level->getLocalPlayer()->animSet * 4, window->level->getLocalPlayer()->anim);
     glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
     glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(lightSource), sources, GL_DYNAMIC_DRAW); // Store data
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, lightBuffer, 0, MAX_LIGHTS * sizeof(lightSource)); // Bind the whole range of it

@@ -5,6 +5,8 @@
 #define LIGHT_BRIGHTNESS 3.0
 #define BACKGROUND_BRIGHTNESS 1.0
 
+#define RAYCAST_STEPS 10.0
+
 struct lightSource
 {
     vec4 position; // Position on screen + brightness & radius
@@ -12,8 +14,12 @@ struct lightSource
     float glowRatio; // Sunlight reflection
 };
 
-uniform float displayAspect; // The aspect of the screen (Width / Height)
+in float displayAspect; // The aspect of the screen (Width / Height)
 uniform sampler2D texture_sampler; // The current texture
+
+in vec2 playerSize;
+uniform sampler2D player_texture;
+uniform vec4 player_animation; // x, y, direction, anim
 
 in vec2 pos; // Current position
 out vec4 col; // The color we calculate for that position
@@ -24,6 +30,35 @@ layout (std140) uniform lightSources // Pass a pointer to the lights and they al
     lightSource lights[NUM_LIGHTS]; // All the lights!
 };
 uniform float initial_alpha; // The background alpha
+
+bool raycast(vec2 center, float maxLength)
+{
+    vec2 cp = center;
+    
+    for(int i = 0; i < RAYCAST_STEPS; i++)
+    {
+        vec2 currentPos = vec2(-cp.x - 1.0 + playerSize.x * 1.5, cp.y - 1.0 + playerSize.y * 0.75);
+        
+        if(currentPos.x >= player_animation.x && currentPos.y >= player_animation.y && currentPos.x <= player_animation.x + playerSize.x && currentPos.y <= player_animation.y + playerSize.y)
+        {
+            vec2 anim_uv = vec2(player_animation.w / 4.0, player_animation.z / 8.0);
+
+            if(i < RAYCAST_STEPS - 1.0 || i == 0) return true;
+            
+            vec2 anim_uv_offset = vec2((1.0 - abs(currentPos.x - player_animation.x) / playerSize.x) / 4.0, (1.0 - abs(currentPos.y - player_animation.y) / playerSize.y) / 8.0);
+            if(texture(player_texture, anim_uv + anim_uv_offset).a <= 0.1)
+            {
+                continue;
+            }
+            
+            return true;
+        }
+        
+        cp += (pos - center) / RAYCAST_STEPS;
+    }
+    
+    return false;
+}
 
 void main()
 {
@@ -39,9 +74,18 @@ void main()
     for(int i = 0; i < NUM_LIGHTS; i++) // For all lights do:
     {
         if(lights[i].position.x == 0x414570A3) continue; // Skip invalid lights
-        
-        float d = distance(vec2(lights[i].position.x * 2.0 - 1.0, (1.0 - lights[i].position.y * 2.0) / displayAspect), vec2(pos.x, pos.y / displayAspect)) * LIGHT_SPREAD / lights[i].position.z; // Calculate the distance from light to object, if both things were round
+
+        vec2 lightpos = vec2(lights[i].position.x * 2.0 - 1.0, (1.0 - lights[i].position.y * 2.0) / displayAspect);
+        float d = distance(lightpos, vec2(pos.x, pos.y / displayAspect)) * LIGHT_SPREAD / lights[i].position.z; // Calculate the distance from light to object, if both things were round
         d = min(max(0.0, d), 1.0); // Limit distance to range 0 to 1
+
+        if(raycast(lightpos, lights[i].position.w * (1.0 - d)))
+        {
+            col = backcol * initial_alpha; // We hit the player
+            col.a = backcol.a;
+            continue;
+        }
+        
         vec4 toAdd = lights[i].color * lights[i].color.a; // Calculate the light we want to add
         
         if(lights[i].color.xyz == vec3(0, 0, 0))

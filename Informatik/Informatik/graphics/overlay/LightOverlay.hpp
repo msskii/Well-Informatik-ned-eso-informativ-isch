@@ -44,6 +44,7 @@ public:
     void startFrame();
     void addLight(lightSource ns);
     void addLight(float x, float y, float brightness, int color, float radius, float glowRatio);
+    void addLight(float x, float y, float brightness, int r, int g, int b, int a, float radius, float glowRatio);
     void render();
 };
 

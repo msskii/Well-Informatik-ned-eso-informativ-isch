@@ -81,6 +81,11 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
         printf("%s\n", TTF_GetError());
         exit(0);
     }
+    
+    // Init gl
+    setupGL();
+    setScreenSize(width, height);
+    
     // Set up level
     //check if its the cave
 
@@ -216,10 +221,6 @@ void Window::runGameLoop()
 {
     running = true;
     SDL_AddTimer(1000, secondCallback, this); // Used to calculate the fps
-        
-    // Init gl
-    setupGL();
-    setScreenSize(width, height);
     
     // Macos 10.14 fix
     nextFrame();

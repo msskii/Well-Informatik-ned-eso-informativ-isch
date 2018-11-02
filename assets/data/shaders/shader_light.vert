@@ -1,5 +1,8 @@
 #version 330 core
 
+#define PLAYER_WIDTH 64
+#define PLAYER_HEIGHT 128
+
 layout (location = 0) in vec2 position;
 layout (location = 1) in vec2 uv_pos;
 
@@ -9,6 +12,9 @@ uniform vec2 screenSize;
 out vec2 pos;
 out vec3 color;
 out vec2 uv;
+
+out float displayAspect;
+out vec2 playerSize;
 
 void main()
 {
@@ -21,6 +27,9 @@ void main()
     trans.x /= screenSize.y;
     trans.y /= screenSize.x;
     vec2 outvec = dif * rot + trans;
+    
+    displayAspect = screenSize.x / screenSize.y;
+    playerSize = vec2(PLAYER_WIDTH / screenSize.x, PLAYER_HEIGHT / screenSize.y);
     
     uv = uv_pos;
     pos = vec2(outvec.x * screenSize.y, outvec.y * screenSize.x);
