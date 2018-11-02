@@ -33,9 +33,9 @@ uniform float initial_alpha; // The background alpha
 
 bool raycast(vec2 center, float maxLength)
 {
-    vec2 cp = center;
+    vec2 cp = center + 3.0 * (pos - center) / RAYCAST_STEPS;
     
-    for(int i = 0; i < RAYCAST_STEPS; i++)
+    for(int i = 0; i < RAYCAST_STEPS - 3.0; i++)
     {
         vec2 currentPos = vec2(-cp.x - 1.0 + playerSize.x * 1.5, cp.y - 1.0 + playerSize.y * 0.75);
         
