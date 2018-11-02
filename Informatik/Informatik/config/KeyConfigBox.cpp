@@ -13,7 +13,7 @@ KeyConfigBox::KeyConfigBox(SDL_Keycode code, int x, int y, int w, int h, int id)
 {
     const char * name = SDL_GetKeyName(code);
     toStore = std::to_string(code); // Store the code as int
-    currentText = name;
+    currentText = std::string(" Key:  ") + name;
 }
 
 void KeyConfigBox::processEvent(Menu *menu, SDL_Event e)
@@ -27,7 +27,7 @@ void KeyConfigBox::processEvent(Menu *menu, SDL_Event e)
     }
     else if(e.type == SDL_KEYDOWN && focus)
     {
-        currentText = SDL_GetKeyName(e.key.keysym.sym);
+        currentText = std::string(" Key:  ") + SDL_GetKeyName(e.key.keysym.sym);
         toStore = std::to_string(e.key.keysym.sym); // Store the code as int
         changed = true;
     }

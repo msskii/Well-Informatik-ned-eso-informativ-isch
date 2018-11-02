@@ -59,6 +59,7 @@
 		9382708F213ED2D10084F967 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382708D213ED2D10084F967 /* Projectile.cpp */; };
 		93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */; };
 		93A8C4492181E9FC00507DF7 /* ClientOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */; };
+		93C77F65218C70AE00E06F49 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93C77F63218C70AE00E06F49 /* Shop.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
 		93D1C7D6212C2268004AACD1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7D4212C2268004AACD1 /* LevelLoader.cpp */; };
@@ -211,6 +212,8 @@
 		93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyConfigBox.hpp; sourceTree = "<group>"; };
 		93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientOverlay.cpp; sourceTree = "<group>"; };
 		93A8C4482181E9FC00507DF7 /* ClientOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ClientOverlay.hpp; sourceTree = "<group>"; };
+		93C77F63218C70AE00E06F49 /* Shop.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
+		93C77F64218C70AE00E06F49 /* Shop.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shop.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
 		93D1C7CB212AD12B004AACD1 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		93D1C7CF212ADCCE004AACD1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -580,6 +583,8 @@
 				93E278902143AB1C00F5EC35 /* ItemSlot.hpp */,
 				93185F9B21479203001A2167 /* PlayerOverlay.cpp */,
 				93185F9C21479203001A2167 /* PlayerOverlay.hpp */,
+				93C77F63218C70AE00E06F49 /* Shop.cpp */,
+				93C77F64218C70AE00E06F49 /* Shop.hpp */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 				936C12FA213665B300404679 /* EditorOverlay.cpp in Sources */,
 				937B001E214D888000BE1EE0 /* Explosion.cpp in Sources */,
 				937AFC63214046C000F92964 /* EntityItem.cpp in Sources */,
+				93C77F65218C70AE00E06F49 /* Shop.cpp in Sources */,
 				4D0F5C452188627F0012971A /* LevelCave.cpp in Sources */,
 				4D2A835B2182002E00378733 /* LevelGen.cpp in Sources */,
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,

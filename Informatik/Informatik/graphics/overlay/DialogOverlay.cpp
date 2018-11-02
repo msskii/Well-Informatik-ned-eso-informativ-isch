@@ -10,7 +10,7 @@
 
 DialogOverlay::DialogOverlay(const char *t) : text(std::string(t))
 {
-    
+    shouldLevelBeUpdated = true;
 }
 
 bool DialogOverlay::shouldWindowClose()
@@ -30,7 +30,7 @@ void DialogOverlay::renderMenu()
     std::string line2 = rest.substr(0, snl);
     
     drawTextAspect(line1.c_str(), 0xFF000000, {0, GAME_HEIGHT - 400, GAME_WIDTH, 200}, textCache1, false);
-    if(fnl > 0) drawTextAspect(line2.c_str(), 0xFF000000, {0, GAME_HEIGHT - 400, GAME_WIDTH, 200}, textCache2, false);
+    if(fnl > 0) drawTextAspect(line2.c_str(), 0xFF000000, {0, GAME_HEIGHT - 200, GAME_WIDTH, 200}, textCache2, false);
 }
 
 void DialogOverlay::updateMenu(const uint8_t *keys)
@@ -52,6 +52,12 @@ void DialogOverlay::updateMenu(const uint8_t *keys)
         int tnl = (int) rest.find("\n");
         if(fnl > 0 && tnl > 0) text = text.substr(fnl + 1);
         else dialogOver = true;
+        
+        if(dialogOver)
+        {
+            // Give player his inControl back?
+            window->level->getLocalPlayer()->inControl = true;
+        }
         
         deleteTexture(textCache1);
         textCache1 = textCache2;

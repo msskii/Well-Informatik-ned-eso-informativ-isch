@@ -293,7 +293,10 @@ void Level::update()
         {
             // Player inside event
             if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == STEP_ON) events[i]->trigger(STEP_ON, this);
-                        
+        }
+        
+        if(events[i]->event_data.event_x + events[i]->event_data.event_w > player->data.x_pos - TILE_SIZE && events[i]->event_data.event_x < player->data.x_pos + PLAYER_WIDTH + TILE_SIZE && events[i]->event_data.event_y + events[i]->event_data.event_h > player->data.y_pos - TILE_SIZE && events[i]->event_data.event_y < player->data.y_pos + PLAYER_HEIGHT + TILE_SIZE)
+        {
             if(player->actionPressed)
             {
                 if(events[i]->event_data.event_type_filter == ALL_EVENTS || events[i]->event_data.event_type_filter == PLAYER_INTERACT) events[i]->trigger(PLAYER_INTERACT, this);

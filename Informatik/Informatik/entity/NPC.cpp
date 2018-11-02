@@ -51,8 +51,8 @@ void NPC::createEvent()
     EventData evt;
     evt.event_x = (int)(data.x_pos);
     evt.event_y = (int)(data.y_pos);
-    evt.event_w = 1 * PLAYER_WIDTH;
-    evt.event_h = 1 * PLAYER_HEIGHT;
+    evt.event_w = (int) data.width;
+    evt.event_h = (int) data.height;
     
     evt.event_id_dependency = 0; // No dependency
     evt.triggerAmount = 0; // Infinite amounts
@@ -98,10 +98,11 @@ void NPC::onInteractWith()
     isFacingMe |= player->data.y_pos + PLAYER_HEIGHT / 2 < data.y_pos + data.height / 2 + data.height && player->direction == DOWN;
     isFacingMe |= player->data.y_pos + PLAYER_HEIGHT / 2 > data.y_pos + data.height / 2 && player->direction == UP;
 
-    if(isFacingMe && currentText < (int) texts.size())
+    if(isFacingMe && currentText < (int) texts.size() && level->getLocalPlayer()->inControl)
     {
         NPCText text = texts[currentText];
         level->window->openMenu(new DialogOverlay(text.text));
+        level->getLocalPlayer()->inControl = false;
         
         if(text.eventTriggered > 0)
         {

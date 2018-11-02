@@ -31,7 +31,7 @@ void Fireflies::render(int xoff, int yoff)
     for(int i = 0; i < Flycount; i++)
     {
         int fly = i * 4;
-        level->window->lights.addLight((float) r.x + flypos[fly], (float) r.y + flypos[fly+1], 10.0f, 0xFF00A0FF, 0.03f, 1.0f);
+        level->window->lights.addLight((float) r.x + flypos[fly], (float) r.y + flypos[fly+1], 0.6f, 0xFF00A0FF, 2.0f, 1.0f);
     }
 }
 
