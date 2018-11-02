@@ -33,6 +33,7 @@ enum EVENT_ACTION // The different actions (Add them here)
     MOVE_PLAYER,
     NPC_INTERACT,
     TELEPORT_PLAYER,
+    CAVE_NEXT_LEVEL
 };
 
 const static uint8_t *NUM_ARGS = new uint8_t[4] // how many arguments for the nth action

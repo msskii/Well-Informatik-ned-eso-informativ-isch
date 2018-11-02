@@ -219,6 +219,15 @@ void LevelGen::mapInitialise()
         if ((i % width < (width - 6)) && ((i + width + 6) < width * height) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
         {
             map[i+width+1] = ENTRANCE;
+            i += 4 * width;
+            while (i < width * height) {
+                if ((i % width < (width - 6)) && ((i + width + 6) < width * height) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
+                {
+                  map[i+width+1] = EXIT;
+                    break;
+                }
+                i++;
+            }
             break;
         }
     }

@@ -7,8 +7,14 @@
 //
 
 #include "LevelCave.hpp"
+#include "Level.hpp"
 
-LevelCave::LevelCave(Level *&level)
+LevelCave::LevelCave()
+{
+    
+}
+
+void LevelCave::startCave(Level *&level)
 {
     nextLevel(level);
 }
@@ -22,15 +28,29 @@ void LevelCave::nextLevel(Level *&level)
     LevelGen levelGen(width, height);
     int mapLayout[width * height];
     levelGen.returnMap(mapLayout);
+    
+    
     //translate the int array from the cave gen to level
+    //also search the entrance
     for (int i = 0; i < height * width; i++)
     {
-        if (mapLayout[i] == 0)
-        {
-            level->tiles[i].data.tileNumber = 2;
-        }else
-        {
-            level->tiles[i].data.tileNumber = 0;
+        switch (mapLayout[i]) {
+            case WALL:
+                level->tiles[i].data.tileNumber = 2;
+                level->tiles[i].data.tileZ = 1;
+                break;
+                
+            case DIRT:
+                level->tiles[i].data.tileNumber = 0;
+                break;
+                
+            case ENTRANCE:
+                level->tiles[i].data.tileNumber = 1;
+                level->getLocalPlayer()->moveTo((i % width) * TILE_SIZE, int(i/width) * TILE_SIZE);
+                break;
+                
+            default:
+                break;
         }
         level->tiles[i].reloadTexture();
     }

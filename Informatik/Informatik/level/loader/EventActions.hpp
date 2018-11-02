@@ -18,5 +18,6 @@ extern void no_action(Event *event, EVENT_TYPE type, Level *level, uint8_t *args
 extern void move_player(Event *event, EVENT_TYPE type, Level *level, uint8_t *args);
 extern void teleport_player(Event *event, EVENT_TYPE type, Level *level, uint8_t *args);
 extern void npc_interact(Event *event, EVENT_TYPE type, Level *level, uint8_t *args);
+extern void cave_next_level(Event *event, EVENT_TYPE type, Level *level, uint8_t *args);
 
 #endif /* EventActions_hpp */

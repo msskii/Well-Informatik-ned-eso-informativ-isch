@@ -60,6 +60,7 @@ public:
     void correctMovement(float &dx, float &dy);
     bool isInside(float dx, float dy);
     void takeDamage(float amount);
+    void moveTo(float x, float y);
     
     Level *current_level;
     

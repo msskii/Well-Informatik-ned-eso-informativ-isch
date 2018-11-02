@@ -183,6 +183,45 @@ void Player::updateMovement(float dx, float dy)
     }
 }
 
+void Player::moveTo(float x, float y)
+{
+    data.x_pos = x;
+    data.y_pos = y;
+    xoff = 0;
+    yoff = 0;
+    
+    if(data.x_pos < 0) data.x_pos = 0;
+    if(data.y_pos < 0) data.y_pos = 0;
+    if(data.x_pos >= (current_level->width - 1) * TILE_SIZE) data.x_pos = (float)((current_level->width - 1) * TILE_SIZE);
+    if(data.y_pos >= (current_level->height - 1) * TILE_SIZE) data.y_pos = (float)((current_level->height - 1) * TILE_SIZE);
+    
+    _x = data.x_pos;
+    _y = data.y_pos;
+    
+    if(_x <= ((GAME_WIDTH + PLAYER_WIDTH) / 2))
+    {
+        _x = ((GAME_WIDTH + PLAYER_WIDTH) / 2);
+        xoff = (int)(((GAME_WIDTH + PLAYER_WIDTH) / 2) - data.x_pos);
+    }
+    else if(_x >= current_level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2))
+    {
+        _x = (float) current_level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2.0f);
+        xoff = (int)(current_level->width * TILE_SIZE - ((GAME_WIDTH - PLAYER_WIDTH) / 2) - data.x_pos);
+    }
+    
+    if(_y < ((GAME_HEIGHT + PLAYER_HEIGHT) / 2))
+    {
+        _y = ((GAME_HEIGHT + PLAYER_HEIGHT) / 2);
+        yoff = (int)(((GAME_HEIGHT + PLAYER_HEIGHT) / 2) - data.y_pos);
+    }
+    else if(_y >= current_level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2))
+    {
+        _y = (float) current_level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2.0f);
+        yoff = (int)(current_level->height * TILE_SIZE - ((GAME_HEIGHT - PLAYER_HEIGHT) / 2) - data.y_pos);
+    }
+    
+}
+
 void Player::render(int x, int y)
 {
     if(!texture.id) texture = getTexture(player_surface);

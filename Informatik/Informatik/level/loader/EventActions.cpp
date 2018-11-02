@@ -21,6 +21,8 @@ eventFunc resolveFunction(int action)
             return npc_interact;
         case TELEPORT_PLAYER:
             return teleport_player;
+        case CAVE_NEXT_LEVEL:
+            return cave_next_level;
         default:
             return no_action;
     }
@@ -65,4 +67,9 @@ void teleport_player(Event *event, EVENT_TYPE type, Level* level, uint8_t *args)
 void npc_interact(Event *event, EVENT_TYPE type, Level *level, uint8_t *args)
 {
     ((NPC*)args)->onInteractWith();
+}
+
+void cave_next_level(Event *event, EVENT_TYPE type, Level *level, uint8_t *args)
+{
+    window.cave.nextlevel();
 }

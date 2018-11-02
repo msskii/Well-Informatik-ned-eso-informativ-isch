@@ -10,17 +10,27 @@
 #define LevelCave_hpp
 
 #include <stdio.h>
-#include "Level.hpp"
 #include "LevelGen.hpp"
+#include "Level.hpp"
 
 //this class will manage the level
 
 class LevelCave {
+private:
+    enum Tiles
+    {
+        WALL = 0,
+        DIRT = 1,
+        ENTRANCE = 2,
+        EXIT = 3
+    };
+    
     int floor = 0;
     int width = 50, height = 50;
     
 public:
-    LevelCave(Level *&level);
+    LevelCave();
+    void startCave(Level *&level);
     void nextLevel(Level *&level);
 };
 

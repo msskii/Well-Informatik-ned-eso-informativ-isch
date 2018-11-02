@@ -13,11 +13,9 @@
 
 #define debugging 1
 
-
-
-
 class LevelGen
 {
+
 private:
     enum Direction
     {
@@ -31,9 +29,10 @@ private:
     {
         WALL = 0,
         DIRT = 1,
-        ENTRANCE = 2
+        ENTRANCE = 2,
+        EXIT = 3
     };
-
+    
 public:
     
     int width, height, birthLimit, deathLimit;

@@ -34,6 +34,8 @@ void main()
     vec4 colorMod = backcol * BACKGROUND_BRIGHTNESS * initial_alpha; //Start with an empty color modifier
     float totalBrightness = backcol.a * BACKGROUND_BRIGHTNESS; // Background has a brightness of 10
     
+    //light[i].position.w = brightness
+    
     for(int i = 0; i < NUM_LIGHTS; i++) // For all lights do:
     {
         if(lights[i].position.x == 0x414570A3) continue; // Skip invalid lights
@@ -47,7 +49,7 @@ void main()
             toAdd = vec4(1, 1, 1, 1);
         }
         
-        //toAdd = lights[i].glowRatio * toAdd * (1.0 - initial_alpha) + backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - initial_alpha); // Modify the color to add with glow ratios
+        toAdd = lights[i].glowRatio * toAdd * (1.0 - initial_alpha) + backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - initial_alpha); // Modify the color to add with glow ratios
         
         colorMod += lights[i].position.w * toAdd * (1.0 - d); // Add the color modifier as many times as we indicate by brightness
         totalBrightness += lights[i].position.w * (1.0 - d); // Add the brightness of the light to the total amount
