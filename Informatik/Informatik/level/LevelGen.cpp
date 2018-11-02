@@ -233,8 +233,9 @@ void LevelGen::mapInitialise()
     }
 }
 
-void LevelGen::addGrasspatch(int *mapN, int strength)
+void LevelGen::addGrasspatch(int strength)
 {
+    //searches the right spots to add grass
     return;
 }
 

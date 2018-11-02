@@ -7,7 +7,6 @@
 //
 
 #include "LevelCave.hpp"
-#include "Level.hpp"
 
 LevelCave::LevelCave()
 {
@@ -28,7 +27,7 @@ void LevelCave::nextLevel(Level *&level)
     LevelGen levelGen(width, height);
     int mapLayout[width * height];
     levelGen.returnMap(mapLayout);
-    
+
     
     //translate the int array from the cave gen to level
     //also search the entrance

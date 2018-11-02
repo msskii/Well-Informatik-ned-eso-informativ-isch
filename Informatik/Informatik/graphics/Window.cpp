@@ -90,6 +90,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     //check if its the cave
 
     //else switch from the levels
+    LevelCave cave; //cave Object
     
     switch (currentLevel)
     {

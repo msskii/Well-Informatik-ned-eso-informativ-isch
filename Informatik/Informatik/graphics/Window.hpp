@@ -62,7 +62,6 @@ public:
     
     std::vector<Menu*> menus; // All open menus
     Level *level; // The current level we're in
-    LevelCave cave; //cave Object
     bool toUpdate = true; // If we have to update the level or not
     bool establishingConnection = false;
     int currentLevel = 0;

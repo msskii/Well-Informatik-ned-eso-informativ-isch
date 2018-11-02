@@ -53,9 +53,9 @@ public:
     void returnMap(int *mapN);
     
     //functions to diversivy level
-    void addGrasspatch(int *mapN, int strength);
-    void addWater(int *mapN, int strength);
-    void addOre(int *mapN, int depthLevel);
+    void addGrasspatch(int strength);
+    void addWater(int strength);
+    void addOre(int depthLevel);
     
 };
 
