@@ -29,6 +29,7 @@ private:
     int width = 50, height = 50;
     Level *&level;
 	Window *window;
+    bool entranceSet = false, exitSet = false;
     
 public:
     

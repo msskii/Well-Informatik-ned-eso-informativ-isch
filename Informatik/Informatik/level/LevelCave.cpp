@@ -48,10 +48,12 @@ void LevelCave::nextLevel()
                 break;
                 
             case ENTRANCE:
+                entranceSet = true;
                 level->tiles[i].data.tileNumber = 1;
                 level->getLocalPlayer()->moveTo((float) (i % width) * TILE_SIZE, (float) int(i / width) * TILE_SIZE);
                 break;
             case EXIT:
+                exitSet = true;
                 eventData.event_x = TILE_SIZE * (i % width);
                 eventData.event_y = TILE_SIZE * int(i/width);
                 eventData.event_w = TILE_SIZE;
@@ -70,8 +72,19 @@ void LevelCave::nextLevel()
         }
         level->tiles[i].reloadTexture();
     }
-    //reload level
-    level->update();
-    level->updateTiles();
-    level->reloadFiles();
+    if (exitSet)
+    {
+        //reload level
+        level->update();
+        level->updateTiles();
+        level->reloadFiles();
+        entranceSet = false;
+        exitSet = false;
+    }else
+    {
+        entranceSet = false;
+        floor--;
+        nextLevel();
+    }
+    
 }
