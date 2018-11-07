@@ -190,8 +190,12 @@ void Level::render() // and update
     xoffset = player->getOffsetX();
     yoffset = player->getOffsetY();
 
+	glUseProgram(light_shader);
+	glUniform1f(glGetUniformLocation(light_shader, "z_height"), 1);
     renderWithShading(level_texture, {-xoffset-PLAYER_OFFSET_X, -yoffset-PLAYER_OFFSET_Y, GAME_WIDTH, GAME_HEIGHT}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
-    
+	glUseProgram(light_shader);
+	glUniform1f(glGetUniformLocation(light_shader, "z_height"), 0);
+
     //Check if Entities are behind a building, if yes render them here. Else set a flag to do so after the buildings
     
     //first set all to false
