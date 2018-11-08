@@ -57,10 +57,21 @@ void Projectile::update(const uint8_t *keys)
         anim_timer = 0;
     }
     
-    if(r.x < 0 || r.x + r.w >= GAME_WIDTH || r.y < 0 || r.y + r.h >= GAME_HEIGHT || --despawnTimer < 0)
+    if(level->remoteLevel) // If we're on the server, the projectile shouldnt despawn because it is out of sight
     {
-        // Despawn...
-        level->removeEntity(this); // Stops render & update
+        if(--despawnTimer < 0)
+        {
+            // Despawn...
+            level->removeEntity(this); // Stops render & update
+        }
+    }
+    else
+    {
+        if(r.x < 0 || r.x + r.w >= GAME_WIDTH || r.y < 0 || r.y + r.h >= GAME_HEIGHT || --despawnTimer < 0)
+        {
+            // Despawn...
+            level->removeEntity(this); // Stops render & update
+        }
     }
     
     float x_pos_front = data.x_pos + data.width * (0.5f + cos(rotationAngle) / 2.0f);
@@ -75,7 +86,7 @@ void Projectile::update(const uint8_t *keys)
     // Find buildings
     for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
     {
-        if(level->getBuildingCollision(x_pos_front + i * xstep, y_pos_front + i * ystep))
+        if(level->getBuildingCollision(x_pos_front + i * xstep, y_pos_front + i * ystep) || level->getTile((x_pos_front + i * xstep) / TILE_SIZE, (y_pos_front + i * ystep) / TILE_SIZE).data.tileZ > 0)
         {
             velocity = {0, 0}; // Stop right at the wall
         }
