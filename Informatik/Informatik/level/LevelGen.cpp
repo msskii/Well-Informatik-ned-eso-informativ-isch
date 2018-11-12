@@ -20,19 +20,16 @@ LevelGen::LevelGen(int widthN, int heightN)
     
     width = widthN;
     height = heightN;
+    size = width * height;
     
     //in %
-    chanceToStartAlive = 55;
+    chanceToStartAlive = 53;
     numberOfSteps = 100;
     
-    map = new int[width * height];
-    mapEdge = new int[width * height];
+    map = new int[size];
+    mapEdge = new int[size];
     
     mapInitialise();
-    
-    if (debugging) {
-        printTest();
-    }
 }
 
 int LevelGen::countAliveNeighbours(int *oldmap, int x)
@@ -48,7 +45,7 @@ int LevelGen::countAliveNeighbours(int *oldmap, int x)
             
             int neighbour = x + i + (j * width);
             //If we're looking at the middle point
-            if((x % width == 0 && i == -1) || ((x+1) % width == 0 && i == 1) || (neighbour < 0) || (neighbour >= width * height)) count += 1; // Check if out of bounds --> if yes, alive!
+            if((x % width == 0 && i == -1) || ((x+1) % width == 0 && i == 1) || (neighbour < 0) || (neighbour >= size)) count += 1; // Check if out of bounds --> if yes, alive!
             else if(oldmap[neighbour] == WALL) count += 1; // Else check actual cell
         }
     }
@@ -57,10 +54,10 @@ int LevelGen::countAliveNeighbours(int *oldmap, int x)
 
 void LevelGen::doSimulationStep()
 {
-    int *oldMap = new int[width * height];    
-	memcpy(oldMap, map, width * height * sizeof(int));
+    int *oldMap = new int[size];
+	memcpy(oldMap, map, size * sizeof(int));
 
-    for(int x = 0; x < width * height; x++)
+    for(int x = 0; x < size; x++)
     {
         int nbs = countAliveNeighbours(oldMap, x);
         //The new value is based on our simulation rules
@@ -81,7 +78,7 @@ bool LevelGen::isAWall(int direction, int x)
         case RIGHT: // RIGHT
             return ((x+1) % width == 0 || map[x+1] == WALL);
         case DOWN: // DOWN
-            return ((x+width) >= height * width  || map[x+width] == WALL);
+            return ((x+width) >= size  || map[x+width] == WALL);
         case LEFT: // LEFT
             return (x % width == 0 || map[x-1] == WALL);
         default:
@@ -110,7 +107,7 @@ void LevelGen::deleteBody(int x)
     //first check if left is a Tile (0)
     if (x % width != 0 && map[x-1] == DIRT) deleteBody(x-1);
     //then check under
-    if (x + width < width * height && map[x+width] == DIRT) deleteBody(x+width);
+    if (x + width < size && map[x+width] == DIRT) deleteBody(x+width);
     //check up
     if (x >= width && map[x-width] == DIRT) deleteBody(x-width);
     //check right
@@ -123,7 +120,7 @@ void LevelGen::mapInitialise()
     std::vector<int> bodySize;
     std::vector<int> bodyCoord;
     //randomly seed the map
-    for(int x = 0; x < width * height; x++)
+    for(int x = 0; x < size; x++)
     {
         mapEdge[x] = 0;
         map[x] = (rand() % 100 <= chanceToStartAlive); // Maybe add ? WALL : DIRT;
@@ -132,7 +129,7 @@ void LevelGen::mapInitialise()
     //Generator
     for (int i = 0; i < numberOfSteps; i++) doSimulationStep();
     //clean empty spaces
-    for (int x = 0; x < height * width; x++)
+    for (int x = 0; x < size; x++)
     {
         //Find a Body
         if(map[x] == DIRT)
@@ -193,6 +190,17 @@ void LevelGen::mapInitialise()
             }
         }
     }
+    //make sure there is a wall around the whole thing
+    for (int i = 0; i < width; i++)
+    {
+        map[i] = WALL;
+        map[size - (i + 1)] = WALL;
+    }
+    for (int i = 0; i < height; i++)
+    {
+        map[i * width] = WALL;
+        map[((1+i) * width) - 1] = WALL;
+    }
     //now get rid of smaller bodies
     int biggestBodySize = 0;
     
@@ -211,37 +219,87 @@ void LevelGen::mapInitialise()
             deleteBody(bodyCoord[i]);
         }
     }
-    //Invert the map so 0 is a wall and 1 is a Tile
-    //finaly set the entrance
+    //finaly set the entrance and exit
     //search a pattern off 3 Tiles next to a wall
-    for (int i = 0;  i < width * height; i++)
+    for (int i = 0;  i < size; i++)
     {
-        if ((i % width < (width - 6)) && ((i + width + 6) < width * height) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
+        if ((i % width < (width - 6)) && ((i + width + 6) < size) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
         {
             map[i+width+1] = ENTRANCE;
-            i += 4 * width;
-            while (i < width * height) {
-                if ((i % width < (width - 6)) && ((i + width + 6) < width * height) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
-                {
-                  map[i+width+1] = EXIT;
-                    break;
-                }
-                i++;
-            }
             break;
+        }
+    }
+    for (int i = size;  i > -1; i--)
+    {
+        if ((i % width < (width - 6)) && ((i + width + 6) < size) && map[i] == WALL && map[i+1] == WALL && map[i+2] == WALL && map[i+width] == DIRT && map[i+1+width] == DIRT && map[i+2+width] == DIRT)
+        {
+            map[i+width+1] = EXIT;
+            break;
+        }
+    }
+    for (int i = 0; i < size; i++) {
+        if(map[i] == DIRT) amountGroundTiles++;
+    }
+}
+void LevelGen::addGrassrec(int strength, int lastDir, int x)
+{
+    
+    if (map[x] != WALL && map[x] != EXIT && map[x] != ENTRANCE)
+    {
+        map[x] = GRASS;
+        int newStrength = strength - 10;
+        if (rand() % 100 < strength) {
+            addGrassrec(newStrength, UP, x - width);
+        }
+        if (rand() % 100 < strength) {
+            addGrassrec(newStrength, RIGHT, x + 1);
+        }
+        if (rand() % 100 < strength) {
+            addGrassrec(newStrength, DOWN, x + width);
+        }
+        if (rand() % 100 < strength) {
+            addGrassrec(newStrength, LEFT, x - 1);
         }
     }
 }
 
-void LevelGen::addGrasspatch(int strength)
+void LevelGen::addGrasspatch(int patchSize, int amount)
 {
     //searches the right spots to add grass
+    for (int i = 0; i < amount; i ++)
+    {
+        //try n times to find a fitting tile
+        for (int j = 0; j < 50; j++) {
+            //int k = rand() % size;
+            int k = 510;
+            if(map[k] != WALL && map[k] != EXIT && map[k] != ENTRANCE)
+            {
+                addGrassrec(patchSize, UP, k);
+                break;
+            }
+        }
+        
+    }
     return;
+}
+
+void LevelGen::addBasicEnemies(int amount)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if(map[i] == DIRT && rand() % size < amount )
+        {
+            map[i] = BASIC_ENEMY;
+        }
+    }
 }
 
 void LevelGen::returnMap(int *mapN)
 {
-    memcpy(mapN, map, sizeof(int) * height * width);
+    memcpy(mapN, map, sizeof(int) * size);
+    if (debugging) {
+        printTest();
+    }
 }
 
 

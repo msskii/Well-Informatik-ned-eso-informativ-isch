@@ -15,6 +15,7 @@
 
 //this class will manage the level
 
+
 class LevelCave {
 private:
     enum Tiles
@@ -22,7 +23,8 @@ private:
         WALL = 0,
         DIRT = 1,
         ENTRANCE = 2,
-        EXIT = 3
+        EXIT = 3,
+        BASIC_ENEMY
     };
     
     int floor = 0;
