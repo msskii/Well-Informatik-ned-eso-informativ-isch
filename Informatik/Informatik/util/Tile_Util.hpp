@@ -13,13 +13,14 @@
 class Tile;
 class Level;
 
-#define NUMBER_OF_TEXTURES 3
+#define NUMBER_OF_TEXTURES 4
 
 enum Textures
 {
-    GRASS = 0,
-    STONE_ROAD_ON_GRASS,
-    DIRT
+    TILE_EMPTY = 0,
+    TILE_GRASS,
+    TILE_STONE_ROAD_ON_GRASS,
+    TILE_DIRT
 };
 
 typedef struct TextureInformation
@@ -30,6 +31,7 @@ typedef struct TextureInformation
 
 const TextureInformation textureData[NUMBER_OF_TEXTURES] =
 {
+    {"Empty", 0},
     {"Grass",       17}, // 17 variants of grass --> 1 normal & 16 other ones
     {"Stone path",  1},
     {"Dirt",        1}

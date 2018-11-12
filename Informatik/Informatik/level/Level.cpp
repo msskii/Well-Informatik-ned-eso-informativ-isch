@@ -65,11 +65,15 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
     for(uint64_t i = 0; i < width * height; i++)
     {
-        dst.x = tiles[i].xcoord * TILE_SIZE;
-        dst.y = tiles[i].ycoord * TILE_SIZE;
-        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+        if (tiles[i].Tile_surface != NULL)
         {
-            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+            dst.x = tiles[i].xcoord * TILE_SIZE;
+            dst.y = tiles[i].ycoord * TILE_SIZE;
+            if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+            {
+                printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+            }
+            
         }
     }
     
@@ -355,6 +359,9 @@ bool Level::getBuildingCollision(float x, float y)
 void Level::updateTile(int tilenum)
 {
     printf("Updating tile at %d\n", tilenum);
+    if (tiles[tilenum].Tile_surface == NULL) {
+        return;
+    }
     SDL_Rect dst = {tiles[tilenum].xcoord * TILE_SIZE, tiles[tilenum].ycoord * TILE_SIZE, TILE_SIZE, TILE_SIZE};
     SDL_BlitScaled(tiles[tilenum].Tile_surface, &tiles[tilenum].Tile_surface->clip_rect, srfc, &dst);
     deleteTexture(level_texture);
@@ -367,11 +374,15 @@ void Level::updateTiles()
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};
     for(uint64_t i = 0; i < width * height; i++)
     {
-        dst.x = tiles[i].xcoord * TILE_SIZE;
-        dst.y = tiles[i].ycoord * TILE_SIZE;
-        if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+        if (tiles[i].Tile_surface != NULL)
         {
-            printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+            dst.x = tiles[i].xcoord * TILE_SIZE;
+            dst.y = tiles[i].ycoord * TILE_SIZE;
+            if(SDL_BlitScaled(tiles[i].Tile_surface, &tiles[i].Tile_surface->clip_rect, srfc, &dst))
+            {
+                printf("[ERROR] BlitSurface (level.cpp) error: %s\n", SDL_GetError());
+            }
+            
         }
     }
     level_texture.id = 0;

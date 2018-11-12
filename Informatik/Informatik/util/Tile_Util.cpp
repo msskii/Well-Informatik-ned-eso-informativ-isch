@@ -15,7 +15,7 @@ SDL_Surface *   loadTileVariant(uint16_t tileNumber, uint8_t variant)
 {
     switch (tileNumber)
     {
-        case GRASS:
+        case TILE_GRASS:
             if(variant >= 129 && variant <= 128 + 0xF) return IMG_Load(GET_VARIANT_PATH("tiles/Tile_GrassToDirt_", variant - 128)); // Different variants
             
             switch (variant)
@@ -35,9 +35,11 @@ SDL_Surface *   loadTileVariant(uint16_t tileNumber, uint8_t variant)
                 default:
                     return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Grass"));;
             }
-        case STONE_ROAD_ON_GRASS:
+            
+        case TILE_STONE_ROAD_ON_GRASS:
             return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_StonerPathOnGrass"));
-        case DIRT:
+            
+        case TILE_DIRT:
             switch (variant) 
 			{
                 case 0:
@@ -52,6 +54,8 @@ SDL_Surface *   loadTileVariant(uint16_t tileNumber, uint8_t variant)
                     return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_Dirt"));
             }
             
+        case TILE_EMPTY:
+            return NULL;
             
         default:
             return NULL;
@@ -63,7 +67,7 @@ void updateVariant(Level *level)
     for(uint64_t i = 0; i < level->width * level->height; i++)
     {
         //check if Grass is surrounded by Dirt
-        if(level->tiles[i].data.tileNumber == GRASS)
+        if(level->tiles[i].data.tileNumber == TILE_GRASS)
         {
             // syntax: 0 0 0 0 left up right down
             uint8_t type = 0;
@@ -72,18 +76,17 @@ void updateVariant(Level *level)
             
             //left always checks if in bounds
 
-            if(i % level->width != 0 && level->tiles[i - 1].data.tileNumber == DIRT) type |= 8;
+            if(i % level->width != 0 && level->tiles[i - 1].data.tileNumber == TILE_DIRT) type |= 8;
             //up
-            if(i >= level->width && level->tiles[i - level->width].data.tileNumber == DIRT) type |= 4;
+            if(i >= level->width && level->tiles[i - level->width].data.tileNumber == TILE_DIRT) type |= 4;
             //right
-            if((i + 1) % level->width != 0 && level->tiles[i + 1].data.tileNumber == DIRT) type |= 2;
+            if((i + 1) % level->width != 0 && level->tiles[i + 1].data.tileNumber == TILE_DIRT) type |= 2;
             //down
-            if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == DIRT) type |= 1;
+            if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == TILE_DIRT) type |= 1;
             
             level->tiles[i].data.variant = 128 + type;
             // Maybe also do it like this? Just a proposition...
-            
-            level->tiles[i].reloadTexture(); // Reload the texture now...
+            level->tiles[i].reloadTexture();
         }
     }
     level->updateTiles();

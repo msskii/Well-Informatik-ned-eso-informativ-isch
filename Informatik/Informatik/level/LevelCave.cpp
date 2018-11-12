@@ -8,6 +8,7 @@
 
 #include "LevelCave.hpp"
 #include "Event.hpp"
+#include <time.h>
 
 LevelCave::LevelCave(Level *&plevel, Window *w) : level(plevel), window(w)
 {
@@ -22,12 +23,15 @@ void LevelCave::startCave()
 void LevelCave::nextLevel()
 {
     floor++;
-    
     //create a new layer with the cave Gen
     level = new Level(width, height);
     LevelGen levelGen(width, height);
+    levelGen.addBasicEnemies(10);
+    //levelGen.addGrasspatch(70, 1);
     int *mapLayout = new int[width * height];
     levelGen.returnMap(mapLayout);
+    
+    
     level->window = window;
 
     
@@ -39,21 +43,22 @@ void LevelCave::nextLevel()
         switch (mapLayout[i])
         {
             case WALL:
-                level->tiles[i].data.tileNumber = 2;
+                level->tiles[i].data.tileNumber = TILE_EMPTY;
                 level->tiles[i].data.tileZ = 1;
                 break;
                 
             case DIRT:
-                level->tiles[i].data.tileNumber = 0;
+                level->tiles[i].data.tileNumber = TILE_DIRT;
                 break;
                 
             case ENTRANCE:
                 entranceSet = true;
-                level->tiles[i].data.tileNumber = 1;
+                level->tiles[i].data.tileNumber = TILE_DIRT;
                 level->getLocalPlayer()->moveTo((float) (i % width) * TILE_SIZE, (float) int(i / width) * TILE_SIZE);
                 break;
             case EXIT:
                 exitSet = true;
+                level->tiles[i].data.tileNumber = TILE_DIRT;
                 eventData.event_x = TILE_SIZE * (i % width);
                 eventData.event_y = TILE_SIZE * int(i/width);
                 eventData.event_w = TILE_SIZE;
@@ -64,9 +69,17 @@ void LevelCave::nextLevel()
                 eventData.event_id_dependency = 0; // No Event needs to be triggered first
                 eventData.event_id = 0; // Auto increment & start from one
                 
-                level->events.push_back(new Event(eventData, new uint8_t[1] {0})); // 
+                level->events.push_back(new Event(eventData, new uint8_t[1] {0})); //
+                break;
                 
                 
+            case BASIC_ENEMY:
+                level->tiles[i].data.tileNumber = TILE_DIRT;
+                {
+                    Slime *slime = new Slime((i % width) * TILE_SIZE, int(i/width) * TILE_SIZE, floor * 10);
+                    level->addEntity(slime);
+                }
+                break;
             default:
                 break;
         }
@@ -74,6 +87,8 @@ void LevelCave::nextLevel()
     }
     if (exitSet)
     {
+        
+        updateVariant(level);
         //reload level
         level->update();
         level->updateTiles();

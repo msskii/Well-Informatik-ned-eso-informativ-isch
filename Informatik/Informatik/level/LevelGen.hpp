@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#define debugging 1
+#define debugging 0
 
 class LevelGen
 {
@@ -30,13 +30,16 @@ private:
         WALL = 0,
         DIRT = 1,
         ENTRANCE = 2,
-        EXIT = 3
+        EXIT = 3,
+        BASIC_ENEMY = 4,
+        GRASS = 5,
     };
     
 public:
     
-    int width, height, birthLimit, deathLimit;
+    int width, height, birthLimit, deathLimit, size;
     int chanceToStartAlive, numberOfSteps;
+    int amountGroundTiles;
     int *map;
     int *mapEdge;
     
@@ -53,7 +56,9 @@ public:
     void returnMap(int *mapN);
     
     //functions to diversivy level
-    void addGrasspatch(int strength);
+    void addGrasspatch(int patchSize, int amount);
+    void addGrassrec(int depth, int lastDir, int x);
+    void addBasicEnemies(int amount);
     void addWater(int strength);
     void addOre(int depthLevel);
     
