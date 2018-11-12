@@ -43,14 +43,14 @@ bool EditorOverlay::shouldWindowClose() { return false; }
 
 void EditorOverlay::renderMenu()
 {
-    if(eventEditorEnabled)
+    if(state == EVENT)
     {
         Event *e = nullptr;
         for(int i = 0; i < (int) window->level->events.size(); i++)
         {
             Event *evt = window->level->events[i];
-            int xpos = evt->event_data.event_x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X;
-            int ypos = evt->event_data.event_y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y;
+            int xpos = evt->event_data.event_x + window->level->getLocalPlayer()->getOffsetX() + PLAYER_OFFSET_X;
+            int ypos = evt->event_data.event_y + window->level->getLocalPlayer()->getOffsetY() + PLAYER_OFFSET_Y;
             // printf("%i: xd: (%d - %d), yd: %d\n", i, xpos, clickhandler->x, ypos - clickhandler->y);
             if(xpos <= clickhandler->x && xpos + evt->event_data.event_w >= clickhandler->x && ypos <= clickhandler->y && ypos + evt->event_data.event_h >= clickhandler->y)
             {
@@ -60,12 +60,12 @@ void EditorOverlay::renderMenu()
         }
         if(e == nullptr) return;
         
-        int xpos = e->event_data.event_x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X;
-        int ypos = e->event_data.event_y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y;
+        int xpos = e->event_data.event_x + window->level->getLocalPlayer()->getOffsetX() + PLAYER_OFFSET_X;
+        int ypos = e->event_data.event_y + window->level->getLocalPlayer()->getOffsetY() + PLAYER_OFFSET_Y;
         SDL_Rect dst = {xpos, ypos, e->event_data.event_w, e->event_data.event_h};
         fillRect(0xAFFFFFF, dst);
     }
-    else
+    else if(state == TILES)
     {
         int tileX = clickhandler->selectedID % window->level->width;
         int tileY = clickhandler->selectedID / window->level->width;
@@ -75,6 +75,19 @@ void EditorOverlay::renderMenu()
         SDL_Rect dst = { tileX * TILE_SIZE + window->level->getLocalPlayer()->getOffsetX() + PLAYER_OFFSET_X, tileY * TILE_SIZE + window->level->getLocalPlayer()->getOffsetY() + PLAYER_OFFSET_Y, TILE_SIZE, TILE_SIZE };
         fillRect(0xAFFFFFF, dst);
     }
+    else if(state == BUILDING)
+    {
+        for(int i = 0; i < window->level->buildings.size(); i++)
+        {
+            if(window->level->buildings[i]->isInside((clickhandler->x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X), (clickhandler->y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y)))
+            {
+                SDL_Rect dst = { (int) (window->level->buildings[i]->data.hitboxX * TILE_SIZE) + window->level->getLocalPlayer()->getOffsetX() + PLAYER_OFFSET_X, (int) (window->level->buildings[i]->data.hitboxY * TILE_SIZE) + window->level->getLocalPlayer()->getOffsetY() + PLAYER_OFFSET_Y, (int) (window->level->buildings[i]->data.hitboxsizeX * TILE_SIZE), (int) (window->level->buildings[i]->data.hitboxsizeY * TILE_SIZE) };
+                fillRect(0xAFFFFFFF, dst);
+                break;
+            }
+        }
+
+    }
 }
 
 void EditorOverlay::updateMenu(const uint8_t *keys)
@@ -82,12 +95,16 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
     if(keys[SDL_SCANCODE_E])
     {
         // Enabled event editor
-        eventEditorEnabled = true;
+        state = EVENT;
     }
-    if(keys[SDL_SCANCODE_D])
+    if(keys[SDL_SCANCODE_T])
     {
         // Disable event editor
-        eventEditorEnabled = false;
+        state = TILES;
+    }
+    if(keys[SDL_SCANCODE_B])
+    {
+        state = BUILDING;
     }
     
     if(keys[SDL_SCANCODE_N])
@@ -98,14 +115,14 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
     if(clickhandler->pressed)
     {
         clickhandler->pressed = false;
-        if(eventEditorEnabled)
+        if(state == EVENT)
         {
             Event *e = nullptr;
             for(int i = 0; i < (int) window->level->events.size(); i++)
             {
                 Event *evt = window->level->events[i];
-                int xpos = evt->event_data.event_x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X;
-                int ypos = evt->event_data.event_y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y;
+                int xpos = evt->event_data.event_x + window->level->getLocalPlayer()->getOffsetX() + PLAYER_OFFSET_X;
+                int ypos = evt->event_data.event_y + window->level->getLocalPlayer()->getOffsetY() + PLAYER_OFFSET_Y;
                 if(xpos <= clickhandler->x && xpos + evt->event_data.event_w >= clickhandler->x && ypos <= clickhandler->y && ypos + evt->event_data.event_h >= clickhandler->y)
                 {
                     e = evt;
@@ -122,7 +139,7 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
             }
             openSubMenu(new EventCreateMenu(e));
         }
-        else
+        else if(state == TILES)
         {
             int tileX = clickhandler->selectedID % window->level->width;
             int tileY = clickhandler->selectedID / window->level->width;
@@ -130,6 +147,18 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
             int tileIndex = tileX + tileY * window->level->width;
             
             openSubMenu(new TileEditor(window->level, tileIndex));
+        }
+        else if(state == BUILDING)
+        {
+            for(int i = 0; i < window->level->buildings.size(); i++)
+            {
+                if(window->level->buildings[i]->isInside((clickhandler->x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X), (clickhandler->y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y)))
+                {
+                    printf("Over building...\n");
+                    
+                    break;
+                }
+            }
         }
     }
 }

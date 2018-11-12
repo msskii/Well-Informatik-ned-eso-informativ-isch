@@ -37,8 +37,14 @@ bool raycast(vec2 center, float maxLength)
 {
     vec2 centerToPlayer = (player_animation.xy - center);
 	vec2 centerToPos = (pos - center);
+    
+    if(length(centerToPlayer) * RAYCAST_SIZE / RAYCAST_STEPS >= maxLength)
+    {
+        return false;
+    }
 	
 	vec2 cp = center + ((1.0 - RAYCAST_SIZE) * RAYCAST_STEPS) * (pos - center) / RAYCAST_STEPS;
+    //cp -= (pos - center) / 100.0;
     
     for(int i = 0; i < RAYCAST_STEPS ; i++)
     {
