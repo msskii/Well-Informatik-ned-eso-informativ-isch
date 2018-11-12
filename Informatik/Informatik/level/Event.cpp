@@ -38,7 +38,8 @@ void Event::render(int xoffset, int yoffset)
 {
     if(eventTriggerCounter[event_data.event_id] >= event_data.triggerAmount && event_data.triggerAmount != 0) return;
     if(event_data.event_id_dependency != 0 && eventTriggerCounter[event_data.event_id_dependency] == 0) return;
-    
+    /*
     SDL_Rect r = {event_data.event_x + xoffset + PLAYER_OFFSET_X, event_data.event_y + yoffset + PLAYER_OFFSET_Y, event_data.event_w, event_data.event_h};
     fillRect(0xFF000055, r);
+     */
 }

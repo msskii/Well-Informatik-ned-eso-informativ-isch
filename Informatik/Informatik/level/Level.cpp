@@ -50,9 +50,6 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
         tiles[i].data.tileNumber = 0;
     }
 
-    buildings.push_back(new Building(10, 10, 0, this));
-    buildings.push_back(new Building(10, 20, 1, this));
-    buildings.push_back(new Building(10, 32, 2, this));
 
     for(int i = 0; i < w * h; i++)
     {

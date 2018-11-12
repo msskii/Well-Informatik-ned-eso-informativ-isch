@@ -23,6 +23,7 @@ enum Textures
     TILE_DIRT
 };
 
+
 typedef struct TextureInformation
 {
     const char *textureName;
