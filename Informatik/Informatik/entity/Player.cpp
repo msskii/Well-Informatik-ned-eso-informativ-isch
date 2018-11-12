@@ -53,7 +53,7 @@ bool Player::isInside(float dx, float dy)
         {
             auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
             
-            if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
+           // if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
             
             Enemy *enemy = dynamic_cast<Enemy*>(entity);
             Projectile *projectile = dynamic_cast<Projectile*>(entity);
@@ -62,9 +62,10 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                if(enemy->isInside(data.x_pos + player_x_offset, data.y_pos + player_y_offset))
+                int damage = enemy->checkForDamage(data.x_pos + player_x_offset, data.y_pos + player_y_offset);
+                if(damage != 0)
                 {
-                    takeDamage(enemy->onDamaging());
+                    takeDamage(damage);
                     
                 }
             }
@@ -126,6 +127,7 @@ void Player::correctMovement(float &dx, float &dy)
 
 void Player::updateMovement(float dx, float dy)
 {
+    
     if(!inControl) return;
 
     // Walking into stuff
@@ -136,6 +138,7 @@ void Player::updateMovement(float dx, float dy)
     
     walking = dx != 0 || dy != 0;
     if(walking && !serverPlayer) correctMovement(dx, dy);
+    else isInside(0, 0);
     
     if(dx > 0) direction = RIGHT;
     else if(dx < 0) direction = LEFT;

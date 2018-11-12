@@ -20,11 +20,12 @@ private:
     gl_texture texture_hurt;
     
 public:
-    int anim = 0, set = 0, timer = 0, hurt = 0, underAttack = 0;
+    int anim = 0, set = 0, timer = 0, hurt = 0, underAttack = 0, bounceBack = 0, recharging = 0;
     int enemy_level = 0;
+    bool dying = false;
     Slime(float x, float y, int level);
     
-    bool isInside(float x, float y) override;
+    int checkForDamage(float x, float y) override;
     void onAddToLevel(Level *level) override;
     void render(int xoff, int yoff) override;
     void update(const uint8_t *keys) override;

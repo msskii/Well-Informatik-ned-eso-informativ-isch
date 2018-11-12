@@ -27,7 +27,7 @@ protected:
     
 public:
     float rotationAngle = 0; // Rotation of this projectile
-    float damage = 1.0f;
+    float damage = 10.0f;
     
     Projectile(float x, float y, float ra);
     

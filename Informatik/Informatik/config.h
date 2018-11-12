@@ -48,7 +48,7 @@
 // Projectile stuff
 // ======================
 
-#define PROJECTILE_SPEED 7
+#define PROJECTILE_SPEED 18
 #define PROJECTILE_ACCURACY 10 // Take 10 steps accross the axis the projectile is travelling
 
 // ======================

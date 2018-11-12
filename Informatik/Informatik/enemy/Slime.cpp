@@ -16,6 +16,7 @@ Slime::Slime(float x, float y, int level)
     data.damage = 1.0f + 0.5f * level;
     data.maxhealth = 1.0f * level;
     data.currentHealth = 1.0f * level;
+    data.collisionEnabled = false;
     animationHealth = 1.0f * level;
     agroRadius = 10 * TILE_SIZE;
     enemy_level = level;
@@ -49,9 +50,15 @@ Slime::Slime(float x, float y, int level)
  
 }
 
-bool Slime::isInside(float x, float y)
+int Slime::checkForDamage(float x, float y)
 {
-    return x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height;
+    //bounce back
+    if (x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height) {
+        bounceBack = 2;
+        return data.damage;
+    }
+    
+    return 0;
 }
 
 void Slime::onAddToLevel(Level *level) {}
@@ -87,32 +94,62 @@ void Slime::onDamage(float amount)
 
 float Slime::onDamaging()
 {
-    return data.damage;
+        return data.damage;
     
 }
 
 void Slime::update(const uint8_t *keys)
 {
-    if((attackState == ATTACKING || attackState == READY_TO_ATTACK) && (timer++) >= 5)
+    if((timer++) >= 6)
     {
+        bounceBack--;
         timer = 0;
         anim = (anim + 1) % 10;
     }
     
-    if(!isAlive) return; // Dont move when dead
+    if(!isAlive && !dying)
+    {
+        dying = true;
+        anim = 0;
+        set = 2;
+    }
+    if(dying)
+    {
+        if (anim == 9 && timer == 5) {
+            //time to die
+            level->removeEntity(this);
+        }
+        return;
+    }
     
     Player *player = level->getPlayer(data.x_pos, data.y_pos);
     if(player == nullptr) return; // No player on server
     
     float l = PLAYER_DIST(this, player);
-    if((l < agroRadius || (underAttack-- > 0)) && l > TILE_SIZE/4 && (attackState != ATTACK_DONE || attackState != RECHARGING))
+    if (bounceBack > 0)
+    {
+        recharging = 40;
+        data.dx = xdirection * data.speed * -2;
+        data.dy = ydirection * data.speed * -2;
+        data.x_pos += data.dx;
+        data.y_pos += data.dy;
+    }
+    else if (recharging > 0)
+    {
+        recharging--;
+        set = 0;
+    }
+    else if((l < agroRadius || (underAttack-- > 0))  && (attackState != ATTACK_DONE && recharging == 0))
     {
         attackState = ATTACKING;
         set = 1;
-        if(anim > 2 && anim < 7)
+        if (anim == 2)
         {
             xdirection = (player->data.x_pos - this->data.x_pos)/l;
             ydirection = (player->data.y_pos - this->data.y_pos)/l;
+        }
+        else if(anim > 2 && anim < 7)
+        {
             data.dx = xdirection * data.speed * 2;
             data.dy = ydirection * data.speed * 2;
             correctMovement(data.dx, data.dy);

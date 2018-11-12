@@ -23,7 +23,7 @@ void Enemy::takeDamage(float amount)
     onDamage(amount);
 }
 
-#define MAXPERCENT_PER_FRAME 0.02f
+#define MAXPERCENT_PER_FRAME 0.04f
 
 void Enemy::renderHP(float xoffset, float yoffset)
 {
@@ -38,7 +38,7 @@ void Enemy::renderHP(float xoffset, float yoffset)
         
         if(animationHealth <= 0)
         {
-            level->removeEntity(this);
+            animationHealth = 0;
         }
     }
     

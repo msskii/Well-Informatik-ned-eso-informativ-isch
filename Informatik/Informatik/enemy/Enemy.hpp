@@ -33,7 +33,7 @@ protected:
     int leftToMove = 0;
     
 public:
-    virtual bool isInside(float x, float y) = 0;
+    virtual int checkForDamage(float x, float y) = 0; //gives player cords, every entety returns active damage as an int
     virtual void onDamage(float amount) = 0;
     virtual float onDamaging() = 0;
     
