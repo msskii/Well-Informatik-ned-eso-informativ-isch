@@ -86,7 +86,7 @@ void Projectile::update(const uint8_t *keys)
     // Find buildings
     for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
     {
-        if(level->getBuildingCollision(x_pos_front + i * xstep, y_pos_front + i * ystep) || level->getTile((x_pos_front + i * xstep) / TILE_SIZE, (y_pos_front + i * ystep) / TILE_SIZE).data.tileZ > 0)
+        if(level->getBuildingCollision(x_pos_front + i * xstep, y_pos_front + i * ystep) || level->getTile((x_pos_front + i * xstep) / TILE_SIZE, (y_pos_front + i * ystep) / TILE_SIZE).data.tileZ > data.height)
         {
             velocity = {0, 0}; // Stop right at the wall
         }
@@ -106,10 +106,11 @@ void Projectile::update(const uint8_t *keys)
         
         for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
         {
-            if(enemy->isInside(x_pos_front + i * xstep, y_pos_front + i * ystep) || level->getTile((x_pos_front + i * xstep) / TILE_SIZE, (y_pos_front + i * ystep) / TILE_SIZE).data.tileZ > data.height)
+            if(enemy->isInside(x_pos_front + i * xstep, y_pos_front + i * ystep))
             {
                 enemy->takeDamage(damage);
                 level->removeEntity(this);
+                break;
             }
         }
     }
