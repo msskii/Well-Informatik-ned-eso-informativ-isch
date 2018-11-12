@@ -13,7 +13,7 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
 {
     switch (buildingNumber)
     {
-        case 0:
+        case BUILDING_OLDMANHUT:
             //Old Mans Hut
             building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Building_OldManHut"));
             data.sizeX = 8;
@@ -31,7 +31,7 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
             
             break;
             
-        case 1:
+        case BUILDING_TAVERN:
             //The Tavern
             building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Building_Tavern"));
             data.sizeX = 12;
@@ -48,7 +48,7 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
             data.hitboxsizeYBehind = 8.0f;
             
             break;
-        case 2:
+        case BUILDING_BLACKSMITH:
             //The Blacksmith
             building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/Building_Blacksmith"));
             data.sizeX = 10;
@@ -65,6 +65,19 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
             data.hitboxsizeYBehind = 8.0f;
             
             break;
+            
+        case DBUILDING_LADDERUP:
+            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/DBuilding_Ladder"));
+            data.sizeX = 1;
+            data.sizeY = 3;
+            break;
+            
+        case DBUILDING_LADDERDOWN:
+            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/DBuilding_Ladderdown"));
+            data.sizeX = 1;
+            data.sizeY = 1;
+            break;
+            
         default:
             break;
     }

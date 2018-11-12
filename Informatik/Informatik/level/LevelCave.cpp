@@ -53,11 +53,13 @@ void LevelCave::nextLevel()
                 
             case ENTRANCE:
                 entranceSet = true;
+                level->buildings.push_back(new Building(i % width, int(i / width) - 2, DBUILDING_LADDERUP, level));
                 level->tiles[i].data.tileNumber = TILE_DIRT;
                 level->getLocalPlayer()->moveTo((float) (i % width) * TILE_SIZE, (float) int(i / width) * TILE_SIZE);
                 break;
             case EXIT:
                 exitSet = true;
+                level->buildings.push_back(new Building(i % width, int(i / width), DBUILDING_LADDERDOWN, level));
                 level->tiles[i].data.tileNumber = TILE_DIRT;
                 eventData.event_x = TILE_SIZE * (i % width);
                 eventData.event_y = TILE_SIZE * int(i/width);

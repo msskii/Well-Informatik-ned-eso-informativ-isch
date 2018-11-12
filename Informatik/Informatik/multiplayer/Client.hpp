@@ -22,8 +22,8 @@ class ClientOverlay;
 namespace Multiplayer
 {
     class Client;
-    
-	extern int clientReceive(void *data); // Client receive handler
+    extern void checkCommand(Client *c, int amount, uint8_t* buffer, char *cmd, uint32_t uuid, uint8_t *data);
+    extern int clientReceive(void *data); // Client receive handler
     class RemotePlayer;
 
 	class Client

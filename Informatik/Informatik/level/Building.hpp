@@ -16,6 +16,16 @@
 #include <stdio.h>
 
 #pragma pack(push, 1)
+enum Buildings
+{
+    BUILDING_OLDMANHUT = 0,
+    BUILDING_TAVERN,
+    BUILDING_BLACKSMITH,
+    DBUILDING_LADDERUP,
+    DBUILDING_LADDERDOWN
+    
+};
+
 typedef struct BuildingData
 {
     uint16_t buildingNumber;
