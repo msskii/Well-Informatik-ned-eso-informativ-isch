@@ -28,11 +28,18 @@ public:
     void processEvent(Menu *menu, SDL_Event e) override;
 };
 
+enum EditorState
+{
+    TILES,
+    EVENT,
+    BUILDING
+};
+
 class EditorOverlay : public Menu
 {
 protected:
     EditorClickHandler *clickhandler;
-    bool eventEditorEnabled = false;
+    EditorState state = TILES;
     
 public:
     EditorOverlay();

@@ -10,6 +10,7 @@
 #define LevelGen_hpp
 
 #include <stdio.h>
+#include <cstring>
 
 #define debugging 0
 
