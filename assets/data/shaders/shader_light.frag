@@ -5,6 +5,7 @@
 #define LIGHT_BRIGHTNESS 3.0
 #define BACKGROUND_BRIGHTNESS 1.0
 
+#define RAYCAST_SIZE 0.2
 #define RAYCAST_STEPS 10.0
 
 struct lightSource
@@ -20,6 +21,7 @@ uniform sampler2D texture_sampler; // The current texture
 in vec2 playerSize;
 uniform sampler2D player_texture;
 uniform vec4 player_animation; // x, y, direction, anim
+uniform float z_height;
 
 in vec2 pos; // Current position
 out vec4 col; // The color we calculate for that position
@@ -33,28 +35,23 @@ uniform float initial_alpha; // The background alpha
 
 bool raycast(vec2 center, float maxLength)
 {
-    vec2 cp = center + 3.0 * (pos - center) / RAYCAST_STEPS;
+    vec2 centerToPlayer = (player_animation.xy - center);
+	vec2 centerToPos = (pos - center);
+	
+	vec2 cp = center + ((1.0 - RAYCAST_SIZE) * RAYCAST_STEPS) * (pos - center) / RAYCAST_STEPS;
     
-    for(int i = 0; i < RAYCAST_STEPS - 3.0; i++)
+    for(int i = 0; i < RAYCAST_STEPS ; i++)
     {
         vec2 currentPos = vec2(-cp.x - 1.0 + playerSize.x * 1.5, cp.y - 1.0 + playerSize.y * 0.75);
         
         if(currentPos.x >= player_animation.x && currentPos.y >= player_animation.y && currentPos.x <= player_animation.x + playerSize.x && currentPos.y <= player_animation.y + playerSize.y)
         {
             vec2 anim_uv = vec2(player_animation.w / 4.0, player_animation.z / 8.0);
-
-            if(i < RAYCAST_STEPS - 1.0 || i == 0) return true;
-            
-            vec2 anim_uv_offset = vec2((1.0 - abs(currentPos.x - player_animation.x) / playerSize.x) / 4.0, (1.0 - abs(currentPos.y - player_animation.y) / playerSize.y) / 8.0);
-            if(texture(player_texture, anim_uv + anim_uv_offset).a <= 0.1)
-            {
-                continue;
-            }
-            
-            return true;
+            vec2 anim_uv_offset = vec2((1.0 - abs(currentPos.x - player_animation.x) / playerSize.x) / 4.0, (1.0 - abs(currentPos.y - player_animation.y) / playerSize.y) / 8.0);            
+			if(texture(player_texture, anim_uv + anim_uv_offset).a >= 0.7) return true;
         }
         
-        cp += (pos - center) / RAYCAST_STEPS;
+        cp += (pos - center) * RAYCAST_SIZE / RAYCAST_STEPS;
     }
     
     return false;
@@ -79,7 +76,7 @@ void main()
         float d = distance(lightpos, vec2(pos.x, pos.y / displayAspect)) * LIGHT_SPREAD / lights[i].position.z; // Calculate the distance from light to object, if both things were round
         d = min(max(0.0, d), 1.0); // Limit distance to range 0 to 1
 
-        if(raycast(lightpos, lights[i].position.w * (1.0 - d)))
+        if(z_height == 1 && raycast(lightpos, lights[i].position.w * (1.0 - d)))
         {
             col = backcol * initial_alpha; // We hit the player
             col.a = backcol.a;

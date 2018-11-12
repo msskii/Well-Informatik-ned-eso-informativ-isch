@@ -12,7 +12,7 @@
 
 Player::Player(Level *l) : current_level(l)
 {
-    player_surface = IMG_Load(GET_TEXTURE_PATH("Character_Animation"));
+    player_surface = IMG_Load(GET_TEXTURE_PATH("player/Character_Animation"));
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
