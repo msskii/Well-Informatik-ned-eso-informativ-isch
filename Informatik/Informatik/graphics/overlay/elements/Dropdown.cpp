@@ -44,7 +44,7 @@ void DropDown::render()
                 // SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
                 renderWithoutShading(i == currentlyOver ? gl_textures[DROPDOWN_ELEMENT_HOVER] : gl_textures[DROPDOWN_ELEMENT], {}, dst);
 
-                drawTextAspect(elements[i].text, 0xFF000000, {x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h}, elements[i].cachedTexture, false);
+                drawTextAspect(elements[i].text, 0xFF000000, {x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h}, elements[i].cachedText, false);
             }
         }
         else
@@ -53,7 +53,7 @@ void DropDown::render()
             {
                 SDL_Rect dst = {x, y + h * elements[i].id, w, h};
                 renderWithoutShading(i == currentlyOver ? gl_textures[DROPDOWN_ELEMENT_HOVER] : gl_textures[DROPDOWN_ELEMENT], {}, dst);
-                drawTextAspect(elements[i].text, 0xFF000000, {x + (int) (100 * SCALE_X), y + h * elements[i].id, w, h}, elements[i].cachedTexture, false);
+                drawTextAspect(elements[i].text, 0xFF000000, {x + (int) (100 * SCALE_X), y + h * elements[i].id, w, h}, elements[i].cachedText, false);
             }
         }
     }

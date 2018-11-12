@@ -79,7 +79,7 @@ namespace Multiplayer
     extern TCP_Packet createPacket(const char *cmd, const char* data, int dataLen);
     extern TCP_Packet createClientPacket(const char *cmd, int clientID, const char* data, int dataLen);
     extern TCP_Packet createServerPacket(const char *cmd, const char *data, int dataLen);
-
+    extern int handleSocket(void *data);
     extern TCP_Packet ACK_PKG;
 
     class Server

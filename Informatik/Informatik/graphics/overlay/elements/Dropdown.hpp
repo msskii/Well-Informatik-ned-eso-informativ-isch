@@ -18,7 +18,7 @@ typedef struct DropDownElement
     
     int id = 0;
     const char *text = nullptr;
-    cachedTexture cachedTexture;
+    cachedTexture cachedText;
     
 } DropDownElement;
 
