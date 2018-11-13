@@ -27,6 +27,7 @@ bool PlayerOverlay::shouldWindowClose() { return false; }
 
 void PlayerOverlay::renderMenu()
 {
+    if(window) player = window->level->getLocalPlayer();
     int color = 0xFF000000;
     if(player->data.y_pos > 100)
     {
