@@ -14,6 +14,7 @@
 #include "../config.h"
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
+#include "../projectile/Spell.hpp"
 
 class Level;
 
@@ -34,6 +35,9 @@ public:
     float animationHealth = currentHealth;
     float gracePeriode = 3;
     int graceLeft = 0;
+    
+    //spells & attack
+    uint8_t spellID1 = 0, spellID2 = 1, spellID3 = 2, spellID4 = 3;
     
     // Items
     std::map<int, InventoryElement> playerItems;
@@ -61,6 +65,8 @@ public:
     bool isInside(float dx, float dy);
     void takeDamage(float amount);
     void moveTo(float x, float y);
+    void spell(int index);
+    void meleeAttack();
     
     Level *current_level;
     
@@ -69,7 +75,7 @@ public:
     virtual void render(int xoff, int yoff) override; // Override base class's function for this
     void renderStats(int xoff, int yoff);
     void onAddToLevel(Level *level) override {}
-    void update(const uint8_t *keys) override {}
+    void update(const uint8_t *keys) override;
 
 };
 

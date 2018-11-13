@@ -8,11 +8,19 @@
 
 #include "Player.hpp"
 #include "../level/Level.hpp"
+#include "../projectile/Spell.hpp"
 #define MAX_STEP 1
 
 Player::Player(Level *l) : current_level(l)
 {
+    //load Playertexture
     player_surface = IMG_Load(GET_TEXTURE_PATH("player/Character_Animation"));
+    
+    //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
+    Spell spell1(spellID1, 1, current_level);
+    Spell spell2(spellID2, 1, current_level);
+    Spell spell3(spellID3, 1, current_level);
+    Spell spell4(spellID4, 1, current_level);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -295,4 +303,15 @@ void Player::renderStats(int xoff, int yoff)
     fillRect(0xFF00FF00, hpbar);
     // Draw box around hp bar
     
+}
+
+void Player::spell(int index)
+{
+    
+}
+
+
+void Player::update(const uint8_t *keys)
+{
+    spell1.updateCooldown();
 }
