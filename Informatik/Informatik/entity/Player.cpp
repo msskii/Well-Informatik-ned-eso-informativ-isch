@@ -17,10 +17,10 @@ Player::Player(Level *l) : current_level(l)
     player_surface = IMG_Load(GET_TEXTURE_PATH("player/Character_Animation"));
     
     //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
-    Spell spell1(spellID1, 1, current_level);
-    Spell spell2(spellID2, 1, current_level);
-    Spell spell3(spellID3, 1, current_level);
-    Spell spell4(spellID4, 1, current_level);
+    spell1 = new Spell(spellID1, 1, current_level);
+    spell2 = new Spell(spellID2, 1, current_level);
+    spell3 = new Spell(spellID3, 1, current_level);
+    spell4 = new Spell(spellID4, 1, current_level);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -313,5 +313,5 @@ void Player::spell(int index)
 
 void Player::update(const uint8_t *keys)
 {
-    spell1.updateCooldown();
+    spell1->updateCooldown();
 }
