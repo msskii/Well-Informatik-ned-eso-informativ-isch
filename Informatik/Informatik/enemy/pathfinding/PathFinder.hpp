@@ -33,7 +33,8 @@ public:
     DIRECTION getStep(int si, int ei);
     DIRECTION getStep(int xs, int ys, int xe, int ye);
     DIRECTION getStep(float xs, float ys, float xe, float ye);
-
+    DIRECTION getSingleDirection(float xs, float ys, float xe, float ye, float w, float h);
+    vector2d getAverageDirection(float xs, float ys, float xe, float ye, float w, float h);
 };
 
 #endif /* PathFinder_hpp */

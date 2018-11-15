@@ -17,6 +17,8 @@ class Shop : public Menu
 private:
     int currentMoney = 0;
     std::vector<Item> inStock;
+    std::vector<cachedTexture> stockNameTextures;
+    int selected = 0;
     
 public:
     Shop(const char* backgroundPath, int currentMoney, std::vector<Item> inStock);
