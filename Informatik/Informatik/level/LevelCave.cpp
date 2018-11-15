@@ -85,6 +85,14 @@ void LevelCave::nextLevel()
             default:
                 break;
         }
+        //add random muation tiles
+        
+        for(int i = 0; i < width * height; i++)
+        {
+            level->tiles[i].data.variant = rand() % 200 <= 2 ? 1 : rand() % 200 <= 2 ? 2 : 0; // Add stuff to the level
+        }
+        
+        
         level->tiles[i].reloadTexture();
     }
     if (exitSet)

@@ -51,12 +51,6 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     }
 
 
-    for(int i = 0; i < w * h; i++)
-    {
-        tiles[i].data.variant = rand() % 100 <= 2 ? 1 : rand() % 100 <= 2 ? 2 : 0; // Add stuff to the level
-        tiles[i].reloadTexture(); // Load initial texture...
-    }
-
     // Create texture
     srfc = SDL_CreateRGBSurfaceWithFormat(0, TILE_SIZE * width, TILE_SIZE * height, 32, SDL_PIXELFORMAT_ARGB8888);
     SDL_Rect dst = {0, 0, TILE_SIZE, TILE_SIZE};

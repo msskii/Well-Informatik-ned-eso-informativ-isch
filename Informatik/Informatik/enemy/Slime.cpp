@@ -54,7 +54,9 @@ int Slime::checkForDamage(float x, float y)
 {
     //bounce back
     if (x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height) {
-        bounceBack = 2;
+        if (attackState == ATTACKING) {
+            bounceBack = 2;
+        }
         return data.damage;
     }
     
@@ -131,17 +133,19 @@ void Slime::update(const uint8_t *keys)
         recharging = 40;
         data.dx = xdirection * data.speed * -2;
         data.dy = ydirection * data.speed * -2;
+        correctMovement(data.dx, data.dy);
         data.x_pos += data.dx;
         data.y_pos += data.dy;
     }
     else if (recharging > 0)
     {
+        attackState = RECHARGING;
         recharging--;
         set = 0;
     }
-    else if((l < agroRadius || (underAttack-- > 0))  && (attackState != ATTACK_DONE && recharging == 0))
+    else if((l < agroRadius || (underAttack-- > 0))  && (attackState != ATTACK_DONE && attackState != RECHARGING))
     {
-        attackState = ATTACKING;
+        attackState = READY_TO_ATTACK;
         set = 1;
         if (anim == 2)
         {
@@ -150,6 +154,7 @@ void Slime::update(const uint8_t *keys)
         }
         else if(anim > 2 && anim < 7)
         {
+            attackState = ATTACKING;
             data.dx = xdirection * data.speed * 2;
             data.dy = ydirection * data.speed * 2;
             correctMovement(data.dx, data.dy);

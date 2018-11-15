@@ -40,6 +40,7 @@ SDL_Surface *   loadTileVariant(uint16_t tileNumber, uint8_t variant)
             return IMG_Load(GET_TEXTURE_PATH("tiles/Tile_StonerPathOnGrass"));
             
         case TILE_DIRT:
+            if(variant >= 129 && variant <= 128 + 0x1F) return IMG_Load(GET_VARIANT_PATH("tiles/Tile_Dirtboarder_", variant - 128));
             switch (variant) 
 			{
                 case 0:
@@ -71,9 +72,6 @@ void updateVariant(Level *level)
         {
             // syntax: 0 0 0 0 left up right down
             uint8_t type = 0;
-            
-            //Ich han Bitwise operatore gha aber es het ned gfunkt demit also han ichs me em andere gmacht XD
-            
             //left always checks if in bounds
 
             if(i % level->width != 0 && level->tiles[i - 1].data.tileNumber == TILE_DIRT) type |= 8;
@@ -87,6 +85,32 @@ void updateVariant(Level *level)
             level->tiles[i].data.variant = 128 + type;
             // Maybe also do it like this? Just a proposition...
             level->tiles[i].reloadTexture();
+        }
+        else if(level->tiles[i].data.tileNumber == TILE_DIRT)
+        {
+            uint8_t type = 0;
+            if(i % level->width != 0 && level->tiles[i - 1].data.tileNumber == TILE_EMPTY) type |= 8;
+            //up
+            if(i >= level->width && level->tiles[i - level->width].data.tileNumber == TILE_EMPTY) type |= 4;
+            //right
+            if((i + 1) % level->width != 0 && level->tiles[i + 1].data.tileNumber == TILE_EMPTY) type |= 2;
+            //down
+            if(i / level->width + 1 < level->height && level->tiles[i + level->width].data.tileNumber == TILE_EMPTY) type |= 1;
+            if (!(type == 8 || type == 4 || type == 2 || type == 1) && type != 0) {
+                //add random mutations
+                
+                if (rand() % 20 == 0)
+                {
+                    level->tiles[i].data.variant = 128 + type + 16;
+                }
+                else
+                {
+                    level->tiles[i].data.variant = 128 + type;
+
+                }
+                level->tiles[i].reloadTexture();
+            }
+            
         }
     }
     level->updateTiles();

@@ -314,4 +314,7 @@ void Player::spell(int index)
 void Player::update(const uint8_t *keys)
 {
     spell1->updateCooldown();
+    spell2->updateCooldown();
+    spell3->updateCooldown();
+    spell4->updateCooldown();
 }
