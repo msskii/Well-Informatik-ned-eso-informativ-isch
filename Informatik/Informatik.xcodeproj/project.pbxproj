@@ -217,6 +217,7 @@
 		9387758C219D5C0D00DDA9B2 /* PathFinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PathFinder.hpp; sourceTree = "<group>"; };
 		9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Alg_AStar.cpp; sourceTree = "<group>"; };
 		9387758F219D5CE800DDA9B2 /* Alg_AStar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Alg_AStar.hpp; sourceTree = "<group>"; };
+		93877591219DA2A100DDA9B2 /* TODO_AARON.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO_AARON.md; sourceTree = "<group>"; };
 		93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyConfigBox.cpp; sourceTree = "<group>"; };
 		93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyConfigBox.hpp; sourceTree = "<group>"; };
 		93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientOverlay.cpp; sourceTree = "<group>"; };
@@ -304,6 +305,7 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				93877591219DA2A100DDA9B2 /* TODO_AARON.md */,
 				4D50104E216CC39000E2E4E0 /* TODO.md */,
 				93185F992146E318001A2167 /* textures */,
 				936C12E9213550F700404679 /* data */,
