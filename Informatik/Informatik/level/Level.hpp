@@ -22,8 +22,11 @@
 #include "loader/TextLoader.hpp"
 #include "../multiplayer/Client.hpp"
 
+#include "../enemy/pathfinding/PathFinder.hpp"
+
 class Player;
 class Window;
+class PathFinder;
 namespace Multiplayer
 {
     class Server;
@@ -44,6 +47,7 @@ public:
     std::vector<int> serverRemoved; // The entities clients have removed
     
     std::vector<Entity*> entities; // The entities in the level
+    PathFinder *pathfinder = nullptr;
     Tile *tiles; // The tiles
     std::vector<Building*> buildings;
     
