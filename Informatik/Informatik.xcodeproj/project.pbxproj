@@ -58,6 +58,8 @@
 		93827088213EC7EF0084F967 /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827086213EC7EF0084F967 /* Enemy.cpp */; };
 		9382708B213ECD8C0084F967 /* Slime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93827089213ECD8C0084F967 /* Slime.cpp */; };
 		9382708F213ED2D10084F967 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382708D213ED2D10084F967 /* Projectile.cpp */; };
+		9387758D219D5C0D00DDA9B2 /* PathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9387758B219D5C0D00DDA9B2 /* PathFinder.cpp */; };
+		93877590219D5CE800DDA9B2 /* Alg_AStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */; };
 		93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */; };
 		93A8C4492181E9FC00507DF7 /* ClientOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */; };
 		93C77F65218C70AE00E06F49 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93C77F63218C70AE00E06F49 /* Shop.cpp */; };
@@ -211,6 +213,11 @@
 		9382708A213ECD8C0084F967 /* Slime.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Slime.hpp; sourceTree = "<group>"; };
 		9382708D213ED2D10084F967 /* Projectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Projectile.cpp; sourceTree = "<group>"; };
 		9382708E213ED2D10084F967 /* Projectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Projectile.hpp; sourceTree = "<group>"; };
+		9387758B219D5C0D00DDA9B2 /* PathFinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PathFinder.cpp; sourceTree = "<group>"; };
+		9387758C219D5C0D00DDA9B2 /* PathFinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PathFinder.hpp; sourceTree = "<group>"; };
+		9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Alg_AStar.cpp; sourceTree = "<group>"; };
+		9387758F219D5CE800DDA9B2 /* Alg_AStar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Alg_AStar.hpp; sourceTree = "<group>"; };
+		93877591219DA2A100DDA9B2 /* TODO_AARON.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO_AARON.md; sourceTree = "<group>"; };
 		93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyConfigBox.cpp; sourceTree = "<group>"; };
 		93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyConfigBox.hpp; sourceTree = "<group>"; };
 		93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientOverlay.cpp; sourceTree = "<group>"; };
@@ -298,6 +305,7 @@
 		932D3203212AB6E500DA45BD = {
 			isa = PBXGroup;
 			children = (
+				93877591219DA2A100DDA9B2 /* TODO_AARON.md */,
 				4D50104E216CC39000E2E4E0 /* TODO.md */,
 				93185F992146E318001A2167 /* textures */,
 				936C12E9213550F700404679 /* data */,
@@ -484,6 +492,7 @@
 		93827085213EC7E20084F967 /* enemy */ = {
 			isa = PBXGroup;
 			children = (
+				9387758A219D5BF100DDA9B2 /* pathfinding */,
 				93827086213EC7EF0084F967 /* Enemy.cpp */,
 				93827087213EC7EF0084F967 /* Enemy.hpp */,
 				93827089213ECD8C0084F967 /* Slime.cpp */,
@@ -505,6 +514,17 @@
 				4DB09B34219B08B200557927 /* Spell.hpp */,
 			);
 			path = projectile;
+			sourceTree = "<group>";
+		};
+		9387758A219D5BF100DDA9B2 /* pathfinding */ = {
+			isa = PBXGroup;
+			children = (
+				9387758B219D5C0D00DDA9B2 /* PathFinder.cpp */,
+				9387758C219D5C0D00DDA9B2 /* PathFinder.hpp */,
+				9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */,
+				9387758F219D5CE800DDA9B2 /* Alg_AStar.hpp */,
+			);
+			path = pathfinding;
 			sourceTree = "<group>";
 		};
 		93D1C7CD212ADCBE004AACD1 /* entity */ = {
@@ -661,6 +681,7 @@
 				4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */,
 				93827084213BAE3A0084F967 /* PauseMenu.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
+				93877590219D5CE800DDA9B2 /* Alg_AStar.cpp in Sources */,
 				937B0D6221301D1000C2051B /* TextBox.cpp in Sources */,
 				9368D3192131A17B005D6756 /* Tests.cpp in Sources */,
 				93D47BBE212DE69C007853BC /* SDL_Util.cpp in Sources */,
@@ -695,6 +716,7 @@
 				4D2A835B2182002E00378733 /* LevelGen.cpp in Sources */,
 				93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */,
 				93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */,
+				9387758D219D5C0D00DDA9B2 /* PathFinder.cpp in Sources */,
 				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,
 				93185F9D21479203001A2167 /* PlayerOverlay.cpp in Sources */,
 				9382707F213A5C050084F967 /* Client.cpp in Sources */,
