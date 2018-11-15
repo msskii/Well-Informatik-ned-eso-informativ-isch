@@ -20,7 +20,7 @@ void astar_init(Level *level)
 {
     if(gScores != nullptr) free(gScores);
     if(fScores != nullptr) free(fScores);
-    if(cameFrom != nullptr) free(fScores);
+    if(cameFrom != nullptr) free(cameFrom);
     scoreSize = sizeof(int) * level->width * level->height;
     level_width = level->width;
     level_height = level->height;
