@@ -85,7 +85,6 @@ DIRECTION astar_step(Tile *tiles, int startIndex, int endIndex)
             else if(diff == -1) return LEFT;
             else if(diff == 1) return RIGHT;
             
-            printf("Difference is: %d\n", diff);
             return UP;
         }
         

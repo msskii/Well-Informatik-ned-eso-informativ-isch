@@ -10,7 +10,8 @@
 
 Spell::Spell(u_int8_t spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
 {
-    switch (spellID) {
+    switch (spellID)
+    {
         case 0:
             //set cooldowns and damage
             damage = 10 * damageModifier;
@@ -26,9 +27,11 @@ bool Spell::castSpell(int direction)
 {
     //here a Projectile of the spellspecific kind should be created
     //return false if the spell is on cooldown
-    if (cooldownTimer == 0) {
+    if (cooldownTimer == 0)
+    {
         cooldownTimer = cooldown;
-        switch (spellID) {
+        switch (spellID)
+        {
             case 0:
                 break;
                 
@@ -43,9 +46,11 @@ bool Spell::castSpell(int direction)
 void Spell::updateCooldown()
 {
     //shall we update the cooldown based on the frame counts? - so this should be called every frame
-    if (cooldownTimer != 0) {
+    if (cooldownTimer != 0)
+    {
         cooldownTimer -= 1.0f / 60.0f;
-        if (cooldownTimer < 0) {
+        if (cooldownTimer < 0)
+        {
             cooldownTimer = 0;
         }
     }
