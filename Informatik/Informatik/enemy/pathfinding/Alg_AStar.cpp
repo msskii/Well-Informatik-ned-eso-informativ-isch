@@ -92,10 +92,10 @@ DIRECTION astar_step(Tile *tiles, int startIndex, int endIndex)
         closedSet.push_back(current); // We have visited this field
         
         // Check possible neighbours
-        if(current % level_width > 0 && CANSTEPON(current - 1)) neighbours.push_back(current - 1);
-        if(current / level_width > 0 && CANSTEPON(current - level_width)) neighbours.push_back(current - level_width);
-        if(current % level_width < level_width - 1 && CANSTEPON(current + 1)) neighbours.push_back(current + 1);
-        if(current / level_width < level_height - 1 && CANSTEPON(current + level_width)) neighbours.push_back(current + level_width);
+        if(current % level_width > 1 && CANSTEPON(current - 1) && CANSTEPON(current - 2)) neighbours.push_back(current - 1);
+        if(current / level_width > 1 && CANSTEPON(current - level_width) && CANSTEPON(current - 2 * level_width)) neighbours.push_back(current - level_width);
+        if(current % level_width < level_width - 2 && CANSTEPON(current + 1) && CANSTEPON(current + 2)) neighbours.push_back(current + 1);
+        if(current / level_width < level_height - 2 && CANSTEPON(current + level_width) && CANSTEPON(current + 2 * level_width)) neighbours.push_back(current + level_width);
         
         while(neighbours.size() > 0)
         {
