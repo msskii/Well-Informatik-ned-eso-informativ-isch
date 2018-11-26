@@ -162,6 +162,7 @@ void Window::update()
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
     
     level->getLocalPlayer()->updateMovement(x, y); // Update player movement
+    level->getLocalPlayer()->update(keyStates);
     level->getLocalPlayer()->actionPressed = keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_INTERACT])];
     
     level->update(); // Update rest of level according to player
