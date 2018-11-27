@@ -15,6 +15,7 @@
 
 typedef void (*pathfindInit)(Level *level);
 typedef DIRECTION (*pathfindAlg)(Tile *currentTiles, int startIndex, int endIndex);
+extern uint32_t level_width, level_height;
 
 typedef struct pathFindAlgorithm
 {

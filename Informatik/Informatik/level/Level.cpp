@@ -28,7 +28,9 @@ void usleep(__int64 usec)
 #include "loader/EventActions.hpp"
 #include "loader/LevelLoader.hpp"
 #include "../multiplayer/Server.hpp"
+
 #include "../enemy/pathfinding/Alg_AStar.hpp"
+#include "../enemy/pathfinding/Alg_Line.hpp"
 
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
@@ -105,6 +107,7 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
     pathfinder = new PathFinder(this, astar);
+    // pathfinder = new PathFinder(this, straight_line);
     
     player->updateMovement(0, 0); // Update player before level loads
 }

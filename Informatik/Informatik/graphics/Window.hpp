@@ -43,6 +43,7 @@
 #include "../config/ConfigLoader.hpp"
 
 #include "../util/SDL_Util.hpp"
+#include "../sound/SoundHandler.hpp"
 
 class LevelCave;
 

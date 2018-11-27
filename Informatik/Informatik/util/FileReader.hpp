@@ -18,7 +18,7 @@
 #define TEXTURE_PATH std::string("assets/textures/")
 #define FONT_PATH std::string("assets/fonts/")
 #define LEVEL_PATH std::string("assets/data/")
-#define AUDIO_PATH std::string("assets/audio/")
+#define AUDIO_PATH std::string("assets/music/")
 
 #define GET_VARIANT_PATH(texture_name, variant_num) (TEXTURE_PATH + texture_name + std::to_string(variant_num) + ".png").c_str()
 #define GET_TEXTURE_PATH(texture_name) (TEXTURE_PATH + texture_name + ".png").c_str()

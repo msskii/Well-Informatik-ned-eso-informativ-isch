@@ -8,6 +8,8 @@
 
 #include "PathFinder.hpp"
 
+uint32_t level_width = 0, level_height = 0;
+
 PathFinder::PathFinder(Level *lvl, pathfindAlgorithm alg) : level(lvl), algorithm(alg)
 {
     algorithm.initFunc(lvl);

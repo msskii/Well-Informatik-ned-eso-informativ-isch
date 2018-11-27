@@ -14,7 +14,8 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     reloadConfig();
  
     // Init SDL & subsystems
-    SDL_Init(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL | SDL_INIT_TIMER); // Add audio subsystem?
+    SDL_Init(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL | SDL_INIT_TIMER | SDL_INIT_AUDIO); // Add audio subsystem?
+    initSound();
     
     // Set up GL context
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); // Load GL version 3
@@ -144,6 +145,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     lights.open(this); // Open the menu (LightOverlay is just a menu)
     
     // openMenu(new ClientOverlay());
+    playSound("background/entrance.wav", -1);
 }
 
 Window::~Window()

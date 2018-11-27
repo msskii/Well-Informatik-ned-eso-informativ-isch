@@ -22,6 +22,8 @@
 		932D321C212AB79C00DA45BD /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D321A212AB79C00DA45BD /* Window.cpp */; };
 		932D3223212ABAF600DA45BD /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3221212ABAF600DA45BD /* Level.cpp */; };
 		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
+		933FD2F721AD2E7400EF4654 /* SoundHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 933FD2F521AD2E7400EF4654 /* SoundHandler.cpp */; };
+		933FD2F821AD313C00EF4654 /* music in CopyFiles */ = {isa = PBXBuildFile; fileRef = 933FD2F321AD2E4700EF4654 /* music */; };
 		9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3142131A0BE005D6756 /* SDL2_mixer.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3192131A17B005D6756 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9368D3182131A17B005D6756 /* Tests.cpp */; };
@@ -62,6 +64,7 @@
 		93877590219D5CE800DDA9B2 /* Alg_AStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */; };
 		93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */; };
 		93A8C4492181E9FC00507DF7 /* ClientOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */; };
+		93BC4B0821A45EE400AC1922 /* Alg_Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93BC4B0621A45EE400AC1922 /* Alg_Line.cpp */; };
 		93C77F65218C70AE00E06F49 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93C77F63218C70AE00E06F49 /* Shop.cpp */; };
 		93D1C7CC212AD12B004AACD1 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CA212AD12B004AACD1 /* Event.cpp */; };
 		93D1C7D1212ADCCE004AACD1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C7CF212ADCCE004AACD1 /* Player.cpp */; };
@@ -108,6 +111,7 @@
 			dstPath = assets;
 			dstSubfolderSpec = 16;
 			files = (
+				933FD2F821AD313C00EF4654 /* music in CopyFiles */,
 				936C12EA213550FB00404679 /* data in CopyFiles */,
 				936C12EB213550FE00404679 /* fonts in CopyFiles */,
 				93185F9A2146E31E001A2167 /* textures in CopyFiles */,
@@ -150,6 +154,9 @@
 		932D3225212ABB4A00DA45BD /* Tile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
 		932D3229212ABBBC00DA45BD /* FileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileReader.hpp; sourceTree = "<group>"; };
 		932D322E212ABC6700DA45BD /* Logger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
+		933FD2F321AD2E4700EF4654 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; name = music; path = ../assets/music; sourceTree = "<group>"; };
+		933FD2F521AD2E7400EF4654 /* SoundHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundHandler.cpp; sourceTree = "<group>"; };
+		933FD2F621AD2E7400EF4654 /* SoundHandler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundHandler.hpp; sourceTree = "<group>"; };
 		9368D3122131A0B5005D6756 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../SDL2_mixer.framework; sourceTree = "<group>"; };
 		9368D3172131A17B005D6756 /* Tests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tests.hpp; sourceTree = "<group>"; };
 		9368D3182131A17B005D6756 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
@@ -222,6 +229,8 @@
 		93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyConfigBox.hpp; sourceTree = "<group>"; };
 		93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientOverlay.cpp; sourceTree = "<group>"; };
 		93A8C4482181E9FC00507DF7 /* ClientOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ClientOverlay.hpp; sourceTree = "<group>"; };
+		93BC4B0621A45EE400AC1922 /* Alg_Line.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Alg_Line.cpp; sourceTree = "<group>"; };
+		93BC4B0721A45EE400AC1922 /* Alg_Line.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Alg_Line.hpp; sourceTree = "<group>"; };
 		93C77F63218C70AE00E06F49 /* Shop.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
 		93C77F64218C70AE00E06F49 /* Shop.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shop.hpp; sourceTree = "<group>"; };
 		93D1C7CA212AD12B004AACD1 /* Event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
@@ -307,6 +316,7 @@
 			children = (
 				93877591219DA2A100DDA9B2 /* TODO_AARON.md */,
 				4D50104E216CC39000E2E4E0 /* TODO.md */,
+				933FD2F321AD2E4700EF4654 /* music */,
 				93185F992146E318001A2167 /* textures */,
 				936C12E9213550F700404679 /* data */,
 				936C12E8213550F700404679 /* fonts */,
@@ -328,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				937B002F215013A100BE1EE0 /* glew */,
+				933FD2F421AD2E6800EF4654 /* sound */,
 				93185F8B21465F1F001A2167 /* config */,
 				937AFC5D214046A300F92964 /* items */,
 				9382708C213ED2990084F967 /* projectile */,
@@ -404,6 +415,15 @@
 				937B0038215230CD00BE1EE0 /* GL_Util.hpp */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		933FD2F421AD2E6800EF4654 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				933FD2F521AD2E7400EF4654 /* SoundHandler.cpp */,
+				933FD2F621AD2E7400EF4654 /* SoundHandler.hpp */,
+			);
+			path = sound;
 			sourceTree = "<group>";
 		};
 		9368D3162131A161005D6756 /* tests */ = {
@@ -523,6 +543,8 @@
 				9387758C219D5C0D00DDA9B2 /* PathFinder.hpp */,
 				9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */,
 				9387758F219D5CE800DDA9B2 /* Alg_AStar.hpp */,
+				93BC4B0621A45EE400AC1922 /* Alg_Line.cpp */,
+				93BC4B0721A45EE400AC1922 /* Alg_Line.hpp */,
 			);
 			path = pathfinding;
 			sourceTree = "<group>";
@@ -724,9 +746,11 @@
 				93D47BB3212D9086007853BC /* Element.cpp in Sources */,
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 				937B0036215013A100BE1EE0 /* glew.c in Sources */,
+				933FD2F721AD2E7400EF4654 /* SoundHandler.cpp in Sources */,
 				93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */,
 				93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */,
 				93EE1373217EF42800262829 /* ServerCommandHandlers.cpp in Sources */,
+				93BC4B0821A45EE400AC1922 /* Alg_Line.cpp in Sources */,
 				93D47BB9212D91F1007853BC /* Text.cpp in Sources */,
 				93E278912143AB1C00F5EC35 /* ItemSlot.cpp in Sources */,
 				4DB09B35219B08B200557927 /* Spell.cpp in Sources */,

@@ -11,7 +11,6 @@
 #define CANSTEPON(index) (tiles[index].data.tileZ == tiles[startIndex].data.tileZ && tiles[index].Tile_surface != nullptr)
 
 uint32_t scoreSize = 0;
-uint32_t level_width = 0, level_height = 0;
 int *gScores = nullptr;
 int *fScores = nullptr;
 int *cameFrom = nullptr;
