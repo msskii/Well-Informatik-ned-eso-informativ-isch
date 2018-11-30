@@ -13,3 +13,8 @@ Item::Item(const char *itemname) : name(itemname)
     surface = IMG_Load(GET_TEXTURE_PATH("items/" + itemname));
     if(!surface) printf("[ERROR] Error loading item texture %s\n", itemname);
 }
+
+void Item::updateTexture()
+{
+    if(surface) texture = getTexture(surface);
+}

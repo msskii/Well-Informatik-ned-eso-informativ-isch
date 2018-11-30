@@ -14,7 +14,11 @@ Shop::Shop(const char *path, int money, std::vector<Item> stock)
     currentMoney = money;
     background_surface = IMG_Load(GET_TEXTURE_PATH((std::string("/backgrounds/") + path).c_str()));
     
-    for(size_t i = 0; i < inStock.size(); i++) stockNameTextures.push_back({});
+    for(size_t i = 0; i < inStock.size(); i++)
+    {
+        stockNameTextures.push_back({});
+        inStock[i].updateTexture();
+    }
 }
 
 bool Shop::shouldWindowClose() { return false; }
@@ -23,12 +27,16 @@ void Shop::renderMenu()
 {
     for(size_t i = 0; i < inStock.size(); i++)
     {
-        renderWithShading(inStock[i].texture, {}, {0, (int) i * 100, 100, 100});
-        drawTextAspect(inStock[i].name, 0xFF000000, {100, (int) i * 100, 500, 100}, stockNameTextures[i], false);
+        if(i == selected) continue;
+        
+        renderWithoutShading(inStock[i].texture, {}, {1244, 40 + (int) i * 100, 100, 100});
+        drawTextAspect(inStock[i].name, 0xFF000000, {1344, 40 + (int) i * 100, 500, 100}, stockNameTextures[i], false);
     }
     
-    renderWithShading(inStock[selected].texture, {}, {0, selected * 100, 100, 100});
-    drawTextAspect(inStock[selected].name, 0xFFFFFFFF, {100, selected * 100, 500, 100}, stockNameTextures[selected], true);
+    if(selected >= inStock.size()) return;
+    
+    renderWithoutShading(inStock[selected].texture, {}, {1244, 40 + selected * 100, 100, 100});
+    drawTextAspect(inStock[selected].name, 0xFFFFFFFF, {1344, 40 + selected * 100, 500, 100}, stockNameTextures[selected], true);
 }
 
 void Shop::updateMenu(const uint8_t *keys)
