@@ -12,16 +12,26 @@
 #include "../overlay/Menu.hpp"
 #include <vector>
 
+typedef struct shopItem
+{
+    Item item;
+    int stock = 0;
+    
+    int buyPrice = 0;
+    int sellPrice = 0;
+} shopItem;
+
 class Shop : public Menu
 {
 private:
     int currentMoney = 0;
-    std::vector<Item> inStock;
+    std::vector<shopItem> inStock;
     std::vector<cachedTexture> stockNameTextures;
-    int selected = 0;
+    int selected = 0, cooldown = 0;
+    bool update = false;
     
 public:
-    Shop(const char* backgroundPath, int currentMoney, std::vector<Item> inStock);
+    Shop(const char* backgroundPath, int currentMoney, std::vector<shopItem> inStock);
     
     bool shouldWindowClose() override;
     void renderMenu() override;

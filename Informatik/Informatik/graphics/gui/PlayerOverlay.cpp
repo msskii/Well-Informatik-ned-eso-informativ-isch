@@ -61,7 +61,7 @@ void PlayerOverlay::updateMenu(const uint8_t *keys)
 {
     if(keys[SDL_SCANCODE_K]) // Just to test it
     {
-        openSubMenu(new Shop("ShopOverlay", 1000, { Item("test"), Item("test2"), Item("test") }));
+        openSubMenu(new Shop("ShopOverlay", 1000, { {Item("test")}, {Item("test2")}, {Item("test")} }));
     }
 }
 
