@@ -318,3 +318,25 @@ void Player::update(const uint8_t *keys)
     spell3->updateCooldown();
     spell4->updateCooldown();
 }
+
+void Player::addItem(Item *item)
+{
+    for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
+    {
+        if(playerItems[i].item != nullptr && *item == playerItems[i].item)
+        {
+            playerItems[i].item = item;
+            ++playerItems[i].amountItems; // Increase amount of items in that slot
+            return;
+        }
+    }
+    for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
+    {
+        if(playerItems[i].item == nullptr)
+        {
+            playerItems[i].item = item;
+            ++playerItems[i].amountItems; // Increase amount of items in that slot
+            return;
+        }
+    }
+}

@@ -27,8 +27,9 @@ private:
     int currentMoney = 0;
     std::vector<shopItem> inStock;
     std::vector<cachedTexture> stockNameTextures;
+    std::vector<cachedTexture> selectedInfo;
     int selected = 0, cooldown = 0;
-    bool update = false;
+    bool update = false, lastPressed = false;
     
 public:
     Shop(const char* backgroundPath, int currentMoney, std::vector<shopItem> inStock);

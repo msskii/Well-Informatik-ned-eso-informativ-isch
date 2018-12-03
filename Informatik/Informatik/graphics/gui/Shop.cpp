@@ -19,6 +19,12 @@ Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
         stockNameTextures.push_back({});
         inStock[i].item.updateTexture();
     }
+    
+    selectedInfo.push_back({});
+    selectedInfo.push_back({});
+    selectedInfo.push_back({});
+    selectedInfo.push_back({});
+    selectedInfo.push_back({});
 }
 
 bool Shop::shouldWindowClose() { return false; }
@@ -40,12 +46,32 @@ void Shop::renderMenu()
     
     renderWithoutShading(inStock[selected].item.texture, {}, {640, 230, 100, 100});
     drawTextAspect(inStock[selected].item.name, 0xFFFFFFFF, {740, 230, 500, 100}, stockNameTextures[selected], update);
+    
+    drawTextAspect(std::to_string(inStock[selected].stock).c_str(), 0xFF000000, {1010, 300, 500, 100}, selectedInfo[0], update);
+    drawTextAspect(std::to_string(inStock[selected].buyPrice).c_str(), 0xFF000000, {1010, 400, 500, 100}, selectedInfo[1], update);
+    drawTextAspect(std::to_string(inStock[selected].sellPrice).c_str(), 0xFF000000, {1010, 500, 500, 100}, selectedInfo[2], update);
+    
+    drawTextAspect(std::to_string(currentMoney).c_str(), 0xFF000000, {1000, 60, 200, 100}, selectedInfo[3], update);
 
+    drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
+    
     update = false;
 }
 
 void Shop::updateMenu(const uint8_t *keys)
 {
+    int x, y;
+    bool pressed = SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT);
+    
+    x /= SCALE_X;
+    y /= SCALE_Y;
+    if(x >= 1244 && x <= 1880)
+    {
+        selected = (y - 40) / 100;
+        if(selected < 0 || selected >= inStock.size()) selected = 0;
+        update = true;
+    }
+    
     if(cooldown)
     {
         --cooldown;
@@ -53,6 +79,15 @@ void Shop::updateMenu(const uint8_t *keys)
         return;
     }
     
+    if(pressed && !lastPressed && currentMoney >= inStock[selected].buyPrice && inStock[selected].stock > 0)
+    {
+        currentMoney -= inStock[selected].buyPrice;
+        --inStock[selected].stock;
+        window->level->getLocalPlayer()->addItem(&inStock[selected].item);
+        update = true;
+    }
+    lastPressed = pressed;
+
     if(keys[SDL_SCANCODE_DOWN])
     {
         if(selected < (int) inStock.size() - 1) ++selected;
@@ -65,6 +100,8 @@ void Shop::updateMenu(const uint8_t *keys)
         update = true;
         cooldown = 10;
     }
+    
+    if(keys[SDL_SCANCODE_RETURN]) menuShouldBeClosed = true;
 }
 
 void Shop::onOpen() {}

@@ -69,6 +69,8 @@ public:
     void spell(int index);
     void meleeAttack();
     
+    void addItem(Item* item);
+    
     Level *current_level;
     
     Player(Level *level);
