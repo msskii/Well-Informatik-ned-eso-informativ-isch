@@ -7,6 +7,7 @@
 //
 
 #include "Shop.hpp"
+#include "../../config/Language.hpp"
 
 Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
 {
@@ -19,12 +20,8 @@ Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
         stockNameTextures.push_back({});
         inStock[i].item->updateTexture();
     }
-    
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
+
+    for(int i = 0; i < 6; i++) selectedInfo.push_back({});
 }
 
 bool Shop::shouldWindowClose() { return false; }
@@ -54,7 +51,8 @@ void Shop::renderMenu()
     drawTextAspect(std::to_string(currentMoney).c_str(), 0xFF000000, {1000, 60, 200, 100}, selectedInfo[3], update);
 
     drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
-    
+    drawTextAspect(lang->translate(std::string("item.") + inStock[selected].item->name + ".desc").c_str(), 0xFF000000, {40, 890, 1160, 100}, selectedInfo[5], update);
+
     update = false;
 }
 

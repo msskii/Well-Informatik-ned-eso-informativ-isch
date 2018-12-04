@@ -18,7 +18,6 @@ Item::Item(const char *itemname) : name(itemname)
     localizedName = (char*) malloc((int) n.size() + 1);
     memcpy(localizedName, n.c_str(), (int) n.size());
     localizedName[(int) n.size()] = 0;
-    printf("Item %s with localized name %s\n", itemname, localizedName);
 }
 
 void Item::updateTexture()
