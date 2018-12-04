@@ -25,7 +25,6 @@ Slime::Slime(float x, float y, int level)
     enemy_level = level;
     
     enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
-    SDL_SetSurfaceBlendMode(enemy_surface, SDL_BLENDMODE_BLEND);
     SDL_PixelFormat *fmt = enemy_surface->format;
     if(level < 10)
     {

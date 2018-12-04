@@ -14,6 +14,7 @@
 		4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */; };
 		4DB09B35219B08B200557927 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB09B33219B08B200557927 /* Spell.cpp */; };
 		9307505321B694D100868B65 /* PopupText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9307505121B694D100868B65 /* PopupText.cpp */; };
+		9307505621B6D79B00868B65 /* BossOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9307505421B6D79B00868B65 /* BossOverlay.cpp */; };
 		93185F8A21465506001A2167 /* ExplodingProjectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8821465506001A2167 /* ExplodingProjectile.cpp */; };
 		93185F8E21465F31001A2167 /* ConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8C21465F31001A2167 /* ConfigLoader.cpp */; };
 		93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8F2146A699001A2167 /* ConfigMenu.cpp */; };
@@ -138,6 +139,8 @@
 		4DB09B34219B08B200557927 /* Spell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
 		9307505121B694D100868B65 /* PopupText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupText.cpp; sourceTree = "<group>"; };
 		9307505221B694D100868B65 /* PopupText.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PopupText.hpp; sourceTree = "<group>"; };
+		9307505421B6D79B00868B65 /* BossOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BossOverlay.cpp; sourceTree = "<group>"; };
+		9307505521B6D79B00868B65 /* BossOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BossOverlay.hpp; sourceTree = "<group>"; };
 		93185F8821465506001A2167 /* ExplodingProjectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExplodingProjectile.cpp; sourceTree = "<group>"; };
 		93185F8921465506001A2167 /* ExplodingProjectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExplodingProjectile.hpp; sourceTree = "<group>"; };
 		93185F8C21465F31001A2167 /* ConfigLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigLoader.cpp; sourceTree = "<group>"; };
@@ -607,6 +610,8 @@
 				937B0020214F9C4F00BE1EE0 /* LightOverlay.hpp */,
 				9307505121B694D100868B65 /* PopupText.cpp */,
 				9307505221B694D100868B65 /* PopupText.hpp */,
+				9307505421B6D79B00868B65 /* BossOverlay.cpp */,
+				9307505521B6D79B00868B65 /* BossOverlay.hpp */,
 			);
 			path = overlay;
 			sourceTree = "<group>";
@@ -740,6 +745,7 @@
 				937AFC60214046B800F92964 /* Item.cpp in Sources */,
 				93D47BA8212D4EF5007853BC /* Menu.cpp in Sources */,
 				937AC1F2213F011600F1D92C /* Math_Util.cpp in Sources */,
+				9307505621B6D79B00868B65 /* BossOverlay.cpp in Sources */,
 				936C13002136BFF800404679 /* Tile_Util.cpp in Sources */,
 				936C12FA213665B300404679 /* EditorOverlay.cpp in Sources */,
 				937B001E214D888000BE1EE0 /* Explosion.cpp in Sources */,

@@ -66,45 +66,55 @@ float drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTextu
     return texture_cache.scale;
 }
 
-float drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate)
+float drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate)
 {
-    drawTextAspect(text, color, dst, texture, forceUpdate);
-    /**
-    TTF_SizeText(font, text, &texture.textwidth, &texture.textheight);
-    
     if(font == nullptr)
     {
         INFO("Font not yet initialized");
         return 0;
     }
     
-    if(texture.texture != nullptr) SDL_DestroyTexture(texture.texture);
-    
-    SDL_Surface *srfc = TTF_RenderText_Solid(font, text, TO_COLOR(color));
-    texture.texture = SDL_CreateTextureFromSurface(renderer, srfc);
-    if(texture.texture == nullptr) return 0;
-    
-    float scaleX = SCALE_X * (float) w / (float) srfc->w;
-    float scaleY = SCALE_Y * (float) h / (float) srfc->h;
-    float scale = (float) fmin(scaleX, scaleY); // Smaller scale value
-    
-    if(text)
+    if(texture_cache.id == 0 || forceUpdate)
     {
-        x += (int) ((w - texture.textwidth * scale / SCALE_X) / 2);
-        w = texture.textwidth;
-        y += (int)((h - texture.textheight * scale / SCALE_Y) / 2);
-        h = texture.textheight;
+        if(forceUpdate) deleteTexture(texture_cache);
         
-        SDL_Rect dst = {(int)(x * SCALE_X / scale), (int)(y * SCALE_Y / scale), srfc->w, srfc->h}; // Desination rect
-        SDL_RenderSetScale(renderer, scale, scale); // Set scaling
-        SDL_RenderCopy(renderer, texture.texture, NULL, &dst); // Render stuff
-        SDL_RenderSetScale(renderer, SCALE_X, SCALE_Y); // Reset scale
+        SDL_Surface *text_surface = TTF_RenderText_Solid(font, text, TO_COLOR(color));
+        if(text_surface == nullptr)
+        {
+            return 0;
+        }
+        
+        SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, text_surface->w, text_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
+        SDL_SetSurfaceBlendMode(srfc, SDL_BLENDMODE_BLEND);
+        SDL_SetSurfaceAlphaMod(srfc, color >> 24);
+        SDL_BlitSurface(text_surface, NULL, srfc, NULL);
+        
+        if(srfc == nullptr) return 0;
+        gl_texture tmp = getTexture(srfc); // Copy only id since width & height are different...
+        texture_cache.id = tmp.id;
+        texture_cache.width = tmp.width;
+        texture_cache.height = tmp.height;
+        
+        float scaleX = (float) dst.w / (float) srfc->w;
+        float scaleY = (float) dst.h / (float) srfc->h;
+        texture_cache.scale = (float) fmin(scaleX, scaleY); // Smaller scale value
+        
+        // Clean up
+        SDL_FreeSurface(srfc);
+        
+        if(texture_cache.id == 0) return texture_cache.scale; // texture creation failed...
     }
     
-    // Clean up
-    SDL_FreeSurface(srfc);
-    */
-    return 0; //scale;
+    // We have a texture, just render that...
+    int neww = (int) ((float) texture_cache.width * texture_cache.scale);
+    int newh = (int) ((float) texture_cache.height * texture_cache.scale);
+    dst.x += (dst.w - neww) / 2.0f;
+    dst.y += (dst.h - newh) / 2.0f;
+    dst.w = neww;
+    dst.h = newh;
+    renderWithoutShading(texture_cache.getGL(), {0, 0, 0, 0}, dst);
+    
+    return texture_cache.scale;
 }
 
 char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)

@@ -11,6 +11,7 @@
 
 #include "../../multiplayer/ServerSelector.hpp"
 #include "PopupText.hpp"
+#include "BossOverlay.hpp"
 
 enum MenuOptions
 {
@@ -26,7 +27,8 @@ static void changeToGame(Menu *menu)
 {
     Mix_FadeOutMusic(500);
     playSound("background/overworld1.mp3", -1);
-    menu->window->openMenu(new PopupText("Entering the Cave", 60));
+    menu->window->openMenu(new PopupText("Entering the Cave", 120));
+    menu->window->openMenu(new BossOverlay("Sven"));
 }
 
 static void onButtonPress(Menu *menu, Button *button)
