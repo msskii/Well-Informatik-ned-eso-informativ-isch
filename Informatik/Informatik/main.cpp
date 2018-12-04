@@ -16,7 +16,7 @@
 void startGame()
 {
 #ifdef DEBUG_RANDOM
-    srand(0);
+    srand(1);
 #else
     srand((int) time(NULL)); // Enable to get differen shades each time
 #endif

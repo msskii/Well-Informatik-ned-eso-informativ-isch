@@ -8,6 +8,7 @@
 
 #include "Slime.hpp"
 
+
 Slime::Slime(float x, float y, int level)
 {
     data.width = 64;
@@ -23,13 +24,29 @@ Slime::Slime(float x, float y, int level)
     agroRadius = 10 * TILE_SIZE;
     enemy_level = level;
     
+    enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
+    SDL_SetSurfaceBlendMode(enemy_surface, SDL_BLENDMODE_BLEND);
+    SDL_PixelFormat *fmt = enemy_surface->format;
     if(level < 10)
     {
-         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_GreenSlime"));
+        uint32_t *pixels = (uint32_t*) enemy_surface->pixels;
+        for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
+        {
+            Uint32 temp;
+            temp = (pixels[i] & fmt->Amask) | (((pixels[i] & fmt->Bmask) >> fmt->Bshift) << fmt->Gshift);
+            pixels[i] = temp;
+        }
     }
     else if (level < 20)
     {
-         enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
+        uint32_t *pixels = (uint32_t*) enemy_surface->pixels;
+        for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
+        {
+            Uint32 temp;
+            temp = (pixels[i] & fmt->Amask) | (((pixels[i] & fmt->Bmask) >> fmt->Bshift) << fmt->Gshift);
+            pixels[i] = temp;
+        }
+    
     }
     else if (level < 30)
     {
