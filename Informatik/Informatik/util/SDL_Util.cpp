@@ -36,7 +36,10 @@ float drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTextu
         {
             return 0;
         }
+
         SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, text_surface->w, text_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
+        SDL_SetSurfaceBlendMode(srfc, SDL_BLENDMODE_BLEND);
+        SDL_SetSurfaceAlphaMod(srfc, color >> 24);
         SDL_BlitSurface(text_surface, NULL, srfc, NULL);
         
         if(srfc == nullptr) return 0;
