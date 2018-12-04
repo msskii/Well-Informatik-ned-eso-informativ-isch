@@ -14,6 +14,8 @@
 #include <map>
 #include "../config.h"
 
+class Language;
+
 extern std::map<std::string, std::string> generateDefaultValues();
 
 enum CONFIG_KEYS
@@ -30,22 +32,25 @@ enum CONFIG_KEYS
 };
 
 extern int *GLOBAL_KEY_CONFIG;
+extern Language *lang;
 
 class ConfigLoader
 {
-private:
+protected:
     char *configFile = nullptr;
     filedata configData;
     
     void parseConfig();
     
-    void testValues();
+    bool isGlobalConfig = true;
+    virtual void testValues();
     
 public:
     std::map<std::string, std::string> values;
     
     ConfigLoader(const char* file);
-    
+    ConfigLoader(const char* file, bool global);
+
     std::string get(const char* key);
     void set(const char* key, const char* value);
     

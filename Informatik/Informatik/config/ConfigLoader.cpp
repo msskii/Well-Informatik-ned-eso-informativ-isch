@@ -7,8 +7,10 @@
 //
 
 #include "ConfigLoader.hpp"
+#include "Language.hpp"
 
 int *GLOBAL_KEY_CONFIG = new int[7] {};
+Language *lang;
 
 std::map<std::string, std::string> generateDefaultValues()
 {
@@ -30,13 +32,14 @@ std::map<std::string, std::string> generateDefaultValues()
     values["screen.width"] = std::to_string(WINDOW_WIDTH);
     values["screen.height"] = std::to_string(WINDOW_HEIGHT);
 
+    values["lang.filename"] = "en_en";
     
     return values;
 }
 
 void ConfigLoader::testValues()
 {
-    std::map<std::string, std::string> vals = generateDefaultValues();
+    std::map<std::string, std::string> vals = isGlobalConfig ? generateDefaultValues() : std::map<std::string, std::string>();
     bool needsSaving = false;
     for(auto it = vals.begin(); it != vals.end(); it++)
     {
@@ -47,18 +50,24 @@ void ConfigLoader::testValues()
         }
     }
     
-    printf("[INFO] Loading keyconfig\n");
-    // Load config keys
-    GLOBAL_KEY_CONFIG[BUTTON_LEFT] = getInt("button.left");
-    GLOBAL_KEY_CONFIG[BUTTON_RIGHT] = getInt("button.right");
-    GLOBAL_KEY_CONFIG[BUTTON_UP] = getInt("button.up");
-    GLOBAL_KEY_CONFIG[BUTTON_DOWN] = getInt("button.down");
+    if(isGlobalConfig)
+    {
+        printf("[INFO] Loading keyconfig\n");
+        // Load config keys
+        GLOBAL_KEY_CONFIG[BUTTON_LEFT] = getInt("button.left");
+        GLOBAL_KEY_CONFIG[BUTTON_RIGHT] = getInt("button.right");
+        GLOBAL_KEY_CONFIG[BUTTON_UP] = getInt("button.up");
+        GLOBAL_KEY_CONFIG[BUTTON_DOWN] = getInt("button.down");
         
-    GLOBAL_KEY_CONFIG[BUTTON_INVENTORY] = getInt("button.inventory");
-    GLOBAL_KEY_CONFIG[BUTTON_SHOOT] = getInt("button.shoot");
-    GLOBAL_KEY_CONFIG[BUTTON_INTERACT] = getInt("button.interact");
-    GLOBAL_KEY_CONFIG[BUTTON_CHAT] = getInt("button.chat");
-
+        GLOBAL_KEY_CONFIG[BUTTON_INVENTORY] = getInt("button.inventory");
+        GLOBAL_KEY_CONFIG[BUTTON_SHOOT] = getInt("button.shoot");
+        GLOBAL_KEY_CONFIG[BUTTON_INTERACT] = getInt("button.interact");
+        GLOBAL_KEY_CONFIG[BUTTON_CHAT] = getInt("button.chat");
+        
+        printf("Loading language file: %s\n", get("lang.filename").c_str());
+        lang = new Language(get("lang.filename").c_str());
+    }
+    
     if(needsSaving)
     {
         save();
@@ -76,6 +85,17 @@ ConfigLoader::ConfigLoader(const char *path)
     load();
 }
 
+ConfigLoader::ConfigLoader(const char *path, bool isGlobal)
+{
+    isGlobalConfig = isGlobal;
+    
+    int len = (int) strlen(path);
+    configFile = (char*) malloc(len + 1);
+    configFile[len] = 0;
+    memcpy(configFile, path, len);
+    
+    load();
+}
 
 void ConfigLoader::load()
 {

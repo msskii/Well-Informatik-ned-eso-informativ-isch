@@ -14,7 +14,8 @@
 class Item
 {
 public:
-    const char* name = nullptr;
+    const char* name = nullptr; // Item id --> not translated name, can be as cryptic as it wants
+    char* localizedName; // The name of the item in a human readable language
 
 public:
     SDL_Surface *surface = nullptr;
