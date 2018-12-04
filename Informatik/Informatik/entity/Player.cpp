@@ -81,15 +81,24 @@ bool Player::isInside(float dx, float dy)
             {
                 // Currently no collision with a projectile
             }
-            else if(item != nullptr)
-            {
-                if(data.x_pos + player_x_offset >= item->data.x_pos && data.x_pos + player_x_offset <= item->data.x_pos + item->data.width && data.y_pos + player_y_offset >= item->data.y_pos && data.y_pos + player_y_offset <= item->data.y_pos + item->data.height)
-                {
-                    item->pickUp(); // Send the item the message we picked it up
-                    current_level->removeEntity(item);
-                }
-            }
             else if(intersectWith((int)(data.x_pos + player_x_offset), (int)(data.y_pos + player_y_offset), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
+        }
+    }
+    
+    for(size_t i = 0; i < current_level->entities.size(); i++)
+    {
+        auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
+        
+        // if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
+        EntityItem *item = dynamic_cast<EntityItem*>(entity);
+        
+        if(item != nullptr)
+        {
+            if(item->data.x_pos + item->data.width >= data.x_pos + dx + MARGIN && item->data.x_pos <= data.x_pos + dx + PLAYER_WIDTH - 2 * MARGIN && item->data.y_pos + item->data.height >= data.y_pos - PLAYER_HEIGHT + dy + MARGIN && item->data.y_pos <= data.y_pos + dy + 2 * PLAYER_HEIGHT - 2 * MARGIN)
+            {
+                item->pickUp(); // Send the item the message we picked it up
+                current_level->removeEntity(item);
+            }
         }
     }
     
@@ -265,6 +274,8 @@ void Player::render(int x, int y)
     SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff - PLAYER_HEIGHT, PLAYER_WIDTH, 128};
     renderWithShading(texture, src, dst);
     renderStats(xoff, yoff);
+    
+    // fillRect(0xFFFF00FF, {(int) PLAYER_OFFSET_X-xoff + MARGIN, (int) PLAYER_OFFSET_Y-PLAYER_HEIGHT-yoff + MARGIN, PLAYER_WIDTH - 2 * MARGIN, PLAYER_HEIGHT*2 - 2 * MARGIN});
 }
 
 void Player::renderStats(int xoff, int yoff)

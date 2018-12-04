@@ -13,14 +13,14 @@
 #define DRAG 0.8
 #define CUT_OFF 2.0
 
-EntityItem::EntityItem(float x, float y, int id)
+EntityItem::EntityItem(float x, float y, const char *id)
 {
-    initItem(x,y,id);
+    initItem(x, y, id);
 }
 
-EntityItem::EntityItem(float x, float y, int id, float vx, float vy) : vx(vx), vy(vy), initY(y)
+EntityItem::EntityItem(float x, float y, const char *id, float vx, float vy) : vx(vx), vy(vy), initY(y)
 {
-    initItem(x,y,id);
+    initItem(x, y, id);
 }
 
 
@@ -33,22 +33,26 @@ void EntityItem::render(int xoff, int yoff)
     SDL_Rect src = {32 * anim, 0, 32, 32};
     SDL_Rect dst = getBoundingBox();
     TRANSFORM_LEVEL_POS(dst, xoff, yoff);
-    //SDL_RenderCopy(renderer, item->texture, NULL, &r);
     renderWithShading(item->texture, src, dst);
+    
+    //fillRect(0xFFFF00FF, dst);
 }
 
 void EntityItem::update(const uint8_t *keys)
 {
     //update movement
-    if (vx != 0 || vy != 0 || data.y_pos < initY) {
+    if (vx != 0 || vy != 0 || data.y_pos < initY)
+    {
         vy -= GRAVITY;
         data.x_pos += vx;
         data.y_pos -= vy;
         //Bounce if on the ground
-        if (data.y_pos > initY && vy < 0) {
+        if (data.y_pos > initY && vy < 0)
+        {
             vy = -vy * DRAG;
             vx *= DRAG;
-            if (abs(vy) < CUT_OFF) {
+            if (abs(vy) < CUT_OFF)
+            {
                 vx = 0;
                 vy = 0;
             }
@@ -56,7 +60,8 @@ void EntityItem::update(const uint8_t *keys)
     }
     
     //animation
-    if (data.animFrames) {
+    if (data.animFrames)
+    {
         if((timer++) >= data.animeSpeed)
         {
             timer = 0;
@@ -89,22 +94,18 @@ void EntityItem::pickUp()
     printf("Couldnt pick up item. Inventory is full\n");
 }
 
-void EntityItem::initItem(float x, float y, int id)
+void EntityItem::initItem(float x, float y, const char *id)
 {
     data.x_pos = x;
     data.y_pos = y;
-    
-    switch (id) {
-        case COIN:
-            item = new Item("Item_Coin");
-            data.width = 32.0f;
-            data.height = 32.0f;
-            data.animeSpeed = 5;
-            data.animFrames = 12;
-            break;
-            
-        default:
-            break;
+    item = new Item(id);
+
+    if(!strcmp(id, "coin"))
+    {
+        data.width = 32.0f;
+        data.height = 32.0f;
+        data.animeSpeed = 5;
+        data.animFrames = 12;
     }
 }
 

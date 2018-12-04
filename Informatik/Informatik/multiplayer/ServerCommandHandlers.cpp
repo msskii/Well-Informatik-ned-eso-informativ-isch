@@ -47,7 +47,7 @@ Entity *Multiplayer::deserializeEntity(uint8_t *data)
             //e = new EntityItem((int) d.x_pos / TILE_SIZE, (int) d.y_pos / TILE_SIZE, new Item(name));
             
             char *name = readString(data);
-            e = new EntityItem((int) d.x_pos / TILE_SIZE, (int) d.y_pos / TILE_SIZE, 0);
+            e = new EntityItem((int) d.x_pos / TILE_SIZE, (int) d.y_pos / TILE_SIZE, name);
         }
             break;
         case Multiplayer::FIREFLY:

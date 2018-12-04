@@ -135,11 +135,13 @@ void Slime::update(const uint8_t *keys)
     }
     if(dying)
     {
-        if (anim == 4 && timer == 5) {
+        if (anim == 4 && timer == 5)
+        {
             //start dropping items
-            level->addEntity(new EntityItem(data.x_pos + 32,data.y_pos + 20, COIN, rand()%7 - 3, 10));
+            level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3, 10));
         }
-        if (anim == 9 && timer == 5) {
+        if (anim == 9 && timer == 5)
+        {
             //time to die
             level->removeEntity(this);
         }

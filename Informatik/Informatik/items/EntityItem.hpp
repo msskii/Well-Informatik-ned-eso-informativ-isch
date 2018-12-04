@@ -11,10 +11,6 @@
 
 #include "Item.hpp"
 #include "../entity/Entity.hpp"
-enum ITEMS
-{
-    COIN
-};
 
 class EntityItem : public Entity
 {
@@ -23,18 +19,17 @@ private:
     float vy = 0;
     float initY;
     
-    
 public:
     //create a still lying item
-    EntityItem(float x, float y, int id);
+    EntityItem(float x, float y, const char *id);
     //creat a item with initial velocity
-    EntityItem(float x, float y, int id, float vx, float vy);
+    EntityItem(float x, float y, const char *id, float vx, float vy);
 
     Item *item = nullptr; // The item this thing holds in the level
     
     void pickUp();
     
-    void initItem(float x, float y, int id);
+    void initItem(float x, float y, const char *id);
     
     void onAddToLevel(Level *level) override;
     void render(int xoff, int yoff) override;
