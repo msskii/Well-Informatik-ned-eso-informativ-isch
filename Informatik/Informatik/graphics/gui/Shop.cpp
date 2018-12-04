@@ -7,6 +7,7 @@
 //
 
 #include "Shop.hpp"
+#include "../../config/Language.hpp"
 
 Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
 {
@@ -17,14 +18,10 @@ Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
     for(size_t i = 0; i < inStock.size(); i++)
     {
         stockNameTextures.push_back({});
-        inStock[i].item.updateTexture();
+        inStock[i].item->updateTexture();
     }
-    
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
-    selectedInfo.push_back({});
+
+    for(int i = 0; i < 6; i++) selectedInfo.push_back({});
 }
 
 bool Shop::shouldWindowClose() { return false; }
@@ -35,17 +32,17 @@ void Shop::renderMenu()
     {
         if(i == selected) continue;
         
-        renderWithoutShading(inStock[i].item.texture, {}, {1244, 40 + (int) i * 100, 100, 100});
-        drawTextAspect(inStock[i].item.name, 0xFF000000, {1344, 40 + (int) i * 100, 500, 100}, stockNameTextures[i], update);
+        renderWithoutShading(inStock[i].item->texture, {}, {1244, 40 + (int) i * 100, 100, 100});
+        drawTextAspect(inStock[i].item->localizedName, 0xFF000000, {1344, 40 + (int) i * 100, 500, 100}, stockNameTextures[i], update);
     }
     
     if(selected >= inStock.size()) return;
+        
+    renderWithoutShading(inStock[selected].item->texture, {}, {1244, 40 + selected * 100, 100, 100});
+    drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {1344, 40 + selected * 100, 500, 120}, stockNameTextures[selected], update);
     
-    renderWithoutShading(inStock[selected].item.texture, {}, {1244, 40 + selected * 100, 100, 100});
-    drawTextAspect(inStock[selected].item.name, 0xFFFFFFFF, {1344, 40 + selected * 100, 500, 100}, stockNameTextures[selected], update);
-    
-    renderWithoutShading(inStock[selected].item.texture, {}, {640, 230, 100, 100});
-    drawTextAspect(inStock[selected].item.name, 0xFFFFFFFF, {740, 230, 500, 100}, stockNameTextures[selected], update);
+    renderWithoutShading(inStock[selected].item->texture, {}, {640, 230, 100, 100});
+    drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {740, 230, 500, 100}, stockNameTextures[selected], update);
     
     drawTextAspect(std::to_string(inStock[selected].stock).c_str(), 0xFF000000, {1010, 300, 500, 100}, selectedInfo[0], update);
     drawTextAspect(std::to_string(inStock[selected].buyPrice).c_str(), 0xFF000000, {1010, 400, 500, 100}, selectedInfo[1], update);
@@ -54,7 +51,8 @@ void Shop::renderMenu()
     drawTextAspect(std::to_string(currentMoney).c_str(), 0xFF000000, {1000, 60, 200, 100}, selectedInfo[3], update);
 
     drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
-    
+    drawTextAspect(lang->translate(std::string("item.") + inStock[selected].item->name + ".desc").c_str(), 0xFF000000, {40, 890, 1160, 100}, selectedInfo[5], update);
+
     update = false;
 }
 
@@ -83,7 +81,7 @@ void Shop::updateMenu(const uint8_t *keys)
     {
         currentMoney -= inStock[selected].buyPrice;
         --inStock[selected].stock;
-        window->level->getLocalPlayer()->addItem(&inStock[selected].item);
+        window->level->getLocalPlayer()->addItem(inStock[selected].item);
         update = true;
     }
     lastPressed = pressed;

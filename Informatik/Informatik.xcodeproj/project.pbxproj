@@ -13,6 +13,7 @@
 		4D6A79C82147F57C003F31B5 /* Building.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79C62147F57C003F31B5 /* Building.cpp */; };
 		4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */; };
 		4DB09B35219B08B200557927 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB09B33219B08B200557927 /* Spell.cpp */; };
+		9307505321B694D100868B65 /* PopupText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9307505121B694D100868B65 /* PopupText.cpp */; };
 		93185F8A21465506001A2167 /* ExplodingProjectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8821465506001A2167 /* ExplodingProjectile.cpp */; };
 		93185F8E21465F31001A2167 /* ConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8C21465F31001A2167 /* ConfigLoader.cpp */; };
 		93185F912146A699001A2167 /* ConfigMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93185F8F2146A699001A2167 /* ConfigMenu.cpp */; };
@@ -62,6 +63,7 @@
 		9382708F213ED2D10084F967 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9382708D213ED2D10084F967 /* Projectile.cpp */; };
 		9387758D219D5C0D00DDA9B2 /* PathFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9387758B219D5C0D00DDA9B2 /* PathFinder.cpp */; };
 		93877590219D5CE800DDA9B2 /* Alg_AStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */; };
+		938880CD21B554AD0048D78C /* Language.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 938880CB21B554AD0048D78C /* Language.cpp */; };
 		93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */; };
 		93A8C4492181E9FC00507DF7 /* ClientOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */; };
 		93BC4B0821A45EE400AC1922 /* Alg_Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93BC4B0621A45EE400AC1922 /* Alg_Line.cpp */; };
@@ -134,6 +136,8 @@
 		4D6A79CB2158E14D003F31B5 /* Fireflies.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Fireflies.hpp; sourceTree = "<group>"; };
 		4DB09B33219B08B200557927 /* Spell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Spell.cpp; sourceTree = "<group>"; };
 		4DB09B34219B08B200557927 /* Spell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
+		9307505121B694D100868B65 /* PopupText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PopupText.cpp; sourceTree = "<group>"; };
+		9307505221B694D100868B65 /* PopupText.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PopupText.hpp; sourceTree = "<group>"; };
 		93185F8821465506001A2167 /* ExplodingProjectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExplodingProjectile.cpp; sourceTree = "<group>"; };
 		93185F8921465506001A2167 /* ExplodingProjectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExplodingProjectile.hpp; sourceTree = "<group>"; };
 		93185F8C21465F31001A2167 /* ConfigLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigLoader.cpp; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 		9387758E219D5CE800DDA9B2 /* Alg_AStar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Alg_AStar.cpp; sourceTree = "<group>"; };
 		9387758F219D5CE800DDA9B2 /* Alg_AStar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Alg_AStar.hpp; sourceTree = "<group>"; };
 		93877591219DA2A100DDA9B2 /* TODO_AARON.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO_AARON.md; sourceTree = "<group>"; };
+		938880CB21B554AD0048D78C /* Language.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
+		938880CC21B554AD0048D78C /* Language.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Language.hpp; sourceTree = "<group>"; };
 		93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyConfigBox.cpp; sourceTree = "<group>"; };
 		93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyConfigBox.hpp; sourceTree = "<group>"; };
 		93A8C4472181E9FC00507DF7 /* ClientOverlay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClientOverlay.cpp; sourceTree = "<group>"; };
@@ -307,6 +313,8 @@
 				93185F902146A699001A2167 /* ConfigMenu.hpp */,
 				93A8C4442181E13100507DF7 /* KeyConfigBox.cpp */,
 				93A8C4452181E13100507DF7 /* KeyConfigBox.hpp */,
+				938880CB21B554AD0048D78C /* Language.cpp */,
+				938880CC21B554AD0048D78C /* Language.hpp */,
 			);
 			path = config;
 			sourceTree = "<group>";
@@ -597,6 +605,8 @@
 				93827083213BAE3A0084F967 /* PauseMenu.hpp */,
 				937B001F214F9C4F00BE1EE0 /* LightOverlay.cpp */,
 				937B0020214F9C4F00BE1EE0 /* LightOverlay.hpp */,
+				9307505121B694D100868B65 /* PopupText.cpp */,
+				9307505221B694D100868B65 /* PopupText.hpp */,
 			);
 			path = overlay;
 			sourceTree = "<group>";
@@ -694,6 +704,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93FEEB192155477400EF507C /* Buffer.cpp in Sources */,
+				938880CD21B554AD0048D78C /* Language.cpp in Sources */,
 				937B0039215230CD00BE1EE0 /* GL_Util.cpp in Sources */,
 				936C12D92133E3A900404679 /* TextLoader.cpp in Sources */,
 				936C12E221353A4000404679 /* NPCLoader.cpp in Sources */,
@@ -747,6 +758,7 @@
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,
 				937B0036215013A100BE1EE0 /* glew.c in Sources */,
 				933FD2F721AD2E7400EF4654 /* SoundHandler.cpp in Sources */,
+				9307505321B694D100868B65 /* PopupText.cpp in Sources */,
 				93827081213A5C050084F967 /* RemotePlayer.cpp in Sources */,
 				93A8C4462181E13100507DF7 /* KeyConfigBox.cpp in Sources */,
 				93EE1373217EF42800262829 /* ServerCommandHandlers.cpp in Sources */,

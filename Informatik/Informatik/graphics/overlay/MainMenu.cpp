@@ -10,6 +10,7 @@
 #include "../../config.h"
 
 #include "../../multiplayer/ServerSelector.hpp"
+#include "PopupText.hpp"
 
 enum MenuOptions
 {
@@ -21,10 +22,11 @@ enum MenuOptions
 	CONNECT_TO_SERVER
 };
 
-static void changeToGame()
+static void changeToGame(Menu *menu)
 {
     Mix_FadeOutMusic(500);
     playSound("background/overworld1.mp3", -1);
+    menu->window->openMenu(new PopupText("Entering the Cave", 60));
 }
 
 static void onButtonPress(Menu *menu, Button *button)
@@ -32,7 +34,7 @@ static void onButtonPress(Menu *menu, Button *button)
 
     switch (button->elementID) {
         case START_GAME:
-            changeToGame();
+            changeToGame(menu);
             menu->close(); // Close the menu that is currently open (Main Menu)
             break;
         case START_LEVELEDITOR:
@@ -75,7 +77,7 @@ MainMenu::MainMenu()
 
 bool MainMenu::shouldWindowClose()
 {
-    if(gameStart) changeToGame();
+    if(gameStart) changeToGame(this);
     return gameStart;
 }
 

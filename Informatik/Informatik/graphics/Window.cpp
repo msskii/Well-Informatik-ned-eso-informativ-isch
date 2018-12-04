@@ -135,12 +135,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     Projectile *projectile = new Projectile(0, 0, (float) PI * 15.0f / 8.0f);
     level->addEntity(projectile);
     
-    // Add testing items
-    for(int i = 0; i < 22; i++)
-    {
-        level->addEntity(new EntityItem(5, i, COIN));
-    }
-    
     lights.open(this); // Open the menu (LightOverlay is just a menu)
     
     // openMenu(new ClientOverlay());

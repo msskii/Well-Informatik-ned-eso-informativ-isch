@@ -14,7 +14,7 @@
 
 typedef struct shopItem
 {
-    Item item;
+    Item *item;
     int stock = 0;
     
     int buyPrice = 0;
