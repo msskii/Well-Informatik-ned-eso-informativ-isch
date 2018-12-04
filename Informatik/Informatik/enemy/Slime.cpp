@@ -10,6 +10,8 @@
 
 Slime::Slime(float x, float y, int level)
 {
+    data.width = 64;
+    data.height = 64;
     data.x_pos = x;
     data.y_pos = y;
     data.speed = 2 + level / 20.0f;
@@ -75,7 +77,7 @@ void Slime::render(int xoff, int yoff)
     // TODO implement death animation
     
     SDL_Rect src = {32 * anim, set * 32, 32, 32};
-    SDL_Rect dst = getBoundingBox();
+    SDL_Rect dst = {(int) data.x_pos, (int) data.y_pos, 64, 64};
     TRANSFORM_LEVEL_POS(dst, xoff, yoff); // Transform r to the level position
     if((hurt--) > 0)
     {
@@ -117,6 +119,10 @@ void Slime::update(const uint8_t *keys)
     }
     if(dying)
     {
+        if (anim == 4 && timer == 5) {
+            //start dropping items
+            level->addEntity(new EntityItem(data.x_pos + 32,data.y_pos + 20, COIN, rand()%7 - 3, 10));
+        }
         if (anim == 9 && timer == 5) {
             //time to die
             level->removeEntity(this);

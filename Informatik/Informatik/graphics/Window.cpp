@@ -124,16 +124,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
 #endif
     
     openMenu(new MainMenu()); // Skip main menu
-
-    // Add a npc and add text to it
-    NPC *npc = new NPC(TILE_SIZE * 10, TILE_SIZE * 17, 0, 0);
-    npc->texts.push_back({3, 0, (char*) "Hello World\nI mean player..."});
-    npc->texts.push_back({0, 0, (char*) "Please stop talking\nto me..."});
-    level->addEntity(npc);
-    
-    // Add a projectile that will hit the slime #1
-    Projectile *projectile = new Projectile(0, 0, (float) PI * 15.0f / 8.0f);
-    level->addEntity(projectile);
     
     lights.open(this); // Open the menu (LightOverlay is just a menu)
     

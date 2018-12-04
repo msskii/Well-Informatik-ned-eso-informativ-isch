@@ -41,8 +41,13 @@ Entity *Multiplayer::deserializeEntity(uint8_t *data)
         case Multiplayer::ITEM:
         {
             //printBuffer(data, 0x20);
+            //need to fix to id, ids are easier because switchstatements work with them so we can set size and additional factors
+            
+            //char *name = readString(data);
+            //e = new EntityItem((int) d.x_pos / TILE_SIZE, (int) d.y_pos / TILE_SIZE, new Item(name));
+            
             char *name = readString(data);
-            e = new EntityItem((int) d.x_pos / TILE_SIZE, (int) d.y_pos / TILE_SIZE, new Item(name));
+            e = new EntityItem((int) d.x_pos / TILE_SIZE, (int) d.y_pos / TILE_SIZE, 0);
         }
             break;
         case Multiplayer::FIREFLY:
