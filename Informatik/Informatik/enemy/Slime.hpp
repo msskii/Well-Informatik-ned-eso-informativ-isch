@@ -20,7 +20,7 @@ private:
     gl_texture texture_hurt;
     
 public:
-    int anim = 0, set = 0, timer = 0, hurt = 0, underAttack = 0, bounceBack = 0, recharging = 0;
+    int  hurt = 0, underAttack = 0, bounceBack = 0, recharging = 0;
     int enemy_level = 0;
     bool dying = false;
     Slime(float x, float y, int level);

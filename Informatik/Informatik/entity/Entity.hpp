@@ -40,6 +40,9 @@ typedef struct EntityData
     float dy = 0;
     float speed = 0;
     bool collisionEnabled = true;
+    
+    int animFrames = 0;
+    int animeSpeed = 0;
 } EntityData;
 #pragma pack(pop)
 
@@ -52,6 +55,9 @@ class Entity
 protected:
     
 public:
+    //animation stuff
+    int anim = 0, set = 0, timer = 0;
+    
     int isBehind = ABOVE_BUILDING;
     Level *level;
     int entityID;

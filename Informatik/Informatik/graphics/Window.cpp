@@ -138,8 +138,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Add testing items
     for(int i = 0; i < 22; i++)
     {
-        level->addEntity(new EntityItem(5, i, new Item("test")));
-        level->addEntity(new EntityItem(3, i, new Item("test2")));
+        level->addEntity(new EntityItem(5, i, COIN));
     }
     
     lights.open(this); // Open the menu (LightOverlay is just a menu)
