@@ -31,7 +31,6 @@ static void changeToGame(Menu *menu)
 
 static void onButtonPress(Menu *menu, Button *button)
 {
-
     switch (button->elementID) {
         case START_GAME:
             changeToGame(menu);
@@ -52,7 +51,7 @@ static void onButtonPress(Menu *menu, Button *button)
         {
             Multiplayer::Server s = Multiplayer::Server(menu->window); // Start a server
         }
-            menu->close();
+            menu->close(); // Show level of the server
             break;
 		case CONNECT_TO_SERVER:
 			menu->openSubMenu(new Multiplayer::ServerSelector(menu));
@@ -61,18 +60,17 @@ static void onButtonPress(Menu *menu, Button *button)
         default:
             break;
     }
-
 }
 
 MainMenu::MainMenu()
 {
-    addElement(new Button(onButtonPress, "Start Game", 100, 200, 400, 100, START_GAME));
-    addElement(new Button(onButtonPress, "Level Editor", 100, 300, 400, 100, START_LEVELEDITOR));
-    addElement(new Button(onButtonPress, "Options", 100, 400, 400, 100, START_OPTIONS));
-    addElement(new Button(onButtonPress, "Quit", 100, 500, 400, 100, QUIT_GAME));
+    addElement(new Button(onButtonPress, "Start Game", 100, 200, 600, 100, START_GAME));
+    addElement(new Button(onButtonPress, "Level Editor", 100, 300, 600, 100, START_LEVELEDITOR));
+    addElement(new Button(onButtonPress, "Options", 100, 400, 600, 100, START_OPTIONS));
+    addElement(new Button(onButtonPress, "Quit", 100, 500, 600, 100, QUIT_GAME));
     
-    addElement(new Button(onButtonPress, "Start Server", 100, 700, 400, 100, START_SERVER));
-	addElement(new Button(onButtonPress, "Connect", 100, 800, 400, 100, CONNECT_TO_SERVER));
+    addElement(new Button(onButtonPress, "Start Server", 100, 700, 600, 100, START_SERVER));
+	addElement(new Button(onButtonPress, "Connect", 100, 800, 600, 100, CONNECT_TO_SERVER));
 }
 
 bool MainMenu::shouldWindowClose()
@@ -85,7 +83,7 @@ void MainMenu::renderMenu()
 {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-    fillRect(0xFFFF00FF, {0, 0, 10, 10});
+    // fillRect(0xFFFF00FF, {0, 0, 10, 10});
 }
 
 void MainMenu::updateMenu(const uint8_t *keys)
