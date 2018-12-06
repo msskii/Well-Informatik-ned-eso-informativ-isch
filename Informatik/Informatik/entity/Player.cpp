@@ -93,7 +93,7 @@ bool Player::isInside(float dx, float dy)
         
         if(item != nullptr)
         {
-            if(item->data.x_pos + item->data.width >= data.x_pos + dx + MARGIN && item->data.x_pos <= data.x_pos + dx + PLAYER_WIDTH - 2 * MARGIN && item->data.y_pos + item->data.height >= data.y_pos - PLAYER_HEIGHT + dy + MARGIN && item->data.y_pos <= data.y_pos + dy + 2 * PLAYER_HEIGHT - 2 * MARGIN)
+            if(item->data.x_pos + item->data.width >= data.x_pos + dx && item->data.x_pos <= data.x_pos + dx + PLAYER_WIDTH && item->data.y_pos + item->data.height >= data.y_pos - PLAYER_HEIGHT + dy && item->data.y_pos <= data.y_pos + dy + 2 * PLAYER_HEIGHT)
             {
                 item->pickUp(); // Send the item the message we picked it up
                 current_level->removeEntity(item);

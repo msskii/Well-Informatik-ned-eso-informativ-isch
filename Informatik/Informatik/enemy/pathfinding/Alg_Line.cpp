@@ -21,5 +21,7 @@ vector2d line_step(Tile *tiles, int startIndex, int endIndex)
     int ex = endIndex % level_width;
     int ey = endIndex / level_width;
     
+    if(sx == ex && sy == ey) return {0, 0};
+    
     return ((vector2d) {(float)(ex - sx), (float)(ey - sy)}).norm();
 }
