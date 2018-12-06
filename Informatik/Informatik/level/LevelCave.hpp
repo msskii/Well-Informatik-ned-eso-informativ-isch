@@ -24,11 +24,12 @@ private:
         DIRT = 1,
         ENTRANCE = 2,
         EXIT = 3,
-        BASIC_ENEMY
+        BASIC_ENEMY = 4,
+        GRASS = 5
     };
     
     int floor = 0;
-    int width = 50, height = 50;
+    int width = 40, height = 40;
     Level *&level;
 	Window *window;
     bool entranceSet = false, exitSet = false;

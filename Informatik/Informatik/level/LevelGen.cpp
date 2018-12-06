@@ -247,7 +247,7 @@ void LevelGen::addGrassrec(int strength, int lastDir, int x)
     if (map[x] != WALL && map[x] != EXIT && map[x] != ENTRANCE)
     {
         map[x] = GRASS;
-        int newStrength = strength - 10;
+        int newStrength = strength * 0.8;
         if (rand() % 100 < strength) {
             addGrassrec(newStrength, UP, x - width);
         }
@@ -270,8 +270,7 @@ void LevelGen::addGrasspatch(int patchSize, int amount)
     {
         //try n times to find a fitting tile
         for (int j = 0; j < 50; j++) {
-            //int k = rand() % size;
-            int k = 510;
+            int k = rand() % size;
             if(map[k] != WALL && map[k] != EXIT && map[k] != ENTRANCE)
             {
                 addGrassrec(patchSize, UP, k);
@@ -285,11 +284,16 @@ void LevelGen::addGrasspatch(int patchSize, int amount)
 
 void LevelGen::addBasicEnemies(int amount)
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < amount; i++)
     {
-        if(map[i] == DIRT && rand() % size < amount )
-        {
-            map[i] = BASIC_ENEMY;
+        //try n times to find a fitting tile
+        for (int j = 0; j < 50; j++) {
+            int k = rand() % size;
+            if(map[k] != WALL && map[k] != EXIT && map[k] != ENTRANCE)
+            {
+                map[k] = BASIC_ENEMY;
+                break;
+            }
         }
     }
 }

@@ -26,8 +26,7 @@ void LevelCave::nextLevel()
     //create a new layer with the cave Gen
     level = new Level(width, height);
     LevelGen levelGen(width, height);
-    levelGen.addBasicEnemies(10);
-    //levelGen.addGrasspatch(70, 1);
+    levelGen.addGrasspatch(70, 1);
     int *mapLayout = new int[width * height];
     levelGen.returnMap(mapLayout);
     
@@ -45,6 +44,10 @@ void LevelCave::nextLevel()
             case WALL:
                 level->tiles[i].data.tileNumber = TILE_EMPTY;
                 level->tiles[i].data.tileZ = 1;
+                break;
+                
+            case GRASS:
+                level->tiles[i].data.tileNumber = TILE_GRASS;
                 break;
                 
             case DIRT:
@@ -74,14 +77,6 @@ void LevelCave::nextLevel()
                 level->events.push_back(new Event(eventData, new uint8_t[1] {0})); //
                 break;
                 
-                
-            case BASIC_ENEMY:
-                level->tiles[i].data.tileNumber = TILE_DIRT;
-                {
-                    Slime *slime = new Slime((i % width) * TILE_SIZE, int(i/width) * TILE_SIZE, floor * 10);
-                    level->addEntity(slime);
-                }
-                break;
             default:
                 break;
         }
@@ -97,19 +92,40 @@ void LevelCave::nextLevel()
     }
     if (exitSet)
     {
-        
         updateVariant(level);
+        //add enemies
+        if(floor < 10)
+        {
+            //add n slimes
+            for (int i = 0; i < 10; i++) {
+                //try n times
+                for (int j = 0; j < 50; j++) {
+                    int x = rand() % (width * height);
+                    if (mapLayout[x] != WALL && mapLayout[x] != EXIT && mapLayout[x] != ENTRANCE) {
+                        Slime *slime = new Slime((x % width) * TILE_SIZE, int(x/width) * TILE_SIZE, floor);
+                        level->addEntity(slime);
+                        break;
+                    }
+                }
+            }
+        }
+        else if(floor = 10)
+        {
+            
+        }
         //reload level
         level->update();
         level->updateTiles();
         level->reloadFiles();
         entranceSet = false;
         exitSet = false;
+      
     }else
     {
         entranceSet = false;
         floor--;
         nextLevel();
     }
+    
     
 }
