@@ -14,7 +14,7 @@
 extern int *fScores, *gScores, *cameFrom; // Just so we know thei're there
 
 extern void astar_init(Level *level);
-extern DIRECTION astar_step(Tile *tiles, int startIndex, int endIndex);
+extern vector2d astar_step(Tile *tiles, int startIndex, int endIndex);
 
 static const pathfindAlgorithm astar = {astar_init, astar_step};
 

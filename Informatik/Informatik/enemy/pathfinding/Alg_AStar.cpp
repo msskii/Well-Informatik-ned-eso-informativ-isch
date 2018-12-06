@@ -39,7 +39,7 @@ int estimateCost(int si, int ei) // Estimate the cost of getting from point a to
     return (sx - ex) * (sx - ex) + (sy - ey) * (sy - ey);
 }
 
-DIRECTION astar_step(Tile *tiles, int startIndex, int endIndex)
+vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
 {    
     std::vector<int> closedSet; // Visited fields stored in here
     std::vector<int> openSet; // Possible next steps in here
@@ -79,12 +79,12 @@ DIRECTION astar_step(Tile *tiles, int startIndex, int endIndex)
 
             int diff = lastStep - startIndex;
             
-            if(diff == -level_width) return UP;
-            else if(diff == level_width) return DOWN;
-            else if(diff == -1) return LEFT;
-            else if(diff == 1) return RIGHT;
+            if(diff == -level_width) return VEC_UP;
+            else if(diff == level_width) return VEC_DOWN;
+            else if(diff == -1) return VEC_LEFT;
+            else if(diff == 1) return VEC_RIGHT;
             
-            return UP;
+            return VEC_UP;
         }
         
         openSet.erase(openSet.begin() + currentIndex); // we stepped on the field, so it is not open anymore
@@ -113,5 +113,5 @@ DIRECTION astar_step(Tile *tiles, int startIndex, int endIndex)
         }
     }
     
-    return UP;
+    return VEC_UP;
 }

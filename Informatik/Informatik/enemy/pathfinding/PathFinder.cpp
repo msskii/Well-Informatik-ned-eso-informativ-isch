@@ -15,18 +15,18 @@ PathFinder::PathFinder(Level *lvl, pathfindAlgorithm alg) : level(lvl), algorith
     algorithm.initFunc(lvl);
 }
 
-DIRECTION PathFinder::getStep(int si, int ei)
+vector2d PathFinder::getStep(int si, int ei)
 {
     return algorithm.calcFunc(level->tiles, si, ei);
 }
 
 
-DIRECTION PathFinder::getStep(int xs, int ys, int xe, int ye)
+vector2d PathFinder::getStep(int xs, int ys, int xe, int ye)
 {
     return algorithm.calcFunc(level->tiles, (xs + ys * level->width) / TILE_SIZE, (xe + ye * level->width) / TILE_SIZE);
 }
 
-DIRECTION PathFinder::getStep(float xs, float ys, float xe, float ye)
+vector2d PathFinder::getStep(float xs, float ys, float xe, float ye)
 {
     //return algorithm.calcFunc(level->tiles, (int) ((xs + TILE_SIZE / 2.0) / TILE_SIZE + (int) ((ys + TILE_SIZE / 2.0) / TILE_SIZE) * level->width), (int) ((xe + TILE_SIZE / 2.0) / TILE_SIZE + (int)((ye + TILE_SIZE / 2.0) / TILE_SIZE) * level->width));
     return algorithm.calcFunc(level->tiles, (int) (xs / TILE_SIZE + (int) (ys / TILE_SIZE) * level->width), (int) (xe / TILE_SIZE + (int)(ye / TILE_SIZE) * level->width));
@@ -37,9 +37,8 @@ DIRECTION PathFinder::getSingleDirection(float xs, float ys, float xe, float ye,
     vector2d dir = {0, 0};
     for(int i = 0; i < 4; i++)
     {
-        DIRECTION bd = getStep(xs + (i % 2) * w, ys + (i / 2) * h, xe, ye);
-        dir.x += bd == RIGHT ? 0.25f : bd == LEFT ? -0.25f : 0;
-        dir.y += bd == DOWN ?  0.25f : bd == UP ?   -0.25f : 0;
+        vector2d bd = getStep(xs + (i % 2) * w, ys + (i / 2) * h, xe, ye);
+        dir += bd;
     }
     
     if(dir.x == 0)
@@ -67,9 +66,8 @@ vector2d PathFinder::getAverageDirection(float xs, float ys, float xe, float ye,
     vector2d dir = {0, 0};
     for(int i = 0; i < 4; i++)
     {
-        DIRECTION bd = getStep(xs + (i % 2) * w, ys + (i / 2) * h, xe, ye);
-        dir.x += bd == RIGHT ? 0.25f : bd == LEFT ? -0.25f : 0;
-        dir.y += bd == DOWN ?  0.25f : bd == UP ?   -0.25f : 0;
+        vector2d bd = getStep(xs + (i % 2) * w, ys + (i / 2) * h, xe, ye);
+        dir += bd;
     }
     return dir;
 }

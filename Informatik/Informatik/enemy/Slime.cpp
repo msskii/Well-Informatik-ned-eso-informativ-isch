@@ -181,9 +181,9 @@ void Slime::update(const uint8_t *keys)
             ydirection = 0;
             for(int i = 0; i < 4; i++)
             {
-                DIRECTION bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
-                xdirection += bd == RIGHT ? 0.25f : bd == LEFT ? -0.25f : 0;
-                ydirection += bd == DOWN ?  0.25f : bd == UP ?   -0.25f : 0;
+                vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
+                xdirection += bd.x / 4.0f;
+                ydirection += bd.y / 4.0f;
             }
         }
         else if(anim > 2 && anim < 7)

@@ -14,13 +14,12 @@ void line_init(Level *level)
     level_height = level->height;
 }
 
-DIRECTION line_step(Tile *tiles, int startIndex, int endIndex)
+vector2d line_step(Tile *tiles, int startIndex, int endIndex)
 {
     int sx = startIndex % level_width;
     int sy = startIndex / level_width;
     int ex = endIndex % level_width;
     int ey = endIndex / level_width;
     
-    if(abs(sx - ex) > abs(sy - ey)) return (ex - sx) > 0 ? RIGHT : LEFT;
-    else return (ey - sy) > 0 ? DOWN : UP;
+    return ((vector2d) {(float)(ex - sx), (float)(ey - sy)}).norm();
 }

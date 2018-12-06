@@ -12,7 +12,7 @@
 #include "PathFinder.hpp"
 
 extern void line_init(Level *level);
-extern DIRECTION line_step(Tile *tiles, int startIndex, int endIndex);
+extern vector2d line_step(Tile *tiles, int startIndex, int endIndex);
 
 static const pathfindAlgorithm straight_line = {line_init, line_step};
 
