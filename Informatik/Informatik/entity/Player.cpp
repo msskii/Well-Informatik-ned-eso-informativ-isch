@@ -65,7 +65,6 @@ bool Player::isInside(float dx, float dy)
             
             Enemy *enemy = dynamic_cast<Enemy*>(entity);
             Projectile *projectile = dynamic_cast<Projectile*>(entity);
-            EntityItem *item = dynamic_cast<EntityItem*>(entity);
             
             if(enemy != nullptr && enemy->isAlive)
             {
@@ -350,4 +349,7 @@ void Player::addItem(Item *item)
             return;
         }
     }
+    
+    printf("[ERROR/WARN] No space left in inventory... Dropping the item\n");
+    // TODO: drop the item
 }

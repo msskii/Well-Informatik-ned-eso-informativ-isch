@@ -36,13 +36,6 @@
 extern TTF_Font *font;
 extern float SCALE_X, SCALE_Y;
 
-/**
-typedef struct cachedTexture
-{
-    SDL_Texture *texture = nullptr;
-    int textwidth, textheight;
-} cachedTexture;*/
-
 #include "GL_Util.hpp"
 
 typedef struct cachedTexture

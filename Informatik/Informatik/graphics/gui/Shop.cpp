@@ -80,8 +80,8 @@ void Shop::updateMenu(const uint8_t *keys)
     if(pressed && !lastPressed && currentMoney >= inStock[selected].buyPrice && inStock[selected].stock > 0)
     {
         currentMoney -= inStock[selected].buyPrice;
-        --inStock[selected].stock;
         window->level->getLocalPlayer()->addItem(inStock[selected].item);
+        if(!--inStock[selected].stock) inStock.erase(inStock.begin() + selected);
         update = true;
     }
     lastPressed = pressed;
