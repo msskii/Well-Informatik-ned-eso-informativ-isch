@@ -109,8 +109,6 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
             break;
     }
 
-    
-    
     // Reload elements of the menu
     reloadElementTextures();
     

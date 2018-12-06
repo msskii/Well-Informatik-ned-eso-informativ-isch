@@ -14,6 +14,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
+
+#include <dirent.h> // TODO: Find alternative for windows (or include binaries for dirent)
 
 #define TEXTURE_PATH std::string("assets/textures/")
 #define FONT_PATH std::string("assets/fonts/")
@@ -35,5 +38,6 @@ typedef struct filedata
 
 extern filedata readFile(const char *filePath);
 extern void writeFile(const char *filePath, uint8_t *dataToWrite, int size);
+extern std::vector<std::string> listFiles(std::string dir);
 
 #endif /* FileReader_hpp */

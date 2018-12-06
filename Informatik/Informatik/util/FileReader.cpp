@@ -57,3 +57,31 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
     
     fclose(f);
 }
+
+std::vector<std::string> listFiles(std::string dir) // Recursively finds all files inside a folder
+{
+    std::vector<std::string> files;
+    
+    DIR *dp;
+    dp = opendir(dir.c_str());
+    
+    if(!dp) return files; // No directory found
+    
+    struct dirent *dirp;
+    while((dirp = readdir(dp)))
+    {
+        if(dirp->d_type == DT_REG) files.push_back(std::string(dirp->d_name));
+        else if(dirp->d_type == DT_DIR && strcmp(dirp->d_name, ".") && strcmp(dirp->d_name, ".."))
+        {
+            std::vector<std::string> subDirFiles = listFiles(dir + "/" + std::string(dirp->d_name));
+            for(size_t i = 0; i < subDirFiles.size(); i++)
+            {
+                files.push_back(std::string(dirp->d_name) + "/" + subDirFiles[i]);
+            }
+        }
+    }
+    
+    closedir(dp);
+    
+    return files;
+}
