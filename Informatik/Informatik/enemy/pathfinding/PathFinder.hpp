@@ -14,8 +14,13 @@
 #include "../../level/Level.hpp"
 
 typedef void (*pathfindInit)(Level *level);
-typedef DIRECTION (*pathfindAlg)(Tile *currentTiles, int startIndex, int endIndex);
+typedef vector2d (*pathfindAlg)(Tile *currentTiles, int startIndex, int endIndex);
 extern uint32_t level_width, level_height;
+
+static const vector2d VEC_UP {0, -1};
+static const vector2d VEC_DOWN {0, 1};
+static const vector2d VEC_LEFT {-1, 0};
+static const vector2d VEC_RIGHT {1, 0};
 
 typedef struct pathFindAlgorithm
 {
@@ -31,9 +36,9 @@ private:
     
 public:
     PathFinder(Level *level, pathfindAlgorithm alg);
-    DIRECTION getStep(int si, int ei);
-    DIRECTION getStep(int xs, int ys, int xe, int ye);
-    DIRECTION getStep(float xs, float ys, float xe, float ye);
+    vector2d getStep(int si, int ei);
+    vector2d getStep(int xs, int ys, int xe, int ye);
+    vector2d getStep(float xs, float ys, float xe, float ye);
     DIRECTION getSingleDirection(float xs, float ys, float xe, float ye, float w, float h);
     vector2d getAverageDirection(float xs, float ys, float xe, float ye, float w, float h);
 };

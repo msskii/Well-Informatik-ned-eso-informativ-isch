@@ -109,7 +109,7 @@ void LevelCave::nextLevel()
                 }
             }
         }
-        else if(floor = 10)
+        else if(floor == 10)
         {
             
         }
