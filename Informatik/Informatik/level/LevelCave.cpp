@@ -102,7 +102,7 @@ void LevelCave::nextLevel()
                 for (int j = 0; j < 50; j++) {
                     int x = rand() % (width * height);
                     if (mapLayout[x] != WALL && mapLayout[x] != EXIT && mapLayout[x] != ENTRANCE) {
-                        Slime *slime = new Slime((x % width) * TILE_SIZE, int(x/width) * TILE_SIZE, floor);
+                        Slime *slime = new Slime((x % width) * TILE_SIZE, int(x/width) * TILE_SIZE, floor * 2);
                         level->addEntity(slime);
                         break;
                     }

@@ -57,6 +57,13 @@ void EntityItem::update(const uint8_t *keys)
                 vy = 0;
             }
         }
+        //bounce on walls
+        int coordLeft = int(data.y_pos / TILE_SIZE) * level_width + data.x_pos / TILE_SIZE;
+        int coordRight = int(data.y_pos / TILE_SIZE) * level_width + (data.x_pos + data.width) / TILE_SIZE;
+        if(level->tiles[coordLeft].data.tileNumber == TILE_EMPTY || level->tiles[coordRight].data.tileNumber == TILE_EMPTY)
+        {
+            vx *= -1;
+        }
     }
     
     //animation
@@ -106,6 +113,13 @@ void EntityItem::initItem(float x, float y, const char *id)
         data.height = 32.0f;
         data.animeSpeed = 5;
         data.animFrames = 12;
+    }
+    if(!strcmp(id, "glob_of_slime"))
+    {
+        data.width = 32.0f;
+        data.height = 32.0f;
+        data.animeSpeed = 0;
+        data.animFrames = 1;
     }
 }
 

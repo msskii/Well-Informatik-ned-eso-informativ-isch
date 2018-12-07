@@ -87,19 +87,19 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     eventData.event_id_dependency = 0; // No Event needs to be triggered first
     eventData.event_id = 0; // Auto increment & start from one
 
-    events.push_back(new Event(eventData, new uint8_t[2] { DOWN, 3 * TILE_SIZE })); // Move player 2 down
+    //events.push_back(new Event(eventData, new uint8_t[2] { DOWN, 3 * TILE_SIZE })); // Move player 2 down
     
     eventData.event_x += TILE_SIZE * 4;
     eventData.triggerAmount = 1; // Triggered once
     eventData.event_id_dependency = 1;
     eventData.event_type_filter = PLAYER_INTERACT;
-    events.push_back(new Event(eventData, new uint8_t[2] { UP, 3 * TILE_SIZE })); // Move player 2 down
+    //events.push_back(new Event(eventData, new uint8_t[2] { UP, 3 * TILE_SIZE })); // Move player 2 down
     
     eventData.event_x += TILE_SIZE * 4;
     eventData.event_id_dependency = 0;
     eventData.event_type_filter = STEP_ON;
     eventData.event_action = TELEPORT_PLAYER;
-    events.push_back(new Event(eventData, new uint8_t[9] {0, 0, 0, 0, 0, 0, 0, 0, 1})); // two floats of zero & map id 1
+    //events.push_back(new Event(eventData, new uint8_t[9] {0, 0, 0, 0, 0, 0, 0, 0, 1})); // two floats of zero & map id 1
     
     audioFile = std::string(GET_FILE_PATH(AUDIO_PATH, "default.wav"));
     printf("[DEBUG] AudioFile %s\n", audioFile.c_str());
