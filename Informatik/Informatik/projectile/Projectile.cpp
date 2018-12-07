@@ -111,7 +111,7 @@ void Projectile::update(const uint8_t *keys)
             {
                 enemy->takeDamage(damage);
                 level->removeEntity(this);
-                break;
+                return; // Only damage the first entity we encounter, not more
             }
         }
     }
