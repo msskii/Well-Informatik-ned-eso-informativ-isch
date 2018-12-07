@@ -32,7 +32,7 @@ typedef struct vector2d
     inline vector2d operator * (float a) { return {x * a, y * a}; }
     
     inline float len() { return sqrt(x * x + y * y); }
-    inline vector2d norm() { return {x / len(), y / len()}; }
+    inline vector2d norm() { if(len() == 0) return {0, 0}; return {x / len(), y / len()}; }
     inline float dir() { return atan2(y, x); }
 } vector2d;
 
