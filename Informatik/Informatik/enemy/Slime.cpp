@@ -21,7 +21,7 @@ Slime::Slime(float x, float y, int level)
     data.currentHealth = 1.0f * level;
     data.collisionEnabled = false;
     animationHealth = 1.0f * level;
-    agroRadius = 10 * TILE_SIZE;
+    agroRadius = 15 * TILE_SIZE;
     enemy_level = level;
     
     enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_BlueSlime"));
@@ -38,22 +38,17 @@ Slime::Slime(float x, float y, int level)
     }
     else if (level < 20)
     {
+    
+    }
+    else
+    {
         uint32_t *pixels = (uint32_t*) enemy_surface->pixels;
         for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
         {
             Uint32 temp;
-            temp = (pixels[i] & fmt->Amask) | (((pixels[i] & fmt->Bmask) >> fmt->Bshift) << fmt->Gshift);
+            temp = (pixels[i] & fmt->Amask) | (((pixels[i] & fmt->Bmask) >> fmt->Bshift) << fmt->Rshift);
             pixels[i] = temp;
         }
-    
-    }
-    else if (level < 30)
-    {
-        enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_OrangeSlime"));
-    }
-    else
-    {
-        enemy_surface = IMG_Load(GET_TEXTURE_PATH("enemies/Enemy_RedSlime"));
     }
             
     hurt_surface = SDL_CreateRGBSurfaceWithFormat(0, enemy_surface->w, enemy_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
@@ -138,7 +133,14 @@ void Slime::update(const uint8_t *keys)
         if (anim == 4 && timer == 5)
         {
             //start dropping items
-            level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3, 10));
+            int coins = rand() % ((enemy_level / 5) + 1) + rand() % 2;
+            for (int i = 0; i < coins; i++) {
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3, 10));
+            }
+            int drops = rand() % ((enemy_level / 5) + 1) + rand() % 2;
+            for (int i = 0; i < drops; i++) {
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "glob_of_slime", rand() % 10 - 5, 10));
+            }
         }
         if (anim == 9 && timer == 5)
         {

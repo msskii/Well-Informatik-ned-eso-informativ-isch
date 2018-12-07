@@ -39,7 +39,7 @@ typedef struct EntityData
     float dx = 0;
     float dy = 0;
     float speed = 0;
-    bool collisionEnabled = true;
+    bool collisionEnabled = false;
     
     int animFrames = 0;
     int animeSpeed = 0;

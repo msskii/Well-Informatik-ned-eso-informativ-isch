@@ -99,7 +99,7 @@ void Projectile::update(const uint8_t *keys)
         auto *enemy = dynamic_cast<Enemy*>(level->entities[i]);
         if(enemy == nullptr || !enemy->isAlive) continue; // Couldnt cast to enemy --> isnt an enemy
         
-        if(LENGTH(enemy->data.x_pos - data.x_pos, enemy->data.y_pos - data.y_pos) > LENGTH(data.width, data.height))
+        if(LENGTH(enemy->data.x_pos - data.x_pos, enemy->data.y_pos - data.y_pos) >  LENGTH(max(data.width, enemy->data.width), max(data.height, enemy->data.height)))
         {
             // Out of reach... continue
             continue;

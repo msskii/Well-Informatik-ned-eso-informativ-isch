@@ -61,7 +61,7 @@ bool Player::isInside(float dx, float dy)
         {
             auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
             
-           // if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
+           if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
             
             Enemy *enemy = dynamic_cast<Enemy*>(entity);
             Projectile *projectile = dynamic_cast<Projectile*>(entity);
@@ -88,7 +88,7 @@ bool Player::isInside(float dx, float dy)
     {
         auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
         
-        // if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
+        //if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
         EntityItem *item = dynamic_cast<EntityItem*>(entity);
         
         if(item != nullptr)
