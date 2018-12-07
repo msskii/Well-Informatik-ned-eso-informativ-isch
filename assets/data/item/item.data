@@ -1,3 +1,8 @@
 item.infinity.value.buy=1000
 item.test.value.buy=100
 item.test2.value.buy=10
+
+item.coin.value.buy=-1
+item.coin.value.sell=1
+
+item.glob_of_slime.value.buy=3

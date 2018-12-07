@@ -5,3 +5,9 @@ item.test2.name=Test-2
 item.infinity.desc=Wipes out half the universe
 item.test.desc=Test Item #1
 item.test2.desc=Test Item #2
+
+item.glob_of_slime.name=Drop of Slime
+item.glob_of_slime.desc=The slimes blood
+
+item.coin.name=Coin
+item.coin.desc=It's a fucking coin
