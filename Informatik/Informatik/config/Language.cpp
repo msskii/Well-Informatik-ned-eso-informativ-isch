@@ -8,12 +8,7 @@
 
 #include "Language.hpp"
 
-void LanguageLoader::testValues()
-{
-    printf("Testing values");
-}
-
-Language::Language(const char* path) : loader(GET_FILE_PATH(LANGUAGE_PATH, path + ".lang"))
+Language::Language(const char* path) : loader(GET_FILE_PATH(LANGUAGE_PATH, path + ".lang"), false)
 {
     printf("Itemname for infinity: %s\n", loader.get("item.infinity.name").c_str());
 }

@@ -8,6 +8,8 @@
 
 #include "Window.hpp"
 
+ItemData *itemData = nullptr;
+
 Window::Window() // Load from file, or if not found w = 50 & h = 50
 {
     // Load config
@@ -317,6 +319,7 @@ void Window::nextFrame()
 void Window::reloadConfig()
 {
     loader = new ConfigLoader(GET_FILE_PATH(LEVEL_PATH, "informatik.config"));
+    itemData = new ItemData(GET_FILE_PATH(LEVEL_PATH, "item/item.data"));
 }
 
 // Save level and quit

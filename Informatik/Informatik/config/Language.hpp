@@ -11,18 +11,10 @@
 
 #include "ConfigLoader.hpp"
 
-class LanguageLoader : public ConfigLoader
-{
-protected:
-    void testValues() override;
-public:
-    LanguageLoader(const char* path) : ConfigLoader(path, false) {}
-};
-
 class Language
 {
 private:
-    LanguageLoader loader;
+    ConfigLoader loader;
 public:
     Language(const char *filepath);
     std::string translate(const char *key);

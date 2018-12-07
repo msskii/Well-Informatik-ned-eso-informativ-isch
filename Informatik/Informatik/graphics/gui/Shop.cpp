@@ -18,10 +18,31 @@ Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
     for(size_t i = 0; i < inStock.size(); i++)
     {
         stockNameTextures.push_back({});
+        inStock[i].buyPrice = itemData->getItemBuyValue(inStock[i].item->name);
+        inStock[i].sellPrice = itemData->getItemSellValue(inStock[i].item->name);
         inStock[i].item->updateTexture();
     }
 
     for(int i = 0; i < 6; i++) selectedInfo.push_back({});
+}
+
+Shop::Shop(const char *path, int money, Player *player)
+{
+    currentMoney = money;
+    background_surface = IMG_Load(GET_TEXTURE_PATH((std::string("/backgrounds/") + path).c_str()));
+
+    for(int i = 0; i < player->playerItems.size(); i++)
+    {
+        if(!player->playerItems[i].item) continue;
+        inStock.push_back({player->playerItems[i].item, player->playerItems[i].amountItems}); // TODO: item values lookup
+        stockNameTextures.push_back({});
+        inStock[i].item->updateTexture();
+        inStock[i].buyPrice = itemData->getItemBuyValue(inStock[i].item->name);
+        inStock[i].sellPrice = itemData->getItemSellValue(inStock[i].item->name);
+    }
+    
+    for(int i = 0; i < 6; i++) selectedInfo.push_back({});
+    selling = true;
 }
 
 bool Shop::shouldWindowClose() { return false; }
@@ -50,7 +71,8 @@ void Shop::renderMenu()
     
     drawTextAspect(std::to_string(currentMoney).c_str(), 0xFF000000, {1000, 60, 200, 100}, selectedInfo[3], update);
 
-    drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
+    if(selling) drawTextAspect("Sell menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
+    else drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
     drawTextAspect(lang->translate(std::string("item.") + inStock[selected].item->name + ".desc").c_str(), 0xFF000000, {40, 890, 1160, 100}, selectedInfo[5], update);
 
     update = false;
@@ -79,8 +101,23 @@ void Shop::updateMenu(const uint8_t *keys)
     
     if(pressed && !lastPressed && currentMoney >= inStock[selected].buyPrice && inStock[selected].stock > 0)
     {
-        currentMoney -= inStock[selected].buyPrice;
-        window->level->getLocalPlayer()->addItem(inStock[selected].item);
+        if(selling)
+        {
+            currentMoney += inStock[selected].sellPrice;
+            for(int i = 0; i < window->level->getLocalPlayer()->playerItems.size(); i++)
+            {
+                if(window->level->getLocalPlayer()->playerItems[i].item->operator==(inStock[selected].item))
+                {
+                    --window->level->getLocalPlayer()->playerItems[i].amountItems;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            currentMoney -= inStock[selected].buyPrice;
+            window->level->getLocalPlayer()->addItem(inStock[selected].item);
+        }
         if(!--inStock[selected].stock) inStock.erase(inStock.begin() + selected);
         update = true;
     }

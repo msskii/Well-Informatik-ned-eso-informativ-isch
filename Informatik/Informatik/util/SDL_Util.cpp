@@ -189,11 +189,13 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
         case SDL_SCANCODE_KP_COMMA:
             return shift ? ';' : ',';
         case SDL_SCANCODE_NONUSBACKSLASH:
-            return shift? '>' : '<';
+            return shift ? '>' : '<';
         case SDL_SCANCODE_MINUS:
-            return shift? '?' : '\'';
+            return shift ? '?' : '\'';
         case SDL_SCANCODE_EQUALS:
-            return shift? '`' : '^';
+            return shift ? '`' : '^';
+        case SDL_SCANCODE_SLASH:
+            return shift ? '_' : '-';
         case SDL_SCANCODE_BACKSPACE:
             return '\x08';
         case SDL_SCANCODE_SPACE:

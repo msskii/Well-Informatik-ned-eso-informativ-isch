@@ -22,5 +22,5 @@ Item::Item(const char *itemname) : name(itemname)
 
 void Item::updateTexture()
 {
-    if(surface) texture = getTexture(surface);
+    if(surface != NULL) texture = getTexture(surface);
 }

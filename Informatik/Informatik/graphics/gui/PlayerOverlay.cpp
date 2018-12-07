@@ -59,10 +59,20 @@ void PlayerOverlay::renderMenu()
 
 void PlayerOverlay::updateMenu(const uint8_t *keys)
 {
-    if(keys[SDL_SCANCODE_K]) // Just to test it
+    bool kpressed = keys[SDL_SCANCODE_K];
+    bool jpressed = keys[SDL_SCANCODE_J];
+    
+    if(kpressed && !kp) // Just to test it
     {
         window->openMenu(new Shop("ShopOverlay", 1000, { {new Item("test"), 1, 10, 9}, {new Item("test2"), 2, 100, 90}, {new Item("infinity"), 1, 1000, 800} }));
     }
+    else if(jpressed && !jp) // Just to test it
+    {
+        window->openMenu(new Shop("ShopOverlay", 1000, player));
+    }
+    
+    kp = kpressed;
+    jp = jpressed;
 }
 
 void PlayerOverlay::onOpen(){}

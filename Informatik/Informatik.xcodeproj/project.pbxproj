@@ -143,6 +143,7 @@
 		9307505521B6D79B00868B65 /* BossOverlay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BossOverlay.hpp; sourceTree = "<group>"; };
 		9307507321B947C700868B65 /* levelsave.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = levelsave.md; sourceTree = "<group>"; };
 		9307507421B947C700868B65 /* PlayerSaving.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PlayerSaving.md; sourceTree = "<group>"; };
+		9307507521BA930E00868B65 /* ItemList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ItemList.hpp; sourceTree = "<group>"; };
 		93185F8821465506001A2167 /* ExplodingProjectile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExplodingProjectile.cpp; sourceTree = "<group>"; };
 		93185F8921465506001A2167 /* ExplodingProjectile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExplodingProjectile.hpp; sourceTree = "<group>"; };
 		93185F8C21465F31001A2167 /* ConfigLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigLoader.cpp; sourceTree = "<group>"; };
@@ -487,6 +488,7 @@
 				937AFC5F214046B800F92964 /* Item.hpp */,
 				937AFC61214046C000F92964 /* EntityItem.cpp */,
 				937AFC62214046C000F92964 /* EntityItem.hpp */,
+				9307507521BA930E00868B65 /* ItemList.hpp */,
 			);
 			path = items;
 			sourceTree = "<group>";

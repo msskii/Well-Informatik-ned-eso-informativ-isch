@@ -29,11 +29,12 @@ private:
     std::vector<cachedTexture> stockNameTextures;
     std::vector<cachedTexture> selectedInfo;
     int selected = 0, cooldown = 0;
-    bool update = false, lastPressed = false;
+    bool update = false, lastPressed = false, selling = false;
     
 public:
     Shop(const char* backgroundPath, int currentMoney, std::vector<shopItem> inStock);
-    
+    Shop(const char* backgroundPath, int currentMoney, Player *sellingPlayer);
+
     bool shouldWindowClose() override;
     void renderMenu() override;
     void updateMenu(const uint8_t *keys) override;

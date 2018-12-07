@@ -24,6 +24,7 @@
 #include "../projectile/ExplodingProjectile.hpp"
 
 #include "../items/EntityItem.hpp"
+#include "../items/ItemList.hpp"
 
 #include "../multiplayer/ClientOverlay.hpp"
 

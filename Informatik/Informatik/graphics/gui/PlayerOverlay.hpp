@@ -20,6 +20,7 @@ private:
     float lastHealth = 0.0f;
     int lastState = 0;
     bool transition = true;
+    bool kp = false, jp = false;
 
 public:
     PlayerOverlay(Player *p);
