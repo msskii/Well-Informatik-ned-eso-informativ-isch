@@ -21,7 +21,7 @@ public:
     SDL_Surface *surface = nullptr;
     gl_texture texture;
     
-    inline bool operator==(Item *other) { return other == nullptr ? false : strcmp(name, other->name) == 0; };
+    inline bool operator==(Item *other) { return (other == nullptr || name == NULL) ? false : strcmp(name, other->name) == 0; };
     void updateTexture();
     
     Item(const char* itemname);

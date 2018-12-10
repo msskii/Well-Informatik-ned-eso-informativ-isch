@@ -108,7 +108,13 @@ void Shop::updateMenu(const uint8_t *keys)
             {
                 if(window->level->getLocalPlayer()->playerItems[i].item->operator==(inStock[selected].item))
                 {
-                    --window->level->getLocalPlayer()->playerItems[i].amountItems;
+                    if(!--window->level->getLocalPlayer()->playerItems[i].amountItems)
+                    {
+                        for(int j = i + 1; j < window->level->getLocalPlayer()->playerItems.size(); j++)
+                        {
+                            window->level->getLocalPlayer()->playerItems[j - 1] = window->level->getLocalPlayer()->playerItems[j];
+                        }
+                    }
                     break;
                 }
             }
