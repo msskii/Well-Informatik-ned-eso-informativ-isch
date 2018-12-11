@@ -44,6 +44,15 @@ void LevelCave::nextLevel()
             case WALL:
                 level->tiles[i].data.tileNumber = TILE_EMPTY;
                 level->tiles[i].data.tileZ = 1;
+                if(i < ((height - 1) * width) && mapLayout[i+width] != WALL)
+                {
+                    level->buildings.push_back(new Building(i % width, int(i / width) - 1, DBUILDING_CAVEWALL, 0, level));
+                    if(i > 2 * width && mapLayout[i - 2 * width] != WALL)
+                    {
+                        level->tiles[i - 2 * width].data.tileNumber = TILE_EMPTY;
+                        level->tiles[i - 2 * width].data.tileZ = 1;
+                    }
+                }
                 break;
                 
             case GRASS:
@@ -56,13 +65,13 @@ void LevelCave::nextLevel()
                 
             case ENTRANCE:
                 entranceSet = true;
-                level->buildings.push_back(new Building(i % width, int(i / width) - 2, DBUILDING_LADDERUP, level));
+                level->buildings.push_back(new Building(i % width, int(i / width) - 2, DBUILDING_LADDERUP, 0, level));
                 level->tiles[i].data.tileNumber = TILE_DIRT;
                 level->getLocalPlayer()->moveTo((float) (i % width) * TILE_SIZE, (float) int(i / width) * TILE_SIZE);
                 break;
             case EXIT:
                 exitSet = true;
-                level->buildings.push_back(new Building(i % width, int(i / width), DBUILDING_LADDERDOWN, level));
+                level->buildings.push_back(new Building(i % width, int(i / width), DBUILDING_LADDERDOWN, 0, level));
                 level->tiles[i].data.tileNumber = TILE_DIRT;
                 eventData.event_x = TILE_SIZE * (i % width);
                 eventData.event_y = TILE_SIZE * int(i/width);
@@ -80,16 +89,14 @@ void LevelCave::nextLevel()
             default:
                 break;
         }
-        //add random muation tiles
-        
-        for(int i = 0; i < width * height; i++)
-        {
-            level->tiles[i].data.variant = rand() % 200 <= 2 ? 1 : rand() % 200 <= 2 ? 2 : 0; // Add stuff to the level
-        }
-        
-        
+        //add random muation tile
+    }
+    for(int i = 0; i < width * height; i++)
+    {
+        level->tiles[i].data.variant = rand() % 200 <= 2 ? 1 : rand() % 200 <= 2 ? 2 : 0; // Add stuff to the level
         level->tiles[i].reloadTexture();
     }
+    
     if (exitSet)
     {
         updateVariant(level);

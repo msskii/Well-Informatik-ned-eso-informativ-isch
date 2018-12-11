@@ -55,7 +55,7 @@
 // Player stuff
 // ======================
 
-#define SPEED 7
+#define SPEED 10
 #define STEP_ACCURACY 100.0f
 
 // Same as tile size

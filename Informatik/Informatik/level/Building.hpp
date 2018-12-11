@@ -22,13 +22,15 @@ enum Buildings
     BUILDING_TAVERN,
     BUILDING_BLACKSMITH,
     DBUILDING_LADDERUP,
-    DBUILDING_LADDERDOWN
+    DBUILDING_LADDERDOWN,
+    DBUILDING_CAVEWALL
     
 };
 
 typedef struct BuildingData
 {
     uint16_t buildingNumber;
+    uint16_t buildingVariant;
     uint8_t sizeX;
     uint8_t sizeY;
     int xcoord;
@@ -53,10 +55,11 @@ private:
     gl_texture texture;
     char brightness_modifier = 0;
     Level *level;
+    bool enableColision = true;
     
 public:
     BuildingData data;
-    Building(int x, int y, uint16_t buildingnumber, Level *level);
+    Building(int x, int y, uint16_t buildingnumber, uint16_t buildingVariant, Level *level);
     Building(BuildingData d, Level *level);
     void render(int xoff, int yoff);
     bool isInside(float x, float y);

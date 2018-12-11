@@ -9,7 +9,7 @@
 #include "Building.hpp"
 #include "../level/Level.hpp"
 
-Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({buildingNumber, 0, 0, x, y}), level(l)
+Building::Building(int x, int y, uint16_t buildingNumber, uint16_t buildingVariant, Level *l): data({buildingNumber, buildingVariant, 0, 0, x, y}), level(l)
 {
     switch (buildingNumber)
     {
@@ -70,12 +70,21 @@ Building::Building(int x, int y, uint16_t buildingNumber, Level *l): data({build
             building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/DBuilding_Ladder"));
             data.sizeX = 1;
             data.sizeY = 3;
+            enableColision = false;
             break;
             
         case DBUILDING_LADDERDOWN:
             building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/DBuilding_Ladderdown"));
             data.sizeX = 1;
             data.sizeY = 1;
+            enableColision = false;
+            break;
+            
+        case DBUILDING_CAVEWALL:
+            enableColision = false;
+            building_surface = IMG_Load(GET_TEXTURE_PATH("buildings/DBuilding_Cavewall"));
+            data.sizeX = 1;
+            data.sizeY = 2;
             break;
             
         default:
@@ -101,6 +110,9 @@ Building::Building(BuildingData d, Level *l) : data(d), level(l)
 
 bool Building::isInside(float x, float y)
 {
+    if (!enableColision) {
+        return false;
+    }
     if((data.hitboxX * TILE_SIZE < x && (data.hitboxX * TILE_SIZE + data.hitboxsizeX * TILE_SIZE) > x) && (data.hitboxY * TILE_SIZE < y && (data.hitboxY * TILE_SIZE + data.hitboxsizeY * TILE_SIZE) > y))
     {
         return true;
@@ -122,7 +134,7 @@ void Building::render(int xoffset, int yoffset)
 {
     if(texture.id == 0) texture = getTexture(building_surface);
     
-    SDL_Rect src = {0, 0, data.sizeX * TILE_SIZE / 2, data.sizeY * TILE_SIZE / 2};
+    SDL_Rect src = {data.sizeX * TILE_SIZE / 2 * data.buildingVariant, 0, data.sizeX * TILE_SIZE / 2, data.sizeY * TILE_SIZE / 2};
     SDL_Rect dst = {(data.xcoord) * TILE_SIZE + xoffset, (data.ycoord) * TILE_SIZE + yoffset, data.sizeX * TILE_SIZE, data.sizeY * TILE_SIZE};
     
     if(dst.x >= (GAME_WIDTH + data.sizeX * TILE_SIZE) || dst.x < (-TILE_SIZE - data.sizeX * TILE_SIZE) || dst.y >= (GAME_HEIGHT + data.sizeY * TILE_SIZE) || dst.y < (-TILE_SIZE - data.sizeY * TILE_SIZE)) return; // Only render the visible ones...
