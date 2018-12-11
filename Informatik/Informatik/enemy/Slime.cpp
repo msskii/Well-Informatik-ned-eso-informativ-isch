@@ -175,17 +175,13 @@ void Slime::update(const uint8_t *keys)
         set = 1;
         if (anim == 2)
         {
-            // Better pathfinding here
-            //xdirection = (player->data.x_pos - this->data.x_pos)/l;
-            //ydirection = (player->data.y_pos - this->data.y_pos)/l;
-
             xdirection = 0;
             ydirection = 0;
             for(int i = 0; i < 4; i++)
             {
                 vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
-                xdirection += bd.x / 4.0f;
-                ydirection += bd.y / 4.0f;
+                xdirection += bd.x / agroRadius * l;
+                ydirection += bd.y / agroRadius * l;
             }
         }
         else if(anim > 2 && anim < 7)

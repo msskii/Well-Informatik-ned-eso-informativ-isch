@@ -63,11 +63,12 @@ DIRECTION PathFinder::getSingleDirection(float xs, float ys, float xe, float ye,
 
 vector2d PathFinder::getAverageDirection(float xs, float ys, float xe, float ye, float w, float h)
 {
-    vector2d dir = {0, 0};
+    /**vector2d dir = {0, 0};
     for(int i = 0; i < 4; i++)
     {
         vector2d bd = getStep(xs + (i % 2) * w, ys + (i / 2) * h, xe, ye);
         dir += bd;
-    }
+    }*/
+    vector2d dir = getStep(xs + w / 2.0, ys + h / 2.0, xe, ye);
     return dir;
 }
