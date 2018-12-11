@@ -61,13 +61,16 @@ Slime::Slime(float x, float y, int level)
         pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
     }
  
+    data.collisionEnabled = true;
 }
 
-int Slime::checkForDamage(float x, float y)
+int Slime::checkForDamage(float x, float y, float w, float h)
 {
     //bounce back
-    if (x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height) {
-        if (attackState == ATTACKING) {
+    if (x + w >= data.x_pos && y + h >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height)
+    {
+        if (attackState == ATTACKING)
+        {
             bounceBack = 2;
         }
         return data.damage;
@@ -180,8 +183,21 @@ void Slime::update(const uint8_t *keys)
             for(int i = 0; i < 4; i++)
             {
                 vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
-                xdirection += bd.x / agroRadius * l;
-                ydirection += bd.y / agroRadius * l;
+                if(l <= 1.0)
+                {
+                    xdirection += (player->data.x_pos - data.x_pos);
+                    ydirection += (player->data.y_pos - data.y_pos);
+                }
+                else if(l <= 3.0)
+                {
+                    xdirection += bd.x;
+                    ydirection += bd.y;
+                }
+                else
+                {
+                    xdirection += bd.x / agroRadius * l;
+                    ydirection += bd.y / agroRadius * l;
+                }
             }
         }
         else if(anim > 2 && anim < 7)

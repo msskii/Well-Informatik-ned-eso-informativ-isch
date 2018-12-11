@@ -69,11 +69,10 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                int damage = enemy->checkForDamage(data.x_pos + player_x_offset, data.y_pos + player_y_offset);
+                int damage = enemy->checkForDamage(data.x_pos + player_x_offset, data.y_pos + player_y_offset, PLAYER_WIDTH, PLAYER_HEIGHT);
                 if(damage != 0)
                 {
                     takeDamage(damage);
-                    
                 }
             }
             else if(projectile != nullptr)
