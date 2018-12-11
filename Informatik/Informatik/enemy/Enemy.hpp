@@ -33,15 +33,14 @@ protected:
     int leftToMove = 0;
     
 public:
-    virtual int checkForDamage(float x, float y) = 0; //gives player cords, every entety returns active damage as an int
+    virtual int checkForDamage(float x, float y, float w, float h) = 0; //gives player cords, every entety returns active damage as an int
     virtual void onDamage(float amount) = 0;
     virtual float onDamaging() = 0;
     
     float animationHealth = data.currentHealth; // Start without animation
     float agroRadius = TILE_SIZE * 5; // Enemy may attack in a range of x
     bool isAlive = true;
-    
-    
+        
     void renderHP(float xoffset, float yoffset);
     void takeDamage(float amount);
 };

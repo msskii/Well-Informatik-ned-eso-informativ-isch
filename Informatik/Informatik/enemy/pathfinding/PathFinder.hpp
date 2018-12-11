@@ -22,6 +22,11 @@ static const vector2d VEC_DOWN {0, 1};
 static const vector2d VEC_LEFT {-1, 0};
 static const vector2d VEC_RIGHT {1, 0};
 
+static const vector2d VEC_UPRIGHT {1.0f / M_SQRT2, -1.0f / M_SQRT2};
+static const vector2d VEC_DOWNRIGHT {1.0f / M_SQRT2, 1.0f / M_SQRT2};
+static const vector2d VEC_UPLEFT {-1.0f / M_SQRT2, -1.0f / M_SQRT2};
+static const vector2d VEC_DOWNLEFT {-1.0f / M_SQRT2, 1.0f / M_SQRT2};
+
 typedef struct pathFindAlgorithm
 {
     pathfindInit initFunc;
