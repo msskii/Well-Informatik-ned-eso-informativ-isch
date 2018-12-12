@@ -21,6 +21,9 @@ public:
     SDL_Surface *surface = nullptr;
     gl_texture texture;
     
+    int texture_width = TILE_SIZE, texture_height = TILE_SIZE;
+    int animationFrames = 0, animationSpeed = 0;
+    
     inline bool operator==(Item *other) { return (other == nullptr || name == NULL) ? false : strcmp(name, other->name) == 0; };
     void updateTexture();
     

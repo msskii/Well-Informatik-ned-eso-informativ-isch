@@ -28,7 +28,7 @@ void ItemSlot::render()
     
     if(renderItem.item == nullptr || this == ((Inventory*) menu)->selected) return;
     SDL_Rect dst = {x, y, INV_GRID_SIZE, INV_GRID_SIZE};
-    renderWithoutShading(renderItem.item->texture, {}, dst);
+    renderWithoutShading(renderItem.item->texture, {0, 0, renderItem.item->texture_width, renderItem.item->texture_height}, dst);
     
     drawTextAspect(std::to_string(renderItem.amountItems).c_str(), 0xFF000000, {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER}, texture, needsUpdate);
     needsUpdate = false;

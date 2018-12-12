@@ -18,6 +18,24 @@ Item::Item(const char *itemname) : name(itemname)
     localizedName = (char*) malloc((int) n.size() + 1);
     memcpy(localizedName, n.c_str(), (int) n.size());
     localizedName[(int) n.size()] = 0;
+    
+    texture_width = surface->w;
+    texture_height = surface->h;
+    
+    if(!strcmp(itemname, "coin"))
+    {
+        texture_width = 32;
+        texture_height = 32;
+        animationSpeed = 5;
+        animationFrames = 12;
+    }
+    if(!strcmp(itemname, "glob_of_slime"))
+    {
+        texture_width = 32;
+        texture_height = 32;
+        animationSpeed = 0;
+        animationFrames = 1;
+    }
 }
 
 void Item::updateTexture()

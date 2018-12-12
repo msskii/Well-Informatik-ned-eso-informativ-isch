@@ -106,21 +106,11 @@ void EntityItem::initItem(float x, float y, const char *id)
     data.x_pos = x;
     data.y_pos = y;
     item = new Item(id);
-
-    if(!strcmp(id, "coin"))
-    {
-        data.width = 32.0f;
-        data.height = 32.0f;
-        data.animeSpeed = 5;
-        data.animFrames = 12;
-    }
-    if(!strcmp(id, "glob_of_slime"))
-    {
-        data.width = 32.0f;
-        data.height = 32.0f;
-        data.animeSpeed = 0;
-        data.animFrames = 1;
-    }
+    
+    data.width = item->texture_width;
+    data.height = item->texture_height;
+    data.animeSpeed = item->animationSpeed;
+    data.animFrames = item->animationFrames;
 }
 
 uint32_t EntityItem::getEntitySize()
