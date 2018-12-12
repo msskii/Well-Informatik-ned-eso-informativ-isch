@@ -4,7 +4,6 @@
 Multiplayer::RemotePlayer::RemotePlayer()
 {
     // We cant load textures since we're not on the main thread...
-    data.collisionEnabled = false;
     surface = IMG_Load(GET_TEXTURE_PATH("Character_Animation"));
 }
 

@@ -39,7 +39,6 @@ typedef struct EntityData
     float dx = 0;
     float dy = 0;
     float speed = 0;
-    bool collisionEnabled = false;
     
     int animFrames = 0;
     int animeSpeed = 0;
@@ -78,6 +77,7 @@ public:
     
     virtual void render(int xoff, int yoff) = 0;
     virtual void update(const uint8_t *keys) = 0;
+    //virtual bool collision(float x, float y) = 0;
 };
 
 // Some pythagoras

@@ -15,11 +15,10 @@ Slime::Slime(float x, float y, int level)
     data.height = 64;
     data.x_pos = x;
     data.y_pos = y;
-    data.speed = 2 + level / 20.0f;
+    data.speed = 5 + level / 3.0f;
     data.damage = 1.0f + 0.5f * level;
     data.maxhealth = 1.0f * level;
     data.currentHealth = 1.0f * level;
-    data.collisionEnabled = false;
     animationHealth = 1.0f * level;
     agroRadius = 15 * TILE_SIZE;
     enemy_level = level;
@@ -60,14 +59,12 @@ Slime::Slime(float x, float y, int level)
         uint32_t cp = ((uint32_t*) hurt_surface->pixels)[i];
         pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
     }
- 
-    data.collisionEnabled = true;
 }
 
-int Slime::checkForDamage(float x, float y, float w, float h)
+int Slime::checkForDamage(float x, float y)
 {
     //bounce back
-    if (x + w >= data.x_pos && y + h >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height)
+    if (x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height)
     {
         if (attackState == ATTACKING)
         {
@@ -160,8 +157,8 @@ void Slime::update(const uint8_t *keys)
     if (bounceBack > 0)
     {
         recharging = 40;
-        data.dx = xdirection * data.speed * -2;
-        data.dy = ydirection * data.speed * -2;
+        data.dx = xdirection * data.speed * -0.25;
+        data.dy = ydirection * data.speed * -0.25;
         correctMovement(data.dx, data.dy);
         data.x_pos += data.dx;
         data.y_pos += data.dy;
@@ -182,29 +179,27 @@ void Slime::update(const uint8_t *keys)
             ydirection = 0;
             for(int i = 0; i < 4; i++)
             {
-                vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
-                if(l <= 1.0)
+                //if close enough to the player directly attack him
+                if(l <= data.speed)
                 {
-                    xdirection += (player->data.x_pos - data.x_pos);
-                    ydirection += (player->data.y_pos - data.y_pos);
+                    xdirection += (player->data.x_pos - data.x_pos) / l;
+                    ydirection += (player->data.y_pos - data.y_pos) / l;
                 }
-                else if(l <= 3.0)
-                {
-                    xdirection += bd.x;
-                    ydirection += bd.y;
-                }
+                //if not use pathfinder option
                 else
                 {
-                    xdirection += bd.x / agroRadius * l;
-                    ydirection += bd.y / agroRadius * l;
+                    vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
+                    float lbd = bd.len();
+                    xdirection += bd.x / lbd;
+                    ydirection += bd.y / lbd;
                 }
             }
         }
         else if(anim > 2 && anim < 7)
         {
             attackState = ATTACKING;
-            data.dx = xdirection * data.speed * 2;
-            data.dy = ydirection * data.speed * 2;
+            data.dx = xdirection * data.speed / 4;
+            data.dy = ydirection * data.speed / 4;
             correctMovement(data.dx, data.dy);
             data.x_pos += data.dx;
             data.y_pos += data.dy;

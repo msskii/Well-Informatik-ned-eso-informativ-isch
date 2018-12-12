@@ -61,7 +61,6 @@ bool Player::isInside(float dx, float dy)
         {
             auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
             
-           if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
             
             Enemy *enemy = dynamic_cast<Enemy*>(entity);
             Projectile *projectile = dynamic_cast<Projectile*>(entity);
@@ -69,11 +68,7 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                int damage = enemy->checkForDamage(data.x_pos + player_x_offset, data.y_pos + player_y_offset, PLAYER_WIDTH, PLAYER_HEIGHT);
-                if(damage != 0)
-                {
-                    takeDamage(damage);
-                }
+                //if(enemy->collision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
             }
             else if(projectile != nullptr)
             {
@@ -87,7 +82,7 @@ bool Player::isInside(float dx, float dy)
     {
         auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
         
-        //if(!entity->data.collisionEnabled) continue; // No collision for this entity, skip it
+        // No collision for this entity, skip it
         EntityItem *item = dynamic_cast<EntityItem*>(entity);
         
         if(item != nullptr)
@@ -101,6 +96,36 @@ bool Player::isInside(float dx, float dy)
     }
     
     return false;
+}
+
+void Player::checkForEntityInteraction()
+{
+    for(int point_index = 0; point_index < 4; point_index++)
+    {
+        // Get the position to check based on the point index
+        float player_x_offset = MARGIN + (PLAYER_WIDTH - 2 * MARGIN) * (point_index % 2);
+        float player_y_offset = MARGIN + (2 * PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
+        
+        for(size_t i = 0; i < current_level->entities.size(); i++)
+        {
+            auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
+            //if not relevant dont check
+            if(PLAYER_DIST(entity, this) < max(PLAYER_HEIGHT, max(entity->data.width,entity->data.height)))
+            {
+                Enemy *enemy = dynamic_cast<Enemy*>(entity);
+                   
+                if(enemy != nullptr && enemy->isAlive)
+                {
+                   // TODO
+                   int damage = enemy->checkForDamage(data.x_pos + player_x_offset, data.y_pos + player_y_offset);
+                   if(damage != 0)
+                   {
+                       takeDamage(damage);
+                   }
+                }
+            }
+        }
+    }
 }
 
 void Player::takeDamage(float amount)
@@ -326,6 +351,7 @@ void Player::update(const uint8_t *keys)
     spell2->updateCooldown();
     spell3->updateCooldown();
     spell4->updateCooldown();
+    checkForEntityInteraction();
 }
 
 void Player::addItem(Item *item)

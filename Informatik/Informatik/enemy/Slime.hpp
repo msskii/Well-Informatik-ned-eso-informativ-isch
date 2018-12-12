@@ -25,7 +25,7 @@ public:
     bool dying = false;
     Slime(float x, float y, int level);
     
-    int checkForDamage(float x, float y, float w, float h) override;
+    int checkForDamage(float x, float y) override;
     void onAddToLevel(Level *level) override;
     void render(int xoff, int yoff) override;
     void update(const uint8_t *keys) override;

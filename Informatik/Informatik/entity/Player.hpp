@@ -64,6 +64,7 @@ public:
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);
     bool isInside(float dx, float dy);
+    void checkForEntityInteraction();
     void takeDamage(float amount);
     void moveTo(float x, float y);
     void spell(int index);
