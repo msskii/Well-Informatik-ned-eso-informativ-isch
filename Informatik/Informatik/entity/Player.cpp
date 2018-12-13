@@ -64,6 +64,9 @@ bool Player::isInside(float dx, float dy)
             
             Enemy *enemy = dynamic_cast<Enemy*>(entity);
             Projectile *projectile = dynamic_cast<Projectile*>(entity);
+            EntityItem *item = dynamic_cast<EntityItem*>(entity);
+            
+            if(item != nullptr) continue;
             
             if(enemy != nullptr && enemy->isAlive)
             {
