@@ -77,7 +77,7 @@ public:
     
     virtual void render(int xoff, int yoff) = 0;
     virtual void update(const uint8_t *keys) = 0;
-    //virtual bool collision(float x, float y) = 0;
+    virtual bool collision(float x, float y);
 };
 
 // Some pythagoras

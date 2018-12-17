@@ -27,11 +27,11 @@ bool Entity::isInside(float dx, float dy)
     if(data.x_pos + dx < 0 || data.x_pos + dx >= TILE_SIZE * 50 || data.y_pos + dy < 0 || data.y_pos + dy >= TILE_SIZE * 50) return true; // Out of bounds = you cant walk
     for(int point_index = 0; point_index < 4; point_index++)
     {
-        float player_x_offset = dx + (PLAYER_WIDTH) * (point_index % 2);
-        float player_y_offset = dy + (PLAYER_HEIGHT) * (int)(point_index / 2);
+        float x_offset = dx + (data.width) * (point_index % 2);
+        float y_offset = dy + (data.height) * (int)(point_index / 2);
         
-        if(level->getTile((int)((data.x_pos + player_x_offset) / TILE_SIZE), (int)((data.y_pos + player_y_offset) / TILE_SIZE)).data.tileZ != data.z_pos) return true;
-        if(level->getBuildingCollision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
+        if(level->getTile((int)((data.x_pos + x_offset) / TILE_SIZE), (int)((data.y_pos + y_offset) / TILE_SIZE)).data.tileZ != data.z_pos) return true;
+        if(level->getBuildingCollision(data.x_pos + x_offset, data.y_pos + y_offset)) return true;
     }
 
     
@@ -61,6 +61,11 @@ void Entity::correctMovement(float &dx, float &dy)
         dx *= xmax / STEP_ACCURACY;
         dy *= ymax / STEP_ACCURACY;
     }
+}
+
+bool Entity::collision(float x, float y)
+{
+    return false;
 }
 
 uint32_t Entity::getEntitySize()

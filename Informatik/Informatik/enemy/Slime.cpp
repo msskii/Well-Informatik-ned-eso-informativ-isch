@@ -63,9 +63,10 @@ Slime::Slime(float x, float y, int level)
 
 int Slime::checkForDamage(float x, float y)
 {
-    //bounce back
+    //check if it damages it
     if (x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height)
     {
+        //bounce back
         if (attackState == ATTACKING)
         {
             bounceBack = 2;

@@ -68,7 +68,7 @@ bool Player::isInside(float dx, float dy)
             if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
-                //if(enemy->collision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
+                if(enemy->collision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
             }
             else if(projectile != nullptr)
             {
@@ -100,17 +100,17 @@ bool Player::isInside(float dx, float dy)
 
 void Player::checkForEntityInteraction()
 {
-    for(int point_index = 0; point_index < 4; point_index++)
+    for(int point_index = 0; point_index < 6 ; point_index++)
     {
         // Get the position to check based on the point index
-        float player_x_offset = MARGIN + (PLAYER_WIDTH - 2 * MARGIN) * (point_index % 2);
-        float player_y_offset = MARGIN + (2 * PLAYER_HEIGHT - 2 * MARGIN) * (int)(point_index / 2);
+        float player_x_offset = (PLAYER_WIDTH) * (point_index % 2);
+        float player_y_offset = (PLAYER_HEIGHT) * (int)(point_index / 3) - PLAYER_HEIGHT;
         
         for(size_t i = 0; i < current_level->entities.size(); i++)
         {
             auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
             //if not relevant dont check
-            if(PLAYER_DIST(entity, this) < max(PLAYER_HEIGHT, max(entity->data.width,entity->data.height)))
+            if(PLAYER_DIST(entity, this) < max(2 * PLAYER_HEIGHT, max(entity->data.width,entity->data.height)))
             {
                 Enemy *enemy = dynamic_cast<Enemy*>(entity);
                    
