@@ -16,6 +16,10 @@ Player::Player(Level *l) : current_level(l)
     //load Playertexture
     player_surface = IMG_Load(GET_TEXTURE_PATH("player/Character_Animation"));
     
+    hurt_surface = SDL_CreateRGBSurfaceWithFormat(0, player_surface->w, player_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
+    SDL_BlitSurface(player_surface, NULL, hurt_surface, NULL);
+    tint(hurt_surface, 100, 100, 100);
+    
     //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
     spell1 = new Spell(spellID1, 1, current_level);
     spell2 = new Spell(spellID2, 1, current_level);
@@ -279,8 +283,8 @@ void Player::render(int x, int y)
         glUniform1i(glGetUniformLocation(light_shader, "player_texture"), 1);
         glBindTexture(GL_TEXTURE_2D, texture.id);
     }
+    if(texture_hurt.id == 0) texture_hurt = getTexture(hurt_surface);
     
-    if(graceLeft > 0) graceLeft = graceLeft - 1;
 
     //animation speed scales with player speed
     if(walking && (timer++ * SPEED) >= 45)
@@ -298,7 +302,17 @@ void Player::render(int x, int y)
 
     SDL_Rect src = {32 * anim, (animSet * 4 + direction) * 64 + 1, 32, 64};
     SDL_Rect dst = {PLAYER_OFFSET_X - xoff, PLAYER_OFFSET_Y - yoff - PLAYER_HEIGHT, PLAYER_WIDTH, 128};
-    renderWithShading(texture, src, dst);
+    if(graceLeft > 0)
+    {
+        graceLeft = graceLeft - 1;
+        !blinkTimer ? blinkTimer = blinkDuration : blinkTimer--;
+        blinkTimer > blinkDuration / 2? renderWithShading(texture_hurt, src, dst):renderWithShading(texture, src, dst);
+        
+    }
+    else
+    {
+        renderWithShading(texture, src, dst);
+    }
     renderStats(xoff, yoff);
     
     // fillRect(0xFFFF00FF, {(int) PLAYER_OFFSET_X-xoff + MARGIN, (int) PLAYER_OFFSET_Y-PLAYER_HEIGHT-yoff + MARGIN, PLAYER_WIDTH - 2 * MARGIN, PLAYER_HEIGHT*2 - 2 * MARGIN});
@@ -317,7 +331,7 @@ void Player::renderStats(int xoff, int yoff)
         animationHealth += step;
     }
     
-    SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 40, (int) TILE_SIZE, 20 };
+    SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 100, (int) TILE_SIZE, 20 };
     
     //COLOR(renderer, 0xFF000000);
     //SDL_RenderFillRect(renderer, &hpbar); // Draw black border

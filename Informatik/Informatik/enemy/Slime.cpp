@@ -57,7 +57,7 @@ Slime::Slime(float x, float y, int level)
     for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
     {
         uint32_t cp = ((uint32_t*) hurt_surface->pixels)[i];
-        pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
+        pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000;
     }
 }
 
@@ -82,7 +82,7 @@ void Slime::onAddToLevel(Level *level) {}
 void Slime::render(int xoff, int yoff)
 {
     if(texture.id == 0) texture = getTexture(enemy_surface); // On main thread...
-    if(texture_hurt.id == 0) texture_hurt = getTexture(enemy_surface);
+    if(texture_hurt.id == 0) texture_hurt = getTexture(hurt_surface);
     
     renderHP((float) xoff, (float)yoff); // Render the hp of the enemy
     
@@ -103,7 +103,7 @@ void Slime::render(int xoff, int yoff)
 
 void Slime::onDamage(float amount)
 {
-    hurt = 10;
+    hurt = 5;
     underAttack = 600;
     
 }
