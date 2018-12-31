@@ -77,5 +77,12 @@ void ConfigMenu::updateMenu(const uint8_t *keys)
     }
 }
 
+void ConfigMenu::updateElements(SDL_Event e)
+{
+	Menu::updateElements(e); // Call super function
+
+	if (e.type == SDL_MOUSEWHEEL) scrollAmount -= SCROLL_SPEED * e.wheel.y * 10;
+}
+
 void ConfigMenu::onOpen() {}
 void ConfigMenu::onClose() {}
