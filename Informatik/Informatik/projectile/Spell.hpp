@@ -23,7 +23,7 @@ public:
     int spellID;
     
     Spell();
-    Spell(u_int8_t spellID, float damageModifier, Level *level);
+    Spell(uint8_t spellID, float damageModifier, Level *level);
 
     bool castSpell(int direction);
     void updateCooldown();

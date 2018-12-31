@@ -8,7 +8,7 @@
 
 #include "Spell.hpp"
 
-Spell::Spell(u_int8_t spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
+Spell::Spell(uint8_t spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
 {
     switch (spellID)
     {

@@ -209,6 +209,7 @@
     <ClCompile Include="projectile\ExplodingProjectile.cpp" />
     <ClCompile Include="projectile\Explosion.cpp" />
     <ClCompile Include="projectile\Projectile.cpp" />
+    <ClCompile Include="projectile\Spell.cpp" />
     <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
     <ClCompile Include="util\GL_Util.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="projectile\ExplodingProjectile.hpp" />
     <ClInclude Include="projectile\Explosion.hpp" />
     <ClInclude Include="projectile\Projectile.hpp" />
+    <ClInclude Include="projectile\Spell.hpp" />
     <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
     <ClInclude Include="util\GL_Util.hpp" />
