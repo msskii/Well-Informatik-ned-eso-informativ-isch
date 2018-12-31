@@ -42,7 +42,7 @@ void Menu::render(const uint8_t *keys)
     }
     else
     {
-        ERROR("Menu is not active and has no parent! Making this menu active again");
+        ERROR_LOG("Menu is not active and has no parent! Making this menu active again");
         active = true;
     }
     

@@ -57,7 +57,7 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
     {
         // Get the node with the lowest fScore from the open set
         int current = 0, currentIndex = 0;
-        uint32_t minScore = -1;
+        int32_t minScore = -1;
         for(size_t i = 0; i < openSet.size(); i++)
         {
             if(fScores[openSet[i]] < minScore)
@@ -79,7 +79,7 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
 
             int diff = lastStep - startIndex;
             
-            if(diff == -level_width) return VEC_UP;
+            if(-diff == level_width) return VEC_UP;
             else if(diff == level_width) return VEC_DOWN;
             else if(diff == -1) return VEC_LEFT;
             else if(diff == 1) return VEC_RIGHT;
@@ -111,7 +111,7 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
             neighbours.erase(neighbours.begin());
             
             if(std::find(closedSet.begin(), closedSet.end(), neighbour) != closedSet.end()) continue; // If the neighbour is in the closed set, we where already there
-            uint32_t gScore = gScores[current] + 1;
+            int32_t gScore = gScores[current] + 1;
             
             if(std::find(openSet.begin(), openSet.end(), neighbour) == openSet.end()) openSet.push_back(neighbour); // New field discovered
             else if(gScore > gScores[neighbour]) continue; // Already discovered & was a better path there

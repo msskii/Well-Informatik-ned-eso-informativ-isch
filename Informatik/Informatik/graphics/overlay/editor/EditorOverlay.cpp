@@ -77,9 +77,9 @@ void EditorOverlay::renderMenu()
     }
     else if(state == BUILDING)
     {
-        for(int i = 0; i < window->level->buildings.size(); i++)
+        for(size_t i = 0; i < window->level->buildings.size(); i++)
         {
-            if(window->level->buildings[i]->isInside((clickhandler->x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X), (clickhandler->y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y)))
+            if(window->level->buildings[i]->isInside((float) (clickhandler->x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X), (float) (clickhandler->y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y)))
             {
                 SDL_Rect dst = { (int) (window->level->buildings[i]->data.hitboxX * TILE_SIZE) + window->level->getLocalPlayer()->getOffsetX() + PLAYER_OFFSET_X, (int) (window->level->buildings[i]->data.hitboxY * TILE_SIZE) + window->level->getLocalPlayer()->getOffsetY() + PLAYER_OFFSET_Y, (int) (window->level->buildings[i]->data.hitboxsizeX * TILE_SIZE), (int) (window->level->buildings[i]->data.hitboxsizeY * TILE_SIZE) };
                 fillRect(0xAFFFFFFF, dst);
@@ -150,9 +150,9 @@ void EditorOverlay::updateMenu(const uint8_t *keys)
         }
         else if(state == BUILDING)
         {
-            for(int i = 0; i < window->level->buildings.size(); i++)
+            for(size_t i = 0; i < window->level->buildings.size(); i++)
             {
-                if(window->level->buildings[i]->isInside((clickhandler->x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X), (clickhandler->y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y)))
+                if(window->level->buildings[i]->isInside((float) (clickhandler->x - window->level->getLocalPlayer()->getOffsetX() - PLAYER_OFFSET_X), (float) (clickhandler->y - window->level->getLocalPlayer()->getOffsetY() - PLAYER_OFFSET_Y)))
                 {
                     printf("Over building...\n");
                     

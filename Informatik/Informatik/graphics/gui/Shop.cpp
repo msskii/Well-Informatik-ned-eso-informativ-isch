@@ -31,7 +31,7 @@ Shop::Shop(const char *path, int money, Player *player)
     currentMoney = money;
     background_surface = IMG_Load(GET_TEXTURE_PATH((std::string("/backgrounds/") + path).c_str()));
 
-    for(int i = 0; i < player->playerItems.size(); i++)
+    for(size_t i = 0; i < player->playerItems.size(); i++)
     {
         if(!player->playerItems[i].item) continue;
         inStock.push_back({player->playerItems[i].item, player->playerItems[i].amountItems}); // TODO: item values lookup
@@ -57,7 +57,7 @@ void Shop::renderMenu()
         drawTextAspect(inStock[i].item->localizedName, 0xFF000000, {1344, 40 + (int) i * 100, 500, 100}, stockNameTextures[i], update);
     }
     
-    if(selected >= inStock.size()) return;
+    if(selected >= (int) inStock.size()) return;
         
     renderWithoutShading(inStock[selected].item->texture, {0, 0, inStock[selected].item->texture_width, inStock[selected].item->texture_height}, {1244, 40 + selected * 100, 100, 100});
     drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {1344, 40 + selected * 100, 500, 120}, stockNameTextures[selected], update);
@@ -83,12 +83,12 @@ void Shop::updateMenu(const uint8_t *keys)
     int x, y;
     bool pressed = SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT);
     
-    x /= SCALE_X;
-    y /= SCALE_Y;
+    x = (int)(x / SCALE_X);
+    y = (int)(y / SCALE_Y);
     if(x >= 1244 && x <= 1880)
     {
         selected = (y - 40) / 100;
-        if(selected < 0 || selected >= inStock.size()) selected = 0;
+        if(selected < 0 || selected >= (int) inStock.size()) selected = 0;
         update = true;
     }
     
@@ -104,13 +104,13 @@ void Shop::updateMenu(const uint8_t *keys)
         if(selling)
         {
             currentMoney += inStock[selected].sellPrice;
-            for(int i = 0; i < window->level->getLocalPlayer()->playerItems.size(); i++)
+            for(size_t i = 0; i < window->level->getLocalPlayer()->playerItems.size(); i++)
             {
                 if(window->level->getLocalPlayer()->playerItems[i].item->operator==(inStock[selected].item))
                 {
                     if(!--window->level->getLocalPlayer()->playerItems[i].amountItems)
                     {
-                        for(int j = i + 1; j < window->level->getLocalPlayer()->playerItems.size(); j++)
+                        for(size_t j = i + 1; j < window->level->getLocalPlayer()->playerItems.size(); j++)
                         {
                             window->level->getLocalPlayer()->playerItems[j - 1] = window->level->getLocalPlayer()->playerItems[j];
                         }

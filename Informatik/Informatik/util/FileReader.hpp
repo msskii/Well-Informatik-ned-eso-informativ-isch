@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
+#ifdef __APPLE__
 #include <dirent.h> // TODO: Find alternative for windows (or include binaries for dirent)
+#endif
 
 #define TEXTURE_PATH std::string("assets/textures/")
 #define FONT_PATH std::string("assets/fonts/")

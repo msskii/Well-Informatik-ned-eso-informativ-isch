@@ -110,8 +110,8 @@ void Player::checkForEntityInteraction()
     for(int point_index = 0; point_index < 6 ; point_index++)
     {
         // Get the position to check based on the point index
-        float player_x_offset = (PLAYER_WIDTH) * (point_index % 2);
-        float player_y_offset = (PLAYER_HEIGHT) * (int)(point_index / 3) - PLAYER_HEIGHT;
+        float player_x_offset = ((float) PLAYER_WIDTH) * (point_index % 2);
+        float player_y_offset = ((float) PLAYER_HEIGHT) * (int)(point_index / 3) - PLAYER_HEIGHT;
         
         for(size_t i = 0; i < current_level->entities.size(); i++)
         {
@@ -127,7 +127,7 @@ void Player::checkForEntityInteraction()
                    int damage = enemy->checkForDamage(data.x_pos + player_x_offset, data.y_pos + player_y_offset);
                    if(damage != 0)
                    {
-                       takeDamage(damage);
+                       takeDamage((float) damage);
                    }
                 }
             }

@@ -153,7 +153,11 @@
     <ClCompile Include="config\ConfigLoader.cpp" />
     <ClCompile Include="config\ConfigMenu.cpp" />
     <ClCompile Include="config\KeyConfigBox.cpp" />
+    <ClCompile Include="config\Language.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
+    <ClCompile Include="enemy\pathfinding\Alg_AStar.cpp" />
+    <ClCompile Include="enemy\pathfinding\Alg_Line.cpp" />
+    <ClCompile Include="enemy\pathfinding\PathFinder.cpp" />
     <ClCompile Include="enemy\Slime.cpp" />
     <ClCompile Include="entity\decorativeEntities\Fireflies.cpp" />
     <ClCompile Include="entity\Entity.cpp" />
@@ -170,6 +174,7 @@
     <ClCompile Include="graphics\gui\ItemSlot.cpp" />
     <ClCompile Include="graphics\gui\PlayerOverlay.cpp" />
     <ClCompile Include="graphics\gui\Shop.cpp" />
+    <ClCompile Include="graphics\overlay\BossOverlay.cpp" />
     <ClCompile Include="graphics\overlay\DebugOverlay.cpp" />
     <ClCompile Include="graphics\overlay\DialogOverlay.cpp" />
     <ClCompile Include="graphics\overlay\editor\EditorOverlay.cpp" />
@@ -185,6 +190,7 @@
     <ClCompile Include="graphics\overlay\MainMenu.cpp" />
     <ClCompile Include="graphics\overlay\Menu.cpp" />
     <ClCompile Include="graphics\overlay\PauseMenu.cpp" />
+    <ClCompile Include="graphics\overlay\PopupText.cpp" />
     <ClCompile Include="graphics\Window.cpp" />
     <ClCompile Include="items\EntityItem.cpp" />
     <ClCompile Include="items\Item.cpp" />
@@ -210,6 +216,7 @@
     <ClCompile Include="projectile\Explosion.cpp" />
     <ClCompile Include="projectile\Projectile.cpp" />
     <ClCompile Include="projectile\Spell.cpp" />
+    <ClCompile Include="sound\SoundHandler.cpp" />
     <ClCompile Include="tests\Tests.cpp" />
     <ClCompile Include="util\FileReader.cpp" />
     <ClCompile Include="util\GL_Util.cpp" />
@@ -222,7 +229,11 @@
     <ClInclude Include="config\ConfigLoader.hpp" />
     <ClInclude Include="config\ConfigMenu.hpp" />
     <ClInclude Include="config\KeyConfigBox.hpp" />
+    <ClInclude Include="config\Language.hpp" />
     <ClInclude Include="enemy\Enemy.hpp" />
+    <ClInclude Include="enemy\pathfinding\Alg_AStar.hpp" />
+    <ClInclude Include="enemy\pathfinding\Alg_Line.hpp" />
+    <ClInclude Include="enemy\pathfinding\PathFinder.hpp" />
     <ClInclude Include="enemy\Slime.hpp" />
     <ClInclude Include="entity\decorativeEntities\Fireflies.hpp" />
     <ClInclude Include="entity\Entity.hpp" />
@@ -238,6 +249,7 @@
     <ClInclude Include="graphics\gui\ItemSlot.hpp" />
     <ClInclude Include="graphics\gui\PlayerOverlay.hpp" />
     <ClInclude Include="graphics\gui\Shop.hpp" />
+    <ClInclude Include="graphics\overlay\BossOverlay.hpp" />
     <ClInclude Include="graphics\overlay\DebugOverlay.hpp" />
     <ClInclude Include="graphics\overlay\DialogOverlay.hpp" />
     <ClInclude Include="graphics\overlay\editor\EditorOverlay.hpp" />
@@ -254,9 +266,11 @@
     <ClInclude Include="graphics\overlay\MainMenu.hpp" />
     <ClInclude Include="graphics\overlay\Menu.hpp" />
     <ClInclude Include="graphics\overlay\PauseMenu.hpp" />
+    <ClInclude Include="graphics\overlay\PopupText.hpp" />
     <ClInclude Include="graphics\Window.hpp" />
     <ClInclude Include="items\EntityItem.hpp" />
     <ClInclude Include="items\Item.hpp" />
+    <ClInclude Include="items\ItemList.hpp" />
     <ClInclude Include="level\Building.hpp" />
     <ClInclude Include="level\Event.hpp" />
     <ClInclude Include="level\Level.hpp" />
@@ -279,6 +293,7 @@
     <ClInclude Include="projectile\Explosion.hpp" />
     <ClInclude Include="projectile\Projectile.hpp" />
     <ClInclude Include="projectile\Spell.hpp" />
+    <ClInclude Include="sound\SoundHandler.hpp" />
     <ClInclude Include="tests\Tests.hpp" />
     <ClInclude Include="util\FileReader.hpp" />
     <ClInclude Include="util\GL_Util.hpp" />

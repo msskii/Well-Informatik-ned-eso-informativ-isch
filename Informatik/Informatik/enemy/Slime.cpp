@@ -71,7 +71,7 @@ int Slime::checkForDamage(float x, float y)
         {
             bounceBack = 2;
         }
-        return data.damage;
+        return (int) data.damage;
     }
     
     return 0;
@@ -136,11 +136,11 @@ void Slime::update(const uint8_t *keys)
             //start dropping items
             int coins = rand() % ((enemy_level / 5) + 1) + rand() % 2;
             for (int i = 0; i < coins; i++) {
-                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3, 10));
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3.0f, 10.0f));
             }
             int drops = rand() % ((enemy_level / 5) + 1) + rand() % 2;
             for (int i = 0; i < drops; i++) {
-                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "glob_of_slime", rand() % 10 - 5, 10));
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "glob_of_slime", rand() % 10 - 5.0f, 10.0f));
             }
         }
         if (anim == 9 && timer == 5)
@@ -158,8 +158,8 @@ void Slime::update(const uint8_t *keys)
     if (bounceBack > 0)
     {
         recharging = 40;
-        data.dx = xdirection * data.speed * -0.25;
-        data.dy = ydirection * data.speed * -0.25;
+        data.dx = xdirection * data.speed * -0.25f;
+        data.dy = ydirection * data.speed * -0.25f;
         correctMovement(data.dx, data.dy);
         data.x_pos += data.dx;
         data.y_pos += data.dy;

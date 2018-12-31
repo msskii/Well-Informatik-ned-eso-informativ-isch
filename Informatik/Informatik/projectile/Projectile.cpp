@@ -86,7 +86,7 @@ void Projectile::update(const uint8_t *keys)
     // Find buildings
     for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
     {
-        Tile tile = level->getTile((x_pos_front + i * xstep) / TILE_SIZE, (y_pos_front + i * ystep) / TILE_SIZE);
+        Tile tile = level->getTile((int)((x_pos_front + i * xstep) / TILE_SIZE), (int)((y_pos_front + i * ystep) / TILE_SIZE));
         if(level->getBuildingCollision(x_pos_front + i * xstep, y_pos_front + i * ystep) || tile.data.tileZ > data.height || tile.Tile_surface == nullptr)
         {
             velocity = {0, 0}; // Stop right at the wall

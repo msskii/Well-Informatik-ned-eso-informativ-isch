@@ -69,6 +69,6 @@ vector2d PathFinder::getAverageDirection(float xs, float ys, float xe, float ye,
         vector2d bd = getStep(xs + (i % 2) * w, ys + (i / 2) * h, xe, ye);
         dir += bd;
     }*/
-    vector2d dir = getStep(xs + w / 2.0, ys + h / 2.0, xe, ye);
+    vector2d dir = getStep(xs + w / 2.0f, ys + h / 2.0f, xe, ye);
     return dir;
 }

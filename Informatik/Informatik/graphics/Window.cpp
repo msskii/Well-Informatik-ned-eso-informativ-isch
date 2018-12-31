@@ -80,7 +80,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     // Check if the font could be created & crash if we couldnt
     if(!font)
     {
-        ERROR("[ERROR] Couldn't open font file...");
+        ERROR_LOG("[ERROR] Couldn't open font file...");
         printf("%s\n", TTF_GetError());
         exit(0);
     }
