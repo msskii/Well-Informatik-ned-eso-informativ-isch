@@ -20,7 +20,7 @@ filedata readFile(const char *filePath)
 
     if(f == nullptr)
     {
-        ERROR("File not found");
+        ERROR_LOG("File not found");
         printf("\t%s\n", filePath);
         return {nullptr, 0}; // File not found
     }
@@ -48,7 +48,7 @@ void writeFile(const char *filePath, uint8_t *dataToWrite, int size)
 
     if(f == nullptr)
     {
-        ERROR("File not found");
+        ERROR_LOG("File not found");
         printf("\t%s\n", filePath);
         return; // File not found
     }
@@ -62,6 +62,7 @@ std::vector<std::string> listFiles(std::string dir) // Recursively finds all fil
 {
     std::vector<std::string> files;
     
+#ifdef __APPLE__
     DIR *dp;
     dp = opendir(dir.c_str());
     
@@ -82,6 +83,7 @@ std::vector<std::string> listFiles(std::string dir) // Recursively finds all fil
     }
     
     closedir(dp);
-    
+#endif
+
     return files;
 }

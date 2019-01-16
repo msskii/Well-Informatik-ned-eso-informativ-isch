@@ -20,7 +20,10 @@
 
 // The length of the position vector (x|y)
 #define LENGTH(x, y) sqrt((x) * (x) + (y) * (y))
+
+#ifndef max
 #define max(x,y) ((x)>(y)?(x):(y))
+#endif
 
 typedef struct vector2d
 {

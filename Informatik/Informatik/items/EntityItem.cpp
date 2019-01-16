@@ -9,9 +9,9 @@
 #include "EntityItem.hpp"
 #include "../level/Level.hpp"
 
-#define GRAVITY 1.0
-#define DRAG 0.8
-#define CUT_OFF 2.0
+#define GRAVITY 1.0f
+#define DRAG 0.8f
+#define CUT_OFF 2.0f
 
 EntityItem::EntityItem(float x, float y, const char *id)
 {
@@ -58,8 +58,8 @@ void EntityItem::update(const uint8_t *keys)
             }
         }
         //bounce on walls
-        int coordLeft = int(data.y_pos / TILE_SIZE) * level_width + data.x_pos / TILE_SIZE;
-        int coordRight = int(data.y_pos / TILE_SIZE) * level_width + (data.x_pos + data.width) / TILE_SIZE;
+        int coordLeft = int(data.y_pos / TILE_SIZE) * level_width + (int)(data.x_pos / TILE_SIZE);
+        int coordRight = int(data.y_pos / TILE_SIZE) * level_width + (int)((data.x_pos + data.width) / TILE_SIZE);
         if(level->tiles[coordLeft].data.tileNumber == TILE_EMPTY || level->tiles[coordRight].data.tileNumber == TILE_EMPTY)
         {
             vx *= -1;
@@ -107,8 +107,8 @@ void EntityItem::initItem(float x, float y, const char *id)
     data.y_pos = y;
     item = new Item(id);
     
-    data.width = item->texture_width;
-    data.height = item->texture_height;
+    data.width = (float) item->texture_width;
+    data.height = (float) item->texture_height;
     data.animeSpeed = item->animationSpeed;
     data.animFrames = item->animationFrames;
 }

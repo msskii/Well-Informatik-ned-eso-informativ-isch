@@ -52,6 +52,8 @@ extern void deleteTexture(cachedTexture &texture);
 extern float drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate); // Keep aspect ratio
 extern float drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate); // Keep aspect ratio & center to the width
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
+extern void brighten(SDL_Surface *surface, float multiplier);
+extern void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmount);
 
 
 #endif /* SDL_Util_h */

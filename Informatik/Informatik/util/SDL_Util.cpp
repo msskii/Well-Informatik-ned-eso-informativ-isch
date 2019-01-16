@@ -65,8 +65,8 @@ float drawText(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &te
     {
         int neww = (int) ((float) texture_cache.width * texture_cache.scale);
         int newh = (int) ((float) texture_cache.height * texture_cache.scale);
-        dst.x += (dst.w - neww) / 2.0f;
-        dst.y += (dst.h - newh) / 2.0f;
+        dst.x += (dst.w - neww) / 2;
+        dst.y += (dst.h - newh) / 2;
     }
     dst.w = neww;
     dst.h = newh;
@@ -215,5 +215,47 @@ char scancodeToChar(SDL_Scancode code, SDL_Keymod mod)
         default:
             printf("[INFO] Unknown scancode: %d\n", code);
             return '?'; // Unknown char
+    }
+}
+
+void brighten(SDL_Surface *surface, float multiplier)
+{
+    uint32_t *pixels = (uint32_t*) surface->pixels;
+    SDL_PixelFormat *fml = surface->format;
+    for(int i = 0; i < surface->w * surface->h; i++)
+    {
+        uint32_t cp = ((uint32_t*) surface->pixels)[i];
+        uint32_t r = (uint32_t) ((cp & fml->Rmask) * (multiplier + 1.0f));
+        if (r > fml->Rmask) r = fml->Rmask;
+        uint32_t g = (uint32_t) ((cp & fml->Gmask) * (multiplier + 1.0f));
+        if (g > fml->Gmask) g = fml->Gmask;
+        uint32_t b = (uint32_t) ((cp & fml->Bmask) * (multiplier + 1.0f));
+        if (b > fml->Bmask) b = fml->Bmask;
+        pixels[i] = (cp & fml->Amask) | r | g | b;
+    }
+}
+
+//
+void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmount)
+{
+    uint32_t *pixels = (uint32_t*) surface->pixels;
+    SDL_PixelFormat *fml = surface->format;
+    for(int i = 0; i < surface->w * surface->h; i++)
+    {
+        uint32_t cp = ((uint32_t*) surface->pixels)[i];
+        
+        uint8_t r = ((cp & fml->Rmask) >> fml->Rshift) + rAmount;
+        if(rAmount > 0 && r < ((cp & fml->Rmask) >> fml->Rshift)) r = 255;
+        if(rAmount < 0 && r > ((cp & fml->Rmask) >> fml->Rshift)) r = 0;
+
+        uint8_t g = ((cp & fml->Gmask) >> fml->Gshift) + gAmount;
+        if(gAmount > 0 && g < ((cp & fml->Gmask) >> fml->Gshift)) g = 255;
+        if(gAmount < 0 && g > ((cp & fml->Gmask) >> fml->Gshift)) g = 0;
+        
+        uint8_t b = ((cp & fml->Bmask) >> fml->Bshift) + bAmount;
+        if(bAmount > 0 && b < ((cp & fml->Bmask) >> fml->Bshift)) b = 255;
+        if(bAmount < 0 && b > ((cp & fml->Bmask) >> fml->Bshift)) b = 0;
+        
+        pixels[i] = (cp & fml->Amask) | r << fml->Rshift | g << fml->Gshift | b << fml->Bshift;
     }
 }

@@ -29,6 +29,8 @@ private:
 public:
     ConfigMenu(ConfigLoader *loader);
     
+	void updateElements(SDL_Event e) override;
+
     bool shouldWindowClose() override;
     void renderMenu() override;
     void drawOverlay() override;

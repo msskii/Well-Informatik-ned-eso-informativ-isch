@@ -57,20 +57,21 @@ Slime::Slime(float x, float y, int level)
     for(int i = 0; i < enemy_surface->w * enemy_surface->h; i++)
     {
         uint32_t cp = ((uint32_t*) hurt_surface->pixels)[i];
-        pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000 | (cp & 0xFF00);
+        pixels[i] = (cp & 0xFF000000) == 0 ? 0x00FFFFFF : 0xFFFF0000;
     }
 }
 
 int Slime::checkForDamage(float x, float y)
 {
-    //bounce back
+    //check if it damages it
     if (x >= data.x_pos && y >= data.y_pos && x <= data.x_pos + data.width && y <= data.y_pos + data.height)
     {
+        //bounce back
         if (attackState == ATTACKING)
         {
             bounceBack = 2;
         }
-        return data.damage;
+        return (int) data.damage;
     }
     
     return 0;
@@ -81,7 +82,7 @@ void Slime::onAddToLevel(Level *level) {}
 void Slime::render(int xoff, int yoff)
 {
     if(texture.id == 0) texture = getTexture(enemy_surface); // On main thread...
-    if(texture_hurt.id == 0) texture_hurt = getTexture(enemy_surface);
+    if(texture_hurt.id == 0) texture_hurt = getTexture(hurt_surface);
     
     renderHP((float) xoff, (float)yoff); // Render the hp of the enemy
     
@@ -102,7 +103,7 @@ void Slime::render(int xoff, int yoff)
 
 void Slime::onDamage(float amount)
 {
-    hurt = 10;
+    hurt = 5;
     underAttack = 600;
     
 }
@@ -135,11 +136,11 @@ void Slime::update(const uint8_t *keys)
             //start dropping items
             int coins = rand() % ((enemy_level / 5) + 1) + rand() % 2;
             for (int i = 0; i < coins; i++) {
-                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3, 10));
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "coin", rand() % 7 - 3.0f, 10.0f));
             }
             int drops = rand() % ((enemy_level / 5) + 1) + rand() % 2;
             for (int i = 0; i < drops; i++) {
-                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "glob_of_slime", rand() % 10 - 5, 10));
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "glob_of_slime", rand() % 10 - 5.0f, 10.0f));
             }
         }
         if (anim == 9 && timer == 5)
@@ -157,8 +158,8 @@ void Slime::update(const uint8_t *keys)
     if (bounceBack > 0)
     {
         recharging = 40;
-        data.dx = xdirection * data.speed * -0.25;
-        data.dy = ydirection * data.speed * -0.25;
+        data.dx = xdirection * data.speed * -0.25f;
+        data.dy = ydirection * data.speed * -0.25f;
         correctMovement(data.dx, data.dy);
         data.x_pos += data.dx;
         data.y_pos += data.dy;

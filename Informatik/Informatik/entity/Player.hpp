@@ -25,6 +25,7 @@ protected:
     
 private:
     SDL_Surface *player_surface = nullptr;
+    SDL_Surface *hurt_surface = nullptr;
     
     float _x = 0, _y = 0; // Coordinates
 
@@ -33,7 +34,7 @@ public:
     bool isAlive = false;
     float currentHealth = 100, maxHealth = 100, mana = 10, maxMana = 10;
     float animationHealth = currentHealth;
-    float gracePeriode = 3;
+    float gracePeriode = 2;
     int graceLeft = 0;
     
     //spells & attack
@@ -55,8 +56,9 @@ public:
     
     // Animation stuff
     bool walking = false;
-    int anim = 0, timer = 0, animSet = 0;
+    int anim = 0, timer = 0, animSet = 0, blinkTimer = 0, blinkDuration = 40;
     gl_texture texture;
+    gl_texture texture_hurt;
 
     inline int getOffsetX() { return -(int)_x; }
     inline int getOffsetY() { return -(int)_y; }

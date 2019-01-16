@@ -70,7 +70,7 @@ void LightOverlay::sendStuff(GLuint shader)
 {
     glUseProgram(shader);
     glUniform1f(glGetUniformLocation(shader, "initial_alpha"), !window->toUpdate ? 1.0f : window->level->sunBrightness);
-    glUniform4f(glGetUniformLocation(shader, "player_animation"), window->level->getLocalPlayer()->xoff / (GAME_WIDTH / 2.0f) - 1.0f, window->level->getLocalPlayer()->yoff / (GAME_HEIGHT / 2.0f) - 1.0f, window->level->getLocalPlayer()->direction + window->level->getLocalPlayer()->animSet * 4, window->level->getLocalPlayer()->anim);
+    glUniform4f(glGetUniformLocation(shader, "player_animation"), window->level->getLocalPlayer()->xoff / (GAME_WIDTH / 2.0f) - 1.0f, window->level->getLocalPlayer()->yoff / (GAME_HEIGHT / 2.0f) - 1.0f, window->level->getLocalPlayer()->direction + window->level->getLocalPlayer()->animSet * 4.0f, (float) window->level->getLocalPlayer()->anim);
     glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
     glBufferData(GL_UNIFORM_BUFFER, MAX_LIGHTS * sizeof(lightSource), sources, GL_DYNAMIC_DRAW); // Store data
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, lightBuffer, 0, MAX_LIGHTS * sizeof(lightSource)); // Bind the whole range of it
