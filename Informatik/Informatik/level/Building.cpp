@@ -90,6 +90,12 @@ Building::Building(int x, int y, uint16_t buildingNumber, uint16_t buildingVaria
         default:
             break;
     }
+    
+    if(!data.hitboxX) data.hitboxX = data.xcoord;
+    if(!data.hitboxY) data.hitboxY = data.ycoord;
+    if(!data.hitboxsizeX) data.hitboxsizeX = data.sizeX;
+    if(!data.hitboxsizeY) data.hitboxsizeY = data.sizeY;
+
 }
 
 Building::Building(BuildingData d, Level *l) : data(d), level(l)
@@ -110,9 +116,16 @@ Building::Building(BuildingData d, Level *l) : data(d), level(l)
 
 bool Building::isInside(float x, float y)
 {
-    if (!enableColision) {
+    return isInside(x, y, false);
+}
+
+bool Building::isInside(float x, float y, bool overrule)
+{
+    if (!enableColision && !overrule)
+    {
         return false;
     }
+    
     if((data.hitboxX * TILE_SIZE < x && (data.hitboxX * TILE_SIZE + data.hitboxsizeX * TILE_SIZE) > x) && (data.hitboxY * TILE_SIZE < y && (data.hitboxY * TILE_SIZE + data.hitboxsizeY * TILE_SIZE) > y))
     {
         return true;

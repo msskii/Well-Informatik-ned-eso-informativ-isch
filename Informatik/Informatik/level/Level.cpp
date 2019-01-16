@@ -360,7 +360,8 @@ bool Level::getBuildingCollision(float x, float y)
 void Level::updateTile(int tilenum)
 {
     printf("Updating tile at %d\n", tilenum);
-    if (tiles[tilenum].Tile_surface == NULL) {
+    if (tiles[tilenum].Tile_surface == NULL)
+    {
         return;
     }
     SDL_Rect dst = {tiles[tilenum].xcoord * TILE_SIZE, tiles[tilenum].ycoord * TILE_SIZE, TILE_SIZE, TILE_SIZE};
