@@ -25,7 +25,7 @@ public:
     Spell();
     Spell(uint8_t spellID, float damageModifier, Level *level);
 
-    bool castSpell(int direction);
+    bool castSpell(DIRECTION direction);
     void updateCooldown();
    
 };

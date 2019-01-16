@@ -38,7 +38,7 @@ public:
     int graceLeft = 0;
     
     //spells & attack
-    Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr;
+    Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr; // Why not an array?
     uint8_t spellID1 = 0, spellID2 = 1, spellID3 = 2, spellID4 = 3;
     
     // Items

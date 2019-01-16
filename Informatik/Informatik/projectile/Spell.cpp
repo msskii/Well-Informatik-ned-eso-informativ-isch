@@ -23,7 +23,7 @@ Spell::Spell(uint8_t spellID, float damageModifier, Level *level) : spellID(spel
     }
 }
 
-bool Spell::castSpell(int direction)
+bool Spell::castSpell(DIRECTION direction)
 {
     //here a Projectile of the spellspecific kind should be created
     //return false if the spell is on cooldown

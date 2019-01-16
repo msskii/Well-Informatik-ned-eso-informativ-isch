@@ -146,6 +146,8 @@ void Window::update()
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_RIGHT])]) x += SPEED;
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
     
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_1])]) level->getLocalPlayer()->spell(0); // Or 0?
+    
     level->getLocalPlayer()->updateMovement(x, y); // Update player movement
     level->getLocalPlayer()->update(keyStates);
     level->getLocalPlayer()->actionPressed = keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_INTERACT])];

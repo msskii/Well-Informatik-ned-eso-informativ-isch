@@ -358,7 +358,17 @@ void Player::renderStats(int xoff, int yoff)
 
 void Player::spell(int index)
 {
+    Spell *s = nullptr;
+    switch(index) {
+        case 0:
+            s = spell1;
+            break;
+        default:
+            return;
+    }
     
+    s->castSpell(direction);
+    printf("[PLAYER] Casting Spell: %d\n", index);
 }
 
 

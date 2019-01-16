@@ -9,7 +9,7 @@
 #include "ConfigLoader.hpp"
 #include "Language.hpp"
 
-int *GLOBAL_KEY_CONFIG = new int[7] {};
+int *GLOBAL_KEY_CONFIG = new int[12] {};
 Language *lang;
 
 std::map<std::string, std::string> generateDefaultValues()
@@ -21,6 +21,11 @@ std::map<std::string, std::string> generateDefaultValues()
     values["button.inventory"] = std::to_string(SDLK_i);
     values["button.shoot"] = std::to_string(SDLK_e);
     values["button.chat"] = std::to_string(SDLK_t);
+
+    values["button.cast.1"] = std::to_string(SDLK_1);
+    values["button.cast.2"] = std::to_string(SDLK_2);
+    values["button.cast.3"] = std::to_string(SDLK_3);
+    values["button.cast.4"] = std::to_string(SDLK_4);
 
     values["button.left"] = std::to_string(SDLK_LEFT);
     values["button.right"] = std::to_string(SDLK_RIGHT);
@@ -58,7 +63,12 @@ void ConfigLoader::testValues()
         GLOBAL_KEY_CONFIG[BUTTON_RIGHT] = getInt("button.right");
         GLOBAL_KEY_CONFIG[BUTTON_UP] = getInt("button.up");
         GLOBAL_KEY_CONFIG[BUTTON_DOWN] = getInt("button.down");
-        
+
+        GLOBAL_KEY_CONFIG[BUTTON_CAST_1] = getInt("button.cast.1");
+        GLOBAL_KEY_CONFIG[BUTTON_CAST_2] = getInt("button.cast.2");
+        GLOBAL_KEY_CONFIG[BUTTON_CAST_3] = getInt("button.cast.3");
+        GLOBAL_KEY_CONFIG[BUTTON_CAST_4] = getInt("button.cast.4");
+
         GLOBAL_KEY_CONFIG[BUTTON_INVENTORY] = getInt("button.inventory");
         GLOBAL_KEY_CONFIG[BUTTON_SHOOT] = getInt("button.shoot");
         GLOBAL_KEY_CONFIG[BUTTON_INTERACT] = getInt("button.interact");
