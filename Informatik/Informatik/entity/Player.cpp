@@ -115,7 +115,7 @@ void Player::checkForEntityInteraction()
         
         for(size_t i = 0; i < current_level->entities.size(); i++)
         {
-            auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
+            auto *entity = current_level->entities[i]; // We don't know its type (Slime, Item, ...)
             //if not relevant dont check
             if(PLAYER_DIST(entity, this) < max(2 * PLAYER_HEIGHT, max(entity->data.width,entity->data.height)))
             {
