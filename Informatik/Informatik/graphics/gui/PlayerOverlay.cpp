@@ -57,7 +57,7 @@ void PlayerOverlay::renderMenu()
         
         if(player->spells[i])
         {
-            fillRect(0xFFA7A7A7, dst); // TODO: render some graphic that represents that spell
+            fillRect(0xFFFF00FF, dst); // TODO: render some graphic that represents that spell
             if(player->spells[i]->cooldownTimer > 0)
             {
                 float percentage = player->spells[i]->cooldownTimer / player->spells[i]->cooldown;

@@ -73,8 +73,14 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
             int lastStep = current, currentStep = current;
             while(currentStep != startIndex)
             {
+                int ll = lastStep;
                 lastStep = currentStep;
                 currentStep = cameFrom[currentStep];
+                if(ll == currentStep)
+                {
+                    printf("There could no path be found!\n");
+                    return VEC_UP;
+                }
             }
 
             int diff = lastStep - startIndex;
