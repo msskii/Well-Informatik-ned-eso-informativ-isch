@@ -23,7 +23,7 @@ protected:
     
 public:
     Level *level;
-    float cooldown, damage, cooldownTimer;
+    float cooldown, damage, cooldownTimer = 0;
     SpellType spellID;
     
     Spell();
