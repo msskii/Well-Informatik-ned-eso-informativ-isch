@@ -20,11 +20,13 @@ Player::Player(Level *l) : current_level(l)
     SDL_BlitSurface(player_surface, NULL, hurt_surface, NULL);
     tint(hurt_surface, 100, 100, 100);
     
+    for(int i = 0; i < MAX_SPELLS; i++) spells[i] = nullptr; // init the spells
+    
     //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
-    spell1 = new Spell(spellID1, 1, current_level);
-    spell2 = new Spell(spellID2, 1, current_level);
-    spell3 = new Spell(spellID3, 1, current_level);
-    spell4 = new Spell(spellID4, 1, current_level);
+    spells[0] = new Spell(SPELL_TEST, 1, current_level);
+    //spells[1] = new Spell(SPELL_TEST, 1, current_level);
+    //spells[2] = new Spell(SPELL_TEST, 1, current_level);
+    //spells[3] = new Spell(SPELL_TEST, 1, current_level);
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -358,26 +360,13 @@ void Player::renderStats(int xoff, int yoff)
 
 void Player::spell(int index)
 {
-    Spell *s = nullptr;
-    switch(index) {
-        case 0:
-            s = spell1;
-            break;
-        default:
-            return;
-    }
-    
-    s->castSpell(direction);
-    printf("[PLAYER] Casting Spell: %d\n", index);
+    spells[index]->castSpell(direction);
 }
 
 
 void Player::update(const uint8_t *keys)
 {
-    spell1->updateCooldown();
-    spell2->updateCooldown();
-    spell3->updateCooldown();
-    spell4->updateCooldown();
+    for(int i = 0; i < MAX_SPELLS; i++) if(spells[i]) spells[i]->updateCooldown();
     checkForEntityInteraction();
 }
 

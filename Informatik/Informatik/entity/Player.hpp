@@ -15,6 +15,8 @@
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
 
+#define MAX_SPELLS 4
+
 class Level;
 class Spell;
 
@@ -38,8 +40,10 @@ public:
     int graceLeft = 0;
     
     //spells & attack
-    Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr; // Why not an array?
-    uint8_t spellID1 = 0, spellID2 = 1, spellID3 = 2, spellID4 = 3;
+    Spell ** spells = new Spell*[MAX_SPELLS];
+    
+    // Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr; // Why not an array?
+    // uint8_t spellID1 = 0, spellID2 = 1, spellID3 = 2, spellID4 = 3;
     
     // Items
     std::map<int, InventoryElement> playerItems;

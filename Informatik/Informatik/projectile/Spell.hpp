@@ -13,6 +13,10 @@
 #include "../level/Level.hpp"
 //manages the spellSlots
 
+enum SpellType {
+    SPELL_TEST
+};
+
 class Spell
 {
 protected:
@@ -20,10 +24,10 @@ protected:
 public:
     Level *level;
     float cooldown, damage, cooldownTimer;
-    int spellID;
+    SpellType spellID;
     
     Spell();
-    Spell(uint8_t spellID, float damageModifier, Level *level);
+    Spell(SpellType spellID, float damageModifier, Level *level);
 
     bool castSpell(DIRECTION direction);
     void updateCooldown();

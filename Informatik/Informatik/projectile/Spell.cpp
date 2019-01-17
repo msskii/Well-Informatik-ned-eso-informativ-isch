@@ -8,11 +8,11 @@
 
 #include "Spell.hpp"
 
-Spell::Spell(uint8_t spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
+Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
 {
     switch (spellID)
     {
-        case 0:
+        case SPELL_TEST:
             //set cooldowns and damage
             damage = 10 * damageModifier;
             cooldown = 5.0;
@@ -32,7 +32,8 @@ bool Spell::castSpell(DIRECTION direction)
         cooldownTimer = cooldown;
         switch (spellID)
         {
-            case 0:
+            case SPELL_TEST:
+                printf("FUS RO DAH\n");
                 break;
                 
             default:

@@ -8,6 +8,7 @@
 
 #include "PlayerOverlay.hpp"
 #include "Shop.hpp"
+#include "../../projectile/Spell.hpp"
 
 PlayerOverlay::PlayerOverlay(Player *p) : player(p)
 {
@@ -48,6 +49,27 @@ void PlayerOverlay::renderMenu()
         
         if(lastState == 0) transition = true;
         lastState = 1;
+    }
+    
+    for(int i = 0; i < MAX_SPELLS; i++) // Render the "spells"
+    {
+        SDL_Rect dst = {GAME_WIDTH - 100 * (MAX_SPELLS - i), GAME_HEIGHT - 100, 100, 100};
+        
+        if(player->spells[i])
+        {
+            fillRect(0xFFA7A7A7, dst); // TODO: render some graphic that represents that spell
+            if(player->spells[i]->cooldownTimer > 0)
+            {
+                float percentage = player->spells[i]->cooldownTimer / player->spells[i]->cooldown;
+                dst.h = (int)(100.0f * percentage);
+                dst.y = GAME_HEIGHT - (int)(100.0f * percentage);
+                fillRect(0x7FFFFFFF, dst);
+            }
+        }
+        else
+        {
+            fillRect(0xFF000000, dst);
+        }
     }
     
     bool healthChange = lastHealth != player->animationHealth;
