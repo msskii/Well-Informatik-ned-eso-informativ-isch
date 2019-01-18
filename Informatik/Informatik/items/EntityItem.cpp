@@ -80,6 +80,13 @@ void EntityItem::update(const uint8_t *keys)
 void EntityItem::pickUp()
 {
     Player *player = level->getPlayer(data.x_pos, data.y_pos);
+    
+    if (ID == "mana_potion") {
+        player->currentMana += 50;
+    }
+    else if (ID == "health_potion") {
+        player->currentHealth += 20;
+    }
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
         if(player->playerItems[i].item != nullptr && *item == player->playerItems[i].item)
@@ -106,6 +113,7 @@ void EntityItem::initItem(float x, float y, const char *id)
     data.x_pos = x;
     data.y_pos = y;
     item = new Item(id);
+    ID = id;
     
     data.width = (float) item->texture_width;
     data.height = (float) item->texture_height;

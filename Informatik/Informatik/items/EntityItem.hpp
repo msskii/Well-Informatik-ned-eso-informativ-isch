@@ -18,6 +18,7 @@ private:
     float vx = 0;
     float vy = 0;
     float initY;
+    std::string ID;
     
 public:
     //create a still lying item

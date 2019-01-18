@@ -142,6 +142,10 @@ void Slime::update(const uint8_t *keys)
             for (int i = 0; i < drops; i++) {
                 level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "glob_of_slime", rand() % 10 - 5.0f, 10.0f));
             }
+            int chance = rand() % 100;
+            if(chance < 30) {
+                level->addEntity(new EntityItem(data.x_pos + 32, data.y_pos + 20, "mana_potion", rand() % 10 - 5.0f, 10.0f));
+            }
         }
         if (anim == 9 && timer == 5)
         {
@@ -181,7 +185,7 @@ void Slime::update(const uint8_t *keys)
             for(int i = 0; i < 4; i++)
             {
                 //if close enough to the player directly attack him
-                if(l <= data.speed)
+                if(l <= 3 * TILE_SIZE || pathfinderEnabled == 0)
                 {
                     xdirection += (player->data.x_pos - data.x_pos) / l;
                     ydirection += (player->data.y_pos - data.y_pos) / l;

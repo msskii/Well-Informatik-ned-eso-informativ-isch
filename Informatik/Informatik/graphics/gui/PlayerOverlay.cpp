@@ -17,10 +17,22 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     
     backsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/PlayerOverlay"));
     hpbarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
+    manabarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
+    //change the hp bar from green to blue
+    SDL_PixelFormat *fmt = manabarsurface->format;
+    uint32_t *pixels = (uint32_t*) manabarsurface->pixels;
+    for(int i = 0; i < manabarsurface->w * manabarsurface->h; i++)
+    {
+        Uint32 temp;
+        temp = (pixels[i] & fmt->Amask) | (((pixels[i] & fmt->Gmask) >> fmt->Gshift) << fmt->Bshift);
+        pixels[i] = temp;
+    }
+    
     hpbartransparentsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player_transparent"));
     
     backtexture = getTexture(backsurface);
     hpbartexture = getTexture(hpbarsurface);
+    manabartexture = getTexture(manabarsurface);
     hpbartransparenttexture = getTexture(hpbartransparentsurface);
 }
 
@@ -37,6 +49,8 @@ void PlayerOverlay::renderMenu()
         
         SDL_Rect dst = {1150, 10, (int)(750 * player->animationHealth / player->maxHealth), 80};
         renderWithoutShading(hpbartexture, {}, dst);
+        dst = {10, 10, (int)(750 * player->animationMana / player->maxMana), 80};
+        renderWithoutShading(manabartexture, {}, dst);
         if(lastState == 1) transition = true;
         lastState = 0;
     }
@@ -44,6 +58,8 @@ void PlayerOverlay::renderMenu()
     {
         SDL_Rect dst = {1150, 10, (int)(750 * player->currentHealth / player->maxHealth), 80};
         renderWithoutShading(hpbartransparenttexture, {}, dst);
+        dst = {10, 10, (int)(750 * player->animationMana / player->maxMana), 80};
+        renderWithoutShading(manabartexture, {}, dst);
         color = 0x7F000000;
         
         if(lastState == 0) transition = true;
@@ -51,9 +67,12 @@ void PlayerOverlay::renderMenu()
     }
     
     bool healthChange = lastHealth != player->animationHealth;
+    bool manaChange = lastMana != player->animationMana;
     
     lastHealth = player->currentHealth;
+    lastMana = player->currentMana;
     drawTextAspect((std::to_string((int) lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {1150, 20, 750, 60}, cachedHealth, transition || healthChange);
+    drawTextAspect((std::to_string((int) lastMana) + "/" + std::to_string((int) player->maxMana)).c_str(), color, {20, 20, 750, 60}, cachedMana, transition || manaChange);
     transition = false;
 }
 

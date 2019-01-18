@@ -10,6 +10,7 @@
 #define Slime_hpp
 
 #include "Enemy.hpp"
+#define pathfinderEnabled 0
 
 class Slime : public Enemy
 {

@@ -14,10 +14,10 @@
 class PlayerOverlay : public Menu
 {
 private:
-    SDL_Surface *backsurface, *hpbarsurface, *hpbartransparentsurface;
-    gl_texture backtexture, hpbartexture, hpbartransparenttexture;
-    cachedTexture cachedHealth;
-    float lastHealth = 0.0f;
+    SDL_Surface *backsurface, *hpbarsurface, *hpbartransparentsurface, *manabarsurface;
+    gl_texture backtexture, hpbartexture, hpbartransparenttexture, manabartexture;
+    cachedTexture cachedHealth, cachedMana;
+    float lastHealth = 0.0f, lastMana = 0.0f;
     int lastState = 0;
     bool transition = true;
     bool kp = false, jp = false;

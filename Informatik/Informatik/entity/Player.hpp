@@ -32,14 +32,16 @@ private:
 public:
     //stats
     bool isAlive = false;
-    float currentHealth = 100, maxHealth = 100, mana = 10, maxMana = 10;
-    float animationHealth = currentHealth;
+    float currentHealth = 100, maxHealth = 100, currentMana = 100, maxMana = 100;
+    float animationHealth = currentHealth, animationMana = currentMana, lastHealth = currentHealth, lastMana = currentMana;
+    float manaDifference = 0, hpDifference = 0, manaBarTicks = 0, hpBarTicks = 0;
     float gracePeriode = 2;
     int graceLeft = 0;
     
     //spells & attack
-    Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr;
-    uint8_t spellID1 = 0, spellID2 = 1, spellID3 = 2, spellID4 = 3;
+    std::vector<Spell *> spells;
+    //Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr, *spellDash = nullptr;
+    uint8_t spellID1 = 1, spellID2 = 2, spellID3 = 3, spellID4 = 4;
     
     // Items
     std::map<int, InventoryElement> playerItems;

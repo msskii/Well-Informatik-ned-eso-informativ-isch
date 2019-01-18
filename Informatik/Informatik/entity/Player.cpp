@@ -21,10 +21,13 @@ Player::Player(Level *l) : current_level(l)
     tint(hurt_surface, 100, 100, 100);
     
     //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
-    spell1 = new Spell(spellID1, 1, current_level);
-    spell2 = new Spell(spellID2, 1, current_level);
-    spell3 = new Spell(spellID3, 1, current_level);
-    spell4 = new Spell(spellID4, 1, current_level);
+    
+    spells.push_back(new Spell(spellID1, 1, current_level));
+    spells.push_back(new Spell(spellID2, 1, current_level));
+    spells.push_back(new Spell(spellID3, 1, current_level));
+    spells.push_back(new Spell(spellID4, 1, current_level));
+    spells.push_back(new Spell(0, 1, current_level));
+    
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
@@ -193,7 +196,7 @@ void Player::updateMovement(float dx, float dy)
     else if(dy < 0) direction = UP;
     
     float movement_amount = LENGTH(dx, dy); // Length of vector
-    if(movement_amount >= SPEED)
+    if(movement_amount >= SPEED && (dx != 0 && dy != 0))
     {
         dx /= movement_amount / (float) SPEED;
         dy /= movement_amount / (float) SPEED;
@@ -274,6 +277,12 @@ void Player::moveTo(float x, float y)
 
 void Player::render(int x, int y)
 {
+    for (int i = 0; i < spells.size(); i++) {
+        if (!spells[i]->renderOverPlayer) {
+            spells[i]->render();
+        }
+    }
+    
     if(!texture.id)
     {
         texture = getTexture(player_surface);
@@ -316,19 +325,45 @@ void Player::render(int x, int y)
     renderStats(xoff, yoff);
     
     // fillRect(0xFFFF00FF, {(int) PLAYER_OFFSET_X-xoff + MARGIN, (int) PLAYER_OFFSET_Y-PLAYER_HEIGHT-yoff + MARGIN, PLAYER_WIDTH - 2 * MARGIN, PLAYER_HEIGHT*2 - 2 * MARGIN});
+    
+    //render spells
+    for (int i = 0; i < spells.size(); i++) {
+        if (spells[i]->renderOverPlayer) {
+            spells[i]->render();
+        }
+    }
 }
 
 void Player::renderStats(int xoff, int yoff)
 {
-    if(animationHealth <= 0 || currentHealth == maxHealth) return; // Dead or full health
+    if((animationHealth <= 0 || currentHealth == maxHealth) && currentMana == maxMana) return; // Dead or full health
     
     if(animationHealth != currentHealth)
     {
-        float difference = currentHealth - animationHealth;
-        float step = difference / 60.0f;
-        if(abs(step) <= 0.05f) step = difference;
-        else while(abs(step) <= 0.5f) step *= 2; // Just finish it
-        animationHealth += step;
+        if (currentHealth != lastHealth) {
+            lastHealth = currentHealth;
+            hpDifference = currentHealth - animationHealth;
+            hpBarTicks = 30;
+        }
+        float step = hpDifference / 30.0f;
+        if (hpBarTicks > 0) {
+            hpBarTicks--;
+            animationHealth += step;
+        }
+    }
+    
+    if(animationMana != currentMana)
+    {
+        if (currentMana != lastMana) {
+            lastMana = currentMana;
+            manaDifference = currentMana - animationMana;
+            manaBarTicks = 30;
+        }
+        float step = manaDifference / 30.0f;
+        if (manaBarTicks > 0) {
+            manaBarTicks--;
+            animationMana += step;
+        }
     }
     
     SDL_Rect hpbar = { (int) PLAYER_OFFSET_X - xoff, (int) PLAYER_OFFSET_Y - yoff - 100, (int) TILE_SIZE, 20 };
@@ -364,11 +399,23 @@ void Player::spell(int index)
 
 void Player::update(const uint8_t *keys)
 {
-    spell1->updateCooldown();
-    spell2->updateCooldown();
-    spell3->updateCooldown();
-    spell4->updateCooldown();
+    //spell update.... i will throw them into a vector.... sometime
+    for(int i = 0; i < spells.size(); i++)
+    {
+        spells[i]->update();
+    }
     checkForEntityInteraction();
+    
+    //the dash ... TODO: add the key to config
+    if(keys[SDL_SCANCODE_SPACE]){
+        spells[4]->castSpell(direction);
+    }
+    
+    //regen a bit of mana, maybe could be increased by items
+    if (currentMana < maxMana) {
+        currentMana += 1.0f / 30.0f;
+    }else currentMana = maxMana;
+    
 }
 
 void Player::addItem(Item *item)

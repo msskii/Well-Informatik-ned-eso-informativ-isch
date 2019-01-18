@@ -36,6 +36,13 @@ Item::Item(const char *itemname) : name(itemname)
         animationSpeed = 0;
         animationFrames = 1;
     }
+    if(!strcmp(itemname, "mana_potion"))
+    {
+        texture_width = 32;
+        texture_height = 32;
+        animationSpeed = 0;
+        animationFrames = 1;
+    }
 }
 
 void Item::updateTexture()
