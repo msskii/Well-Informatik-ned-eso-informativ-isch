@@ -67,11 +67,11 @@ void PlayerOverlay::renderMenu()
         lastState = 1;
     }
     
-    for(int i = 0; i < MAX_SPELLS; i++) // Render the "spells"
+    for(int i = 0; i < (int) player->spells.size(); i++) // Render the "spells"
     {
-        SDL_Rect dst = {GAME_WIDTH - 100 * (MAX_SPELLS - i), GAME_HEIGHT - 100, 100, 100};
+        SDL_Rect dst = {GAME_WIDTH - 100 * ((int) player->spells.size() - i), GAME_HEIGHT - 100, 100, 100};
         
-        if(player->spells[i])
+        if(player->spells[i] && player->spells[i])
         {
             fillRect(0xFFFF00FF, dst); // TODO: render some graphic that represents that spell
             if(player->spells[i]->cooldownTimer > 0)

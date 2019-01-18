@@ -14,8 +14,9 @@
 //manages the spellSlots
 
 enum SpellType {
-    SPELL_TEST,
-    SPELL_DASH
+    SPELL_NONE,
+    SPELL_DASH,
+    SPELL_PUSH_BACK
 };
 
 class Spell
@@ -28,7 +29,7 @@ public:
     Level *level;
     float cooldown, damage, cooldownTimer = 0, manaCost;
     SpellType spellID;
-    int remainingTicks, spellTicks;
+    int remainingTicks = 0, spellTicks;
     SDL_Surface *spellsurface;
     gl_texture spelltexture;
 

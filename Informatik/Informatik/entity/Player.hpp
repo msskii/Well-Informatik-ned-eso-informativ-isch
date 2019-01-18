@@ -15,8 +15,6 @@
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
 
-#define MAX_SPELLS 4
-
 class Level;
 class Spell;
 
@@ -66,6 +64,9 @@ public:
 
     inline int getOffsetX() { return -(int)_x; }
     inline int getOffsetY() { return -(int)_y; }
+    
+    inline float getXInLevel() { return data.x_pos; }
+    inline float getYInLevel() { return data.y_pos; }
 
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);

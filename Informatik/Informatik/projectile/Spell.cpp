@@ -33,7 +33,12 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             }
             spelltexture = getTexture(spellsurface);
             break;
-            
+        case SPELL_PUSH_BACK:
+            damage = 0;
+            cooldown = 0.5;
+            manaCost = 5;
+            spellTicks = 10;
+            renderOverPlayer = false;
         default:
             break;
     }
@@ -67,14 +72,14 @@ bool Spell::castSpell(DIRECTION direction)
     if (cooldownTimer == 0 && level->getLocalPlayer()->currentMana >= manaCost)
     {
         cooldownTimer = cooldown;
+        remainingTicks = spellTicks;
+        level->getLocalPlayer()->currentMana -= manaCost;
         switch (spellID)
         {
             //the dash spell
             case SPELL_DASH:
-                remainingTicks = spellTicks;
-                level->getLocalPlayer()->currentMana -= manaCost;
                 break;
-            case SPELL_TEST:
+            case SPELL_PUSH_BACK:
                 printf("FUS RO DAH\n");
                 break;
                 
@@ -103,13 +108,30 @@ void Spell::update()
         remainingTicks--;
         switch (spellID) {
             case SPELL_DASH:
-                {
-                    //dashSpell
-                    level->getLocalPlayer()->updateMovement(TILE_SIZE * damage * xDir, TILE_SIZE * damage * yDir);
-                    
-                }
+            {
+                //dashSpell
+                level->getLocalPlayer()->updateMovement(TILE_SIZE * damage * xDir, TILE_SIZE * damage * yDir);
                 
                 break;
+            }
+            case SPELL_PUSH_BACK:
+            {
+                Player *p = level->getLocalPlayer();
+                std::vector<Entity*> ents = level->findEntities(p->getXInLevel(), p->getYInLevel(), 20 * TILE_SIZE);
+                for(Entity *e : ents)
+                {
+                    float dx = e->data.x_pos - p->getXInLevel();
+                    float dy = e->data.y_pos - p->getYInLevel();
+                    
+                    float len = sqrt(dx * dx + dy * dy);
+                    dx *= 30.0f / len;
+                    dy *= 30.0f / len;
+                    e->correctMovement(dx, dy);
+                    e->data.x_pos += dx;
+                    e->data.y_pos += dy;
+                }
+                break;
+            }
             default:
                 break;
         }
@@ -130,7 +152,6 @@ void Spell::render()
                 }
                 
             }
-                
                 break;
             default:
                 break;

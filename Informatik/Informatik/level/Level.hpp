@@ -65,23 +65,7 @@ public:
     
     std::mutex activePlayerLock;
     std::vector<Multiplayer::RemotePlayer*> activePlayers;
-    inline Player *getPlayer(float xcoord, float ycoord)
-    {
-        if(!remoteLevel) return player;
-        else if(onServer)
-        {
-            Player *closest = nullptr;
-            activePlayerLock.lock();
-            for(int i = 0; i < (int) activePlayers.size(); i++)
-            {
-                if(closest == nullptr) closest = activePlayers[i];
-                else if(LENGTH(xcoord - activePlayers[i]->data.x_pos, ycoord - activePlayers[i]->data.y_pos) < LENGTH(xcoord - closest->data.x_pos, ycoord - closest->data.y_pos)) closest = activePlayers[i];
-            }
-            activePlayerLock.unlock();
-            return closest;
-        }
-        return player;
-    }
+    Player *getPlayer(float xcoord, float ycoord);
     
     void resetLevel();
     inline Player *getLocalPlayer() { return player; }
@@ -116,6 +100,7 @@ public:
     void addEntity(Entity *e); // To add an entity
     void addEntity(Entity *e, int id);
     void removeEntity(Entity *e);
+    std::vector<Entity*> findEntities(float x, float y, float radius); // Finds close enemies
     
     // Multiplayer stuff
     inline void setEntity(int id, Entity *e)
