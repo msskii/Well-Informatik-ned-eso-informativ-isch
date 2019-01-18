@@ -9,7 +9,9 @@
 #ifndef PathFinder_hpp
 #define PathFinder_hpp
 
-#define M_SQRT2 1.414213562373095048801688
+#ifndef __APPLE__
+#  define M_SQRT2 1.414213562373095048801688
+#endif
 
 #include "../../entity/Entity.hpp"
 #include "../../level/Tile.hpp"

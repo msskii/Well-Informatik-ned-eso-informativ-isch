@@ -13,6 +13,11 @@
 #include "../level/Level.hpp"
 //manages the spellSlots
 
+enum SpellType {
+    SPELL_TEST,
+    SPELL_DASH
+};
+
 class Spell
 {
 protected:
@@ -22,17 +27,20 @@ public:
     int xDir = 0, yDir = 0;
     Level *level;
     float cooldown, damage, cooldownTimer, manaCost;
-    int spellID;
+    SpellType spellID;
     int remainingTicks, spellTicks;
     SDL_Surface *spellsurface;
     gl_texture spelltexture;
+
     
     Spell();
-    Spell(uint8_t spellID, float damageModifier, Level *level);
+    Spell(SpellType spellID, float damageModifier, Level *level);
 
-    bool castSpell(int direction);
+
     void update();
     void render();
+    bool castSpell(DIRECTION direction);
+    void updateCooldown();
    
 };
 

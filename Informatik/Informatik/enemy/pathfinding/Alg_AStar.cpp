@@ -8,7 +8,8 @@
 
 #include "Alg_AStar.hpp"
 
-#define CANSTEPON(index) (tiles[index].data.tileZ == tiles[startIndex].data.tileZ && tiles[index].Tile_surface != nullptr)
+// #define CANSTEPON(index) (tiles[index].data.tileZ == tiles[startIndex].data.tileZ && tiles[index].Tile_surface != nullptr)
+#define CANSTEPON(index) (tiles[index].data.tileZ <= tiles[startIndex].data.tileZ && tiles[index].data.tileNumber != TILE_EMPTY)
 
 uint32_t scoreSize = 0;
 int *gScores = nullptr;
@@ -57,7 +58,7 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
     {
         // Get the node with the lowest fScore from the open set
         int current = 0, currentIndex = 0;
-        int32_t minScore = -1;
+        uint32_t minScore = 0xFFFFFFFF;
         for(size_t i = 0; i < openSet.size(); i++)
         {
             if(fScores[openSet[i]] < minScore)
@@ -73,12 +74,20 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
             int lastStep = current, currentStep = current;
             while(currentStep != startIndex)
             {
+                int ll = lastStep;
                 lastStep = currentStep;
                 currentStep = cameFrom[currentStep];
+                if(ll == currentStep)
+                {
+                    printf("There could no path be found!\n");
+                    return VEC_UP;
+                }
             }
 
             int diff = lastStep - startIndex;
             
+            
+            // printf("Difference is: %d\n", diff);
             if(-diff == level_width) return VEC_UP;
             else if(diff == level_width) return VEC_DOWN;
             else if(diff == -1) return VEC_LEFT;
@@ -104,7 +113,7 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
         if(current % level_width < level_width - 1 && current / level_width > 0 && CANSTEPON(current - level_width - 1)) neighbours.push_back(current - level_width - 1);
         if(current % level_width < level_width - 1 && current / level_width < level_height - 1 && CANSTEPON(current + 1 + level_width)) neighbours.push_back(current + 1 + level_width);
         if(current % level_width > 0 && current / level_width < level_height - 1 && CANSTEPON(current - 1 + level_width)) neighbours.push_back(current - 1 + level_width);
-
+        
         while(neighbours.size() > 0)
         {
             int neighbour = *neighbours.begin(); // The current neighbour

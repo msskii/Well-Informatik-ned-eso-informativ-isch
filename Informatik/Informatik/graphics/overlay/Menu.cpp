@@ -30,12 +30,12 @@ void Menu::render(const uint8_t *keys)
     else if(under != nullptr)
     {
         under->render(keys); // Forward rendering process to submenu
-		if (under == nullptr) return; // Closed in render function
+        if (under == nullptr) return; // Closed in render function
 
         if(under->shouldWindowClose() || under->menuShouldBeClosed)
         {
-			active = true;
-			under->onClose();
+            active = true;
+            under->onClose();
             under = nullptr;
             // delete under;
         }

@@ -11,7 +11,7 @@
 #include "../level/Tile.hpp"
 #include "../level/Level.hpp"
 
-SDL_Surface *   loadTileVariant(uint16_t tileNumber, uint8_t variant)
+SDL_Surface *loadTileVariant(uint16_t tileNumber, uint8_t variant)
 {
     switch (tileNumber)
     {

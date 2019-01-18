@@ -15,6 +15,8 @@
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
 
+#define MAX_SPELLS 4
+
 class Level;
 class Spell;
 
@@ -40,8 +42,8 @@ public:
     
     //spells & attack
     std::vector<Spell *> spells;
-    //Spell *spell1 = nullptr, *spell2 = nullptr, *spell3 = nullptr, *spell4 = nullptr, *spellDash = nullptr;
     uint8_t spellID1 = 1, spellID2 = 2, spellID3 = 3, spellID4 = 4;
+
     
     // Items
     std::map<int, InventoryElement> playerItems;

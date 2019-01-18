@@ -22,11 +22,11 @@ Player::Player(Level *l) : current_level(l)
     
     //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
     
-    spells.push_back(new Spell(spellID1, 1, current_level));
-    spells.push_back(new Spell(spellID2, 1, current_level));
-    spells.push_back(new Spell(spellID3, 1, current_level));
-    spells.push_back(new Spell(spellID4, 1, current_level));
-    spells.push_back(new Spell(0, 1, current_level));
+    spells.push_back(new Spell(SPELL_DASH, 1, current_level));
+    spells.push_back(new Spell(SPELL_TEST, 1, current_level));
+    spells.push_back(new Spell(SPELL_TEST, 1, current_level));
+    spells.push_back(new Spell(SPELL_TEST, 1, current_level));
+    spells.push_back(new Spell(SPELL_TEST, 1, current_level));
     
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
@@ -118,7 +118,7 @@ void Player::checkForEntityInteraction()
         
         for(size_t i = 0; i < current_level->entities.size(); i++)
         {
-            auto *entity = current_level->entities[i]; // We don't know it's type (Slime, Item, ...)
+            auto *entity = current_level->entities[i]; // We don't know its type (Slime, Item, ...)
             //if not relevant dont check
             if(PLAYER_DIST(entity, this) < max(2 * PLAYER_HEIGHT, max(entity->data.width,entity->data.height)))
             {
@@ -393,7 +393,7 @@ void Player::renderStats(int xoff, int yoff)
 
 void Player::spell(int index)
 {
-    
+    spells[index]->castSpell(direction);
 }
 
 
@@ -408,7 +408,7 @@ void Player::update(const uint8_t *keys)
     
     //the dash ... TODO: add the key to config
     if(keys[SDL_SCANCODE_SPACE]){
-        spells[4]->castSpell(direction);
+        spell(0);
     }
     
     //regen a bit of mana, maybe could be increased by items

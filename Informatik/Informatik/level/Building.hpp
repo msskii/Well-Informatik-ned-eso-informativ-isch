@@ -63,6 +63,7 @@ public:
     Building(BuildingData d, Level *level);
     void render(int xoff, int yoff);
     bool isInside(float x, float y);
+    bool isInside(float x, float y, bool overrule);
     bool isBehind(float x, float y);
 };
 

@@ -31,7 +31,7 @@ Shop::Shop(const char *path, int money, Player *player)
     currentMoney = money;
     background_surface = IMG_Load(GET_TEXTURE_PATH((std::string("/backgrounds/") + path).c_str()));
 
-    for(size_t i = 0; i < player->playerItems.size(); i++)
+    for(int i = 0; i < (int) player->playerItems.size(); i++)
     {
         if(!player->playerItems[i].item) continue;
         inStock.push_back({player->playerItems[i].item, player->playerItems[i].amountItems}); // TODO: item values lookup
@@ -104,13 +104,13 @@ void Shop::updateMenu(const uint8_t *keys)
         if(selling)
         {
             currentMoney += inStock[selected].sellPrice;
-            for(size_t i = 0; i < window->level->getLocalPlayer()->playerItems.size(); i++)
+            for(int i = 0; i < (int) window->level->getLocalPlayer()->playerItems.size(); i++)
             {
                 if(window->level->getLocalPlayer()->playerItems[i].item->operator==(inStock[selected].item))
                 {
                     if(!--window->level->getLocalPlayer()->playerItems[i].amountItems)
                     {
-                        for(size_t j = i + 1; j < window->level->getLocalPlayer()->playerItems.size(); j++)
+                        for(int j = i + 1; j < (int) window->level->getLocalPlayer()->playerItems.size(); j++)
                         {
                             window->level->getLocalPlayer()->playerItems[j - 1] = window->level->getLocalPlayer()->playerItems[j];
                         }

@@ -8,11 +8,11 @@
 
 #include "Spell.hpp"
 
-Spell::Spell(uint8_t spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
+Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
 {
     switch (spellID)
     {
-        case 0:
+        case SPELL_TEST:
             //set cooldowns and damage
             damage = 0.5 * damageModifier;
             cooldown = 0.2;
@@ -39,7 +39,7 @@ Spell::Spell(uint8_t spellID, float damageModifier, Level *level) : spellID(spel
     }
 }
 
-bool Spell::castSpell(int direction)
+bool Spell::castSpell(DIRECTION direction)
 {
     //here a Projectile of the spellspecific kind should be created
     //return false if the spell is on cooldown
@@ -70,9 +70,12 @@ bool Spell::castSpell(int direction)
         switch (spellID)
         {
             //the dash spell
-            case 0:
+            case SPELL_DASH:
                 remainingTicks = spellTicks;
                 level->getLocalPlayer()->currentMana -= manaCost;
+                break;
+            case SPELL_TEST:
+                printf("FUS RO DAH\n");
                 break;
                 
             default:
