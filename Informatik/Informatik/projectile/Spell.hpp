@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include "../level/Level.hpp"
-//manages the spellSlots
 
 enum SpellType {
     SPELL_NONE,
