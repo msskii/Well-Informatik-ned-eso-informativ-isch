@@ -15,8 +15,6 @@
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
 
-class Level;
-class Spell;
 
 class Player : public Entity
 {

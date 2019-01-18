@@ -19,6 +19,8 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     backsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/PlayerOverlay"));
     hpbarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
     manabarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
+    
+    spelliconsurface = IMG_Load(GET_TEXTURE_PATH("elements/spellIcon_dash"));
     //change the hp bar from green to blue
     SDL_PixelFormat *fmt = manabarsurface->format;
     uint32_t *pixels = (uint32_t*) manabarsurface->pixels;
@@ -35,6 +37,7 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     hpbartexture = getTexture(hpbarsurface);
     manabartexture = getTexture(manabarsurface);
     hpbartransparenttexture = getTexture(hpbartransparentsurface);
+    spellicontexture = getTexture(spelliconsurface);
 }
 
 bool PlayerOverlay::shouldWindowClose() { return false; }
@@ -69,16 +72,16 @@ void PlayerOverlay::renderMenu()
     
     for(int i = 0; i < (int) player->spells.size(); i++) // Render the "spells"
     {
-        SDL_Rect dst = {GAME_WIDTH - 100 * ((int) player->spells.size() - i), GAME_HEIGHT - 100, 100, 100};
+        SDL_Rect dst = {GAME_WIDTH - 128 * ((int) player->spells.size() - i), GAME_HEIGHT - 128,128, 128};
         
         if(player->spells[i] && player->spells[i])
         {
-            fillRect(0xFFFF00FF, dst); // TODO: render some graphic that represents that spell
+            renderWithoutShading(spellicontexture, {}, dst);
             if(player->spells[i]->cooldownTimer > 0)
             {
                 float percentage = player->spells[i]->cooldownTimer / player->spells[i]->cooldown;
-                dst.h = (int)(100.0f * percentage);
-                dst.y = GAME_HEIGHT - (int)(100.0f * percentage);
+                dst.h = (int)(128.0f * percentage);
+                dst.y = GAME_HEIGHT - (int)(128.0f * percentage);
                 fillRect(0x7FFFFFFF, dst);
             }
         }

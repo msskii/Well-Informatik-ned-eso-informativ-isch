@@ -24,10 +24,6 @@ Player::Player(Level *l) : current_level(l)
     
     spells.push_back(new Spell(SPELL_DASH, 1, current_level));
     spells.push_back(new Spell(SPELL_PUSH_BACK, 1, current_level));
-    //spells.push_back(new Spell(SPELL_NONE, 1, current_level));
-    //spells.push_back(new Spell(SPELL_NONE, 1, current_level));
-    //spells.push_back(new Spell(SPELL_NONE, 1, current_level));
-    
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
     {
