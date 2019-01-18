@@ -26,7 +26,7 @@ public:
     bool renderOverPlayer;
     int xDir = 0, yDir = 0;
     Level *level;
-    float cooldown, damage, cooldownTimer, manaCost;
+    float cooldown, damage, cooldownTimer = 0, manaCost;
     SpellType spellID;
     int remainingTicks, spellTicks;
     SDL_Surface *spellsurface;
