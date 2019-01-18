@@ -15,7 +15,7 @@
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
 
-#define MAX_SPELLS 4
+#define MAX_SPELLS 1
 
 class Level;
 class Spell;
