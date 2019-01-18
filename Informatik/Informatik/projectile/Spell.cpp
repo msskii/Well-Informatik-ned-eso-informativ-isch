@@ -12,7 +12,7 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
 {
     switch (spellID)
     {
-        case SPELL_TEST:
+        case SPELL_DASH:
             //set cooldowns and damage
             damage = 0.5 * damageModifier;
             cooldown = 0.2;
@@ -102,7 +102,7 @@ void Spell::update()
     if (remainingTicks > 0) {
         remainingTicks--;
         switch (spellID) {
-            case 0:
+            case SPELL_DASH:
                 {
                     //dashSpell
                     level->getLocalPlayer()->updateMovement(TILE_SIZE * damage * xDir, TILE_SIZE * damage * yDir);
@@ -120,7 +120,7 @@ void Spell::render()
 {
     if (remainingTicks > 0) {
         switch (spellID) {
-            case 0:
+            case SPELL_DASH:
             {
                 //render it
                 SDL_Rect src = {32 * level->getLocalPlayer()->anim, (level->getLocalPlayer()->animSet * 4 + level->getLocalPlayer()->direction) * 64 + 1, 32, 64};
