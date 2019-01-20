@@ -186,6 +186,7 @@ uint32_t secondCallback(uint32_t delay, void *args)
     Window* w = (Window*) args; // The window is in the args (Just need to cast it)
     w->fps = w->frames; // The current frames per second is the number of frames since the last time they were reset
     w->frames = 0; // Reset the frames
+	SDL_SetWindowTitle(w->window, std::to_string(w->fps).c_str());
     return delay; // Set up another timer with the same delay (1 second)
 }
 

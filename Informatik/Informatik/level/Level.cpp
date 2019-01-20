@@ -106,8 +106,8 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     tileMapFile = std::string(GET_FILE_PATH(LEVEL_PATH, "default.tilemap"));
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
-    pathfinder = new PathFinder(this, astar);
-    // pathfinder = new PathFinder(this, straight_line);
+    // pathfinder = new PathFinder(this, astar);
+    pathfinder = new PathFinder(this, straight_line);
     
     player->updateMovement(0, 0); // Update player before level loads
 }

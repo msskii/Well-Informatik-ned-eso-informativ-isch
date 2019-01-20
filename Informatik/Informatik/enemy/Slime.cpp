@@ -174,7 +174,7 @@ void Slime::update(const uint8_t *keys)
         recharging--;
         set = 0;
     }
-    else if((l < agroRadius || (underAttack-- > 0))  && (attackState != ATTACK_DONE && attackState != RECHARGING))
+    else if((l < agroRadius || (underAttack-- > 0)) && l > 0  && (attackState != ATTACK_DONE && attackState != RECHARGING))
     {
         attackState = READY_TO_ATTACK;
         set = 1;
@@ -193,7 +193,7 @@ void Slime::update(const uint8_t *keys)
                 //if not use pathfinder option
                 else
                 {
-                    vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos);
+                    vector2d bd = level->pathfinder->getStep(this->data.x_pos + (i % 2) * this->data.width, this->data.y_pos + (i / 2) * this->data.height, player->data.x_pos, player->data.y_pos); // This might be bad?
                     float lbd = bd.len();
                     xdirection += bd.x / lbd;
                     ydirection += bd.y / lbd;

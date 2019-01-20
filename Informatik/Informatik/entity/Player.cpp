@@ -273,8 +273,10 @@ void Player::moveTo(float x, float y)
 
 void Player::render(int x, int y)
 {
-    for (int i = 0; i < spells.size(); i++) {
-        if (!spells[i]->renderOverPlayer) {
+    for (int i = 0; i < (int) spells.size(); i++) 
+	{
+        if (!spells[i]->renderOverPlayer) 
+		{
             spells[i]->render();
         }
     }
@@ -323,8 +325,10 @@ void Player::render(int x, int y)
     // fillRect(0xFFFF00FF, {(int) PLAYER_OFFSET_X-xoff + MARGIN, (int) PLAYER_OFFSET_Y-PLAYER_HEIGHT-yoff + MARGIN, PLAYER_WIDTH - 2 * MARGIN, PLAYER_HEIGHT*2 - 2 * MARGIN});
     
     //render spells
-    for (int i = 0; i < spells.size(); i++) {
-        if (spells[i]->renderOverPlayer) {
+    for (int i = 0; i < (int) spells.size(); i++) 
+	{
+        if (spells[i]->renderOverPlayer) 
+		{
             spells[i]->render();
         }
     }
@@ -396,7 +400,7 @@ void Player::spell(int index)
 void Player::update(const uint8_t *keys)
 {
     //spell update.... i will throw them into a vector.... sometime
-    for(int i = 0; i < spells.size(); i++)
+    for(int i = 0; i < (int) spells.size(); i++)
     {
         spells[i]->update();
     }

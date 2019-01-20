@@ -14,8 +14,8 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
     {
         case SPELL_DASH:
             //set cooldowns and damage
-            damage = 0.5 * damageModifier;
-            cooldown = 0.2;
+            damage = 0.5f * damageModifier;
+            cooldown = 0.2f;
             manaCost = 5;
             spellTicks = 5;
             renderOverPlayer = false;
