@@ -23,6 +23,7 @@ Player::Player(Level *l) : current_level(l)
     //create Spells. SpellID dictates the kind of spell, while the second argument is for damageModifiers like Characterinteligents or gear
     
     spells.push_back(new Spell(SPELL_DASH, 1, current_level));
+    spells.push_back(new Spell(SPELL_MELEE, 1, current_level));
     
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
@@ -404,7 +405,7 @@ void Player::update(const uint8_t *keys)
     
     //the dash ... TODO: add the key to config
     if(keys[SDL_SCANCODE_SPACE]){
-        spell(0);
+        spell(1);
     }
     
     //regen a bit of mana, maybe could be increased by items

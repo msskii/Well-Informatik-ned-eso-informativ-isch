@@ -31,18 +31,28 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
                     
                 }
             }
-            spelltexture = getTexture(spellsurface);
             break;
+            
+        case SPELL_MELEE:
+            damage = 0.5 * damageModifier;
+            cooldown = 0.2;
+            manaCost = 0;
+            spellTicks = 6;
+            renderOverPlayer = false;
+            spellsurface = IMG_Load(GET_TEXTURE_PATH("player/spellAnimation_meleeAttack"));
             
         default:
             break;
     }
+    spelltexture = getTexture(spellsurface);
 }
 
 bool Spell::castSpell(DIRECTION direction)
 {
+    
     //here a Projectile of the spellspecific kind should be created
     //return false if the spell is on cooldown
+    castDirection = direction;
     switch (direction) {
         case UP:
             xDir = 0;
@@ -67,17 +77,20 @@ bool Spell::castSpell(DIRECTION direction)
     if (cooldownTimer == 0 && level->getLocalPlayer()->currentMana >= manaCost)
     {
         cooldownTimer = cooldown;
+        spellTicksPassed = 0;
         switch (spellID)
         {
             //the dash spell
             case SPELL_DASH:
-                remainingTicks = spellTicks;
                 level->getLocalPlayer()->currentMana -= manaCost;
                 break;
             case SPELL_TEST:
                 printf("FUS RO DAH\n");
                 break;
                 
+            case SPELL_MELEE:
+                //maybe stop player movement
+                break;
             default:
                 break;
         }
@@ -99,8 +112,8 @@ void Spell::update()
     }
     
     //update Spells
-    if (remainingTicks > 0) {
-        remainingTicks--;
+    if (spellTicksPassed < spellTicks) {
+        spellTicksPassed++;
         switch (spellID) {
             case SPELL_DASH:
                 {
@@ -108,6 +121,11 @@ void Spell::update()
                     level->getLocalPlayer()->updateMovement(TILE_SIZE * damage * xDir, TILE_SIZE * damage * yDir);
                     
                 }
+                break;
+                
+            case SPELL_MELEE:
+                //here dmg hitbox
+                
                 
                 break;
             default:
@@ -118,18 +136,25 @@ void Spell::update()
 
 void Spell::render()
 {
-    if (remainingTicks > 0) {
+    if (spellTicksPassed < spellTicks) {
         switch (spellID) {
             case SPELL_DASH:
-            {
-                //render it
-                SDL_Rect src = {32 * level->getLocalPlayer()->anim, (level->getLocalPlayer()->animSet * 4 + level->getLocalPlayer()->direction) * 64 + 1, 32, 64};
-                for (int i = spellTicks; i >= remainingTicks; i--) {
-                    SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - (TILE_SIZE * damage * xDir * (spellTicks - i))), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - PLAYER_HEIGHT - (TILE_SIZE * damage * yDir * (spellTicks - i))), PLAYER_WIDTH, 128};
+                {
+                    //render it
+                    SDL_Rect src = {32 * level->getLocalPlayer()->anim, (level->getLocalPlayer()->animSet * 4 + level->getLocalPlayer()->direction) * 64 + 1, 32, 64};
+                    for (int i = spellTicks; i <= spellTicksPassed; i--) {
+                        SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - (TILE_SIZE * damage * xDir * (spellTicks - i))), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - PLAYER_HEIGHT - (TILE_SIZE * damage * yDir * (spellTicks - i))), PLAYER_WIDTH, 128};
+                        renderWithoutShading(spelltexture, src, dst);
+                    }
+                }
+                break;
+                
+            case SPELL_MELEE:
+                {
+                    SDL_Rect src = {64 * (spellTicksPassed - 1), 128 * castDirection, 64, 128};
+                    SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - PLAYER_HEIGHT), 1 * TILE_SIZE, 2 * TILE_SIZE};
                     renderWithoutShading(spelltexture, src, dst);
                 }
-                
-            }
                 
                 break;
             default:

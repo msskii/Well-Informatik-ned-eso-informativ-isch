@@ -15,7 +15,8 @@
 
 enum SpellType {
     SPELL_TEST,
-    SPELL_DASH
+    SPELL_DASH,
+    SPELL_MELEE
 };
 
 class Spell
@@ -28,9 +29,10 @@ public:
     Level *level;
     float cooldown, damage, cooldownTimer = 0, manaCost;
     SpellType spellID;
-    int remainingTicks, spellTicks;
+    int spellTicksPassed, spellTicks;
     SDL_Surface *spellsurface;
     gl_texture spelltexture;
+    DIRECTION castDirection;
 
     
     Spell();
