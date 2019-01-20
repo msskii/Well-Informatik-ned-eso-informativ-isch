@@ -36,7 +36,7 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             damage = 0.5 * damageModifier;
             cooldown = 0.2;
             manaCost = 0;
-            spellTicks = 6;
+            spellTicks = 12;
             renderOverPlayer = false;
             spellsurface = IMG_Load(GET_TEXTURE_PATH("player/spellAnimation_meleeAttack"));
             break;
@@ -175,8 +175,8 @@ void Spell::render()
                 
             case SPELL_MELEE:
                 {
-                    SDL_Rect src = {64 * (spellTicksPassed - 1), 128 * castDirection, 64, 128};
-                    SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - PLAYER_HEIGHT), 1 * TILE_SIZE, 2 * TILE_SIZE};
+                    SDL_Rect src = {64 * (spellTicksPassed / 2 - 1), 128 * castDirection, 64, 128};
+                    SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - 2 *TILE_SIZE), 2 * TILE_SIZE, 4 * TILE_SIZE};
                     renderWithoutShading(spelltexture, src, dst);
                 }
                 break;

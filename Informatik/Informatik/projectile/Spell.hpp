@@ -30,7 +30,7 @@ public:
     float cooldown, damage, cooldownTimer = 0, manaCost;
     SpellType spellID;
     int spellTicksPassed = 0, spellTicks = 0;;
-    SDL_Surface *spellsurface;
+    SDL_Surface *spellsurface = nullptr;
     gl_texture spelltexture;
     DIRECTION castDirection;
 
