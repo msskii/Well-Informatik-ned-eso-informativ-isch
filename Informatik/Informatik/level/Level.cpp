@@ -106,8 +106,8 @@ Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Nu
     tileMapFile = std::string(GET_FILE_PATH(LEVEL_PATH, "default.tilemap"));
     textFile = std::string(GET_FILE_PATH(LEVEL_PATH, "test.text"));
     
-    pathfinder = new PathFinder(this, astar);
-    // pathfinder = new PathFinder(this, straight_line);
+    // pathfinder = new PathFinder(this, astar);
+    pathfinder = new PathFinder(this, straight_line);
     
     player->updateMovement(0, 0); // Update player before level loads
 }
@@ -413,4 +413,36 @@ void Level::setLevelMap(uint8_t map)
     tileMapFile = nl->tileMapFile;
     textFile = nl->textFile;
     text = nl->text;
+}
+
+std::vector<Entity*> Level::findEntities(float x, float y, float radius)
+{
+    std::vector<Entity*> close;
+    for(Entity *e : entities)
+    {
+        float xd = x - e->data.x_pos;
+        float yd = y - e->data.y_pos;
+        if(sqrt(xd * xd + yd * yd) <= radius) close.push_back(e);
+    }
+    return close;
+}
+
+
+// Multiplayer functions
+Player *Level::getPlayer(float xcoord, float ycoord)
+{
+    if(!remoteLevel) return player;
+    else if(onServer)
+    {
+        Player *closest = nullptr;
+        activePlayerLock.lock();
+        for(int i = 0; i < (int) activePlayers.size(); i++)
+        {
+            if(closest == nullptr) closest = activePlayers[i];
+            else if(LENGTH(xcoord - activePlayers[i]->data.x_pos, ycoord - activePlayers[i]->data.y_pos) < LENGTH(xcoord - closest->data.x_pos, ycoord - closest->data.y_pos)) closest = activePlayers[i];
+        }
+        activePlayerLock.unlock();
+        return closest;
+    }
+    return player;
 }

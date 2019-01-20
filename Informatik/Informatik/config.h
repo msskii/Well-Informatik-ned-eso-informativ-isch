@@ -56,7 +56,7 @@
 // ======================
 
 #define SPEED 6
-#define STEP_ACCURACY 100.0f
+#define STEP_ACCURACY 10.0f
 
 // Same as tile size
 #define PLAYER_WIDTH 64

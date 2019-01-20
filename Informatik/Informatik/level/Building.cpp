@@ -91,10 +91,10 @@ Building::Building(int x, int y, uint16_t buildingNumber, uint16_t buildingVaria
             break;
     }
     
-    if(!data.hitboxX) data.hitboxX = data.xcoord;
-    if(!data.hitboxY) data.hitboxY = data.ycoord;
-    if(!data.hitboxsizeX) data.hitboxsizeX = data.sizeX;
-    if(!data.hitboxsizeY) data.hitboxsizeY = data.sizeY;
+    if(!data.hitboxX) data.hitboxX = (float) data.xcoord;
+    if(!data.hitboxY) data.hitboxY = (float) data.ycoord;
+    if(!data.hitboxsizeX) data.hitboxsizeX = (float) data.sizeX;
+    if(!data.hitboxsizeY) data.hitboxsizeY = (float) data.sizeY;
 
 }
 

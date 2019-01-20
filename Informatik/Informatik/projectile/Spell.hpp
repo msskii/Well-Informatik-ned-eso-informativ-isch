@@ -11,12 +11,12 @@
 
 #include <stdio.h>
 #include "../level/Level.hpp"
-//manages the spellSlots
 
 enum SpellType {
-    SPELL_TEST,
+    SPELL_MELEE,
+    SPELL_NONE,
     SPELL_DASH,
-    SPELL_MELEE
+    SPELL_PUSH_BACK
 };
 
 class Spell
@@ -29,7 +29,7 @@ public:
     Level *level;
     float cooldown, damage, cooldownTimer = 0, manaCost;
     SpellType spellID;
-    int spellTicksPassed, spellTicks;
+    int spellTicksPassed = 0, spellTicks = 0;;
     SDL_Surface *spellsurface;
     gl_texture spelltexture;
     DIRECTION castDirection;

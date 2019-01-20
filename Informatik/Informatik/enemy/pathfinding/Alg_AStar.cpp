@@ -58,7 +58,7 @@ vector2d astar_step(Tile *tiles, int startIndex, int endIndex)
     {
         // Get the node with the lowest fScore from the open set
         int current = 0, currentIndex = 0;
-        uint32_t minScore = 0xFFFFFFFF;
+        int32_t minScore = 100; // max score that will be searched for
         for(size_t i = 0; i < openSet.size(); i++)
         {
             if(fScores[openSet[i]] < minScore)

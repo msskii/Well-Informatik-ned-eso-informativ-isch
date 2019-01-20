@@ -147,7 +147,10 @@ void Window::update()
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
     
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_1])]) level->getLocalPlayer()->spell(0); // Or 0?
-    
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_2])]) level->getLocalPlayer()->spell(1); // Or 0?
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_3])]) level->getLocalPlayer()->spell(2); // Or 0?
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_4])]) level->getLocalPlayer()->spell(3); // Or 0?
+
     level->getLocalPlayer()->updateMovement(x, y); // Update player movement
     level->getLocalPlayer()->update(keyStates);
     level->getLocalPlayer()->actionPressed = keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_INTERACT])];
@@ -183,6 +186,7 @@ uint32_t secondCallback(uint32_t delay, void *args)
     Window* w = (Window*) args; // The window is in the args (Just need to cast it)
     w->fps = w->frames; // The current frames per second is the number of frames since the last time they were reset
     w->frames = 0; // Reset the frames
+	SDL_SetWindowTitle(w->window, std::to_string(w->fps).c_str());
     return delay; // Set up another timer with the same delay (1 second)
 }
 

@@ -14,8 +14,8 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
     {
         case SPELL_DASH:
             //set cooldowns and damage
-            damage = 0.5 * damageModifier;
-            cooldown = 0.2;
+            damage = 0.5f * damageModifier;
+            cooldown = 0.2f;
             manaCost = 5;
             spellTicks = 5;
             renderOverPlayer = false;
@@ -32,7 +32,6 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
                 }
             }
             break;
-            
         case SPELL_MELEE:
             damage = 0.5 * damageModifier;
             cooldown = 0.2;
@@ -40,11 +39,20 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             spellTicks = 6;
             renderOverPlayer = false;
             spellsurface = IMG_Load(GET_TEXTURE_PATH("player/spellAnimation_meleeAttack"));
+            break;
+            
+        case SPELL_PUSH_BACK:
+            damage = 0;
+            cooldown = 0.5;
+            manaCost = 5;
+            spellTicks = 10;
+            renderOverPlayer = false;
+            break;
             
         default:
             break;
     }
-    spelltexture = getTexture(spellsurface);
+    if(spellsurface != nullptr) spelltexture = getTexture(spellsurface);
 }
 
 bool Spell::castSpell(DIRECTION direction)
@@ -78,13 +86,13 @@ bool Spell::castSpell(DIRECTION direction)
     {
         cooldownTimer = cooldown;
         spellTicksPassed = 0;
+        level->getLocalPlayer()->currentMana -= manaCost;
         switch (spellID)
         {
             //the dash spell
             case SPELL_DASH:
-                level->getLocalPlayer()->currentMana -= manaCost;
                 break;
-            case SPELL_TEST:
+            case SPELL_PUSH_BACK:
                 printf("FUS RO DAH\n");
                 break;
                 
@@ -116,17 +124,33 @@ void Spell::update()
         spellTicksPassed++;
         switch (spellID) {
             case SPELL_DASH:
+            {
+                //dashSpell
+                level->getLocalPlayer()->updateMovement(TILE_SIZE * damage * xDir, TILE_SIZE * damage * yDir);
+                
+                break;
+            }
+            case SPELL_PUSH_BACK:
+            {
+                Player *p = level->getLocalPlayer();
+                std::vector<Entity*> ents = level->findEntities(p->getXInLevel(), p->getYInLevel(), 20 * TILE_SIZE);
+                for(Entity *e : ents)
                 {
-                    //dashSpell
-                    level->getLocalPlayer()->updateMovement(TILE_SIZE * damage * xDir, TILE_SIZE * damage * yDir);
+                    float dx = e->data.x_pos - p->getXInLevel();
+                    float dy = e->data.y_pos - p->getYInLevel();
                     
+                    float len = sqrt(dx * dx + dy * dy);
+                    dx *= 30.0f / len;
+                    dy *= 30.0f / len;
+                    e->correctMovement(dx, dy);
+                    e->data.x_pos += dx;
+                    e->data.y_pos += dy;
                 }
+            }
                 break;
                 
             case SPELL_MELEE:
                 //here dmg hitbox
-                
-                
                 break;
             default:
                 break;
@@ -155,7 +179,6 @@ void Spell::render()
                     SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - PLAYER_HEIGHT), 1 * TILE_SIZE, 2 * TILE_SIZE};
                     renderWithoutShading(spelltexture, src, dst);
                 }
-                
                 break;
             default:
                 break;

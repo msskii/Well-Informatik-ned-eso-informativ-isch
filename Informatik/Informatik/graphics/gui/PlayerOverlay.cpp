@@ -70,11 +70,11 @@ void PlayerOverlay::renderMenu()
         lastState = 1;
     }
     
-    for(int i = 0; i < MAX_SPELLS; i++) // Render the "spells"
+    for(int i = 0; i < (int) player->spells.size(); i++) // Render the "spells"
     {
-        SDL_Rect dst = {GAME_WIDTH - 128 * (MAX_SPELLS - i), GAME_HEIGHT - 128,128, 128};
+        SDL_Rect dst = {GAME_WIDTH - 128 * ((int) player->spells.size() - i), GAME_HEIGHT - 128,128, 128};
         
-        if(player->spells[i])
+        if(player->spells[i] && player->spells[i])
         {
             renderWithoutShading(spellicontexture, {}, dst);
             if(player->spells[i]->cooldownTimer > 0)

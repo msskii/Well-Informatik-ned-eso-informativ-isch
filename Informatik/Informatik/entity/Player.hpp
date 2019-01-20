@@ -15,9 +15,6 @@
 #include "../items/Item.hpp"
 #include "../util/SDL_Util.hpp"
 
-#define MAX_SPELLS 1
-
-class Level;
 class Spell;
 
 class Player : public Entity
@@ -41,7 +38,7 @@ public:
     int graceLeft = 0;
     
     //spells & attack
-    std::vector<Spell *> spells;
+    std::vector<Spell*> spells;
     uint8_t spellID1 = 1, spellID2 = 2, spellID3 = 3, spellID4 = 4;
 
     
@@ -66,6 +63,9 @@ public:
 
     inline int getOffsetX() { return -(int)_x; }
     inline int getOffsetY() { return -(int)_y; }
+    
+    inline float getXInLevel() { return data.x_pos; }
+    inline float getYInLevel() { return data.y_pos; }
 
     void updateMovement(float dx, float dy);
     void correctMovement(float &dx, float &dy);
