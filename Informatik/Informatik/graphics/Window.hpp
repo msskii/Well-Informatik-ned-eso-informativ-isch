@@ -69,6 +69,7 @@ public:
     bool toUpdate = true; // If we have to update the level or not
     bool establishingConnection = false;
     int currentLevel = 0;
+    SDL_threadID mainThread = 0;
     
     int frames = 0, fps = 0; // The current frames and the last measured FPS
     
