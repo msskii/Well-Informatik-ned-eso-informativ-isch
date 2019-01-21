@@ -20,7 +20,7 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     hpbarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
     manabarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
     
-    spelliconsurface = IMG_Load(GET_TEXTURE_PATH("elements/spellIcon_dash"));
+    spelliconsurface = IMG_Load(GET_TEXTURE_PATH("elements/spellicons"));
     //change the hp bar from green to blue
     SDL_PixelFormat *fmt = manabarsurface->format;
     uint32_t *pixels = (uint32_t*) manabarsurface->pixels;
@@ -76,7 +76,7 @@ void PlayerOverlay::renderMenu()
         
         if(player->spells[i] && player->spells[i])
         {
-            renderWithoutShading(spellicontexture, {}, dst);
+            renderWithoutShading(spellicontexture, {64 * player->spells[i]->spellID, 0, 64, 64}, dst); // Maybe all icons in the same texture and then instead of {} the area where the one of the spellID is? like {SPELL_ICON_WIDTH * spellID, 0, SPELL_ICON_WIDTH, SPELL_ICON_HEIGHT}
             if(player->spells[i]->cooldownTimer > 0)
             {
                 float percentage = player->spells[i]->cooldownTimer / player->spells[i]->cooldown;

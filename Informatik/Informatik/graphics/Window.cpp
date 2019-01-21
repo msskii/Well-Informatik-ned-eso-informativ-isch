@@ -214,7 +214,7 @@ void Window::runGameLoop()
 
 void Window::nextFrame()
 {
-    SDL_SetWindowTitle(window, std::to_string(fps).c_str());
+    SDL_SetWindowTitle(window, (std::string("FPS: ") + std::to_string(fps)).c_str());
     ++frames; // A simple frame counter
     auto start_time = clock.now(); // Now --> used to wait afterwards
     
