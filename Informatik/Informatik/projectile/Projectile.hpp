@@ -10,6 +10,7 @@
 #define Projectile_hpp
 
 #include "../entity/Entity.hpp"
+#include "../graphics/overlay/light/LightSource.hpp"
 
 class Projectile : public Entity
 {
@@ -24,6 +25,7 @@ protected:
     int despawnTimer; // The maximum amount of frames a projectile can live --> max distance is |velocity| * timer
     
     Entity *sender = nullptr; // Nullptr if from player, entity otherwise (enemy probably)
+    lightSource light;
     
 public:
     float rotationAngle = 0; // Rotation of this projectile

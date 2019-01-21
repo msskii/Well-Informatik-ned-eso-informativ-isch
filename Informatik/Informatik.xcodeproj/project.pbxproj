@@ -42,6 +42,7 @@
 		936C12FA213665B300404679 /* EditorOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12F8213665B300404679 /* EditorOverlay.cpp */; };
 		936C12FD2136BDE400404679 /* TileEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12FB2136BDE400404679 /* TileEditor.cpp */; };
 		936C13002136BFF800404679 /* Tile_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936C12FE2136BFF800404679 /* Tile_Util.cpp */; };
+		93765F8A21F5CE7A00CC6BA4 /* LightSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93765F8821F5CE7A00CC6BA4 /* LightSource.cpp */; };
 		937AC1F2213F011600F1D92C /* Math_Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937AC1F0213F011600F1D92C /* Math_Util.cpp */; };
 		937AFC60214046B800F92964 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937AFC5E214046B800F92964 /* Item.cpp */; };
 		937AFC63214046C000F92964 /* EntityItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937AFC61214046C000F92964 /* EntityItem.cpp */; };
@@ -192,6 +193,8 @@
 		936C12FC2136BDE400404679 /* TileEditor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TileEditor.hpp; sourceTree = "<group>"; };
 		936C12FE2136BFF800404679 /* Tile_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tile_Util.cpp; sourceTree = "<group>"; };
 		936C12FF2136BFF800404679 /* Tile_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tile_Util.hpp; sourceTree = "<group>"; };
+		93765F8821F5CE7A00CC6BA4 /* LightSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LightSource.cpp; sourceTree = "<group>"; };
+		93765F8921F5CE7A00CC6BA4 /* LightSource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LightSource.hpp; sourceTree = "<group>"; };
 		937AC1F0213F011600F1D92C /* Math_Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Math_Util.cpp; sourceTree = "<group>"; };
 		937AC1F1213F011600F1D92C /* Math_Util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Math_Util.hpp; sourceTree = "<group>"; };
 		937AFC5E214046B800F92964 /* Item.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
@@ -484,6 +487,17 @@
 			path = multiplayer;
 			sourceTree = "<group>";
 		};
+		93765F8721F5CE6A00CC6BA4 /* light */ = {
+			isa = PBXGroup;
+			children = (
+				937B001F214F9C4F00BE1EE0 /* LightOverlay.cpp */,
+				937B0020214F9C4F00BE1EE0 /* LightOverlay.hpp */,
+				93765F8821F5CE7A00CC6BA4 /* LightSource.cpp */,
+				93765F8921F5CE7A00CC6BA4 /* LightSource.hpp */,
+			);
+			path = light;
+			sourceTree = "<group>";
+		};
 		937AFC5D214046A300F92964 /* items */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,6 +619,7 @@
 		93D47BA5212D4EE7007853BC /* overlay */ = {
 			isa = PBXGroup;
 			children = (
+				93765F8721F5CE6A00CC6BA4 /* light */,
 				937B0D5C21301BAD00C2051B /* editor */,
 				93D47BAC212D8A92007853BC /* elements */,
 				93D47BA6212D4EF5007853BC /* Menu.cpp */,
@@ -617,8 +632,6 @@
 				936C12D52133D03A00404679 /* DialogOverlay.hpp */,
 				93827082213BAE3A0084F967 /* PauseMenu.cpp */,
 				93827083213BAE3A0084F967 /* PauseMenu.hpp */,
-				937B001F214F9C4F00BE1EE0 /* LightOverlay.cpp */,
-				937B0020214F9C4F00BE1EE0 /* LightOverlay.hpp */,
 				9307505121B694D100868B65 /* PopupText.cpp */,
 				9307505221B694D100868B65 /* PopupText.hpp */,
 				9307505421B6D79B00868B65 /* BossOverlay.cpp */,
@@ -770,6 +783,7 @@
 				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,
 				93185F9D21479203001A2167 /* PlayerOverlay.cpp in Sources */,
 				9382707F213A5C050084F967 /* Client.cpp in Sources */,
+				93765F8A21F5CE7A00CC6BA4 /* LightSource.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,
 				93D47BB3212D9086007853BC /* Element.cpp in Sources */,
 				932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */,

@@ -8,6 +8,7 @@
 
 #include "ExplodingProjectile.hpp"
 #include "../level/Level.hpp"
+#include "../graphics/overlay/light/LightSource.hpp"
 
 ExplodingProjectile::ExplodingProjectile(EXPLODING_TYPE type, float x, float y, float ra) : Projectile(x, y, ra)
 {

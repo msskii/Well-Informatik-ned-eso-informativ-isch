@@ -22,6 +22,9 @@ Projectile::Projectile(float x, float y, float ra) : rotationAngle(ra)
     velocity.x = cos(ra) * PROJECTILE_SPEED;
     velocity.y = -sin(ra) * PROJECTILE_SPEED;
     
+    // createSource: x, y, brightness, radius, color, glowRatio, colorPart
+    light = createLightSource(0, 0, 10.0f, 1.0f, 0xFFF00000, 0.4f, 0.4f);
+    
     despawnTimer = 60 * 10;
 }
 
@@ -39,7 +42,9 @@ void Projectile::render(int xoff, int yoff)
     if(max_anim != 1) renderWithShading(texture, src, r); // Animations cant be rotated...
     else renderWithRotation(texture, src, r, -rotationAngle + (float) PI / 4.0f, true);
     
-    level->window->lights.addLight((float) (r.x + data.width / 2.0f), (float) (r.y + data.height / 2.0f), 10.0f, 0xFFF00000, 1.0f, 0.2f);
+    // level->window->lights.addLight((float) (r.x + data.width / 2.0f), (float) (r.y + data.height / 2.0f), 10.0f, 0xFFF00000, 1.0f, 0.2f);
+    moveLightSource(light, (float) (r.x + data.width / 2.0f), (float) (r.y + data.height / 2.0f));
+    level->window->lights.injectLight(light);
 }
 
 void Projectile::update(const uint8_t *keys)

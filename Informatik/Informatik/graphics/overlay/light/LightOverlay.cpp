@@ -7,17 +7,16 @@
 //
 
 #include "LightOverlay.hpp"
-#include "../Window.hpp"
+#include "../../Window.hpp"
 
 LightOverlay::LightOverlay() {}
 
-void LightOverlay::addLight(lightSource source)
+void LightOverlay::injectLight(lightSource source)
 {
     if(count >= MAX_LIGHTS) return; // No more lights!
-    source.x /= ((float) GAME_WIDTH);
-    source.y /= ((float) GAME_HEIGHT);
     sources[count++] = source;
 }
+
 
 void LightOverlay::addLight(float x, float y, float brightness, int color, float radius, float glowRatio)
 {
@@ -34,9 +33,9 @@ void LightOverlay::addLight(float x, float y, float brightness, int color, float
     ls.b = (float)((color >> 0) & 0xFF) / 255.0f;
     ls.a = (float)((color >> 24) & 0xFF) / 255.0f;
     
-    addLight(ls);
+    injectLight(ls);
 }
-
+/*
 void LightOverlay::addLight(float x, float y, float brightness, int r, int g, int b, int a, float radius, float glowRatio)
 {
     lightSource ls;
@@ -53,7 +52,7 @@ void LightOverlay::addLight(float x, float y, float brightness, int r, int g, in
     ls.a = (float)(a / 255.0f);
     
     addLight(ls);
-}
+}*/
 
 void LightOverlay::startFrame()
 {
