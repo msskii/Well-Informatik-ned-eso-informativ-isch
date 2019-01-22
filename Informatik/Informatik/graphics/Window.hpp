@@ -33,7 +33,7 @@
 #include "overlay/DebugOverlay.hpp"
 #include "overlay/DialogOverlay.hpp"
 #include "overlay/PauseMenu.hpp"
-#include "overlay/LightOverlay.hpp"
+#include "overlay/light/LightOverlay.hpp"
 #include "gui/Inventory.hpp"
 #include "gui/PlayerOverlay.hpp"
 

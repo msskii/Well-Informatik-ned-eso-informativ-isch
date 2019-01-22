@@ -12,7 +12,7 @@ struct lightSource
 {
     vec4 position; // Position on screen + brightness & radius
     vec4 color; // How much color is added from the light
-    float glowRatio; // Sunlight reflection
+    vec2 light; // Sunlight reflection (glowRatio) & colorPart (The part of the light that's color, the rest is brightness)
 };
 
 in float displayAspect; // The aspect of the screen (Width / Height)
@@ -96,10 +96,10 @@ void main()
             toAdd = vec4(1, 1, 1, 1);
         }
         
-        toAdd = lights[i].glowRatio * toAdd * (1.0 - initial_alpha) + backcol * (1.0 - lights[i].glowRatio) * toAdd * (1.0 - initial_alpha); // Modify the color to add with glow ratios
+        toAdd = lights[i].light.x * toAdd * (1.0 - initial_alpha) + backcol * (1.0 - lights[i].light.x) * toAdd * (1.0 - initial_alpha); // Modify the color to add with glow ratios
         
-        colorMod += lights[i].position.w * toAdd * (1.0 - d); // Add the color modifier as many times as we indicate by brightness
-        totalBrightness += lights[i].position.w * (1.0 - d); // Add the brightness of the light to the total amount
+        colorMod += (lights[i].light.y * lights[i].position.w * toAdd + (1.0 - lights[i].light.y) * backcol) * (1.0 - d); // Add the color modifier as many times as we indicate by brightness
+        totalBrightness += (lights[i].light.y * lights[i].position.w + (1.0 - lights[i].light.y) * backcol.w) * (1.0 - d); // Add the brightness of the light to the total amount
     }
     
     col = colorMod / totalBrightness;
