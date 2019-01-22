@@ -67,6 +67,7 @@ public:
     void addedToLevel(Level *level);
     bool isInside(float dx, float dy);
     void correctMovement(float &dx, float &dy);
+    bool isInsideEntity(float x, float y);
     
     inline SDL_Rect getBoundingBox() { return {(int) data.x_pos, (int) data.y_pos, (int) data.width, (int) data.height}; }
     

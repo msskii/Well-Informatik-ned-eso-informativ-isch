@@ -7,6 +7,7 @@
 //
 
 #include "Spell.hpp"
+#define stepsPerTile 4
 
 Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
 {
@@ -57,7 +58,6 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
 
 bool Spell::castSpell(DIRECTION direction)
 {
-    
     //here a Projectile of the spellspecific kind should be created
     //return false if the spell is on cooldown
     castDirection = direction;
@@ -98,6 +98,7 @@ bool Spell::castSpell(DIRECTION direction)
                 
             case SPELL_MELEE:
                 //maybe stop player movement
+                
                 break;
             default:
                 break;
@@ -150,7 +151,68 @@ void Spell::update()
                 break;
                 
             case SPELL_MELEE:
+            {
                 //here dmg hitbox
+                if(xDir != 0)
+                {
+                    int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - 2 * TILE_SIZE);
+                    int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos - TILE_SIZE * (0.5f - 0.5f * xDir));
+                    for (int x = 0; x <= 2 * stepsPerTile; x++)
+                    {
+                        for (int j = 0; j <= 4 * stepsPerTile; j++)
+                        {
+                            for(size_t i = 0; i < level->entities.size(); i++)
+                            {
+                                auto *entity = level->entities[i]; // We don't know its type (Slime, Item, ...)
+                                //if not relevant dont check
+                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < 5 * TILE_SIZE)
+                                {
+                                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
+                                    
+                                    if(enemy != nullptr && enemy->isAlive)
+                                    {
+                                        // TODO
+                                        if(enemy->isInsideEntity(hitboxX + x * (TILE_SIZE / stepsPerTile), hitboxY + j * (TILE_SIZE / stepsPerTile)))
+                                        {
+                                            enemy->takeDamage(damage);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                else
+                {
+                    int hitboxX = static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff + TILE_SIZE * -1);
+                    int hitboxY = static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - (1.5f - yDir * 1.5f) * TILE_SIZE);
+                    
+                    for (int x = 0; x <= 3 * stepsPerTile; x++)
+                    {
+                        for (int j = 0; j <= 2 * stepsPerTile; j++)
+                        {
+                            for(size_t i = 0; i < level->entities.size(); i++)
+                            {
+                                auto *entity = level->entities[i]; // We don't know its type (Slime, Item, ...)
+                                //if not relevant dont check
+                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < TILE_SIZE * 5)
+                                {
+                                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
+                                    
+                                    if(enemy != nullptr && enemy->isAlive)
+                                    {
+                                        // TODO
+                                        if(enemy->isInside(hitboxX + x * TILE_SIZE / stepsPerTile, hitboxY + j * TILE_SIZE / stepsPerTile)) enemy->takeDamage(damage);
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
                 break;
             default:
                 break;
@@ -175,9 +237,17 @@ void Spell::render()
                 
             case SPELL_MELEE:
                 {
-                    SDL_Rect src = {64 * (spellTicksPassed / 2 - 1), 128 * castDirection, 64, 128};
-                    SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - 2 *TILE_SIZE), 2 * TILE_SIZE, 4 * TILE_SIZE};
-                    renderWithoutShading(spelltexture, src, dst);
+                    if (xDir != 0 ) {
+                        SDL_Rect src = {64 * (spellTicksPassed / 2 - 1), 128 + 128 * (castDirection - 2), 64, 128};
+                        SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - TILE_SIZE * (0.5f - 0.5f * xDir)), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - 2 * TILE_SIZE), 2 * TILE_SIZE, 4 * TILE_SIZE};
+                        renderWithoutShading(spelltexture, src, dst);
+                    }
+                    else
+                    {
+                        SDL_Rect src = {64 * (spellTicksPassed / 2 - 1),64 * castDirection, 64, 128};
+                        SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - (1.5f - yDir * 1.5f) * TILE_SIZE), 2 * TILE_SIZE, 4 * TILE_SIZE};
+                        renderWithoutShading(spelltexture, src, dst);
+                    }
                 }
                 break;
             default:

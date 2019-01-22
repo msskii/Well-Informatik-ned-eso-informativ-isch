@@ -38,6 +38,10 @@ bool Entity::isInside(float dx, float dy)
     return false;
 }
 
+bool Entity::isInsideEntity(float x, float y)
+{
+    return (data.x_pos < x && data.x_pos + data.width > x && data.y_pos < y && data.y_pos + data.width > y);
+}
 
 void Entity::correctMovement(float &dx, float &dy)
 {

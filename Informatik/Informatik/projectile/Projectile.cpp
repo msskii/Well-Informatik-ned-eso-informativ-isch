@@ -107,7 +107,7 @@ void Projectile::update(const uint8_t *keys)
         
         for(int i = 0; i <= PROJECTILE_ACCURACY; i++)
         {
-            if(enemy->isInside(x_pos_front + i * xstep, y_pos_front + i * ystep))
+            if(enemy->isInsideEntity(x_pos_front + i * xstep, y_pos_front + i * ystep))
             {
                 enemy->takeDamage(damage);
                 level->removeEntity(this);
