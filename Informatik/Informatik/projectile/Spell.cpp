@@ -165,7 +165,7 @@ void Spell::update()
                             {
                                 auto *entity = level->entities[i]; // We don't know its type (Slime, Item, ...)
                                 //if not relevant dont check
-                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < 5 * TILE_SIZE)
+                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < 4 * TILE_SIZE)
                                 {
                                     Enemy *enemy = dynamic_cast<Enemy*>(entity);
                                     
@@ -186,8 +186,8 @@ void Spell::update()
                 }
                 else
                 {
-                    int hitboxX = static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff + TILE_SIZE * -1);
-                    int hitboxY = static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - (1.5f - yDir * 1.5f) * TILE_SIZE);
+                    int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos + TILE_SIZE * -1);
+                    int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - (1.0f - yDir * 1.0f) * TILE_SIZE);
                     
                     for (int x = 0; x <= 3 * stepsPerTile; x++)
                     {
@@ -197,14 +197,14 @@ void Spell::update()
                             {
                                 auto *entity = level->entities[i]; // We don't know its type (Slime, Item, ...)
                                 //if not relevant dont check
-                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < TILE_SIZE * 5)
+                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < TILE_SIZE * 4)
                                 {
                                     Enemy *enemy = dynamic_cast<Enemy*>(entity);
                                     
                                     if(enemy != nullptr && enemy->isAlive)
                                     {
                                         // TODO
-                                        if(enemy->isInside(hitboxX + x * TILE_SIZE / stepsPerTile, hitboxY + j * TILE_SIZE / stepsPerTile)) enemy->takeDamage(damage);
+                                        if(enemy->isInsideEntity(hitboxX + x * TILE_SIZE / stepsPerTile, hitboxY + j * TILE_SIZE / stepsPerTile)) enemy->takeDamage(damage);
                                     }
                                 }
                             }
@@ -244,8 +244,8 @@ void Spell::render()
                     }
                     else
                     {
-                        SDL_Rect src = {64 * (spellTicksPassed / 2 - 1),64 * castDirection, 64, 128};
-                        SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - (1.5f - yDir * 1.5f) * TILE_SIZE), 2 * TILE_SIZE, 4 * TILE_SIZE};
+                        SDL_Rect src = {96 * (spellTicksPassed / 2 - 1), 64 * castDirection, 96, 64};
+                        SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - (1.0f - yDir * 1.0f) * TILE_SIZE), 3 * TILE_SIZE, 2 * TILE_SIZE};
                         renderWithoutShading(spelltexture, src, dst);
                     }
                 }

@@ -72,8 +72,7 @@ bool Player::isInside(float dx, float dy)
             EntityItem *item = dynamic_cast<EntityItem*>(entity);
             
             if(item != nullptr) continue;
-            
-            if(enemy != nullptr && enemy->isAlive)
+            else if(enemy != nullptr && enemy->isAlive)
             {
                 // TODO
                 if(enemy->collision(data.x_pos + player_x_offset, data.y_pos + player_y_offset)) return true;
@@ -82,7 +81,7 @@ bool Player::isInside(float dx, float dy)
             {
                 // Currently no collision with a projectile
             }
-            else if(intersectWith((int)(data.x_pos + player_x_offset), (int)(data.y_pos + player_y_offset), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
+            //else if(intersectWith((int)(data.x_pos + player_x_offset), (int)(data.y_pos + player_y_offset), (int) entity->data.x_pos, (int) entity->data.y_pos, (int) entity->data.width, (int) entity->data.height)) return true;
         }
     }
     
