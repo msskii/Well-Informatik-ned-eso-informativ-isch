@@ -29,7 +29,8 @@ Entity *Multiplayer::deserializeEntity(uint8_t *data)
             e = new Slime(d.x_pos, d.y_pos, (int) d.maxhealth);
             break;
         case Multiplayer::PROJECTILE:
-            e = new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2]);
+            //need to include type in safe
+            e = new Projectile(((float*) data)[0], ((float*) data)[1], ((float*) data)[2], PROJECTILE_ARROW);
             break;
         case Multiplayer::PLAYER:
             e = nullptr;
@@ -55,7 +56,7 @@ Entity *Multiplayer::deserializeEntity(uint8_t *data)
             break;
         default:
             //printf("Entity type %d not found... Perhaps the archives are incomplete\n", type);
-            e = new Projectile(d.x_pos, d.y_pos, 0);
+            e = new Projectile(d.x_pos, d.y_pos, 0, PROJECTILE_ARROW);
             break;
     }
     if(e) e->entityID = entityID;

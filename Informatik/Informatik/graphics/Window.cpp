@@ -290,7 +290,7 @@ void Window::nextFrame()
                 float angle = -(float) atan2(ydif, xdif); // Calculate the angle of the arrow
                 
                 // Shoot the arrow by spawning it
-                Projectile *p = new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle);
+                Projectile *p = new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_ARROW);
                 level->addEntity(p);
             }
         }

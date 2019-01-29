@@ -16,7 +16,8 @@ enum SpellType {
     SPELL_DASH = 0,
     SPELL_PUSH_BACK = 1,
     SPELL_MELEE = 2,
-    SPELL_NONE = 3
+    SPELL_FIRESHOT = 3,
+    SPELL_NONE = 4
 };
 
 class Spell
@@ -26,6 +27,8 @@ protected:
 public:
     bool renderOverPlayer;
     int xDir = 0, yDir = 0;
+    int spellx = 0, spelly = 0;
+    double angle = 0;
     Level *level;
     float cooldown, damage, cooldownTimer = 0, manaCost;
     SpellType spellID;

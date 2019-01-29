@@ -6,7 +6,7 @@
 #define BACKGROUND_BRIGHTNESS 1.0
 
 #define RAYCAST_SIZE 1.0
-#define RAYCAST_STEPS 50.0
+#define RAYCAST_STEPS 40.0
 
 struct lightSource
 {

@@ -7,6 +7,7 @@
 //
 
 #include "Spell.hpp"
+#include "../util/SDL_Util.hpp"
 #define stepsPerTile 4
 
 Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(spellID), level(level)
@@ -50,6 +51,14 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             renderOverPlayer = false;
             break;
             
+        case SPELL_FIRESHOT:
+            damage = 0;
+            cooldown = 0.4;
+            manaCost = 0;
+            spellTicks = 20;
+            break;
+            
+            
         default:
             break;
     }
@@ -65,18 +74,22 @@ bool Spell::castSpell(DIRECTION direction)
         case UP:
             xDir = 0;
             yDir = -1;
+            angle = PI / 2;
             break;
         case RIGHT:
             xDir = 1;
             yDir = 0;
+            angle = 0;
             break;
         case DOWN:
             xDir = 0;
             yDir = 1;
+            angle = PI * 1.5;
             break;
         case LEFT:
             xDir = -1;
             yDir = 0;
+            angle = PI;
         default:
             break;
     }
@@ -98,9 +111,16 @@ bool Spell::castSpell(DIRECTION direction)
                 
             case SPELL_MELEE:
                 //maybe stop player movement
-                
                 break;
+                
+            case SPELL_FIRESHOT:
+                level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_FIREBALL, 1));
+                level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_FIREBALL, -1));
+                break;
+            
             default:
+                spellx = level->getLocalPlayer()->data.x_pos;
+                spelly = level->getLocalPlayer()->data.y_pos;
                 break;
         }
         return true;
@@ -153,66 +173,35 @@ void Spell::update()
             case SPELL_MELEE:
             {
                 //here dmg hitbox
+                SDL_Rect sword;
                 if(xDir != 0)
                 {
                     int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - 2 * TILE_SIZE);
                     int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos - TILE_SIZE * (0.5f - 0.5f * xDir));
-                    for (int x = 0; x <= 2 * stepsPerTile; x++)
-                    {
-                        for (int j = 0; j <= 4 * stepsPerTile; j++)
-                        {
-                            for(size_t i = 0; i < level->entities.size(); i++)
-                            {
-                                auto *entity = level->entities[i]; // We don't know its type (Slime, Item, ...)
-                                //if not relevant dont check
-                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < 4 * TILE_SIZE)
-                                {
-                                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
-                                    
-                                    if(enemy != nullptr && enemy->isAlive)
-                                    {
-                                        // TODO
-                                        if(enemy->isInsideEntity(hitboxX + x * (TILE_SIZE / stepsPerTile), hitboxY + j * (TILE_SIZE / stepsPerTile)))
-                                        {
-                                            enemy->takeDamage(damage);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
-                    }
-                    
-                }
-                else
-                {
+                    sword = {hitboxX, hitboxY, 2 * TILE_SIZE, 4 * TILE_SIZE};
+                }else{
                     int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos + TILE_SIZE * -1);
                     int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - (1.0f - yDir * 1.0f) * TILE_SIZE);
+                    sword = {hitboxX, hitboxY, 3 * TILE_SIZE, 2 * TILE_SIZE};
                     
-                    for (int x = 0; x <= 3 * stepsPerTile; x++)
+                }
+                for(size_t i = 0; i < level->entities.size(); i++)
+                {
+                    auto *entity = level->entities[i];
+                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
+                    if(enemy != nullptr && enemy->isAlive)
                     {
-                        for (int j = 0; j <= 2 * stepsPerTile; j++)
+                        if(hitboxOverlap(sword, enemy->getBoundingBox()))
                         {
-                            for(size_t i = 0; i < level->entities.size(); i++)
-                            {
-                                auto *entity = level->entities[i]; // We don't know its type (Slime, Item, ...)
-                                //if not relevant dont check
-                                if(PLAYER_DIST(entity, level->getLocalPlayer()) < TILE_SIZE * 4)
-                                {
-                                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
-                                    
-                                    if(enemy != nullptr && enemy->isAlive)
-                                    {
-                                        // TODO
-                                        if(enemy->isInsideEntity(hitboxX + x * TILE_SIZE / stepsPerTile, hitboxY + j * TILE_SIZE / stepsPerTile)) enemy->takeDamage(damage);
-                                    }
-                                }
-                            }
+                            enemy->takeDamage(damage);
                         }
-                        
                     }
+  
                 }
             }
+                break;
+            case SPELL_FIRESHOT:
+                
                 break;
             default:
                 break;
@@ -228,7 +217,7 @@ void Spell::render()
                 {
                     //render it
                     SDL_Rect src = {32 * level->getLocalPlayer()->anim, (level->getLocalPlayer()->animSet * 4 + level->getLocalPlayer()->direction) * 64 + 1, 32, 64};
-                    for (int i = spellTicks; i <= spellTicksPassed; i--) {
+                    for (int i = spellTicksPassed; i <= spellTicks; i++) {
                         SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - (TILE_SIZE * damage * xDir * (spellTicks - i))), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - PLAYER_HEIGHT - (TILE_SIZE * damage * yDir * (spellTicks - i))), PLAYER_WIDTH, 128};
                         renderWithoutShading(spelltexture, src, dst);
                     }

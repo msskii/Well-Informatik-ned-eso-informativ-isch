@@ -54,6 +54,7 @@ extern float drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, ca
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
 extern void brighten(SDL_Surface *surface, float multiplier);
 extern void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmount);
-
+extern bool hitboxOverlap(SDL_Rect a, SDL_Rect b);
+bool oneDimensionalOverlap(int box1min ,int box1max, int box2min, int box2max);
 
 #endif /* SDL_Util_h */

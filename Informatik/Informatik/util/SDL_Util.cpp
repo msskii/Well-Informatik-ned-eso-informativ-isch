@@ -259,3 +259,12 @@ void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmoun
         pixels[i] = (cp & fml->Amask) | r << fml->Rshift | g << fml->Gshift | b << fml->Bshift;
     }
 }
+
+bool hitboxOverlap(SDL_Rect a, SDL_Rect b){
+
+    return oneDimensionalOverlap(a.x, a.x + a.w, b.x, b.x + b.w) && oneDimensionalOverlap(a.y, a.y + a.h, b.y, b.y + b.h);
+}
+
+bool oneDimensionalOverlap(int box1min ,int box1max, int box2min, int box2max){
+    return !(box1min >= box2max || box2min >= box1max);
+}
