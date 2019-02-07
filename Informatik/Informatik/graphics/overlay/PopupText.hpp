@@ -16,7 +16,11 @@ class PopupText : public Menu
 private:
     const char* text;
     int decayTimer, maxDecay;
-    cachedTexture texture;
+    cachedTexture  texture;
+    gl_texture gltexture;
+    SDL_Surface* surface;
+    int textureWidth, textureHeight;
+    SDL_Rect dst;
     
 public:
     PopupText(const char* text, int timeInFrames);

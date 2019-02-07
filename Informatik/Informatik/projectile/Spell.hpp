@@ -13,11 +13,12 @@
 #include "../level/Level.hpp"
 
 enum SpellType {
-    SPELL_DASH = 0,
-    SPELL_PUSH_BACK = 1,
+    SPELL_NONE = 0,
+    SPELL_DASH = 1,
     SPELL_MELEE = 2,
     SPELL_FIRESHOT = 3,
-    SPELL_NONE = 4
+    SPELL_PUSH_BACK = 4,
+    SPELL_TEST,
 };
 
 class Spell

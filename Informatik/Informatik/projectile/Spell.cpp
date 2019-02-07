@@ -36,9 +36,9 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             break;
         case SPELL_MELEE:
             damage = 0.5 * damageModifier;
-            cooldown = 0.2;
+            cooldown = 0.5;
             manaCost = 0;
-            spellTicks = 12;
+            spellTicks = 18;
             renderOverPlayer = false;
             spellsurface = IMG_Load(GET_TEXTURE_PATH("player/spellAnimation_meleeAttack"));
             break;
@@ -52,9 +52,9 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             break;
             
         case SPELL_FIRESHOT:
-            damage = 0;
-            cooldown = 0.4;
-            manaCost = 0;
+            damage = 20 * damageModifier;
+            cooldown = 10.0;
+            manaCost = 20;
             spellTicks = 20;
             break;
             
@@ -111,11 +111,31 @@ bool Spell::castSpell(DIRECTION direction)
                 
             case SPELL_MELEE:
                 //maybe stop player movement
+                renderOverPlayer = true;
                 break;
                 
             case SPELL_FIRESHOT:
-                level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_FIREBALL, 1));
-                level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_FIREBALL, -1));
+                if(xDir != 0){
+                    if(xDir == -1){
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos - TILE_SIZE, level->getLocalPlayer()->data.y_pos - TILE_SIZE, angle, PROJECTILE_FIREBALL, 1, damage));
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos - TILE_SIZE, level->getLocalPlayer()->data.y_pos - TILE_SIZE, angle, PROJECTILE_FIREBALL, -1, damage));
+                    }else{
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos - TILE_SIZE, angle, PROJECTILE_FIREBALL, 1, damage));
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos - TILE_SIZE, angle, PROJECTILE_FIREBALL, -1, damage));
+                    }
+                }else{
+                    if(yDir == -1){
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos - TILE_SIZE / 2, level->getLocalPlayer()->data.y_pos - 2 * TILE_SIZE, angle, PROJECTILE_FIREBALL, 1, damage));
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos - TILE_SIZE / 2, level->getLocalPlayer()->data.y_pos - 2 * TILE_SIZE, angle, PROJECTILE_FIREBALL, -1, damage));
+                    }else{
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos - TILE_SIZE / 2, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_FIREBALL, 1, damage));
+                        level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos - TILE_SIZE / 2, level->getLocalPlayer()->data.y_pos, angle, PROJECTILE_FIREBALL, -1, damage));
+                    }
+                }
+                break;
+                
+            case SPELL_TEST:
+                level->addEntity(new Projectile(level->getLocalPlayer()->data.x_pos, level->getLocalPlayer()->data.y_pos, angle, TEST, 1, 0.0f));
                 break;
             
             default:
@@ -227,13 +247,13 @@ void Spell::render()
             case SPELL_MELEE:
                 {
                     if (xDir != 0 ) {
-                        SDL_Rect src = {64 * (spellTicksPassed / 2 - 1), 128 + 128 * (castDirection - 2), 64, 128};
+                        SDL_Rect src = {64 * (spellTicksPassed / 3 - 1), 128 + 128 * (castDirection - 2), 64, 128};
                         SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - TILE_SIZE * (0.5f - 0.5f * xDir)), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - 2 * TILE_SIZE), 2 * TILE_SIZE, 4 * TILE_SIZE};
                         renderWithoutShading(spelltexture, src, dst);
                     }
                     else
                     {
-                        SDL_Rect src = {96 * (spellTicksPassed / 2 - 1), 64 * castDirection, 96, 64};
+                        SDL_Rect src = {96 * (spellTicksPassed / 3 - 1), 64 * castDirection, 96, 64};
                         SDL_Rect dst = {static_cast<int>(PLAYER_OFFSET_X - level->getLocalPlayer()->xoff - 64), static_cast<int>(PLAYER_OFFSET_Y - level->getLocalPlayer()->yoff - (1.0f - yDir * 1.0f) * TILE_SIZE), 3 * TILE_SIZE, 2 * TILE_SIZE};
                         renderWithoutShading(spelltexture, src, dst);
                     }

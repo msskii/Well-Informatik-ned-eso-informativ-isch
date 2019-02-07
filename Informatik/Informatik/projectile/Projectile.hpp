@@ -13,7 +13,8 @@
 #include "../graphics/overlay/light/LightSource.hpp"
 enum ProjectileType{
     PROJECTILE_ARROW,
-    PROJECTILE_FIREBALL
+    PROJECTILE_FIREBALL,
+    TEST
 };
 class Projectile : public Entity
 {
@@ -22,8 +23,9 @@ protected:
     gl_texture texture;
     SDL_Rect hitbox = {0,0,0,0};
     
-    int max_anim = 1;
+    int max_anim = 1, anim_ticksPerFrame = 7;
     int current_anim = 0, anim_timer = 0;
+
     
     int param = 0;
     int projectileSpeed = PROJECTILE_SPEED;
@@ -41,7 +43,7 @@ public:
     ProjectileType projectileType;
     
     Projectile(float x, float y, float ra, ProjectileType pt);
-    Projectile(float x, float y, float ra, ProjectileType pt, int param);
+    Projectile(float x, float y, float ra, ProjectileType pt, int param, float damage);
     
     void onAddToLevel(Level *level) override;
     void render(int xoff, int yoff) override;

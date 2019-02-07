@@ -25,6 +25,7 @@ Player::Player(Level *l) : current_level(l)
     spells.push_back(new Spell(SPELL_DASH, 1, current_level));
     spells.push_back(new Spell(SPELL_MELEE, 1, current_level));
     spells.push_back(new Spell(SPELL_FIRESHOT, 1, current_level));
+    spells.push_back(new Spell(SPELL_TEST, 0, current_level));
 
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)

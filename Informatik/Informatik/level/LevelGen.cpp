@@ -23,7 +23,7 @@ LevelGen::LevelGen(int widthN, int heightN)
     size = width * height;
     
     //in %
-    chanceToStartAlive = 53;
+    chanceToStartAlive = 50;
     numberOfSteps = 100;
     
     map = new int[size];

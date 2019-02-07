@@ -28,13 +28,13 @@ private:
         GRASS = 5
     };
     
-    int floor = 0;
     int width = 40, height = 40;
     Level *&level;
 	Window *window;
     bool entranceSet = false, exitSet = false;
     
 public:
+    int floor = 0;
     
     LevelCave(Level *&plevel, Window *window);
     void startCave();

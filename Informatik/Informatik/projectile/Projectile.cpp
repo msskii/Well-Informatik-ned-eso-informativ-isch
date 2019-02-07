@@ -16,7 +16,7 @@ Projectile::Projectile(float x, float y, float ra, ProjectileType pt) : rotation
     
 }
 
-Projectile::Projectile(float x, float y, float ra, ProjectileType pt, int param) : rotationAngle(ra), projectileType(pt), param(param)
+Projectile::Projectile(float x, float y, float ra, ProjectileType pt, int param, float damage) : rotationAngle(ra), projectileType(pt), param(param), damage(damage)
 {
     setup(x, y);
 }
@@ -27,12 +27,14 @@ void Projectile::setup(float x, float y){
     
     switch (projectileType) {
         case PROJECTILE_FIREBALL:
-            projectileSpeed *= 0.8;
-            data.width = 64;
-            data.height = 64;
-            despawnTimer = 60;
-            if (param == 1) light = createLightSource(0, 0, 10.0f, 1.0f, 0xFF0000FF, 0.4f, 1.0f);
-            else light = createLightSource(0, 0, 10.0f, 1.0f, 0xFFFF0000, 0.4f, 1.0f);
+            projectileSpeed *= 0.6;
+            data.width = 128;
+            data.height = 128;
+            despawnTimer = 120;
+            max_anim = 10;
+            surface = IMG_Load(GET_TEXTURE_PATH("projectiles/projectile_fireball"));
+            light = createLightSource(0, 0, 10.0f, 1.0f, 0xFFFF0000, 0.4f, 0.2f);
+            anim_ticksPerFrame = 4;
             break;
             
         case PROJECTILE_ARROW:
@@ -43,6 +45,17 @@ void Projectile::setup(float x, float y){
             light = createLightSource(0, 0, 10.0f, 1.0f, 0xFFF00000, 0.4f, 0.4f);
             despawnTimer = 60 * 10;
             break;
+            
+        case TEST:
+            data.width = 64;
+            data.height = 64;
+            surface = IMG_Load(GET_TEXTURE_PATH("projectiles/projectile_fireball"));
+            despawnTimer = 120;
+            max_anim = 10;
+            projectileSpeed = 0;
+            anim_ticksPerFrame = 3;
+            break;
+            
             
         default:
             break;
@@ -61,9 +74,8 @@ void Projectile::render(int xoff, int yoff)
     
     switch (projectileType) {
         case PROJECTILE_FIREBALL:
-            if (param == 1) {
-                fillRect(0xFFFF00FF, r);
-            }else fillRect(0xFFFFFF00, r);
+            if(texture.id == 0) texture = getTexture(surface);
+            renderWithRotation(texture, {current_anim * 32, 0, 32, 32}, r, -rotationAngle, true); // Animations cant be rotated...
             moveLightSource(light, (float) (r.x + data.width / 2.0f), (float) (r.y + data.height / 2.0f));
             level->window->lights.injectLight(light);
             break;
@@ -90,8 +102,9 @@ void Projectile::update(const uint8_t *keys)
     switch (projectileType) {
         case PROJECTILE_FIREBALL:
             if (velocity.len() != 0) {
-                data.x_pos += 10 * cos(rotationAngle - PI / 2) * cos(wavespeed * ticksPassed) * param;
-                data.y_pos += 10 * sin(rotationAngle - PI / 2) * cos(wavespeed * ticksPassed) * param;
+                data.x_pos += 7 * cos(rotationAngle - PI / 2) * cos(wavespeed * ticksPassed) * param;
+                data.y_pos += 7 * sin(rotationAngle - PI / 2) * cos(wavespeed * ticksPassed) * param;
+                hitbox = {static_cast<int>(data.x_pos) + 32 + 16, static_cast<int>(data.y_pos) + 56 + 16, static_cast<int>(data.width) / 4, static_cast<int>(data.height) / 4};
             }
             break;
             
@@ -103,7 +116,7 @@ void Projectile::update(const uint8_t *keys)
     Player *player = level->getLocalPlayer();
     TRANSFORM_LEVEL_POS(r, player->getOffsetX(), player->getOffsetY());
     
-    if(++anim_timer >= 7)
+    if(++anim_timer >= anim_ticksPerFrame)
     {
         current_anim = (current_anim + 1) % max_anim;
         anim_timer = 0;
@@ -170,16 +183,30 @@ void Projectile::update(const uint8_t *keys)
     }else{
         int xstep;
         int ystep;
-        for(int i = 0; i <= int(data.width / TILE_SIZE) + 1; i++){
-            for(int j = 0; j <= int(data.height / TILE_SIZE) + 1; j++){
-                (TILE_SIZE * i > data.width) ? xstep = data.width : xstep = i * TILE_SIZE;
-                (TILE_SIZE * j > data.height) ? ystep = data.height : ystep = j * TILE_SIZE;
-                Tile tile = level->getTile((int)((data.x_pos + xstep) / TILE_SIZE), (int)((data.y_pos + ystep) / TILE_SIZE));
-                if(level->getBuildingCollision(data.x_pos + xstep, data.y_pos + ystep) || tile.data.tileZ > data.height || tile.Tile_surface == nullptr)
+        //make the projectile a bit less likely to hit walls
+        float factor = 0.6;
+        for(int i = 0; i <= int(hitbox.w / TILE_SIZE * factor) + 1; i++){
+            for(int j = 0; j <= int(hitbox.h / TILE_SIZE * factor) + 1; j++){
+                (TILE_SIZE * i > hitbox.w * factor) ? xstep = hitbox.w * factor : xstep = i * TILE_SIZE;
+                (TILE_SIZE * j > hitbox.h * factor) ? ystep = hitbox.h * factor : ystep = j * TILE_SIZE;
+                Tile tile = level->getTile((int)((hitbox.x + hitbox.w * 0.5 * (1-factor) + xstep) / TILE_SIZE), (int)((hitbox.y + hitbox.h * 0.5 * (1-factor)+ ystep) / TILE_SIZE));
+                if(level->getBuildingCollision(hitbox.x + xstep, hitbox.y + ystep) || tile.data.tileZ > data.z_pos || tile.Tile_surface == nullptr)
                 {
                     velocity = {0, 0}; // Stop right at the wall
+                    level->removeEntity(this);
                 }
             }
+        }
+        for(size_t i = 0; i < level->entities.size(); i++)
+        {
+            auto *enemy = dynamic_cast<Enemy*>(level->entities[i]);
+            if(enemy == nullptr || !enemy->isAlive) continue; // Couldnt cast to enemy --> isnt an enemy
+            
+            if(hitboxOverlap(hitbox, enemy->getBoundingBox())){
+                enemy->takeDamage(damage);
+                level->removeEntity(this);
+            }
+        
         }
         
         

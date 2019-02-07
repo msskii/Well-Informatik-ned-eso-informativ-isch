@@ -21,6 +21,7 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     manabarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
     
     spelliconsurface = IMG_Load(GET_TEXTURE_PATH("elements/spellicons"));
+    spellbordersurface = IMG_Load(GET_TEXTURE_PATH("elements/spellBorders"));
     //change the hp bar from green to blue
     SDL_PixelFormat *fmt = manabarsurface->format;
     uint32_t *pixels = (uint32_t*) manabarsurface->pixels;
@@ -38,6 +39,7 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     manabartexture = getTexture(manabarsurface);
     hpbartransparenttexture = getTexture(hpbartransparentsurface);
     spellicontexture = getTexture(spelliconsurface);
+    spellbordertexture = getTexture(spellbordersurface);
 }
 
 bool PlayerOverlay::shouldWindowClose() { return false; }
@@ -77,6 +79,7 @@ void PlayerOverlay::renderMenu()
         if(player->spells[i] && player->spells[i])
         {
             renderWithoutShading(spellicontexture, {64 * player->spells[i]->spellID, 0, 64, 64}, dst); // Maybe all icons in the same texture and then instead of {} the area where the one of the spellID is? like {SPELL_ICON_WIDTH * spellID, 0, SPELL_ICON_WIDTH, SPELL_ICON_HEIGHT}
+            renderWithoutShading(spellbordertexture, {0, 0, 64, 64}, dst);
             if(player->spells[i]->cooldownTimer > 0)
             {
                 float percentage = player->spells[i]->cooldownTimer / player->spells[i]->cooldown;
@@ -96,9 +99,15 @@ void PlayerOverlay::renderMenu()
     
     lastHealth = player->currentHealth;
     lastMana = player->currentMana;
-    drawTextAspect((std::to_string((int) lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {1150, 20, 750, 60}, cachedHealth, transition || healthChange);
+    drawTextAspect((std::to_string((int) lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {GAME_WIDTH - 720, 20, 750, 60}, cachedHealth, transition || healthChange);
     drawTextAspect((std::to_string((int) lastMana) + "/" + std::to_string((int) player->maxMana)).c_str(), color, {20, 20, 750, 60}, cachedMana, transition || manaChange);
     transition = false;
+    
+    //render cave gui
+    if (window->currentLevel == 0) {
+        bool floorchange = lastfloor != window->cave->floor;
+        drawTextAspect((std::to_string((int)window->cave->floor)).c_str(), color, {GAME_WIDTH / 2, 20, 750, 60}, cachedfloor, transition || floorchange);
+    }
 }
 
 void PlayerOverlay::updateMenu(const uint8_t *keys)

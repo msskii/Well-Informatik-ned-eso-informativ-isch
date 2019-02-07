@@ -20,7 +20,8 @@ void Text::render()
 {
     if(texture.id == 0)
     {
-        float a = drawTextAspect(text, 0xFF000000, {x, y, w, h}, texture, false);
+        drawTextAspect(text, 0xFF000000, {x, y, w, h}, texture, false);
+        float a = texture.scale;
         TTF_SizeText(font, text, &w, &h);
         w = (int)(w * a);
         h = (int)(h * a);

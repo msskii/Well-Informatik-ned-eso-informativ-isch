@@ -27,7 +27,8 @@ void TextBox::render()
     // SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
     renderWithoutShading(gl_textures[TEXTBOX], {}, dst);
     
-    usedScale = drawTextAspect(currentText.c_str(), 0xFF000000, dst, lastTexture, changed);
+    drawTextAspect(currentText.c_str(), 0xFF000000, dst, lastTexture, changed);
+    usedScale = lastTexture.scale;
     changed = false;
     
     // cursor is after last character --> measure string till

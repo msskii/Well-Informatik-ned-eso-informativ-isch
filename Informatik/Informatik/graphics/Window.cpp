@@ -76,7 +76,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG); // init the image loading part
     
     // Open the font
-    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 64); // Window opened = font initialized
+    font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 128); // Window opened = font initialized
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
     // Check if the font could be created & crash if we couldnt
