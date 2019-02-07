@@ -55,7 +55,7 @@ extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
 
 extern void brighten(SDL_Surface *surface, float multiplier);
 extern void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmount);
-extern void adjustAlpha(SDL_Surface *surface, uint8_t newAlpha);
+extern void adjustAlpha(SDL_Surface *surface, int newAlpha);
 
 extern bool hitboxOverlap(SDL_Rect a, SDL_Rect b);
 bool oneDimensionalOverlap(int box1min ,int box1max, int box2min, int box2max);

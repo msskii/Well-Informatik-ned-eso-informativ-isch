@@ -261,16 +261,13 @@ void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmoun
     }
 }
 
-void adjustAlpha(SDL_Surface *surface, uint8_t newAlpha){
-    {
-        uint32_t *pixels = (uint32_t*) surface->pixels;
-        SDL_PixelFormat *fml = surface->format;
-        for(int i = 0; i < surface->w * surface->h; i++)
-        {
-            uint32_t cp = ((uint32_t*) surface->pixels)[i];
-            if (cp && fml->Amask != 0) {
-                pixels[i] = 255 << fml->Amask| (cp &  fml->Rmask) << fml->Rshift | (cp &  fml->Gmask) << fml->Gshift | (cp &  fml->Bmask) << fml->Bshift;
-            }
+void adjustAlpha(SDL_Surface *surface, int newAlpha){
+    uint32_t *pixels = (uint32_t*) surface->pixels;
+    SDL_PixelFormat *fml = surface->format;
+    for(int i = 0; i < surface->w * surface->h; i++){
+        uint32_t cp = ((uint32_t*) surface->pixels)[i];
+        if (cp != 0) {
+            pixels[i] =(newAlpha << fml->Ashift) | (cp & fml->Rmask) | (cp & fml->Gmask) | (cp & fml->Bmask);
         }
     }
 }
