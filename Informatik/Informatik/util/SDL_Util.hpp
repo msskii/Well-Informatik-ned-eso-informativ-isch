@@ -49,8 +49,6 @@ typedef struct cachedTexture
 
 extern void deleteTexture(cachedTexture &texture);
 
-SDL_Surface* drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate); // Keep aspect ratio
-SDL_Surface* drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture, bool forceUpdate); // Keep aspect ratio & center to the width
 extern char scancodeToChar(SDL_Scancode code, SDL_Keymod mods);
 
 extern void brighten(SDL_Surface *surface, float multiplier);

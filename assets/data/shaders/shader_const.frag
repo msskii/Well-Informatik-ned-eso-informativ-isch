@@ -2,6 +2,8 @@
 
 uniform sampler2D texture_sampler;
 
+uniform vec4 col_mod; // argb
+
 out vec4 col;
 in vec2 uv;
 
@@ -14,5 +16,10 @@ void main()
     else
     {
         col = texture(texture_sampler, uv).bgra;
+        
+        col.a *= col_mod.x;
+        col.r *= col_mod.y;
+        col.g *= col_mod.z;
+        col.b *= col_mod.w;
     }
 }

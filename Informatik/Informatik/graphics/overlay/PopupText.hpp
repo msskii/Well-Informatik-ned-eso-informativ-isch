@@ -18,7 +18,7 @@ private:
     int decayTimer, maxDecay;
     cachedTexture  texture;
     gl_texture gltexture;
-    SDL_Surface* surface;
+    //SDL_Surface* surface;
     int textureWidth, textureHeight;
     SDL_Rect dst;
     

@@ -10,7 +10,7 @@
 
 gl_texture *char_textures = new gl_texture[0x60]; // We have 0x60 drawable characters (From 0x20 to 0x7F)
 
-void setupTextRenderer(const char *fontFile)
+void setupTextRenderer(const char *fontFile) // Load all characters
 {
     TTF_Font *font = TTF_OpenFont(fontFile, FONT_RESOLUTION);
     SDL_Surface *surface;
@@ -40,7 +40,7 @@ void setupTextRenderer(const char *fontFile)
     }
 }
 
-void drawText(const char *text, SDL_Rect dst)
+void drawText(const char *text, SDL_Rect dst, bool centered) // Draw text --> No colors here! (Just white text)
 {
     int renderWidth = 0, renderHeight = 0xFFFFFFFF;
     size_t tlen = strlen(text);
@@ -54,7 +54,10 @@ void drawText(const char *text, SDL_Rect dst)
     
     float factor = fmin((float) dst.w / (float) renderWidth, (float) dst.h / (float) renderHeight);
     
-    SDL_Rect dest = {dst.x, dst.y, 0, 0};
+    float xoff = ((float) dst.w - factor * (float) renderWidth) / 2.0f;
+    float yoff = ((float) dst.h - factor * (float) renderHeight) / 2.0f;
+
+    SDL_Rect dest = {dst.x + (int) xoff, dst.y + (int) yoff, 0, 0};
     for(int i = 0; i < (int) tlen; i++)
     {
         uint8_t c = text[i];
@@ -66,4 +69,22 @@ void drawText(const char *text, SDL_Rect dst)
         render(texture, {}, dest, const_shader);
         dest.x += dest.w;
     }
+}
+
+void drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate)
+{
+    glUseProgram(const_shader);
+    glUniform4f(glGetUniformLocation(const_shader, "col_mod"), (float) ((color >> 24) & 0xFF) / 255.0f, ((color >> 16) & 0xFF) / 255.0f, ((color >> 8) & 0xFF) / 255.0f, (color & 0xFF) / 255.0f);
+    drawText(text, dst, false);
+    glUseProgram(const_shader);
+    glUniform4f(glGetUniformLocation(const_shader, "col_mod"), 1, 1, 1, 1);
+}
+
+void drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate)
+{
+    glUseProgram(const_shader);
+    glUniform4f(glGetUniformLocation(const_shader, "col_mod"), (float) ((color >> 24) & 0xFF) / 255.0f, ((color >> 16) & 0xFF) / 255.0f, ((color >> 8) & 0xFF) / 255.0f, (color & 0xFF) / 255.0f);
+    drawText(text, dst, true);
+    glUseProgram(const_shader);
+    glUniform4f(glGetUniformLocation(const_shader, "col_mod"), 1, 1, 1, 1);
 }
