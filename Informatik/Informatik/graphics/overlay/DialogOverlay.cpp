@@ -29,8 +29,8 @@ void DialogOverlay::renderMenu()
     int snl = (int) rest.find("\n");
     std::string line2 = rest.substr(0, snl);
     
-    drawTextAspect(line1.c_str(), 0xFF000000, {0, GAME_HEIGHT - 400, GAME_WIDTH, 200}, textCache1, false);
-    if(fnl > 0) drawTextAspect(line2.c_str(), 0xFF000000, {0, GAME_HEIGHT - 200, GAME_WIDTH, 200}, textCache2, false);
+    drawTextAspect(line1.c_str(), 0xFF000000, {0, GAME_HEIGHT - 400, GAME_WIDTH, 200});
+    if(fnl > 0) drawTextAspect(line2.c_str(), 0xFF000000, {0, GAME_HEIGHT - 200, GAME_WIDTH, 200});
 }
 
 void DialogOverlay::updateMenu(const uint8_t *keys)
@@ -58,10 +58,6 @@ void DialogOverlay::updateMenu(const uint8_t *keys)
             // Give player his inControl back?
             window->level->getLocalPlayer()->inControl = true;
         }
-        
-        deleteTexture(textCache1);
-        textCache1 = textCache2;
-        textCache2.id = 0;
     }
 }
 

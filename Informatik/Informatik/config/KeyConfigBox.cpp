@@ -29,7 +29,6 @@ void KeyConfigBox::processEvent(Menu *menu, SDL_Event e)
     {
         currentText = std::string(" Key:  ") + SDL_GetKeyName(e.key.keysym.sym);
         toStore = std::to_string(e.key.keysym.sym); // Store the code as int
-        changed = true;
     }
 }
 

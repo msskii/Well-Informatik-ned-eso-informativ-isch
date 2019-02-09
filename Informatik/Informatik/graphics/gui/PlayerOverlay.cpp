@@ -57,7 +57,6 @@ void PlayerOverlay::renderMenu()
         renderWithoutShading(hpbartexture, {}, dst);
         dst = {10, 10, (int)(750 * player->animationMana / player->maxMana), 80};
         renderWithoutShading(manabartexture, {}, dst);
-        if(lastState == 1) transition = true;
         lastState = 0;
     }
     else
@@ -68,7 +67,6 @@ void PlayerOverlay::renderMenu()
         renderWithoutShading(manabartexture, {}, dst);
         color = 0x7F000000;
         
-        if(lastState == 0) transition = true;
         lastState = 1;
     }
     
@@ -94,20 +92,11 @@ void PlayerOverlay::renderMenu()
         }
     }
     
-    bool healthChange = lastHealth != player->animationHealth;
-    bool manaChange = lastMana != player->animationMana;
-    
-    lastHealth = player->currentHealth;
-    lastMana = player->currentMana;
-    drawTextAspect((std::to_string((int) lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {GAME_WIDTH - 720, 20, 750, 60}, cachedHealth, transition || healthChange);
-    drawTextAspect((std::to_string((int) lastMana) + "/" + std::to_string((int) player->maxMana)).c_str(), color, {20, 20, 750, 60}, cachedMana, transition || manaChange);
-    transition = false;
+    drawTextAspect((std::to_string((int) player->lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {GAME_WIDTH - 720, 20, 750, 60});
+    drawTextAspect((std::to_string((int) player->lastMana) + "/" + std::to_string((int) player->maxMana)).c_str(), color, {20, 20, 750, 60});
     
     //render cave gui
-    if (window->currentLevel == 0) {
-        bool floorchange = false; //lastfloor != window->cave->floor;
-        drawTextAspect((std::to_string((int)window->cave->floor)).c_str(), color, {GAME_WIDTH / 2, 20, 750, 60}, cachedfloor, transition || floorchange);
-    }
+    if (window->currentLevel == 0) drawTextAspect((std::to_string((int)window->cave->floor)).c_str(), color, {GAME_WIDTH / 2, 20, 750, 60});
 }
 
 void PlayerOverlay::updateMenu(const uint8_t *keys)

@@ -17,7 +17,6 @@ private:
     bool dialogOver = false;
     int timeout = 0;
     std::string text;
-    cachedTexture textCache1, textCache2;
     
 public:
     DialogOverlay(const char *t);

@@ -115,6 +115,7 @@ void setScreenSize(int w, int h)
     //glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     glUseProgram(const_shader);
     glUniform2f(glGetUniformLocation(const_shader, "screenSize"), (float) w, (float) h);
+    glUniform4f(glGetUniformLocation(const_shader, "col_mod"), 1, 1, 1, 1);
     glUseProgram(light_shader);
     glUniform2f(glGetUniformLocation(light_shader, "screenSize"), (float) w, (float) h);
 }

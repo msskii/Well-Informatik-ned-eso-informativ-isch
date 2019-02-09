@@ -18,7 +18,6 @@ typedef struct DropDownElement
     
     int id = 0;
     const char *text = nullptr;
-    cachedTexture cachedText;
     
 } DropDownElement;
 
@@ -29,7 +28,6 @@ class DropDown : public Element
 protected:
     std::vector<DropDownElement> elements;
     bool expanded = false;
-    cachedTexture cachedText;
 
     dropdownCallback clbck = nullptr;
     

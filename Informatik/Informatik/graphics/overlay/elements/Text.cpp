@@ -18,15 +18,7 @@ Text::Text(const char* t, int _x, int _y, int _w, int _h) : text(t)
 
 void Text::render()
 {
-    if(texture.id == 0)
-    {
-        drawTextAspect(text, 0xFF000000, {x, y, w, h}, texture, false);
-        float a = texture.scale;
-        TTF_SizeText(font, text, &w, &h);
-        w = (int)(w * a);
-        h = (int)(h * a);
-    }
-    else renderWithoutShading(texture.getGL(), {}, {x, y, w, h});
+    drawTextAspect(text, 0xFF000000, {x, y, w, h});
 }
 
 void Text::processEvent(Menu *menu, SDL_Event e)
@@ -47,9 +39,7 @@ DebugText::DebugText(const char *frmt, int ml, textUpdate u, int _x, int _y, int
 void DebugText::render()
 {
     const char *ns = updater(menu, this);
-    drawTextAspect(ns, 0xFFFF00FF, {x, y, w, h}, texture, std::string(ns) != os);
-    os = std::string(ns);
-
+    drawTextAspect(ns, 0xFFFF00FF, {x, y, w, h});
 }
 
 void DebugText::processEvent(Menu *menu, SDL_Event e)

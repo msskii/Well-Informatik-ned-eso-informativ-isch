@@ -16,11 +16,8 @@ class PlayerOverlay : public Menu
 private:
     SDL_Surface *backsurface, *hpbarsurface, *hpbartransparentsurface, *manabarsurface, *spelliconsurface, *spellbordersurface;
     gl_texture backtexture, hpbartexture, hpbartransparenttexture, manabartexture, spellicontexture, spellbordertexture;
-    cachedTexture cachedHealth, cachedMana, cachedfloor;
-    float lastHealth = 0.0f, lastMana = 0.0f;
     int lastState = 0;
     int lastfloor = 0;
-    bool transition = true;
     bool kp = false, jp = false;
 
 public:

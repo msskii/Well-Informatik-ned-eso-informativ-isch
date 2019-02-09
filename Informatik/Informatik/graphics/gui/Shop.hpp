@@ -26,8 +26,6 @@ class Shop : public Menu
 private:
     int currentMoney = 0;
     std::vector<shopItem> inStock;
-    std::vector<cachedTexture> stockNameTextures;
-    std::vector<cachedTexture> selectedInfo;
     int selected = 0, cooldown = 0;
     bool update = false, lastPressed = false, selling = false;
     

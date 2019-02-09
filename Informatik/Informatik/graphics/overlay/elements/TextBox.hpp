@@ -22,10 +22,7 @@ protected:
     int selectionStart = 0;
     int currentIndex = 0;
     
-    cachedTexture lastTexture;
-    
 public:
-    bool changed = true;
     bool defaultText = true;
 
     TextBox(const char *defaultText, int x, int y, int w, int h, int id);

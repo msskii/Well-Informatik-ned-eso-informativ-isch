@@ -71,7 +71,7 @@ void drawText(const char *text, SDL_Rect dst, bool centered) // Draw text --> No
     }
 }
 
-void drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate)
+void drawTextAspect(const char *text, uint32_t color, SDL_Rect dst)
 {
     glUseProgram(const_shader);
     glUniform4f(glGetUniformLocation(const_shader, "col_mod"), (float) ((color >> 24) & 0xFF) / 255.0f, ((color >> 16) & 0xFF) / 255.0f, ((color >> 8) & 0xFF) / 255.0f, (color & 0xFF) / 255.0f);
@@ -80,7 +80,7 @@ void drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTextur
     glUniform4f(glGetUniformLocation(const_shader, "col_mod"), 1, 1, 1, 1);
 }
 
-void drawTextCentered(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate)
+void drawTextCentered(const char *text, uint32_t color, SDL_Rect dst)
 {
     glUseProgram(const_shader);
     glUniform4f(glGetUniformLocation(const_shader, "col_mod"), (float) ((color >> 24) & 0xFF) / 255.0f, ((color >> 16) & 0xFF) / 255.0f, ((color >> 8) & 0xFF) / 255.0f, (color & 0xFF) / 255.0f);
