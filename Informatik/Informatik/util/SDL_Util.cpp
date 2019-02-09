@@ -21,7 +21,7 @@ void deleteTexture(cachedTexture &texture)
 
 SDL_Surface* drawText(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate, bool centered)
 {
-    SDL_Surface *text_surface = nullptr;
+    SDL_Surface *srfc = nullptr;
     if(font == nullptr)
     {
         INFO("Font not yet initialized");
@@ -32,16 +32,17 @@ SDL_Surface* drawText(const char *text, uint32_t color, SDL_Rect dst, cachedText
     {
         if(forceUpdate) deleteTexture(texture_cache);
         
-        text_surface = TTF_RenderText_Solid(font, text, TO_COLOR(color));
+        SDL_Surface * text_surface = TTF_RenderText_Solid(font, text, TO_COLOR(color));
         if(text_surface == nullptr)
         {
             return nullptr;
         }
         
-        SDL_Surface *srfc = SDL_CreateRGBSurfaceWithFormat(0, text_surface->w, text_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
+        srfc = SDL_CreateRGBSurfaceWithFormat(0, text_surface->w, text_surface->h, 32, SDL_PIXELFORMAT_ARGB8888);
         SDL_SetSurfaceBlendMode(srfc, SDL_BLENDMODE_BLEND);
         SDL_SetSurfaceAlphaMod(srfc, color >> 24);
         SDL_BlitSurface(text_surface, NULL, srfc, NULL);
+        
         
         if(srfc == nullptr) return 0;
         gl_texture tmp = getTexture(srfc); // Copy only id since width & height are different...
@@ -54,7 +55,7 @@ SDL_Surface* drawText(const char *text, uint32_t color, SDL_Rect dst, cachedText
         texture_cache.scale = (float) fmin(scaleX, scaleY); // Smaller scale value
         
         // Clean up
-        SDL_FreeSurface(srfc);
+        //SDL_FreeSurface(srfc);
         
         if(texture_cache.id == 0) return nullptr; // texture creation failed...
     }
@@ -73,7 +74,7 @@ SDL_Surface* drawText(const char *text, uint32_t color, SDL_Rect dst, cachedText
     dst.h = newh;
     renderWithoutShading(texture_cache.getGL(), {0, 0, 0, 0}, dst);
     
-    return text_surface;
+    return srfc;
 }
 
 SDL_Surface* drawTextAspect(const char *text, uint32_t color, SDL_Rect dst, cachedTexture &texture_cache, bool forceUpdate)
@@ -262,12 +263,12 @@ void tint(SDL_Surface *surface, int16_t rAmount, int16_t gAmount, int16_t bAmoun
 }
 
 void adjustAlpha(SDL_Surface *surface, int newAlpha){
-    uint32_t *pixels = (uint32_t*) surface->pixels;
     SDL_PixelFormat *fml = surface->format;
+    uint32_t *pixels = (uint32_t*) surface->pixels;
     for(int i = 0; i < surface->w * surface->h; i++){
         uint32_t cp = ((uint32_t*) surface->pixels)[i];
         if (cp != 0) {
-            pixels[i] =(newAlpha << fml->Ashift) | (cp & fml->Rmask) | (cp & fml->Gmask) | (cp & fml->Bmask);
+            pixels[i] = (newAlpha << fml->Ashift) | (cp & fml->Rmask) | (cp & fml->Gmask) | (cp & fml->Bmask);
         }
     }
 }
