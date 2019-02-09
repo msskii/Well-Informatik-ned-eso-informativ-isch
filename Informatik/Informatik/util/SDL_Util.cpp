@@ -30,7 +30,8 @@ SDL_Surface* drawText(const char *text, uint32_t color, SDL_Rect dst, cachedText
     
     if(texture_cache.id == 0 || forceUpdate)
     {
-        if(forceUpdate) deleteTexture(texture_cache);
+        printf("We needed to create a new texture?!\n");
+        if(forceUpdate) deleteTexture(texture_cache); // Delete old texture
         
         text_surface = TTF_RenderText_Solid(font, text, TO_COLOR(color));
         if(text_surface == nullptr)
@@ -54,7 +55,8 @@ SDL_Surface* drawText(const char *text, uint32_t color, SDL_Rect dst, cachedText
         texture_cache.scale = (float) fmin(scaleX, scaleY); // Smaller scale value
         
         // Clean up
-        SDL_FreeSurface(srfc);
+        SDL_FreeSurface(text_surface);
+        text_surface = srfc;
         
         if(texture_cache.id == 0) return nullptr; // texture creation failed...
     }

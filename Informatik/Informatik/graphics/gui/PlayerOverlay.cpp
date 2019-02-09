@@ -105,7 +105,7 @@ void PlayerOverlay::renderMenu()
     
     //render cave gui
     if (window->currentLevel == 0) {
-        bool floorchange = lastfloor != window->cave->floor;
+        bool floorchange = false; //lastfloor != window->cave->floor;
         drawTextAspect((std::to_string((int)window->cave->floor)).c_str(), color, {GAME_WIDTH / 2, 20, 750, 60}, cachedfloor, transition || floorchange);
     }
 }

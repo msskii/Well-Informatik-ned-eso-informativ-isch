@@ -26,6 +26,7 @@
 		932D3226212ABB4A00DA45BD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 932D3224212ABB4A00DA45BD /* Tile.cpp */; };
 		933FD2F721AD2E7400EF4654 /* SoundHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 933FD2F521AD2E7400EF4654 /* SoundHandler.cpp */; };
 		933FD2F821AD313C00EF4654 /* music in CopyFiles */ = {isa = PBXBuildFile; fileRef = 933FD2F321AD2E4700EF4654 /* music */; };
+		9357F3E2220EC8D700014905 /* TextRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9357F3E0220EC8D700014905 /* TextRenderer.cpp */; };
 		9368D3132131A0B5005D6756 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3142131A0BE005D6756 /* SDL2_mixer.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 9368D3122131A0B5005D6756 /* SDL2_mixer.framework */; };
 		9368D3192131A17B005D6756 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9368D3182131A17B005D6756 /* Tests.cpp */; };
@@ -169,6 +170,8 @@
 		933FD2F321AD2E4700EF4654 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; name = music; path = ../assets/music; sourceTree = "<group>"; };
 		933FD2F521AD2E7400EF4654 /* SoundHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundHandler.cpp; sourceTree = "<group>"; };
 		933FD2F621AD2E7400EF4654 /* SoundHandler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundHandler.hpp; sourceTree = "<group>"; };
+		9357F3E0220EC8D700014905 /* TextRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderer.cpp; sourceTree = "<group>"; };
+		9357F3E1220EC8D700014905 /* TextRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextRenderer.hpp; sourceTree = "<group>"; };
 		9368D3122131A0B5005D6756 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../SDL2_mixer.framework; sourceTree = "<group>"; };
 		9368D3172131A17B005D6756 /* Tests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tests.hpp; sourceTree = "<group>"; };
 		9368D3182131A17B005D6756 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
@@ -435,6 +438,8 @@
 				937AC1F1213F011600F1D92C /* Math_Util.hpp */,
 				937B0037215230CD00BE1EE0 /* GL_Util.cpp */,
 				937B0038215230CD00BE1EE0 /* GL_Util.hpp */,
+				9357F3E0220EC8D700014905 /* TextRenderer.cpp */,
+				9357F3E1220EC8D700014905 /* TextRenderer.hpp */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				9387758D219D5C0D00DDA9B2 /* PathFinder.cpp in Sources */,
 				93D47BAB212D8A8F007853BC /* MainMenu.cpp in Sources */,
 				93185F9D21479203001A2167 /* PlayerOverlay.cpp in Sources */,
+				9357F3E2220EC8D700014905 /* TextRenderer.cpp in Sources */,
 				9382707F213A5C050084F967 /* Client.cpp in Sources */,
 				93765F8A21F5CE7A00CC6BA4 /* LightSource.cpp in Sources */,
 				932D321C212AB79C00DA45BD /* Window.cpp in Sources */,

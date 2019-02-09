@@ -77,6 +77,7 @@ Window::Window() // Load from file, or if not found w = 50 & h = 50
     
     // Open the font
     font = TTF_OpenFont(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf"), 128); // Window opened = font initialized
+    setupTextRenderer(GET_FILE_PATH(FONT_PATH, "Raleway-Regular.ttf")); // Testing new stuff
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
     
     // Check if the font could be created & crash if we couldnt

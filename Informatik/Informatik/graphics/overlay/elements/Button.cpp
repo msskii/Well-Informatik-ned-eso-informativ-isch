@@ -27,7 +27,8 @@ void Button::render()
     int texture = clicked ? BUTTON_CLICKED : hoverOver ? BUTTON_HOVER : BUTTON_NORMAL;    
     renderWithoutShading(gl_textures[texture], {}, r);
     
-    drawTextCentered(text, 0xFFFF00FF, {x, y, w, h}, button_texture, false);
+    //drawTextCentered(text, 0xFFFF00FF, {x, y, w, h}, button_texture, false);
+    drawText(text, {x, y, w, h});
 }
 
 void Button::processEvent(Menu* menu, SDL_Event e)

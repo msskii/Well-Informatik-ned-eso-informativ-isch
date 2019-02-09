@@ -98,6 +98,7 @@ gl_texture getTexture(SDL_Surface *srfc)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     
+    SDL_FreeSurface(surface);
 
     return tex;
 }

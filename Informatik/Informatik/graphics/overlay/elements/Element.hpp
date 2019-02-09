@@ -10,6 +10,7 @@
 #define Element_hpp
 
 #include "../../../util/SDL_Util.hpp"
+#include "../../../util/TextRenderer.hpp"
 #include <map>
 
 class Menu;
