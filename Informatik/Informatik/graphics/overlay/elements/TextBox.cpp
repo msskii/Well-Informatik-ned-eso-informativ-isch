@@ -27,9 +27,7 @@ void TextBox::render()
     // SDL_RenderCopy(renderer, textures[TEXTBOX], NULL, &dst);
     renderWithoutShading(gl_textures[TEXTBOX], {}, dst);
     
-    drawTextAspect(currentText.c_str(), 0xFF000000, dst, lastTexture, changed);
-    usedScale = lastTexture.scale;
-    changed = false;
+    drawTextAspect(currentText.c_str(), 0xFF000000, dst);
     
     // cursor is after last character --> measure string till
     int tw, th;
@@ -138,8 +136,6 @@ void TextBox::processEvent(Menu *menu, SDL_Event e)
             defaultText = false;
         }
         char c = scancodeToChar(e.key.keysym.scancode, (SDL_Keymod) e.key.keysym.mod);
-        
-        changed = true; // update text
         
         if(currentIndex == selectionStart)
         {

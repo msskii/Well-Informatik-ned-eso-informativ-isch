@@ -15,7 +15,6 @@ class BossOverlay : public Menu
 {
 private:
     const char* bossName;
-    cachedTexture nameTexture;
     
 public:
     BossOverlay(const char *name) : bossName(name) { shouldLevelBeUpdated = true; }

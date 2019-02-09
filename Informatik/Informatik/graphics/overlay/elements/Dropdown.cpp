@@ -35,7 +35,7 @@ void DropDown::render()
             renderWithoutShading(gl_textures[DROPDOWN], {}, dst);
             int xoffset = x >= GAME_WIDTH - w ? -w : w;
 
-            drawTextAspect(elements[currentSelected].text, 0xFF000000, dst, cachedText, false);
+            drawTextAspect(elements[currentSelected].text, 0xFF000000, dst);
 
             xoffset += (int)(100 * SCALE_X);
             for(int i = 0; i < (int) elements.size(); i++)
@@ -44,7 +44,7 @@ void DropDown::render()
                 // SDL_RenderCopy(renderer, i == currentlyOver ? textures[DROPDOWN_ELEMENT_HOVER] : textures[DROPDOWN_ELEMENT], NULL, &dst);
                 renderWithoutShading(i == currentlyOver ? gl_textures[DROPDOWN_ELEMENT_HOVER] : gl_textures[DROPDOWN_ELEMENT], {}, dst);
 
-                drawTextAspect(elements[i].text, 0xFF000000, {x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h}, elements[i].cachedText, false);
+                drawTextAspect(elements[i].text, 0xFF000000, {x + xoffset, y - ((int) elements.size() * h / 2) + h * elements[i].id, w, h});
             }
         }
         else
@@ -53,7 +53,7 @@ void DropDown::render()
             {
                 SDL_Rect dst = {x, y + h * elements[i].id, w, h};
                 renderWithoutShading(i == currentlyOver ? gl_textures[DROPDOWN_ELEMENT_HOVER] : gl_textures[DROPDOWN_ELEMENT], {}, dst);
-                drawTextAspect(elements[i].text, 0xFF000000, {x + (int) (100 * SCALE_X), y + h * elements[i].id, w, h}, elements[i].cachedText, false);
+                drawTextAspect(elements[i].text, 0xFF000000, {x + (int) (100 * SCALE_X), y + h * elements[i].id, w, h});
             }
         }
     }
@@ -62,7 +62,7 @@ void DropDown::render()
         SDL_Rect dst = {x, y, w, h};
         // SDL_RenderCopy(renderer, textures[DROPDOWN], NULL, &dst);
         renderWithoutShading(gl_textures[DROPDOWN], {}, dst);
-        drawTextAspect(elements[currentSelected].text, 0xFF000000, dst, cachedText, false);
+        drawTextAspect(elements[currentSelected].text, 0xFF000000, dst);
     }
 }
 
@@ -115,9 +115,7 @@ void DropDown::processEvent(Menu *menu, SDL_Event e)
             else
             {
                 expanded = false;
-            }
-            
-            deleteTexture(cachedText);
+            }            
         }
     }
     else

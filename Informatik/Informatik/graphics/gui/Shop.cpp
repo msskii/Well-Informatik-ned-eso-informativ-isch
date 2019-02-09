@@ -17,13 +17,10 @@ Shop::Shop(const char *path, int money, std::vector<shopItem> stock)
     
     for(size_t i = 0; i < inStock.size(); i++)
     {
-        stockNameTextures.push_back({});
         inStock[i].buyPrice = itemData->getItemBuyValue(inStock[i].item->name);
         inStock[i].sellPrice = itemData->getItemSellValue(inStock[i].item->name);
         inStock[i].item->updateTexture();
     }
-
-    for(int i = 0; i < 6; i++) selectedInfo.push_back({});
 }
 
 Shop::Shop(const char *path, int money, Player *player)
@@ -35,13 +32,11 @@ Shop::Shop(const char *path, int money, Player *player)
     {
         if(!player->playerItems[i].item) continue;
         inStock.push_back({player->playerItems[i].item, player->playerItems[i].amountItems}); // TODO: item values lookup
-        stockNameTextures.push_back({});
         inStock[i].item->updateTexture();
         inStock[i].buyPrice = itemData->getItemBuyValue(inStock[i].item->name);
         inStock[i].sellPrice = itemData->getItemSellValue(inStock[i].item->name);
     }
     
-    for(int i = 0; i < 6; i++) selectedInfo.push_back({});
     selling = true;
 }
 
@@ -54,26 +49,26 @@ void Shop::renderMenu()
         if(i == selected) continue;
         
         renderWithoutShading(inStock[i].item->texture, {0, 0, inStock[i].item->texture_width, inStock[i].item->texture_height}, {1244, 40 + (int) i * 100, 100, 100});
-        drawTextAspect(inStock[i].item->localizedName, 0xFF000000, {1344, 40 + (int) i * 100, 500, 100}, stockNameTextures[i], update);
+        drawTextAspect(inStock[i].item->localizedName, 0xFF000000, {1344, 40 + (int) i * 100, 500, 100});
     }
     
     if(selected >= (int) inStock.size()) return;
         
     renderWithoutShading(inStock[selected].item->texture, {0, 0, inStock[selected].item->texture_width, inStock[selected].item->texture_height}, {1244, 40 + selected * 100, 100, 100});
-    drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {1344, 40 + selected * 100, 500, 120}, stockNameTextures[selected], update);
+    drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {1344, 40 + selected * 100, 500, 120});
     
     renderWithoutShading(inStock[selected].item->texture, {0, 0, inStock[selected].item->texture_width, inStock[selected].item->texture_height}, {640, 230, 100, 100});
-    drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {740, 230, 500, 100}, stockNameTextures[selected], update);
+    drawTextAspect(inStock[selected].item->localizedName, 0xFFFFFFFF, {740, 230, 500, 100});
     
-    drawTextAspect(std::to_string(inStock[selected].stock).c_str(), 0xFF000000, {1010, 300, 500, 100}, selectedInfo[0], update);
-    drawTextAspect(std::to_string(inStock[selected].buyPrice).c_str(), 0xFF000000, {1010, 400, 500, 100}, selectedInfo[1], update);
-    drawTextAspect(std::to_string(inStock[selected].sellPrice).c_str(), 0xFF000000, {1010, 500, 500, 100}, selectedInfo[2], update);
+    drawTextAspect(std::to_string(inStock[selected].stock).c_str(), 0xFF000000, {1010, 300, 500, 100});
+    drawTextAspect(std::to_string(inStock[selected].buyPrice).c_str(), 0xFF000000, {1010, 400, 500, 100});
+    drawTextAspect(std::to_string(inStock[selected].sellPrice).c_str(), 0xFF000000, {1010, 500, 500, 100});
     
-    drawTextAspect(std::to_string(currentMoney).c_str(), 0xFF000000, {1000, 60, 200, 100}, selectedInfo[3], update);
+    drawTextAspect(std::to_string(currentMoney).c_str(), 0xFF000000, {1000, 60, 200, 100});
 
-    if(selling) drawTextAspect("Sell menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
-    else drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100}, selectedInfo[4], update);
-    drawTextAspect(lang->translate(std::string("item.") + inStock[selected].item->name + ".desc").c_str(), 0xFF000000, {40, 890, 1160, 100}, selectedInfo[5], update);
+    if(selling) drawTextAspect("Sell menu test", 0xFF000000, {40, 790, 1160, 100});
+    else drawTextAspect("Buy menu test", 0xFF000000, {40, 790, 1160, 100});
+    drawTextAspect(lang->translate(std::string("item.") + inStock[selected].item->name + ".desc").c_str(), 0xFF000000, {40, 890, 1160, 100});
 
     update = false;
 }

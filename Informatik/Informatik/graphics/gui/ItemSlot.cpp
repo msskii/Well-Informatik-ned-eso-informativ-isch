@@ -30,8 +30,7 @@ void ItemSlot::render()
     SDL_Rect dst = {x, y, INV_GRID_SIZE, INV_GRID_SIZE};
     renderWithoutShading(renderItem.item->texture, {0, 0, renderItem.item->texture_width, renderItem.item->texture_height}, dst);
     
-    drawTextAspect(std::to_string(renderItem.amountItems).c_str(), 0xFF000000, {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER}, texture, needsUpdate);
-    needsUpdate = false;
+    drawTextAspect(std::to_string(renderItem.amountItems).c_str(), 0xFF000000, {x + INV_GRID_BORDER, y + INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER, INV_GRID_SIZE - INV_GRID_BORDER});
 }
 
 void ItemSlot::processEvent(Menu *menu, SDL_Event e)
@@ -55,8 +54,6 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
     {
         if(inv->selected == nullptr)
         {
-            needsUpdate = true;
-            
             inv->selected = renderItem.item == nullptr ? nullptr : this;
             inv->player->playerItems[renderItem.numSlot] = {nullptr, renderItem.numSlot, 0}; // Clear slot
             
@@ -70,9 +67,7 @@ void ItemSlot::processEvent(Menu *menu, SDL_Event e)
     
     if(inv->selected == this && e.type == SDL_MOUSEBUTTONDOWN)
     {
-        // Place down item...
-        needsUpdate = true;
-        
+        // Place down item...        
         // calculate slot number
 		int xpos = (int)((float)e.button.x / SCALE_X);
 		int ypos = (int)((float)e.button.y / SCALE_Y);

@@ -18,10 +18,7 @@ class Slider : public Element
 protected:
     int minValue, maxValue;
     sliderCallback clbck = nullptr;
-    
-    bool needsUpdate = true;
-    cachedTexture textCache;
-    
+        
 public:
     int currentValue = 0;
 

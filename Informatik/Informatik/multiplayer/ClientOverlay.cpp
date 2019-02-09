@@ -65,7 +65,6 @@ void ClientOverlay::updateMenu(const uint8_t *keys)
         window->level->clientConnector->sendToServer(Multiplayer::createPacket(CMD_PLAYER_CHAT, (char*) buffer, (int) textBox->currentText.size() + 4));
         free(buffer);
         textBox->currentText = "";
-        textBox->changed = true;
         removeElement(textBox);
         //shouldLevelBeUpdated = true;
         opened = false;
