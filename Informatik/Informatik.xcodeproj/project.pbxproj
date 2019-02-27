@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4D0F5C452188627F0012971A /* LevelCave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D0F5C432188627F0012971A /* LevelCave.cpp */; };
 		4D2A835B2182002E00378733 /* LevelGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D2A83592182002E00378733 /* LevelGen.cpp */; };
+		4D389C312225646E00A200EE /* DamageNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D389C2F2225646E00A200EE /* DamageNumber.cpp */; };
 		4D4276512133F636003F6411 /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D42764F2133F636003F6411 /* NPC.cpp */; };
 		4D6A79C82147F57C003F31B5 /* Building.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79C62147F57C003F31B5 /* Building.cpp */; };
 		4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */; };
@@ -131,6 +132,8 @@
 		4D0F5C442188627F0012971A /* LevelCave.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LevelCave.hpp; sourceTree = "<group>"; };
 		4D2A83592182002E00378733 /* LevelGen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LevelGen.cpp; sourceTree = "<group>"; };
 		4D2A835A2182002E00378733 /* LevelGen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LevelGen.hpp; sourceTree = "<group>"; };
+		4D389C2F2225646E00A200EE /* DamageNumber.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DamageNumber.cpp; sourceTree = "<group>"; };
+		4D389C302225646E00A200EE /* DamageNumber.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DamageNumber.hpp; sourceTree = "<group>"; };
 		4D42764F2133F636003F6411 /* NPC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
 		4D4276502133F636003F6411 /* NPC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NPC.hpp; sourceTree = "<group>"; };
 		4D50104E216CC39000E2E4E0 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
@@ -315,6 +318,8 @@
 			children = (
 				4D6A79CA2158E14D003F31B5 /* Fireflies.cpp */,
 				4D6A79CB2158E14D003F31B5 /* Fireflies.hpp */,
+				4D389C2F2225646E00A200EE /* DamageNumber.cpp */,
+				4D389C302225646E00A200EE /* DamageNumber.hpp */,
 			);
 			path = decorativeEntities;
 			sourceTree = "<group>";
@@ -746,6 +751,7 @@
 				937B0021214F9C4F00BE1EE0 /* LightOverlay.cpp in Sources */,
 				932D3223212ABAF600DA45BD /* Level.cpp in Sources */,
 				4D6A79CC2158E14D003F31B5 /* Fireflies.cpp in Sources */,
+				4D389C312225646E00A200EE /* DamageNumber.cpp in Sources */,
 				93827084213BAE3A0084F967 /* PauseMenu.cpp in Sources */,
 				932D3210212AB6E500DA45BD /* main.cpp in Sources */,
 				93877590219D5CE800DDA9B2 /* Alg_AStar.cpp in Sources */,

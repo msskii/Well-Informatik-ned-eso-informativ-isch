@@ -7,6 +7,9 @@
 //
 
 #include "Slime.hpp"
+//#include "../entity/decorativeEntities/DamageNumber.hpp"
+
+#define HURT_DURATION 10
 
 
 Slime::Slime(float x, float y, int level)
@@ -15,7 +18,7 @@ Slime::Slime(float x, float y, int level)
     data.height = 64;
     data.x_pos = x;
     data.y_pos = y;
-    data.speed = 5 + level / 3.0f;
+    data.speed = 5 + level / 5.0f;
     data.damage = 1.0f + 0.5f * level;
     data.maxhealth = 1.0f * level;
     data.currentHealth = 1.0f * level;
@@ -69,7 +72,21 @@ int Slime::checkForDamage(float x, float y)
         //bounce back
         if (attackState == ATTACKING)
         {
-            bounceBack = 2;
+            movementVector.clear();
+            std::vector<float> tempMovement;
+            tempMovement.push_back(xdirection * data.speed * -0.25f);
+            tempMovement.push_back(ydirection * data.speed * -0.25f);
+            for (int i = 0; i < 20;  i++) {
+                movementVector.push_back(tempMovement);
+            }
+            tempMovement[0] = 0.0;
+            tempMovement[1] = 0.0;
+            
+            for (int i = 0; i < 10; i++) {
+                movementVector.push_back(tempMovement);
+            }
+            
+            
         }
         return (int) data.damage;
     }
@@ -103,8 +120,11 @@ void Slime::render(int xoff, int yoff)
 
 void Slime::onDamage(float amount)
 {
-    hurt = 5;
+    hurt = HURT_DURATION;
     underAttack = 600;
+    DamageNumber *dmgnmbr = new DamageNumber(data.x_pos, data.y_pos, int(amount));
+    level->addEntity(dmgnmbr);
+    
     
 }
 
@@ -118,7 +138,6 @@ void Slime::update(const uint8_t *keys)
 {
     if((timer++) >= 6)
     {
-        bounceBack--;
         timer = 0;
         anim = (anim + 1) % 10;
     }
@@ -159,27 +178,22 @@ void Slime::update(const uint8_t *keys)
     if(player == nullptr) return; // No player on server
     
     float l = PLAYER_DIST(this, player);
-    if (bounceBack > 0)
-    {
-        recharging = 40;
-        data.dx = xdirection * data.speed * -0.25f;
-        data.dy = ydirection * data.speed * -0.25f;
-        correctMovement(data.dx, data.dy);
-        data.x_pos += data.dx;
-        data.y_pos += data.dy;
-    }
-    else if (recharging > 0)
-    {
-        attackState = RECHARGING;
+    if(recharging > 0) {
         recharging--;
+        attackState = RECHARGING;
         set = 0;
     }
-    else if((l < agroRadius || (underAttack-- > 0)) && l > 0  && (attackState != ATTACK_DONE && attackState != RECHARGING))
+    else if (stunnedDuration > 0) {
+        stunnedDuration--;
+        attackState = RECHARGING;
+        set = 0;
+    }
+    else if((l < agroRadius || (underAttack-- > 0)) && l > 0  && (attackState != RECHARGING))
     {
-        attackState = READY_TO_ATTACK;
-        set = 1;
-        if (anim == 2)
+        if (anim == 2 && timer == 0)
         {
+            set = 1;
+            attackState = ATTACKING;
             xdirection = 0;
             ydirection = 0;
             for(int i = 0; i < 4; i++)
@@ -200,14 +214,17 @@ void Slime::update(const uint8_t *keys)
                 }
             }
         }
-        else if(anim > 2 && anim < 7)
-        {
-            attackState = ATTACKING;
+        if (anim > 2 && anim < 7 && attackState == ATTACKING) {
             data.dx = xdirection * data.speed / 4;
             data.dy = ydirection * data.speed / 4;
             correctMovement(data.dx, data.dy);
             data.x_pos += data.dx;
             data.y_pos += data.dy;
+            if (anim == 6 && timer == 5) {
+                recharging = 60;
+                attackState = ATTACK_DONE;
+                set = 0;
+            }
         }
         
     }

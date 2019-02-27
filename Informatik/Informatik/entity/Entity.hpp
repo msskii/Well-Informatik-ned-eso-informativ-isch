@@ -52,8 +52,12 @@ typedef struct EntityData
 class Entity
 {
 protected:
+    std::vector<std::vector<float>> movementVector;
     
 public:
+    float xCenterOffset = TILE_SIZE / 2;
+    float yCenterOffset = TILE_SIZE / 2;
+    
     //animation stuff
     int anim = 0, set = 0, timer = 0;
     
@@ -68,6 +72,9 @@ public:
     bool isInside(float dx, float dy);
     void correctMovement(float &dx, float &dy);
     bool isInsideEntity(float x, float y);
+    void pushBack(float dist, int duration);
+    
+    void updateCoreFunctions();
     
     inline SDL_Rect getBoundingBox() { return {(int) data.x_pos, (int) data.y_pos, (int) data.width, (int) data.height}; }
     

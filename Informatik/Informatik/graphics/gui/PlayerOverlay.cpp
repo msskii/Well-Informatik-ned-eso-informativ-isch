@@ -12,11 +12,10 @@
 
 PlayerOverlay::PlayerOverlay(Player *p) : player(p)
 {
-    background_surface = IMG_Load(GET_TEXTURE_PATH("backgrounds/PlayerOverlay_under"));
-    background_texture = getTexture(background_surface);
     shouldLevelBeUpdated = true; // Dont pause the game because of this overlay...
     
-    backsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/PlayerOverlay"));
+    backsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/PlayerOverlay_new"));
+    backsurface_under = IMG_Load(GET_TEXTURE_PATH("backgrounds/PlayerOverlay_under"));
     hpbarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
     manabarsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player"));
     
@@ -35,6 +34,7 @@ PlayerOverlay::PlayerOverlay(Player *p) : player(p)
     hpbartransparentsurface = IMG_Load(GET_TEXTURE_PATH("backgrounds/hp_bar_player_transparent"));
     
     backtexture = getTexture(backsurface);
+    backtexture_under = getTexture(backsurface_under);
     hpbartexture = getTexture(hpbarsurface);
     manabartexture = getTexture(manabarsurface);
     hpbartransparenttexture = getTexture(hpbartransparentsurface);
@@ -47,43 +47,55 @@ bool PlayerOverlay::shouldWindowClose() { return false; }
 void PlayerOverlay::renderMenu()
 {
     if(window) player = window->level->getLocalPlayer();
-    int color = 0xFF000000;
-    if(player->data.y_pos > 100)
+    int color = 0xFFFFFFFF;
+    //render bars
+    if(player->data.y_pos > int((24.0/180.0) * GAME_HEIGHT))
     {
         //SDL_RenderCopy(renderer, backtexture, NULL, &window->render_surface->clip_rect);
-        renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
-        
-        SDL_Rect dst = {1150, 10, (int)(750 * player->animationHealth / player->maxHealth), 80};
+        renderWithShading(backtexture_under, {}, {0,0,GAME_WIDTH,GAME_HEIGHT});
+        SDL_Rect dst = {int((210.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationHealth / player->maxHealth), int((12.0/180.0) * GAME_HEIGHT)};
         renderWithoutShading(hpbartexture, {}, dst);
-        dst = {10, 10, (int)(750 * player->animationMana / player->maxMana), 80};
+        dst = {int((6.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationMana / player->maxMana), int((12.0/180.0) * GAME_HEIGHT)};
         renderWithoutShading(manabartexture, {}, dst);
         lastState = 0;
+        renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
+        
+        
+        
     }
     else
     {
-        SDL_Rect dst = {1150, 10, (int)(750 * player->currentHealth / player->maxHealth), 80};
+        renderWithShading(backtexture_under, {}, {0,0,GAME_WIDTH,GAME_HEIGHT});
+        SDL_Rect dst = {int((210.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationHealth / player->maxHealth), int((12.0/180.0) * GAME_HEIGHT)};
         renderWithoutShading(hpbartransparenttexture, {}, dst);
-        dst = {10, 10, (int)(750 * player->animationMana / player->maxMana), 80};
+        dst = {int((6.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationMana / player->maxMana), int((12.0/180.0) * GAME_HEIGHT)};
         renderWithoutShading(manabartexture, {}, dst);
-        color = 0x7F000000;
+        renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
+        color = 0x7FFFFFFF;
         
         lastState = 1;
     }
+    //the nubers indicating mana
+    drawTextAspect((std::to_string((int) player->lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {int((212.0/320.0) * GAME_WIDTH), int((8.0/180.0) * GAME_HEIGHT), 200, int((8.0/180.0) * GAME_HEIGHT)});
+    drawTextAspect((std::to_string((int) player->lastMana) + "/" + std::to_string((int) player->maxMana)).c_str(), color, {int((8.0/320.0) * GAME_WIDTH), int((8.0/180.0) * GAME_HEIGHT), 200, int((8.0/180.0) * GAME_HEIGHT)});
+    
     
     for(int i = 0; i < (int) player->spells.size(); i++) // Render the "spells"
     {
-        SDL_Rect dst = {GAME_WIDTH - 128 * ((int) player->spells.size() - i), GAME_HEIGHT - 128,128, 128};
-        
-        if(player->spells[i] && player->spells[i])
+        SDL_Rect dst = {int((145.0/320.0) * GAME_WIDTH) + (i - 2) * int(18.0 / 320.0 * GAME_WIDTH) , int((156.0/180.0) * GAME_HEIGHT), int((16.0/180.0) * GAME_HEIGHT), int((16.0/180.0) * GAME_HEIGHT)};
+        if(i < 2){
+            dst.x = int((105.0/320.0) * GAME_WIDTH) + i * int(18.0 / 320.0 * GAME_WIDTH);
+        }
+        if(player->spells[i])
         {
             renderWithoutShading(spellicontexture, {64 * player->spells[i]->spellID, 0, 64, 64}, dst); // Maybe all icons in the same texture and then instead of {} the area where the one of the spellID is? like {SPELL_ICON_WIDTH * spellID, 0, SPELL_ICON_WIDTH, SPELL_ICON_HEIGHT}
             renderWithoutShading(spellbordertexture, {0, 0, 64, 64}, dst);
             if(player->spells[i]->cooldownTimer > 0)
             {
                 float percentage = player->spells[i]->cooldownTimer / player->spells[i]->cooldown;
-                dst.h = (int)(128.0f * percentage);
-                dst.y = GAME_HEIGHT - (int)(128.0f * percentage);
-                fillRect(0x7FFFFFFF, dst);
+                dst.h = (int)(16.0/180.0 * GAME_HEIGHT * percentage);
+                dst.y = GAME_HEIGHT - dst.h - int(8.0 / 320.0 * GAME_WIDTH);
+                fillRect(0x9F0000FF, dst);
             }
         }
         else
@@ -92,11 +104,8 @@ void PlayerOverlay::renderMenu()
         }
     }
     
-    drawTextAspect((std::to_string((int) player->lastHealth) + "/" + std::to_string((int) player->maxHealth)).c_str(), color, {GAME_WIDTH - 720, 20, 750, 60});
-    drawTextAspect((std::to_string((int) player->lastMana) + "/" + std::to_string((int) player->maxMana)).c_str(), color, {20, 20, 750, 60});
-    
     //render cave gui
-    if (window->currentLevel == 0) drawTextAspect((std::to_string((int)window->cave->floor)).c_str(), color, {GAME_WIDTH / 2, 20, 750, 60});
+    if (window->currentLevel == 0) drawTextCentered((std::to_string((int)window->cave->floor)).c_str(), color, {0, int((8.0/320.0) * GAME_WIDTH), GAME_WIDTH, int((8.0/320.0) * GAME_WIDTH)});
 }
 
 void PlayerOverlay::updateMenu(const uint8_t *keys)

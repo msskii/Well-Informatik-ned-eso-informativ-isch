@@ -149,10 +149,10 @@ void Window::update()
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_RIGHT])]) x += SPEED;
     if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_LEFT])]) x -= SPEED;
     
-    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_1])]) level->getLocalPlayer()->spell(0); // Or 0?
-    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_2])]) level->getLocalPlayer()->spell(1); // Or 0?
-    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_3])]) level->getLocalPlayer()->spell(2); // Or 0?
-    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_4])]) level->getLocalPlayer()->spell(3); // Or 0?
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_1])]) level->getLocalPlayer()->spell(2); // Or 0?
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_2])]) level->getLocalPlayer()->spell(3); // Or 0?
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_3])]) level->getLocalPlayer()->spell(4); // Or 0?
+    if(keyStates[SDL_GetScancodeFromKey(GLOBAL_KEY_CONFIG[BUTTON_CAST_4])]) level->getLocalPlayer()->spell(5); // Or 0?
 
     level->getLocalPlayer()->updateMovement(x, y); // Update player movement
     level->getLocalPlayer()->update(keyStates);
@@ -236,6 +236,8 @@ void Window::nextFrame()
             continue;
         }
         
+        
+        
         for(int i = (int) menus.size() - 1; i >= 0; i--) // Update all the elements of all menus with this event
         {
             menus[i]->updateElements(e);
@@ -245,6 +247,8 @@ void Window::nextFrame()
                 break;
             }
         }
+        
+        
         
         // Handle events of the window
         if(e.type == SDL_WINDOWEVENT)

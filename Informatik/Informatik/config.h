@@ -8,6 +8,7 @@
 
 #ifndef config_h
 #define config_h
+#define FRAMERATE 60
 
 // All enable / disable options are just commented = disabled & uncommented = enabled
 

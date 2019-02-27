@@ -25,7 +25,12 @@ Player::Player(Level *l) : current_level(l)
     spells.push_back(new Spell(SPELL_DASH, 1, current_level));
     spells.push_back(new Spell(SPELL_MELEE, 1, current_level));
     spells.push_back(new Spell(SPELL_FIRESHOT, 1, current_level));
-    spells.push_back(new Spell(SPELL_TEST, 0, current_level));
+    spells.push_back(new Spell(SPELL_FIRESHOT, 1, current_level));
+    spells.push_back(new Spell(SPELL_FIRESHOT, 1, current_level));
+    spells.push_back(new Spell(SPELL_FIRESHOT, 1, current_level));
+    
+    //setting center
+    yCenterOffset = TILE_SIZE;
 
     
     for(int i = 0; i < INV_WIDTH * INV_HEIGHT; i++)
@@ -411,6 +416,9 @@ void Player::update(const uint8_t *keys)
     //the dash ... TODO: add the key to config
     if(keys[SDL_SCANCODE_SPACE]){
         spell(1);
+    }
+    if(keys[SDL_SCANCODE_Q]){
+        spell(0);
     }
     
     //regen a bit of mana, maybe could be increased by items

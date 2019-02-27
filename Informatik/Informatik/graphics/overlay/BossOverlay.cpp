@@ -10,5 +10,5 @@
 
 void BossOverlay::renderMenu()
 {
-    drawTextCentered(bossName, 0xFFFFFFFF, {0, GAME_HEIGHT - 100, GAME_WIDTH, 100});
+    //drawTextCentered(bossName, 0xFFFFFFFF, {0, GAME_HEIGHT - 100, GAME_WIDTH, 100});
 }

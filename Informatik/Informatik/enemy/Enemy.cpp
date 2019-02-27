@@ -65,3 +65,4 @@ void Enemy::renderHP(float xoffset, float yoffset)
     // Draw box around hp bar
     fillRect(0xFF00FF00, hpbar);
 }
+

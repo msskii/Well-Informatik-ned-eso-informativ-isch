@@ -35,7 +35,7 @@ Spell::Spell(SpellType spellID, float damageModifier, Level *level) : spellID(sp
             }
             break;
         case SPELL_MELEE:
-            damage = 0.5 * damageModifier;
+            damage = 1.0 * damageModifier;
             cooldown = 0.5;
             manaCost = 0;
             spellTicks = 18;
@@ -112,6 +112,34 @@ bool Spell::castSpell(DIRECTION direction)
             case SPELL_MELEE:
                 //maybe stop player movement
                 renderOverPlayer = true;
+                //here dmg hitbox
+                SDL_Rect sword;
+                if(xDir != 0)
+                {
+                    int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - 2 * TILE_SIZE);
+                    int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos - TILE_SIZE * (0.5f - 0.5f * xDir));
+                    sword = {hitboxX, hitboxY, 2 * TILE_SIZE, 4 * TILE_SIZE};
+                }else{
+                    int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos + TILE_SIZE * -1);
+                    int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - (1.0f - yDir * 1.0f) * TILE_SIZE);
+                    sword = {hitboxX, hitboxY, 3 * TILE_SIZE, 2 * TILE_SIZE};
+                    
+                }
+                for(size_t i = 0; i < level->entities.size(); i++)
+                {
+                    auto *entity = level->entities[i];
+                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
+                    if(enemy != nullptr && enemy->isAlive)
+                    {
+                        if(hitboxOverlap(sword, enemy->getBoundingBox()))
+                        {
+                            enemy->takeDamage(damage);
+                            enemy->pushBack(TILE_SIZE, 10);
+                            enemy->stunnedDuration = 40;
+                        }
+                    }
+                    
+                }
                 break;
                 
             case SPELL_FIRESHOT:
@@ -192,32 +220,7 @@ void Spell::update()
                 
             case SPELL_MELEE:
             {
-                //here dmg hitbox
-                SDL_Rect sword;
-                if(xDir != 0)
-                {
-                    int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - 2 * TILE_SIZE);
-                    int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos - TILE_SIZE * (0.5f - 0.5f * xDir));
-                    sword = {hitboxX, hitboxY, 2 * TILE_SIZE, 4 * TILE_SIZE};
-                }else{
-                    int hitboxX = static_cast<int>(level->getLocalPlayer()->data.x_pos + TILE_SIZE * -1);
-                    int hitboxY = static_cast<int>(level->getLocalPlayer()->data.y_pos - (1.0f - yDir * 1.0f) * TILE_SIZE);
-                    sword = {hitboxX, hitboxY, 3 * TILE_SIZE, 2 * TILE_SIZE};
-                    
-                }
-                for(size_t i = 0; i < level->entities.size(); i++)
-                {
-                    auto *entity = level->entities[i];
-                    Enemy *enemy = dynamic_cast<Enemy*>(entity);
-                    if(enemy != nullptr && enemy->isAlive)
-                    {
-                        if(hitboxOverlap(sword, enemy->getBoundingBox()))
-                        {
-                            enemy->takeDamage(damage);
-                        }
-                    }
-  
-                }
+                
             }
                 break;
             case SPELL_FIRESHOT:

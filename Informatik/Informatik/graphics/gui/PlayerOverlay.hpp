@@ -14,8 +14,8 @@
 class PlayerOverlay : public Menu
 {
 private:
-    SDL_Surface *backsurface, *hpbarsurface, *hpbartransparentsurface, *manabarsurface, *spelliconsurface, *spellbordersurface;
-    gl_texture backtexture, hpbartexture, hpbartransparenttexture, manabartexture, spellicontexture, spellbordertexture;
+    SDL_Surface *backsurface, *backsurface_under, *hpbarsurface, *hpbartransparentsurface, *manabarsurface, *spelliconsurface, *spellbordersurface;
+    gl_texture backtexture,backtexture_under, hpbartexture, hpbartransparenttexture, manabartexture, spellicontexture, spellbordertexture;
     int lastState = 0;
     int lastfloor = 0;
     bool kp = false, jp = false;

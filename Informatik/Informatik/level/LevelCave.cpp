@@ -22,7 +22,6 @@ void LevelCave::startCave()
 
 void LevelCave::nextLevel()
 {
-    floor++;
     //create a new layer with the cave Gen
     level = new Level(width, height);
     LevelGen levelGen(width, height);
@@ -109,7 +108,7 @@ void LevelCave::nextLevel()
                 for (int j = 0; j < 50; j++) {
                     int x = rand() % (width * height);
                     if (mapLayout[x] != WALL && mapLayout[x] != EXIT && mapLayout[x] != ENTRANCE) {
-                        Slime *slime = new Slime((float) (x % width) * TILE_SIZE, (float) int(x/width) * TILE_SIZE, floor * 2);
+                        Slime *slime = new Slime((float) (x % width) * TILE_SIZE, (float) int(x/width) * TILE_SIZE, floor * 10);
                         level->addEntity(slime);
                         break;
                     }
@@ -126,11 +125,11 @@ void LevelCave::nextLevel()
         level->reloadFiles();
         entranceSet = false;
         exitSet = false;
+        floor++;
       
     }else
     {
         entranceSet = false;
-        floor--;
         nextLevel();
     }
     

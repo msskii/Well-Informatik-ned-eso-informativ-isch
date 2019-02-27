@@ -31,6 +31,7 @@ void usleep(__int64 usec)
 
 #include "../enemy/pathfinding/Alg_AStar.hpp"
 #include "../enemy/pathfinding/Alg_Line.hpp"
+//#include "../entity/decorativeEntities/DamageNumber.hpp"
 
 Level::Level(int w, int h) : width(w), height(h), player(new Player(this)) // Number of tiles
 {
@@ -313,6 +314,7 @@ void Level::update()
     for(int i = 0; i < (int) entities.size(); i++)
     {
         entities[i]->update(window->keyStates);
+        entities[i]->updateCoreFunctions();
         if(onServer)
         {
             ((uint32_t*) data)[0] = entities[i]->entityID;

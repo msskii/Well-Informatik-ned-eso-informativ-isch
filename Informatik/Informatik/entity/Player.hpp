@@ -34,7 +34,7 @@ public:
     float currentHealth = 100, maxHealth = 100, currentMana = 100, maxMana = 100;
     float animationHealth = currentHealth, animationMana = currentMana, lastHealth = currentHealth, lastMana = currentMana;
     float manaDifference = 0, hpDifference = 0, manaBarTicks = 0, hpBarTicks = 0;
-    float gracePeriode = 2;
+    float gracePeriode = 1.0;
     int graceLeft = 0;
     
     //spells & attack

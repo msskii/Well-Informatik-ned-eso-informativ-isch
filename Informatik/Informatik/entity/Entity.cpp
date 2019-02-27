@@ -83,3 +83,29 @@ uint8_t* Entity::getSerializedEntity(uint8_t *buffer)
     return buffer;
 }
 
+void Entity::updateCoreFunctions(){
+    if (movementVector.size() != 0) {
+        data.dx = movementVector.front()[0];
+        data.dy = movementVector.front()[1];
+        movementVector.erase(movementVector.begin());
+        correctMovement(data.dx, data.dy);
+        data.x_pos += data.dx;
+        data.y_pos += data.dy;
+    }
+}
+
+void Entity::pushBack(float dist, int duration){
+    //duration in frames
+    std::vector<float> tempMovementvector;
+    float xDist = dist * ((data.x_pos + xCenterOffset) - (level->getLocalPlayer()->data.x_pos + level->getLocalPlayer()->xCenterOffset)) / LENGTH(((data.x_pos + xCenterOffset) - (level->getLocalPlayer()->data.x_pos + level->getLocalPlayer()->xCenterOffset)), ((data.y_pos + yCenterOffset) - (level->getLocalPlayer()->data.y_pos + level->getLocalPlayer()->yCenterOffset)));
+    float yDist = dist * ((data.y_pos + yCenterOffset) - (level->getLocalPlayer()->data.y_pos + level->getLocalPlayer()->yCenterOffset)) / LENGTH(((data.x_pos + xCenterOffset) - (level->getLocalPlayer()->data.x_pos + level->getLocalPlayer()->xCenterOffset)), ((data.y_pos + yCenterOffset) - (level->getLocalPlayer()->data.y_pos + level->getLocalPlayer()->yCenterOffset)));
+    tempMovementvector.push_back(0.0);
+    tempMovementvector.push_back(0.0);
+    movementVector.clear();
+    for (int i = 0; i < duration; i++) {
+        tempMovementvector[0] = xDist / duration * cos(PI / 2 * (i / duration)) * PI / 2;
+        tempMovementvector[1] = yDist / duration * cos(PI / 2 * i / duration) * PI / 2;
+        movementVector.push_back(tempMovementvector);
+    }
+}
+
