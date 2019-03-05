@@ -191,10 +191,11 @@ void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
     render(texture, src, dst, light_shader);
 }
 
-void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst)
+void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst, float alphamod)
 {
     glUseProgram(const_shader);
     glUniform3f(glGetUniformLocation(const_shader, "rotation"), 0, 0, 0);
+    glUniform4f(glGetUniformLocation(const_shader, "col_mod"), alphamod, 1, 1, 1);
     render(texture, src, dst, const_shader);
 }
 

@@ -41,7 +41,7 @@ extern void deleteTexture(gl_texture texture);
 extern void render(gl_texture texture, SDL_Rect src, SDL_Rect dst, GLuint shader);
 extern void renderWithRotation(gl_texture, SDL_Rect src, SDL_Rect dst, float rotationAngle, bool enabledShading);
 extern void renderWithShading(gl_texture texture, SDL_Rect src, SDL_Rect dst);
-extern void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst);
+extern void renderWithoutShading(gl_texture texture, SDL_Rect src, SDL_Rect dst, float alphamod = 1.0);
 
 extern void fillRect(uint32_t col, SDL_Rect src);
 extern void drawRect(uint32_t col, SDL_Rect src);

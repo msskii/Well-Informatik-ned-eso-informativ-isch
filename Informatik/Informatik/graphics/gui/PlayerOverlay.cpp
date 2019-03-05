@@ -52,7 +52,7 @@ void PlayerOverlay::renderMenu()
     if(player->data.y_pos > int((24.0/180.0) * GAME_HEIGHT))
     {
         //SDL_RenderCopy(renderer, backtexture, NULL, &window->render_surface->clip_rect);
-        renderWithShading(backtexture_under, {}, {0,0,GAME_WIDTH,GAME_HEIGHT});
+        renderWithoutShading(backtexture_under, {}, {0,0,GAME_WIDTH,GAME_HEIGHT});
         SDL_Rect dst = {int((210.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationHealth / player->maxHealth), int((12.0/180.0) * GAME_HEIGHT)};
         renderWithoutShading(hpbartexture, {}, dst);
         dst = {int((6.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationMana / player->maxMana), int((12.0/180.0) * GAME_HEIGHT)};
@@ -65,13 +65,13 @@ void PlayerOverlay::renderMenu()
     }
     else
     {
-        renderWithShading(backtexture_under, {}, {0,0,GAME_WIDTH,GAME_HEIGHT});
+        renderWithoutShading(backtexture_under, {}, {0,0,GAME_WIDTH,GAME_HEIGHT}, 0.2f);
         SDL_Rect dst = {int((210.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationHealth / player->maxHealth), int((12.0/180.0) * GAME_HEIGHT)};
-        renderWithoutShading(hpbartransparenttexture, {}, dst);
+        renderWithoutShading(hpbartransparenttexture, {}, dst, 0.2f);
         dst = {int((6.0/320.0) * GAME_WIDTH), int((6.0/180.0) * GAME_HEIGHT), (int)(104.0 / 320.0 * GAME_WIDTH * player->animationMana / player->maxMana), int((12.0/180.0) * GAME_HEIGHT)};
-        renderWithoutShading(manabartexture, {}, dst);
-        renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT});
-        color = 0x7FFFFFFF;
+        renderWithoutShading(manabartexture, {}, dst, 0.2f);
+        renderWithoutShading(backtexture, {}, {0, 0, GAME_WIDTH, GAME_HEIGHT}, 0.2f);
+        color = 0x7FFFFFFF; // Slightly transparent
         
         lastState = 1;
     }
